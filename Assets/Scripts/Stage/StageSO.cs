@@ -7,6 +7,6 @@ namespace Stage
     [CreateAssetMenu(menuName = "SO/Stage/StageSO")]
     public class StageSO : ScriptableObject
     {
-        
+        public GameObject[] Enemys;
     }
 }
