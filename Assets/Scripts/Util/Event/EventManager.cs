@@ -1,71 +1,72 @@
 using System;
 using System.Collections.Generic;
 
-namespace Event;
-
-public static class EventManager
+namespace Event
 {
-    private static readonly Dictionary<string, Action<object[]>> _eventDictionary = new();
-
-    public static void StartListening(string eventName, Action<object[]> listener)
+    public static class EventManager
     {
-        if (_eventDictionary.ContainsKey(eventName))
-        {
-            _eventDictionary[eventName] += listener;
-        }
-        else
-        {
-            _eventDictionary.Add(eventName, listener);
-        }
-    }
+        private static readonly Dictionary<string, Action<object[]>> _eventDictionary = new Dictionary<string, Action<object[]>>();
 
-    public static void StartListening(string eventName, Action listener)
-    {
-        if (_eventDictionary.ContainsKey(eventName))
+        public static void StartListening(string eventName, Action<object[]> listener)
         {
-            _eventDictionary[eventName] += args => listener();
+            if (_eventDictionary.ContainsKey(eventName))
+            {
+                _eventDictionary[eventName] += listener;
+            }
+            else
+            {
+                _eventDictionary.Add(eventName, listener);
+            }
         }
-        else
-        {
-            _eventDictionary.Add(eventName, args => listener());
-        }
-    }
 
-    public static void StopListening(string eventName, Action<object[]> listener)
-    {
-        if (_eventDictionary.TryGetValue(eventName, out var thisEvent))
+        public static void StartListening(string eventName, Action listener)
         {
-            thisEvent -= listener;
+            if (_eventDictionary.ContainsKey(eventName))
+            {
+                _eventDictionary[eventName] += args => listener();
+            }
+            else
+            {
+                _eventDictionary.Add(eventName, args => listener());
+            }
         }
-    }
 
-    public static void StopListening(string eventName, Action listener)
-    {
-        if (_eventDictionary.TryGetValue(eventName, out var thisEvent))
+        public static void StopListening(string eventName, Action<object[]> listener)
         {
-            thisEvent -= args => listener();
+            if (_eventDictionary.TryGetValue(eventName, out var thisEvent))
+            {
+                thisEvent -= listener;
+            }
         }
-    }
 
-    public static void DeleteEvent(string eventName)
-    {
-        if (_eventDictionary.ContainsKey(eventName))
+        public static void StopListening(string eventName, Action listener)
         {
-            _eventDictionary[eventName] = null;
-            _eventDictionary.Remove(eventName);
+            if (_eventDictionary.TryGetValue(eventName, out var thisEvent))
+            {
+                thisEvent -= args => listener();
+            }
         }
-    }
 
-    public static void TriggerEvent(string eventName, params object[] args)
-    {
-        if (_eventDictionary.TryGetValue(eventName, out var thisEvent))
+        public static void DeleteEvent(string eventName)
         {
-            thisEvent?.Invoke(args);
+            if (_eventDictionary.ContainsKey(eventName))
+            {
+                _eventDictionary[eventName] = null;
+                _eventDictionary.Remove(eventName);
+            }
         }
-    }
 
-    public static void ClearEvent()
-    {
-        _eventDictionary.Clear();
+        public static void TriggerEvent(string eventName, params object[] args)
+        {
+            if (_eventDictionary.TryGetValue(eventName, out var thisEvent))
+            {
+                thisEvent?.Invoke(args);
+            }
+        }
+
+        public static void ClearEvent()
+        {
+            _eventDictionary.Clear();
+        }
     }
 }
