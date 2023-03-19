@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TankStatSO : MonoBehaviour
+[CreateAssetMenu(menuName = "SO/Tank/TankStatSO")]
+public class TankStatSO : ScriptableObject
 {
 
 }
