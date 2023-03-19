@@ -4,11 +4,9 @@ using UnityEngine;
 
 namespace Stage
 {
-    public class Stage_Spawn : MonoBehaviour
+    [CreateAssetMenu(menuName = "SO/Stage/StageSO")]
+    public class StageSO : ScriptableObject
     {
-        private void Spawn()
-        {
-
-        }
+        
     }
 }
