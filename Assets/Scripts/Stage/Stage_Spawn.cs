@@ -11,8 +11,13 @@ namespace Stage
         [SerializeField]
         private StageListSO _stageListSO = null;
 
-        private int _currentStage = 0;
-        private Map_Information _currentMap = null;
+        private static int _currentStage = 0;
+        private static Map_Information _currentMap = null;
+
+        private void Start()
+        {
+            StageStart();
+        }
 
         private void StageStart()
         {
