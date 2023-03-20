@@ -61,7 +61,7 @@ namespace Pool
             GC.Collect();
         }
 
-        public static GameObject Get(string name)
+        public static GameObject Get(string name, bool active = true)
         {
             GameObject item = null;
 
@@ -84,7 +84,6 @@ namespace Pool
                 {
                     item = q.Dequeue();
                 }
-                item.gameObject.SetActive(true);
             }
             else
             {
@@ -92,6 +91,7 @@ namespace Pool
                 GameObject g = GameObject.Instantiate(prefab);
                 item = g;
             }
+            item.gameObject.SetActive(active);
             return item;
         }
     }
