@@ -16,9 +16,10 @@ public class Tank : MonoBehaviour
     private void Awake()
     {
         _turret = GetComponent<Turret>();
-        foreach (var tankComponent in GetComponentsInChildren<Tank_Component>())
+        foreach (var tankComponent in GetComponents<Tank_Component>())
         {
             _tankComponents.Add(tankComponent.ComponentType, tankComponent);
+            Debug.Log(tankComponent.ComponentType);
         }
     }
 }

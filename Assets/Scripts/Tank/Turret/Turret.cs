@@ -6,4 +6,7 @@ public class Turret : MonoBehaviour
 {
     [SerializeField]
     private TurretStatSO _turretStatSO = null;
+
+    [SerializeField]
+    private Transform _turret = null;
 }
