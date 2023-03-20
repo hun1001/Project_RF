@@ -94,6 +94,33 @@ namespace Pool
             item.gameObject.SetActive(active);
             return item;
         }
-    }
 
+        public static GameObject Get(string name, Transform parent, bool active = true)
+        {
+            GameObject item = Get(name, active);
+
+            item.transform.SetParent(parent);
+
+            return item;
+        }
+
+        public static GameObject Get(string name, Vector3 position, Quaternion rotation, bool active = true)
+        {
+            GameObject item = Get(name, active);
+
+            item.transform.position = position;
+            item.transform.rotation = rotation;
+
+            return item;
+        }
+
+        public static GameObject Get(string name, Vector3 position, Quaternion rotation, Transform parent, bool active = true)
+        {
+            GameObject item = Get(name, position, rotation, active);
+
+            item.transform.SetParent(parent);
+
+            return item;
+        }
+    }
 }
