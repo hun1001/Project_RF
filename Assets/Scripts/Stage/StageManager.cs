@@ -6,7 +6,7 @@ using Map;
 
 namespace Stage
 {
-    public class Stage_Spawn : MonoBehaviour
+    public class StageManager : MonoBehaviour
     {
         [SerializeField]
         private StageListSO _stageListSO = null;
@@ -22,6 +22,7 @@ namespace Stage
         private void StageStart()
         {
             _currentMap = RandomMapSelect();
+            MapCreation();
             Spawn();
         }
 
@@ -38,6 +39,13 @@ namespace Stage
         {
             int randomIndex = Random.Range(0, _stageListSO.Maps.Length);
             return _stageListSO.Maps[randomIndex];
+        }
+
+        private void MapCreation()
+        {
+            _currentMap = PoolManager.Get(_currentMap.name).GetComponent<Map_Information>();
+            
+
         }
     }
 }
