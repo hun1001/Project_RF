@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pool;
@@ -21,6 +21,10 @@ namespace Stage
 
         private void StageStart()
         {
+            if(_currentMap != null)
+            {
+                MapRemove();
+            }
             _currentMap = RandomMapSelect();
             MapCreation();
             Spawn();
@@ -46,6 +50,30 @@ namespace Stage
             _currentMap = PoolManager.Get(_currentMap.name).GetComponent<Map_Information>();
             
 
+        }
+
+        private void MapRemove()
+        {
+            PoolManager.Pool(_currentMap.name, _currentMap.gameObject);
+            _currentMap = null;
+        }
+
+        private void StageClear()
+        {
+            if(_currentStage >= _stageListSO.Stages.Length - 1)
+            {
+                // 완전 클리어
+                // 결과창 띄우고 다음 스테이지 해금
+                return;
+            }
+
+            // 아이템 창 띄우기
+        }
+
+        private void NextStage()
+        {
+            _currentStage++;
+            StageStart();
         }
     }
 }
