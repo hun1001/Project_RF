@@ -19,7 +19,6 @@ public class Tank : MonoBehaviour
         foreach (var tankComponent in GetComponents<Tank_Component>())
         {
             _tankComponents.Add(tankComponent.ComponentType, tankComponent);
-            Debug.Log(tankComponent.ComponentType);
         }
     }
 }
