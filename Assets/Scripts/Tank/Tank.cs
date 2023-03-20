@@ -4,6 +4,5 @@ using UnityEngine;
 
 public class Tank : MonoBehaviour
 {
-    // [SerializeField]
-    // private Turret _turret = null;
+    private Turret _turret = null;
 }
