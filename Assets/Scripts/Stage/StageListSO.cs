@@ -8,10 +8,10 @@ namespace Stage
     [CreateAssetMenu(menuName = "SO/Stage/StageListSO")]
     public class StageListSO : ScriptableObject
     {
-        // 몇 개의 스테이지로 구성되어 있는가
+        /// <summary> 스테이지 리스트 </summary>
         public StageSO[] Stages;
 
-        // 몇 개의 맵이 등장하는가
+        /// <summary> 맵 리스트 </summary>
         public Map_Information[] Maps;
     }
 }
