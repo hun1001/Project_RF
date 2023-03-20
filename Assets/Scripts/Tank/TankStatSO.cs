@@ -5,5 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Tank/TankStatSO")]
 public class TankStatSO : ScriptableObject
 {
-
+    public float HP;
+    public float Armour;
+    public float Speed;
+    public float RotationSpeed;
+    public TankType TankType;
 }
