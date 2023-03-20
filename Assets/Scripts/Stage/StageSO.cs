@@ -7,7 +7,7 @@ namespace Stage
     [CreateAssetMenu(menuName = "SO/Stage/StageSO")]
     public class StageSO : ScriptableObject
     {
-        // 적 목록들
+        /// <summary> 적 리스트 </summary>
         public GameObject[] Enemys;
     }
 }
