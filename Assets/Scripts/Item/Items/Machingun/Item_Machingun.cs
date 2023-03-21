@@ -80,13 +80,11 @@ public abstract class Item_Machingun : Item.Item_Base
             // 적을 찾지 못하면 재탐색
             if (enemy == null) continue;
 
-
             dir = Quaternion.LookRotation(enemy.position - transform.position);
             dir.x = 0f;
             dir.z = 0f;
-            //var shell = PoolManager.Get("MachingunShell", transform.position, dir);
-            //shell.SendMessage("SetSpeed", 50f);
-            //shell.SendMessage("SetRange", 20f);
+
+            // 총알 생성, 총알 데미지 설정
 
             _currentMagazine--;
             if (_currentMagazine <= 0)
