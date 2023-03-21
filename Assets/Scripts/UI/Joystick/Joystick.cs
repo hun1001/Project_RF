@@ -20,16 +20,12 @@ namespace UI
         private Vector2 _direction = Vector2.zero;
 
         private Action _onPointerDown = null;
-        public Action OnPointerDownAction
-        {
-            set => _onPointerDown += value;
-        }
+        public void AddOnPointerDownAction(Action action) => _onPointerDown += action;
+
 
         private Action _onPointerUp = null;
-        public Action OnPointerUpAction
-        {
-            set => _onPointerUp += value;
-        }
+        public void AddOnPointerUpAction(Action action) => _onPointerUp += action;
+
 
         private void Awake()
         {

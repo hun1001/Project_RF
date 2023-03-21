@@ -122,5 +122,13 @@ namespace Pool
 
             return item;
         }
+
+        public static T Get<T>(string name, bool active = true) where T : Component => Get(name, active).GetComponent<T>();
+
+        public static T Get<T>(string name, Transform parent, bool active = true) where T : Component => Get(name, parent, active).GetComponent<T>();
+
+        public static T Get<T>(string name, Vector3 position, Quaternion rotation, bool active = true) where T : Component => Get(name, position, rotation, active).GetComponent<T>();
+
+        public static T Get<T>(string name, Vector3 position, Quaternion rotation, Transform parent, bool active = true) where T : Component => Get(name, position, rotation, parent, active).GetComponent<T>();
     }
 }

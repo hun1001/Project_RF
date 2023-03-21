@@ -12,7 +12,6 @@ public abstract class CustomObject : MonoBehaviour
         foreach (var component in GetComponents<CustomComponent>())
         {
             _components.Add(component.ComponentType, component);
-            Debug.Log($"Added {component.ComponentType} component");
         }
     }
 

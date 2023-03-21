@@ -10,13 +10,8 @@ public class Tank : MonoBehaviour
     private TankSO _tankStatSO = null;
     public TankSO TankStatSO => _tankStatSO;
 
-    [SerializeField]
-    private Joystick _joystick = null;
-
-    [SerializeField]
-    private Joystick _turretJoystick = null;
-
     private Turret _turret = null;
+    public Turret Turret => _turret;
 
     private void Awake()
     {
@@ -24,11 +19,6 @@ public class Tank : MonoBehaviour
         foreach (var component in GetComponents<Tank_Component>())
         {
             _tankComponents.Add(component.ComponentType, component);
-        }
-
-        if (_turretJoystick != null)
-        {
-            _turretJoystick.OnPointerUpAction = _turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire;
         }
     }
 
@@ -42,19 +32,5 @@ public class Tank : MonoBehaviour
         }
         Debug.LogError($"Tank doesn't have {componentType} component");
         return null;
-    }
-
-    private void Update()
-    {
-        if (_joystick != null)
-        {
-            GetComponent<Tank_Move>(ComponentType.Move).Move(_joystick.Magnitude);
-            GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(_joystick.Direction);
-        }
-
-        if (_turretJoystick != null)
-        {
-            _turret.GetComponent<Turret_Rotate>(ComponentType.Rotate).Rotate(_turretJoystick.Direction);
-        }
     }
 }
