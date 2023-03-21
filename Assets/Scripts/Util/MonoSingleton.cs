@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Util
 {
-    public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
+    public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         private static readonly Lazy<T> _instance =
             new Lazy<T>(() =>
@@ -30,5 +30,4 @@ namespace Util
             }
         }
     }
-
 }

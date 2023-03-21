@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SO/Bullet/BulletSO")]
-public class BulletSO : ScriptableObject
+[CreateAssetMenu(menuName = "SO/Bullet/ShellSO")]
+public class ShellSO : ScriptableObject
 {
     public float Damage;
     public float Speed;
