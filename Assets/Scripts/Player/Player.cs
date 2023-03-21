@@ -20,10 +20,14 @@ public class Player : MonoSingleton<Player>
 
     void Awake()
     {
-        _tank = PoolManager.Get<Tank>("T-44", transform);
+        _tank = PoolManager.Get<Tank>("T-44");
 
-        // _cameraManager.SetPlayer(_tank.transform);
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);
+    }
+
+    private void Start()
+    {
+        _cameraManager.SetPlayer(_tank.transform);
     }
 
     void Update()

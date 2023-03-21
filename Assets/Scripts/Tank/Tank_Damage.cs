@@ -16,6 +16,7 @@ public class Tank_Damage : Tank_Component
     public void Damaged(float damage)
     {
         _currentHealth -= damage;
+        Debug.Log($"Tank is damaged: {damage}, current health: {_currentHealth}");
 
         if (_currentHealth <= 0)
         {
