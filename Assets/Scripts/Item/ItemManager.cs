@@ -4,11 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Util;
+using UnityEngine.UI;
+using UnityEditorInternal.Profiling.Memory.Experimental;
+using UnityEngine.EventSystems;
 
 namespace Item
 {
     public class ItemManager : MonoSingleton<ItemManager>
     {
+        [SerializeField]
+        private GameObject _itemObject;
+
         /// <summary> 아이템 리스트 SO </summary>
         public ItemListSO ItemListSO;
 
@@ -26,7 +32,7 @@ namespace Item
         /// <summary> 아이템과 가중치 값을 넣는다 </summary>
         private void Awake()
         {
-            PlayerTank = GameObject.Find("Player").transform.GetChild(0);
+            //PlayerTank = GameObject.Find("Player").transform.GetChild(0);
 
             _picker.Clear();
             HaveItemList.Clear();
@@ -39,6 +45,8 @@ namespace Item
                 weight = -item.ItemSO.Rarity + 6;
                 _picker.Add(item, weight);
             }
+
+            ItemPickUp();
         }
 
         /// <summary> 아이템 뽑기 시작하는 함수 </summary>
@@ -55,7 +63,9 @@ namespace Item
                 }
 
                 _showingItemList.Add(item);
-                Dummy(item);
+                var itemObj = _itemObject.transform.GetChild(i).gameObject;
+                itemObj.SetActive(true);
+                Dummy(item, itemObj);
                 
                 if(_picker.GetItemDictReadonly().Count == _showingItemList.Count)
                 {
@@ -65,31 +75,52 @@ namespace Item
         }
 
         /// <summary> 임시로 만든 함수 - UI 만들어지면 수정할거임 </summary>
-        private void Dummy(Item_Base item)
+        private void Dummy(Item_Base item, GameObject obj)
         {
-            if (GoodsManager.DecreaseGoods(GoodsType.GameGoods, item.ItemSO.NecessaryGoods) == false)
-            {
-                // 재화 부족!
-                return;
-            }
+            var nameText = obj.transform.GetChild(0).GetComponent<Text>();
+            var descriptionText = obj.transform.GetChild(1).GetComponent<Text>();
+            var goldText = obj.transform.GetChild(2).GetComponent<Text>();
 
-            if (HaveItemList.ContainsKey(item))
-            {
-                var key = HaveItemList.FirstOrDefault(kvp => kvp.Key.Equals(item));
-                item = key.Key;
-                HaveItemList[item]++;
-            }
-            else
-            {
-                item = PoolManager.Get<Item_Base>(item.name, PlayerTank);
-                HaveItemList.Add(item, 0);
-            }
+            nameText.text = item.ItemSO.Name;
+            descriptionText.text = item.ItemSO.Description;
+            goldText.text = item.ItemSO.NecessaryGoods.ToString();
+            obj.GetComponent<Image>().sprite = item.ItemSO.Image;
 
-            if (HaveItemList[item] == item.ItemSO.UpgradeMax)
+            EventTrigger e = obj.GetComponent<EventTrigger>();
+
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerClick;
+
+            entry.callback.AddListener((data) =>
             {
-                _picker.Remove(item);
-            }
-            item.AddItem();
+                if (GoodsManager.DecreaseGoods(GoodsType.GameGoods, item.ItemSO.NecessaryGoods) == false)
+                {
+                    // 재화 부족!
+                    return;
+                }
+
+                if (HaveItemList.ContainsKey(item))
+                {
+                    var key = HaveItemList.FirstOrDefault(kvp => kvp.Key.Equals(item));
+                    item = key.Key;
+                    HaveItemList[item]++;
+                }
+                else
+                {
+                    item = PoolManager.Get<Item_Base>(item.name, PlayerTank);
+                    HaveItemList.Add(item, 0);
+                }
+
+                if (HaveItemList[item] == item.ItemSO.UpgradeMax)
+                {
+                    _picker.Remove(item);
+                }
+                item.AddItem();
+                obj.SetActive(false);
+            });
+
+            e.triggers.Clear();
+            e.triggers.Add(entry);
         }
 
     }
