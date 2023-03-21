@@ -10,14 +10,14 @@ namespace Stage
     {
         /// <summary> 해당 스테이지 리스트의 SO </summary>
         [SerializeField]
-        private StageListSO _stageListSO = null;
+        protected StageListSO _stageListSO = null;
 
         /// <summary> 현재 스테이지 </summary>
-        private static int _currentStage = 0;
+        protected static int _currentStage = 0;
         /// <summary> 현재 맵 정보 </summary>
-        private static Map_Information _currentMap = null;
+        protected static Map_Information _currentMap = null;
 
-        private void Start()
+        protected virtual void Start()
         {
             StageStart();
         }
@@ -35,7 +35,7 @@ namespace Stage
         }
 
         /// <summary> 적을 생성할 때 사용하는 함수 </summary>
-        private void Spawn()
+        protected virtual void Spawn()
         {
             for(int i = 0; i < _stageListSO.Stages[_currentStage].Enemys.Length; i++)
             {
@@ -46,14 +46,14 @@ namespace Stage
 
         /// <summary> 맵을 랜덤으로 선택하는 함수 </summary>
         /// <returns> 랜덤으로 선택된 맵 </returns>
-        private Map_Information RandomMapSelect()
+        protected Map_Information RandomMapSelect()
         {
             int randomIndex = Random.Range(0, _stageListSO.Maps.Length);
             return _stageListSO.Maps[randomIndex];
         }
 
         /// <summary> 선택된 맵을 생성하는 함수 </summary>
-        private void MapCreation()
+        protected void MapCreation()
         {
             _currentMap = PoolManager.Get(_currentMap.name).GetComponent<Map_Information>();
             
@@ -68,7 +68,7 @@ namespace Stage
         }
 
         /// <summary> 해당 스테이지를 클리어시 실행하는 함수 </summary>
-        private void StageClear()
+        protected virtual void StageClear()
         {
             if(_currentStage >= _stageListSO.Stages.Length - 1)
             {
