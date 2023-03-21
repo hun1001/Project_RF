@@ -6,18 +6,9 @@ using Map;
 
 namespace Stage
 {
-    public class StageManager : MonoBehaviour
+    public class StageManager : GameWay_Base
     {
-        /// <summary> 해당 스테이지 리스트의 SO </summary>
-        [SerializeField]
-        protected StageListSO _stageListSO = null;
-
-        /// <summary> 현재 스테이지 </summary>
-        protected static int _currentStage = 0;
-        /// <summary> 현재 맵 정보 </summary>
-        protected static Map_Information _currentMap = null;
-
-        protected virtual void Start()
+        protected override void Start()
         {
             StageStart();
         }
@@ -34,32 +25,6 @@ namespace Stage
             Spawn();
         }
 
-        /// <summary> 적을 생성할 때 사용하는 함수 </summary>
-        protected virtual void Spawn()
-        {
-            for(int i = 0; i < _stageListSO.Stages[_currentStage].Enemys.Length; i++)
-            {
-                GameObject enemy = PoolManager.Get(_stageListSO.Stages[_currentStage].Enemys[i].name);
-                enemy.transform.position = _currentMap.RandomSpawnPoint();
-            }
-        }
-
-        /// <summary> 맵을 랜덤으로 선택하는 함수 </summary>
-        /// <returns> 랜덤으로 선택된 맵 </returns>
-        protected Map_Information RandomMapSelect()
-        {
-            int randomIndex = Random.Range(0, _stageListSO.Maps.Length);
-            return _stageListSO.Maps[randomIndex];
-        }
-
-        /// <summary> 선택된 맵을 생성하는 함수 </summary>
-        protected void MapCreation()
-        {
-            _currentMap = PoolManager.Get(_currentMap.name).GetComponent<Map_Information>();
-            
-
-        }
-
         /// <summary> 그전에 사용한 맵을 지우는 함수 </summary>
         private void MapRemove()
         {
@@ -67,8 +32,7 @@ namespace Stage
             _currentMap = null;
         }
 
-        /// <summary> 해당 스테이지를 클리어시 실행하는 함수 </summary>
-        protected virtual void StageClear()
+        protected override void StageClear()
         {
             if(_currentStage >= _stageListSO.Stages.Length - 1)
             {
