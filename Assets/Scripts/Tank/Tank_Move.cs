@@ -11,11 +11,11 @@ public class Tank_Move : Tank_Component
         _speed = Tank.TankStatSO.Speed;
     }
 
-    public void Move(Vector2 direction)
+    public void Move(float magnitude)
     {
-        if (direction.magnitude > 0)
+        if (magnitude > 0)
         {
-            transform.Translate(direction * _speed * Time.deltaTime);
+            transform.Translate(Vector3.up * magnitude * _speed * Time.deltaTime);
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Turret : MonoBehaviour
 {
     [SerializeField]
-    private TurretStatSO _turretStatSO = null;
+    private TurretSO _turretStatSO = null;
 
     [SerializeField]
     private Transform _turret = null;

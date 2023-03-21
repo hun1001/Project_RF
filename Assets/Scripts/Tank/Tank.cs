@@ -13,6 +13,9 @@ public class Tank : MonoBehaviour
     [SerializeField]
     private Joystick _joystick = null;
 
+    [SerializeField]
+    private Joystick _turretJoystick = null;
+
     private Turret _turret = null;
 
     private Dictionary<ComponentType, Tank_Component> _tankComponents = new Dictionary<ComponentType, Tank_Component>();
@@ -40,7 +43,8 @@ public class Tank : MonoBehaviour
     {
         if (_joystick != null)
         {
-            GetComponent<Tank_Move>(ComponentType.Move).Move(_joystick.Direction);
+            GetComponent<Tank_Move>(ComponentType.Move).Move(_joystick.Magnitude);
+            GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(_joystick.Direction);
         }
     }
 }

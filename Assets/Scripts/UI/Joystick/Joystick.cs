@@ -56,5 +56,6 @@ namespace UI
         }
 
         public Vector2 Direction => _direction.normalized;
+        public float Magnitude => _direction.magnitude;
     }
 }

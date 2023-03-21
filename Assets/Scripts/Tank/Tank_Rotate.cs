@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class Tank_Rotate : Tank_Component
 {
+    private Vector3 _direction = Vector3.zero;
+
     public void Rotate(Vector2 direction)
     {
         if (direction != Vector2.zero)
         {
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            _direction.x = direction.x;
+            _direction.y = 0;
+            _direction.z = direction.y;
+
+            Quaternion targetRotation = Quaternion.LookRotation(_direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, targetRotation.eulerAngles.y), Tank.TankStatSO.RotationSpeed * Time.deltaTime);
         }
     }
 }
