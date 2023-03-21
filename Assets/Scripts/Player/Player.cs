@@ -5,7 +5,7 @@ using Pool;
 using UI;
 using Util;
 
-public class Player : MonoSingleton<Player>
+public class Player : CustomObject
 {
     [SerializeField]
     private Joystick _moveJoystick = null;
@@ -22,12 +22,12 @@ public class Player : MonoSingleton<Player>
     {
         _tank = PoolManager.Get<Tank>("T-44");
 
+        _cameraManager.SetPlayer(_tank.transform);
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);
     }
 
     private void Start()
     {
-        _cameraManager.SetPlayer(_tank.transform);
     }
 
     void Update()

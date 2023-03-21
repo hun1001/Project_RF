@@ -5,5 +5,7 @@ public enum ComponentType
     Rotate,
     Attack,
     Damage,
-    Collision
+    Collision,
+    Pool,
+    AimLine
 }

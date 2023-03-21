@@ -6,6 +6,6 @@ public class Shell_Move : Shell_Component
 {
     void Update()
     {
-        transform.Translate(Vector3.up * Time.deltaTime * (Instance as Shell).ShellSO.Speed);
+        transform.Translate(Vector3.up * Time.deltaTime * (Instance as Shell).Speed);
     }
 }

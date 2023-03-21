@@ -15,8 +15,8 @@ public class Tank_Damage : Tank_Component
 
     public void Damaged(float damage)
     {
+        // TODO : 아머 계산 생각하기
         _currentHealth -= damage;
-        Debug.Log($"Tank is damaged: {damage}, current health: {_currentHealth}");
 
         if (_currentHealth <= 0)
         {
