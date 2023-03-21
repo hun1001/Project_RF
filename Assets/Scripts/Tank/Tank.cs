@@ -18,16 +18,16 @@ public class Tank : MonoBehaviour
 
     private Turret _turret = null;
 
-    private Dictionary<ComponentType, Tank_Component> _tankComponents = new Dictionary<ComponentType, Tank_Component>();
-
     private void Awake()
     {
         _turret = GetComponent<Turret>();
-        foreach (var tankComponent in GetComponents<Tank_Component>())
+        foreach (var component in GetComponents<Tank_Component>())
         {
-            _tankComponents.Add(tankComponent.ComponentType, tankComponent);
+            _tankComponents.Add(component.ComponentType, component);
         }
     }
+
+    private Dictionary<ComponentType, Tank_Component> _tankComponents = new Dictionary<ComponentType, Tank_Component>();
 
     public T GetComponent<T>(ComponentType componentType) where T : Tank_Component
     {
@@ -45,6 +45,11 @@ public class Tank : MonoBehaviour
         {
             GetComponent<Tank_Move>(ComponentType.Move).Move(_joystick.Magnitude);
             GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(_joystick.Direction);
+        }
+
+        if (_turretJoystick != null)
+        {
+            _turret.GetComponent<Turret_Rotate>(ComponentType.Rotate).Rotate(_turretJoystick.Direction);
         }
     }
 }

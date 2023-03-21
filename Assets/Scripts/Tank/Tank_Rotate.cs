@@ -10,7 +10,7 @@ public class Tank_Rotate : Tank_Component
     {
         if (direction != Vector2.zero)
         {
-            _direction.x = direction.x;
+            _direction.x = -direction.x;
             _direction.y = 0;
             _direction.z = direction.y;
 
