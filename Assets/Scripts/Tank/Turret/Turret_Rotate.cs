@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Turret_Rotate : MonoBehaviour
+public class Turret_Rotate : Turret_Component
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Rotate(Vector2 direction)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (direction != Vector2.zero)
+        {
+            Vector3 _direction = new Vector3(-direction.x, 0, direction.y);
+            Quaternion targetRotation = Quaternion.LookRotation(_direction);
+            Turret.TurretTransform.rotation = Quaternion.Slerp(Turret.TurretTransform.rotation, Quaternion.Euler(0, 0, targetRotation.eulerAngles.y), Turret.TurretStatSO.RotationSpeed * Time.deltaTime);
+        }
     }
 }

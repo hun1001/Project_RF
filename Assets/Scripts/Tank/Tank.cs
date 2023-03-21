@@ -10,21 +10,19 @@ public class Tank : MonoBehaviour
     private TankSO _tankStatSO = null;
     public TankSO TankStatSO => _tankStatSO;
 
-    [SerializeField]
-    private Joystick _joystick = null;
-
     private Turret _turret = null;
-
-    private Dictionary<ComponentType, Tank_Component> _tankComponents = new Dictionary<ComponentType, Tank_Component>();
+    public Turret Turret => _turret;
 
     private void Awake()
     {
         _turret = GetComponent<Turret>();
-        foreach (var tankComponent in GetComponents<Tank_Component>())
+        foreach (var component in GetComponents<Tank_Component>())
         {
-            _tankComponents.Add(tankComponent.ComponentType, tankComponent);
+            _tankComponents.Add(component.ComponentType, component);
         }
     }
+
+    private Dictionary<ComponentType, Tank_Component> _tankComponents = new Dictionary<ComponentType, Tank_Component>();
 
     public T GetComponent<T>(ComponentType componentType) where T : Tank_Component
     {
@@ -34,13 +32,5 @@ public class Tank : MonoBehaviour
         }
         Debug.LogError($"Tank doesn't have {componentType} component");
         return null;
-    }
-
-    private void Update()
-    {
-        if (_joystick != null)
-        {
-            GetComponent<Tank_Move>(ComponentType.Move).Move(_joystick.Direction);
-        }
     }
 }
