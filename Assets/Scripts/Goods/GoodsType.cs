@@ -1,5 +1,5 @@
 ﻿/// <summary> 재화 타입 </summary>
-public enum GoodsEnum : int
+public enum GoodsType : int
 {
     /// <summary> 무료 재화 </summary>
     FreeGoods = 0,
