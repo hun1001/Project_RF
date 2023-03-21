@@ -15,6 +15,9 @@ public class Player : CustomObject
     [SerializeField]
     private CameraManager _cameraManager = null;
 
+    [SerializeField]
+    private Bar _hpBar = null;
+
     private Tank _tank = null;
     public Tank Tank => _tank;
 
@@ -24,6 +27,8 @@ public class Player : CustomObject
 
         _cameraManager.SetPlayer(_tank.transform);
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);
+        _hpBar.Setting(_tank.TankSO.HP);
+        _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction(_hpBar.ChangeValue);
     }
 
     void Update()

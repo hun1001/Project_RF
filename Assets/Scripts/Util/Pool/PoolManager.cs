@@ -46,6 +46,11 @@ namespace Pool
                 CreatePool(name);
             }
 
+            if (obj.TryGetComponent<IPoolReset>(out var c))
+            {
+                c.PoolObjectReset();
+            }
+
             obj.SetActive(false);
             _pool[name].Enqueue(obj);
         }
