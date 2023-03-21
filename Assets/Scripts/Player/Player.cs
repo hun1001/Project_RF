@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
-        _tank = PoolManager.Get<Tank>("T-44");
+        _tank = PoolManager.Get<Tank>("T-44", transform);
 
         _cameraManager.SetPlayer(_tank.transform);
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);

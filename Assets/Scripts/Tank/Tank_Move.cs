@@ -44,6 +44,13 @@ public class Tank_Move : Tank_Component
             // }
         }
 
+        BoxCollider2D boxCollider2D = GetComponent<BoxCollider2D>();
+
+        if (Physics2D.Raycast(transform.position, transform.up, boxCollider2D.offset.y + boxCollider2D.size.y / 2, LayerMask.GetMask("Wall")))
+        {
+            _currentSpeed = 0;
+        }
+
         transform.Translate(Vector3.up * Time.deltaTime * _currentSpeed);
     }
 }
