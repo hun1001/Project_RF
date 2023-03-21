@@ -10,6 +10,19 @@ namespace Item
         public ItemSO ItemSO;
 
         /// <summary> 해당 아이템을 구매했을 때 실행되는 함수 </summary>
-        public abstract void AddItem();
+        public void AddItem()
+        {
+            if (ItemManager.Instance.HaveItemList.ContainsKey(this))
+            {
+                UpgradeItem();
+            }
+            else
+            {
+                CreateItem();
+            }
+        }
+
+        protected abstract void CreateItem();
+        protected abstract void UpgradeItem();
     }
 }
