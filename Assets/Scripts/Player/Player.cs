@@ -17,6 +17,7 @@ public class Player : CustomObject
     private CameraManager _cameraManager = null;
 
     private Tank _tank = null;
+    public Tank Tank => _tank;
 
     void Awake()
     {
