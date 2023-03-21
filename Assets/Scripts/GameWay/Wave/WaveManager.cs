@@ -1,11 +1,11 @@
-using Stage;
+ï»¿using Stage;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class WaveManager : StageManager
+public class WaveManager : GameWay_Base
 {
     private int _repeatCnt = 0;
 
@@ -35,7 +35,7 @@ public class WaveManager : StageManager
             _repeatCnt++;
         }
 
-        // ¾ÆÀÌÅÛ Ã¢ ¶ç¿ì°í
+        // ì•„ì´í…œ ì°½ ë„ìš°ê³ 
         Spawn();
     }
 }
