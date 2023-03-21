@@ -21,18 +21,9 @@ public class Tank_Move : Tank_Component
         {
             _targetSpeed = magnitude * _maxSpeed;
 
-            // if (_currentSpeed < _targetSpeed)
-            // {
-            //     _currentSpeed += _acceleration * Time.deltaTime;
-            // }
-            // else
-            // {
-            //     _currentSpeed = _targetSpeed;
-            // }
-
-            if (_currentSpeed != _targetSpeed)
+            if (_currentSpeed < _targetSpeed)
             {
-                _currentSpeed = Mathf.Lerp(_currentSpeed, _targetSpeed, _acceleration * Time.deltaTime);
+                _currentSpeed += _acceleration * Time.deltaTime;
             }
             else
             {
