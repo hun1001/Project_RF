@@ -5,6 +5,10 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public abstract class CustomObject : MonoBehaviour
 {
+    [SerializeField]
+    private string _id = null;
+    public string ID => _id;
+
     private Dictionary<ComponentType, CustomComponent> _components = new Dictionary<ComponentType, CustomComponent>();
 
     private void Awake()

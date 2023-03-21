@@ -8,6 +8,6 @@ public class Shell_Collision : Shell_Component
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("Shell_Collision: " + collision.gameObject.name);
-        PoolManager.Instance.Pool(gameObject.name, gameObject);
+        PoolManager.Pool(Instance.ID, gameObject);
     }
 }

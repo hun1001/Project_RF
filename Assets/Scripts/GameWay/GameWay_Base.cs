@@ -23,7 +23,7 @@ public abstract class GameWay_Base : MonoBehaviour
     {
         for (int i = 0; i < _stageListSO.Stages[_currentStage].Enemys.Length; i++)
         {
-            GameObject enemy = PoolManager.Instance.Get(_stageListSO.Stages[_currentStage].Enemys[i].name);
+            GameObject enemy = PoolManager.Get(_stageListSO.Stages[_currentStage].Enemys[i].name);
             enemy.transform.position = _currentMap.RandomSpawnPoint();
         }
     }
@@ -39,7 +39,7 @@ public abstract class GameWay_Base : MonoBehaviour
     /// <summary> 선택된 맵을 생성하는 함수 </summary>
     protected void MapCreation()
     {
-        _currentMap = PoolManager.Instance.Get(_currentMap.name).GetComponent<Map_Information>();
+        _currentMap = PoolManager.Get(_currentMap.name).GetComponent<Map_Information>();
 
 
     }

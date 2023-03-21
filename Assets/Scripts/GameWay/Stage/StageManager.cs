@@ -28,7 +28,7 @@ namespace Stage
         /// <summary> 그전에 사용한 맵을 지우는 함수 </summary>
         private void MapRemove()
         {
-            PoolManager.Instance.Pool(_currentMap.name, _currentMap.gameObject);
+            PoolManager.Pool(_currentMap.name, _currentMap.gameObject);
             _currentMap = null;
         }
 
