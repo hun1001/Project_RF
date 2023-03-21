@@ -19,12 +19,12 @@ namespace Util
             }
         }
 
-        private System.Random randomInstance;
-        private readonly Dictionary<T, double> itemWeightDict;
-        private readonly Dictionary<T, double> normalizedItemWeightDict; // 확률이 정규화된 아이템 목록
+        private System.Random _randomInstance;
+        private readonly Dictionary<T, double> _itemWeightDict;
+        private readonly Dictionary<T, double> _normalizedItemWeightDict; // 확률이 정규화된 아이템 목록
 
         /// <summary> 가중치 합이 계산되지 않은 상태인지 여부 </summary>
-        private bool isDirty;
+        private bool _isDirty;
         private double _sumOfWeights;
 
         /***********************************************************************
@@ -33,19 +33,19 @@ namespace Util
         #region .
         public WeightedRandomPicker()
         {
-            randomInstance = new System.Random();
-            itemWeightDict = new Dictionary<T, double>();
-            normalizedItemWeightDict = new Dictionary<T, double>();
-            isDirty = true;
+            _randomInstance = new System.Random();
+            _itemWeightDict = new Dictionary<T, double>();
+            _normalizedItemWeightDict = new Dictionary<T, double>();
+            _isDirty = true;
             _sumOfWeights = 0.0;
         }
 
         public WeightedRandomPicker(int randomSeed)
         {
-            randomInstance = new System.Random(randomSeed);
-            itemWeightDict = new Dictionary<T, double>();
-            normalizedItemWeightDict = new Dictionary<T, double>();
-            isDirty = true;
+            _randomInstance = new System.Random(randomSeed);
+            _itemWeightDict = new Dictionary<T, double>();
+            _normalizedItemWeightDict = new Dictionary<T, double>();
+            _isDirty = true;
             _sumOfWeights = 0.0;
         }
 
@@ -61,8 +61,8 @@ namespace Util
             CheckDuplicatedItem(item);
             CheckValidWeight(weight);
 
-            itemWeightDict.Add(item, weight);
-            isDirty = true;
+            _itemWeightDict.Add(item, weight);
+            _isDirty = true;
         }
 
         /// <summary> 새로운 아이템-가중치 쌍들 추가 </summary>
@@ -73,9 +73,9 @@ namespace Util
                 CheckDuplicatedItem(pair.item);
                 CheckValidWeight(pair.weight);
 
-                itemWeightDict.Add(pair.item, pair.weight);
+                _itemWeightDict.Add(pair.item, pair.weight);
             }
-            isDirty = true;
+            _isDirty = true;
         }
 
         #endregion
@@ -89,8 +89,19 @@ namespace Util
         {
             CheckNotExistedItem(item);
 
-            itemWeightDict.Remove(item);
-            isDirty = true;
+            _itemWeightDict.Remove(item);
+            _isDirty = true;
+        }
+
+        public void Clear()
+        {
+            _itemWeightDict.Clear();
+            _normalizedItemWeightDict.Clear();
+            _isDirty = true;
+            _sumOfWeights = 0;
+            _randomInstance = null;
+            GC.Collect();
+            _randomInstance = new System.Random();
         }
 
         /// <summary> 대상 아이템의 가중치 수정 </summary>
@@ -99,14 +110,14 @@ namespace Util
             CheckNotExistedItem(item);
             CheckValidWeight(weight);
 
-            itemWeightDict[item] = weight;
-            isDirty = true;
+            _itemWeightDict[item] = weight;
+            _isDirty = true;
         }
 
         /// <summary> 랜덤 시드 재설정 </summary>
         public void ReSeed(int seed)
         {
-            randomInstance = new System.Random(seed);
+            _randomInstance = new System.Random(seed);
         }
 
         #endregion
@@ -119,7 +130,7 @@ namespace Util
         public T GetRandomPick()
         {
             // 랜덤 계산
-            double chance = randomInstance.NextDouble(); // [0.0, 1.0)
+            double chance = _randomInstance.NextDouble(); // [0.0, 1.0)
             chance *= SumOfWeights;
 
             return GetRandomPick(chance);
@@ -132,7 +143,7 @@ namespace Util
             if (randomValue > SumOfWeights) randomValue = SumOfWeights - 0.00000001;
 
             double current = 0.0;
-            foreach (var pair in itemWeightDict)
+            foreach (var pair in _itemWeightDict)
             {
                 current += pair.Value;
 
@@ -149,27 +160,27 @@ namespace Util
         /// <summary> 대상 아이템의 가중치 확인 </summary>
         public double GetWeight(T item)
         {
-            return itemWeightDict[item];
+            return _itemWeightDict[item];
         }
 
         /// <summary> 대상 아이템의 정규화된 가중치 확인 </summary>
         public double GetNormalizedWeight(T item)
         {
             CalculateSumIfDirty();
-            return normalizedItemWeightDict[item];
+            return _normalizedItemWeightDict[item];
         }
 
         /// <summary> 아이템 목록 확인(읽기 전용) </summary>
         public ReadOnlyDictionary<T, double> GetItemDictReadonly()
         {
-            return new ReadOnlyDictionary<T, double>(itemWeightDict);
+            return new ReadOnlyDictionary<T, double>(_itemWeightDict);
         }
 
         /// <summary> 가중치 합이 1이 되도록 정규화된 아이템 목록 확인(읽기 전용) </summary>
         public ReadOnlyDictionary<T, double> GetNormalizedItemDictReadonly()
         {
             CalculateSumIfDirty();
-            return new ReadOnlyDictionary<T, double>(normalizedItemWeightDict);
+            return new ReadOnlyDictionary<T, double>(_normalizedItemWeightDict);
         }
 
         #endregion
@@ -181,11 +192,11 @@ namespace Util
         /// <summary> 모든 아이템의 가중치 합 계산해놓기 </summary>
         private void CalculateSumIfDirty()
         {
-            if (!isDirty) return;
-            isDirty = false;
+            if (!_isDirty) return;
+            _isDirty = false;
 
             _sumOfWeights = 0.0;
-            foreach (var pair in itemWeightDict)
+            foreach (var pair in _itemWeightDict)
             {
                 _sumOfWeights += pair.Value;
             }
@@ -197,24 +208,24 @@ namespace Util
         /// <summary> 정규화된 딕셔너리 업데이트 </summary>
         private void UpdateNormalizedDict()
         {
-            normalizedItemWeightDict.Clear();
-            foreach (var pair in itemWeightDict)
+            _normalizedItemWeightDict.Clear();
+            foreach (var pair in _itemWeightDict)
             {
-                normalizedItemWeightDict.Add(pair.Key, pair.Value / _sumOfWeights);
+                _normalizedItemWeightDict.Add(pair.Key, pair.Value / _sumOfWeights);
             }
         }
 
         /// <summary> 이미 아이템이 존재하는지 여부 검사 </summary>
         private void CheckDuplicatedItem(T item)
         {
-            if (itemWeightDict.ContainsKey(item))
+            if (_itemWeightDict.ContainsKey(item))
                 throw new Exception($"이미 [{item}] 아이템이 존재합니다.");
         }
 
         /// <summary> 존재하지 않는 아이템인 경우 </summary>
         private void CheckNotExistedItem(T item)
         {
-            if (!itemWeightDict.ContainsKey(item))
+            if (!_itemWeightDict.ContainsKey(item))
                 throw new Exception($"[{item}] 아이템이 목록에 존재하지 않습니다.");
         }
 

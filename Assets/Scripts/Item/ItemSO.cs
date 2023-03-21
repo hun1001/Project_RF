@@ -21,5 +21,8 @@ namespace Item
 
         /// <summary> 해당 아이템을 사기 위해 필요한 재화량 </summary>
         public int NecessaryGoods;
+
+        /// <summary> 강화 최대치 </summary>
+        public int UpgradeMax;
     }
 }
