@@ -64,7 +64,7 @@ namespace Item
             }
         }
 
-        // 임시로 만든 함수
+        /// <summary> 임시로 만든 함수 - UI 만들어지면 수정할거임 </summary>
         private void Dummy(Item_Base item)
         {
             if (GoodsManager.DecreaseGoods(GoodsType.GameGoods, item.ItemSO.NecessaryGoods) == false)
@@ -85,7 +85,7 @@ namespace Item
                 HaveItemList.Add(item, 0);
             }
 
-            if (HaveItemList[item] == item.ItemSO.UpgradeMax - 1)
+            if (HaveItemList[item] == item.ItemSO.UpgradeMax)
             {
                 _picker.Remove(item);
             }
