@@ -16,7 +16,7 @@ namespace Stage
         /// <summary> 스테이지가 시작될 때 실행하는 함수 </summary>
         private void StageStart()
         {
-            if(_currentMap != null)
+            if (_currentMap != null)
             {
                 MapRemove();
             }
@@ -28,13 +28,13 @@ namespace Stage
         /// <summary> 그전에 사용한 맵을 지우는 함수 </summary>
         private void MapRemove()
         {
-            PoolManager.Pool(_currentMap.name, _currentMap.gameObject);
+            PoolManager.Instance.Pool(_currentMap.name, _currentMap.gameObject);
             _currentMap = null;
         }
 
         protected override void StageClear()
         {
-            if(_currentStage >= _stageListSO.Stages.Length - 1)
+            if (_currentStage >= _stageListSO.Stages.Length - 1)
             {
                 // 완전 클리어
                 // 결과창 띄우고 다음 스테이지 해금

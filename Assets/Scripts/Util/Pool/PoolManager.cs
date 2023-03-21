@@ -1,134 +1,143 @@
+using Addressable;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using Addressable;
+using Util;
 
 namespace Pool
 {
-    public static class PoolManager
+    public class PoolManager : Singleton<PoolManager>
     {
-        private static Dictionary<string, Queue<GameObject>> _pool = new Dictionary<string, Queue<GameObject>>();
-        private static Dictionary<string, GameObject> _prefabDictionary = new Dictionary<string, GameObject>();
-        private static List<string> _nameList = new List<string>();
+        private Dictionary<string, Queue<GameObject>> _poolingDictionaryQueue = new Dictionary<string, Queue<GameObject>>();
 
-        private static void CreatePool(string name)
+        public GameObject Get(string name)
         {
-            if (_pool.ContainsKey(name))
+            return GetObject(name);
+        }
+
+        public GameObject Get(string name, Transform parent)
+        {
+            var temp = GetObject(name);
+            temp.transform.SetParent(parent);
+
+            return temp;
+        }
+
+        public GameObject Get(string name, Vector3 position, Quaternion rotation)
+        {
+            var temp = GetObject(name);
+            temp.transform.position = position;
+            temp.transform.rotation = rotation;
+
+            return temp;
+        }
+
+        public GameObject Get(GameObject obj)
+        {
+            return GetObject(obj);
+        }
+
+        public GameObject Get(GameObject obj, Transform position)
+        {
+            GameObject temp = GetObject(obj);
+            temp.transform.SetParent(position);
+
+            return temp;
+        }
+
+        public GameObject Get(GameObject obj, Vector3 position, Quaternion rotation)
+        {
+            GameObject temp = GetObject(obj);
+
+            temp.transform.position = position;
+            temp.transform.rotation = rotation;
+
+            return temp;
+        }
+
+        public T Get<T>(string name) where T : MonoBehaviour => GetObject(name).GetComponent<T>();
+
+        public T Get<T>(string name, Transform parent) where T : MonoBehaviour => Get(name, parent).GetComponent<T>();
+
+        public T Get<T>(string name, Vector3 position, Quaternion rotation) where T : MonoBehaviour => Get(name, position, rotation).GetComponent<T>();
+
+        public T Get<T>(GameObject obj) where T : MonoBehaviour => GetObject(obj).GetComponent<T>();
+
+        public T Get<T>(GameObject obj, Transform parent) where T : MonoBehaviour => Get(obj, parent).GetComponent<T>();
+
+        public T Get<T>(GameObject obj, Vector3 position, Quaternion rotation) where T : MonoBehaviour => Get(obj, position, rotation).GetComponent<T>();
+
+        public void Pool(string name, GameObject obj)
+        {
+            obj.SetActive(false);
+
+            if (_poolingDictionaryQueue.ContainsKey(name))
             {
-                return;
+                _poolingDictionaryQueue[name].Enqueue(obj);
             }
-
-            Queue<GameObject> q = new Queue<GameObject>();
-            GameObject prefab = AddressablesManager.Instance.GetResource<GameObject>(name);
-
-            try
+            else
             {
-                _pool.Add(name, q);
-                _nameList.Add(name);
-                _prefabDictionary.Add(name, prefab.gameObject);
-            }
-            catch (ArgumentException e)
-            {
-                Debug.Log(e.ToString());
-
-                _pool.Clear();
-                _prefabDictionary.Clear();
-                _pool.Add(name, q);
-                _nameList.Add(name);
-                _prefabDictionary.Add(name, prefab.gameObject);
+                _poolingDictionaryQueue.Add(name, new Queue<GameObject>());
+                _poolingDictionaryQueue[name].Enqueue(obj);
             }
         }
 
-        public static void Pool(string name, GameObject obj)
-        {
-            if (!_pool.ContainsKey(name))
-            {
-                CreatePool(name);
-            }
-            _pool[name].Enqueue(obj);
-        }
+        public void Pool(GameObject obj) => Pool(obj.name, obj);
 
-        public static void DeleteAllPool()
+        private GameObject GetObject(string name)
         {
-            for (int i = 0; i < _nameList.Count; ++i)
+            GameObject temp = null;
+
+            if (_poolingDictionaryQueue.ContainsKey(name))
             {
-                var q = _pool[_nameList[i]];
-                while (q.Count > 0)
+                if (_poolingDictionaryQueue[name].Count > 0)
                 {
-                    GameObject.Destroy(q.Dequeue());
-                }
-            }
-            GC.Collect();
-        }
-
-        public static GameObject Get(string name, bool active = true)
-        {
-            GameObject item = null;
-
-            if (!_prefabDictionary.ContainsKey(name))
-            {
-                CreatePool(name);
-            }
-
-            if (_pool.ContainsKey(name))
-            {
-                Queue<GameObject> q = _pool[name];
-
-                if (q.Count == 0)
-                {
-                    GameObject prefab = _prefabDictionary[name];
-                    GameObject g = GameObject.Instantiate(prefab);
-                    item = g;
+                    temp = _poolingDictionaryQueue[name].Dequeue();
                 }
                 else
                 {
-                    item = q.Dequeue();
+                    temp = GameObject.Instantiate(AddressablesManager.Instance.GetResource<GameObject>(name), null);
                 }
             }
             else
             {
-                GameObject prefab = _prefabDictionary[name];
-                GameObject g = GameObject.Instantiate(prefab);
-                item = g;
+                _poolingDictionaryQueue.Add(name, new Queue<GameObject>());
+                temp = GameObject.Instantiate(AddressablesManager.Instance.GetResource<GameObject>(name), null);
             }
-            item.gameObject.SetActive(active);
-            return item;
+
+            temp.SetActive(true);
+
+            return temp;
         }
 
-        public static GameObject Get(string name, Transform parent, bool active = true)
+        private GameObject GetObject(GameObject obj)
         {
-            GameObject item = Get(name, active);
+            GameObject temp = null;
 
-            item.transform.SetParent(parent);
+            if (_poolingDictionaryQueue.ContainsKey(obj.name))
+            {
+                if (_poolingDictionaryQueue[obj.name].Count > 0)
+                {
+                    temp = _poolingDictionaryQueue[obj.name].Dequeue();
+                }
+                else
+                {
+                    temp = GameObject.Instantiate(obj, null);
+                }
+            }
+            else
+            {
+                _poolingDictionaryQueue.Add(obj.name, new Queue<GameObject>());
+                temp = GameObject.Instantiate(obj, null);
+            }
 
-            return item;
+            temp.SetActive(true);
+
+            return temp;
         }
 
-        public static GameObject Get(string name, Vector3 position, Quaternion rotation, bool active = true)
+        public void Clear()
         {
-            GameObject item = Get(name, active);
-
-            item.transform.position = position;
-            item.transform.rotation = rotation;
-
-            return item;
+            _poolingDictionaryQueue.Clear();
         }
-
-        public static GameObject Get(string name, Vector3 position, Quaternion rotation, Transform parent, bool active = true)
-        {
-            GameObject item = Get(name, position, rotation, active);
-
-            item.transform.SetParent(parent);
-
-            return item;
-        }
-
-        public static T Get<T>(string name, bool active = true) where T : Component => Get(name, active).GetComponent<T>();
-
-        public static T Get<T>(string name, Transform parent, bool active = true) where T : Component => Get(name, parent, active).GetComponent<T>();
-
-        public static T Get<T>(string name, Vector3 position, Quaternion rotation, bool active = true) where T : Component => Get(name, position, rotation, active).GetComponent<T>();
-
-        public static T Get<T>(string name, Vector3 position, Quaternion rotation, Transform parent, bool active = true) where T : Component => Get(name, position, rotation, parent, active).GetComponent<T>();
     }
 }
