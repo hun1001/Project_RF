@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using Pool;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Util;
 
@@ -9,6 +11,8 @@ namespace Item
     {
         /// <summary> 아이템 리스트 SO </summary>
         public ItemListSO ItemListSO;
+
+        private Transform _playerTank = null;
 
         /// <summary> 가지고 있는 아이템 리스트 </summary>
         public Dictionary<Item_Base, int> HaveItemList = new Dictionary<Item_Base, int>();
@@ -21,6 +25,8 @@ namespace Item
         /// <summary> 아이템과 가중치 값을 넣는다 </summary>
         private void Awake()
         {
+            _playerTank = GameObject.Find("Player").transform.GetChild(0);
+
             _picker.Clear();
             HaveItemList.Clear();
             _showingItemList.Clear();
@@ -58,28 +64,31 @@ namespace Item
         }
 
         // 임시로 만든 함수
-        private void Dummy(Item_Base dummy)
+        private void Dummy(Item_Base item)
         {
-            if (GoodsManager.DecreaseGoods(GoodsType.GameGoods, dummy.ItemSO.NecessaryGoods) == false)
+            if (GoodsManager.DecreaseGoods(GoodsType.GameGoods, item.ItemSO.NecessaryGoods) == false)
             {
                 // 재화 부족!
                 return;
             }
 
-            if (HaveItemList.ContainsKey(dummy))
+            if (HaveItemList.ContainsKey(item))
             {
-                HaveItemList[dummy]++;
+                var key = HaveItemList.FirstOrDefault(kvp => kvp.Key.Equals(item));
+                item = key.Key;
+                HaveItemList[item]++;
             }
             else
             {
-                HaveItemList.Add(dummy, 0);
+                item = PoolManager.Get<Item_Base>(item.name, _playerTank);
+                HaveItemList.Add(item, 0);
             }
 
-            if (HaveItemList[dummy] == dummy.ItemSO.UpgradeMax - 1)
+            if (HaveItemList[item] == item.ItemSO.UpgradeMax - 1)
             {
-                _picker.Remove(dummy);
+                _picker.Remove(item);
             }
-            dummy.AddItem();
+            item.AddItem();
         }
 
     }
