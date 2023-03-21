@@ -2,24 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CustomComponent<T> : MonoBehaviour
+public abstract class CustomComponent : MonoBehaviour
 {
-    // private T _turret = null;
-    // public T Turret
-    // {
-    //     get
-    //     {
-    //         if (_turret is null)
-    //         {
-    //             _turret = GetComponent<T>();
-    //         }
+    private CustomObject _instance = null;
+    public CustomObject Instance
+    {
+        get
+        {
+            if (_instance is null)
+            {
+                _instance = GetComponent<CustomObject>();
+            }
 
-    //         return _turret;
-    //     }
-    // }
+            return _instance;
+        }
+    }
 
-    // [SerializeField]
-    // private ComponentType _componentType = ComponentType.None;
+    [SerializeField]
+    private ComponentType _componentType = ComponentType.None;
 
-    // public ComponentType ComponentType => _componentType;
+    public ComponentType ComponentType => _componentType;
 }

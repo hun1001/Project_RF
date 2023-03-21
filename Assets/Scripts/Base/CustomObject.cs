@@ -2,25 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public abstract class CustomObject : MonoBehaviour
 {
-    // private Dictionary<ComponentType, T> _components = new Dictionary<ComponentType, T>();
+    private Dictionary<ComponentType, CustomComponent> _components = new Dictionary<ComponentType, CustomComponent>();
 
-    // private void Awake()
-    // {
-    //     foreach (var component in GetComponents<T>())
-    //     {
-    //         _components.Add(component.ComponentType, component);
-    //     }
-    // }
+    private void Awake()
+    {
+        foreach (var component in GetComponents<CustomComponent>())
+        {
+            _components.Add(component.ComponentType, component);
+            Debug.Log($"Added {component.ComponentType} component");
+        }
+    }
 
-    // public U GetComponent<U>(ComponentType componentType) where U : CustomComponent<T>
-    // {
-    //     if (_components.ContainsKey(componentType))
-    //     {
-    //         return _components[componentType] as U;
-    //     }
-    //     Debug.LogError($"Tank doesn't have {componentType} component");
-    //     return null;
-    // }
+    public T GetComponent<T>(ComponentType componentType) where T : CustomComponent
+    {
+        if (_components.ContainsKey(componentType))
+        {
+            return _components[componentType] as T;
+        }
+        Debug.LogError($"Tank doesn't have {componentType} component");
+        return null;
+    }
 }
