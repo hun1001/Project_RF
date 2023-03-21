@@ -12,7 +12,8 @@ namespace Item
         /// <summary> 아이템 리스트 SO </summary>
         public ItemListSO ItemListSO;
 
-        private Transform _playerTank = null;
+        [HideInInspector]
+        public Transform PlayerTank = null;
 
         /// <summary> 가지고 있는 아이템 리스트 </summary>
         public Dictionary<Item_Base, int> HaveItemList = new Dictionary<Item_Base, int>();
@@ -25,7 +26,7 @@ namespace Item
         /// <summary> 아이템과 가중치 값을 넣는다 </summary>
         private void Awake()
         {
-            _playerTank = GameObject.Find("Player").transform.GetChild(0);
+            PlayerTank = GameObject.Find("Player").transform.GetChild(0);
 
             _picker.Clear();
             HaveItemList.Clear();
@@ -80,7 +81,7 @@ namespace Item
             }
             else
             {
-                item = PoolManager.Get<Item_Base>(item.name, _playerTank);
+                item = PoolManager.Get<Item_Base>(item.name, PlayerTank);
                 HaveItemList.Add(item, 0);
             }
 
