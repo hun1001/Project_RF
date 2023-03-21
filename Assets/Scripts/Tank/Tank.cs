@@ -7,8 +7,8 @@ using UI;
 public class Tank : MonoBehaviour
 {
     [SerializeField]
-    private TankSO _tankStatSO = null;
-    public TankSO TankStatSO => _tankStatSO;
+    private TankSO _tankSO = null;
+    public TankSO TankSO => _tankSO;
 
     private Turret _turret = null;
     public Turret Turret => _turret;

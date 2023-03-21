@@ -9,7 +9,7 @@ public class Tank_Damage : Tank_Component
 
     private void Awake()
     {
-        _maxHealth = Tank.TankStatSO.HP;
+        _maxHealth = Tank.TankSO.HP;
         _currentHealth = _maxHealth;
     }
 
