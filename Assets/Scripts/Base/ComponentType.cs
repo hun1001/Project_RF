@@ -3,5 +3,7 @@ public enum ComponentType
     None,
     Move,
     Rotate,
-    Attack
+    Attack,
+    Damage,
+    Collision
 }

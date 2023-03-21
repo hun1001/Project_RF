@@ -92,9 +92,10 @@ GameObject:
   - component: {fileID: 7926760243846163755}
   - component: {fileID: 7926760243846163754}
   - component: {fileID: 7926760243846163765}
+  - component: {fileID: 7280917092065792063}
   - component: {fileID: 1319457666546717397}
   m_Layer: 0
-  m_Name: BulletTemp
+  m_Name: APHE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f82e64f510634a45941d03ae4de822d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletSO: {fileID: 11400000, guid: 1df77b66ce709e341b5d4c55763289d7, type: 2}
+  _shellSO: {fileID: 11400000, guid: 881ced365de07f94c913affcef484a38, type: 2}
 --- !u!114 &7926760243846163765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,6 +142,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _componentType: 1
+--- !u!114 &7280917092065792063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7926760243846163764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e497a4bdde6e9ee4b9dff04e48d8243d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentType: 5
 --- !u!58 &1319457666546717397
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pool;
 using UI;
+using Util;
 
-public class Player : MonoBehaviour
+public class Player : MonoSingleton<Player>
 {
     [SerializeField]
     private Joystick _moveJoystick = null;
@@ -19,9 +20,9 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
-        _tank = PoolManager.Get<Tank>("T-44");
+        _tank = PoolManager.Get<Tank>("T-44", transform);
 
-        _cameraManager.SetPlayer(_tank.transform);
+        // _cameraManager.SetPlayer(_tank.transform);
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);
     }
 
