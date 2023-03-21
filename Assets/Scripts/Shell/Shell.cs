@@ -12,8 +12,8 @@ public class Shell : CustomObject
     private float _damage = 0;
     public float Damage => _damage;
 
-    public void SetShell(float damage)
+    public void SetShell(float turretDamage)
     {
-        _damage = damage;
+        _damage = turretDamage * _shellSO.Damage;
     }
 }
