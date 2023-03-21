@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pool;
-using UI;
 using Util;
 
 public class Player : CustomObject
@@ -25,10 +24,6 @@ public class Player : CustomObject
 
         _cameraManager.SetPlayer(_tank.transform);
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);
-    }
-
-    private void Start()
-    {
     }
 
     void Update()

@@ -10,7 +10,7 @@ public class Turret_Rotate : Turret_Component
         {
             Vector3 _direction = new Vector3(-direction.x, 0, direction.y);
             Quaternion targetRotation = Quaternion.LookRotation(_direction);
-            Turret.TurretTransform.rotation = Quaternion.Slerp(Turret.TurretTransform.rotation, Quaternion.Euler(0, 0, targetRotation.eulerAngles.y), Turret.TurretStatSO.RotationSpeed * Time.deltaTime);
+            Turret.TurretTransform.rotation = Quaternion.Slerp(Turret.TurretTransform.rotation, Quaternion.Euler(0, 0, targetRotation.eulerAngles.y), Turret.TurretSO.RotationSpeed * Time.deltaTime);
         }
     }
 }

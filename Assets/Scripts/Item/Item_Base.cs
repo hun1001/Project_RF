@@ -24,7 +24,7 @@ namespace Item
 
         /// <summary> 아이템을 처음 얻었을 때 실행하는 함수 </summary>
         protected abstract void CreateItem();
-        /// <summary> 이미 가지고 있는 아이템을 얻었을 때 실행하는 함수 </summary>
+        /// <summary> 아이템을 이미 가지고 있을 때 실행하는 함수 </summary>
         protected abstract void UpgradeItem();
     }
 }

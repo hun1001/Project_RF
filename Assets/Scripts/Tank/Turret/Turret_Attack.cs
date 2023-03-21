@@ -1,12 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Pool;
 
 public class Turret_Attack : Turret_Component
 {
+    private float _reloadingTime = 0;
+    public float ReloadingTime => _reloadingTime;
+
     public void Fire()
     {
-        // TODO : 데미지 설정 공식에 따라 변경
-        Pool.PoolManager.Get<Shell>("APHE", Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(50);
+        if (_reloadingTime <= 0)
+        {
+            _reloadingTime = Turret.TurretSO.ReloadTime;
+            PoolManager.Get<Shell>("APHE", Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(Turret.TurretSO.Power);
+        }
+    }
+
+    private void Update()
+    {
+        if (_reloadingTime > 0)
+        {
+            _reloadingTime -= Time.deltaTime;
+        }
     }
 }
