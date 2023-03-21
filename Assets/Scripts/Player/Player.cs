@@ -11,9 +11,4 @@ public class Player : MonoBehaviour
     {
         GameObject t = PoolManager.Get("T-44");
     }
-
-    void Update()
-    {
-
-    }
 }

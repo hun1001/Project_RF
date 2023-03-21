@@ -54,5 +54,7 @@ namespace UI
             _knob.position = _joystickOriginPosition;
             _direction = Vector2.zero;
         }
+
+        public Vector2 Direction => _direction.normalized;
     }
 }
