@@ -25,6 +25,11 @@ public class Tank : MonoBehaviour
         {
             _tankComponents.Add(component.ComponentType, component);
         }
+
+        if (_turretJoystick != null)
+        {
+            _turretJoystick.OnPointerUpAction = _turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire;
+        }
     }
 
     private Dictionary<ComponentType, Tank_Component> _tankComponents = new Dictionary<ComponentType, Tank_Component>();

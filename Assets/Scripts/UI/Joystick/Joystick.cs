@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,17 @@ namespace UI
         private Vector2 _joystickOriginPosition = Vector2.zero;
         private Vector2 _direction = Vector2.zero;
 
+        private Action _onPointerDown = null;
+        public Action OnPointerDownAction
+        {
+            set => _onPointerDown += value;
+        }
+
+        private Action _onPointerUp = null;
+        public Action OnPointerUpAction
+        {
+            set => _onPointerUp += value;
+        }
 
         private void Awake()
         {
@@ -26,6 +38,7 @@ namespace UI
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            _onPointerDown?.Invoke();
             _joystickBackground.position = eventData.position;
         }
 
@@ -50,6 +63,7 @@ namespace UI
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            _onPointerUp?.Invoke();
             _joystickBackground.position = _joystickOriginPosition;
             _knob.position = _joystickOriginPosition;
             _direction = Vector2.zero;

@@ -12,6 +12,10 @@ public class Turret : MonoBehaviour
     private Transform _turret = null;
     public Transform TurretTransform => _turret;
 
+    [SerializeField]
+    private Transform _firePoint = null;
+    public Transform FirePoint => _firePoint;
+
     private void Awake()
     {
         foreach (var component in GetComponents<Turret_Component>())
