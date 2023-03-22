@@ -32,8 +32,6 @@ namespace Item
         /// <summary> 아이템과 가중치 값을 넣는다 </summary>
         private void Awake()
         {
-            PlayerTank = GameObject.FindGameObjectWithTag("Player").transform;
-
             _picker.Clear();
             HaveItemList.Clear();
             _showingItemList.Clear();
@@ -45,8 +43,11 @@ namespace Item
                 weight = -item.ItemSO.Rarity + 6;
                 _picker.Add(item, weight);
             }
+        }
 
-            ItemPickUp();
+        private void Start()
+        {
+            PlayerTank = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
         /// <summary> 아이템 뽑기 시작하는 함수 </summary>
