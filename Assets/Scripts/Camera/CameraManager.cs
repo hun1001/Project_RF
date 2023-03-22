@@ -44,6 +44,8 @@ public class CameraManager : MonoBehaviour
 
     private IEnumerator CameraZoomInEffectCoroutine(float zoom, float delay, float duration)
     {
+        yield return new WaitForSeconds(delay);
+
         var origin = _virtualCamera.m_Lens.FieldOfView;
         var target = origin + zoom;
 
@@ -54,8 +56,6 @@ public class CameraManager : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
-
-        yield return new WaitForSeconds(delay);
 
         timer = 0f;
         while (timer < duration)
