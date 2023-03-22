@@ -4,8 +4,10 @@ using Stage;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Event;
+using Util;
 
-public abstract class GameWay_Base : MonoBehaviour
+public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
 {
     /// <summary> 해당 스테이지 리스트의 SO </summary>
     [SerializeField]
@@ -16,13 +18,16 @@ public abstract class GameWay_Base : MonoBehaviour
     /// <summary> 현재 맵 정보 </summary>
     protected static Map_Information _currentMap = null;
 
+    public int RemainingEnemy = 0;
+
     /// <summary> 적을 생성할 때 사용하는 함수 </summary>
     protected virtual void Spawn()
     {
         for (int i = 0; i < _stageListSO.Stages[_currentStage].Enemys.Length; i++)
         {
-            GameObject enemy = PoolManager.Get(_stageListSO.Stages[_currentStage].Enemys[i].name, _currentMap.RandomSpawnPoint(), Quaternion.identity);
+            PoolManager.Get(_stageListSO.Stages[_currentStage].Enemys[i].name, _currentMap.RandomSpawnPoint(), Quaternion.identity);
         }
+        RemainingEnemy += _stageListSO.Stages[_currentStage].Enemys.Length;
     }
 
     /// <summary> 맵을 랜덤으로 선택하는 함수 </summary>
@@ -42,5 +47,5 @@ public abstract class GameWay_Base : MonoBehaviour
     }
 
     /// <summary> 해당 스테이지를 클리어시 실행하는 함수 </summary>
-    protected abstract void StageClear();
+    public abstract void StageClear();
 }

@@ -32,7 +32,7 @@ namespace Stage
             _currentMap = null;
         }
 
-        protected override void StageClear()
+        public override void StageClear()
         {
             if (_currentStage >= _stageListSO.Stages.Length - 1)
             {

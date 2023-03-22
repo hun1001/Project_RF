@@ -1,3 +1,4 @@
+using Event;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ public class Tank_Damage : Tank_Component
         if (_currentHealth <= 0)
         {
             _currentHealth = 0;
-            Debug.Log("Tank is dead");
+            EventManager.TriggerEvent(gameObject.GetInstanceID().ToString());
         }
     }
 }
