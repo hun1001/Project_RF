@@ -21,16 +21,24 @@ public class Player : CustomObject
     private Tank _tank = null;
     public Tank Tank => _tank;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         _tank = PoolManager.Get<Tank>("T-44");
         _tank.tag = "Player";
 
         _cameraManager.SetPlayer(_tank.transform);
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);
         _hpBar.Setting(_tank.TankSO.HP);
+
+        // TODO : 연동이 잘 안되는 경우 존재 해결 필요
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction(_hpBar.ChangeValue);
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction((a) => _cameraManager.CameraShake(2.5f, 2, 0.1f));
+        _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDeathAction(() =>
+        {
+            Debug.Log("Player Death");
+            Time.timeScale = 0;
+        });
 
         _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() => _cameraManager.CameraZoomInEffect(5f, 0.1f, 0.1f));
     }

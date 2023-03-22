@@ -7,7 +7,11 @@ public class Shell_Collision : Shell_Component
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // collision.SendMessage("Damaged", (Instance as Shell).Damage, (Instance as Shell).Penetration, SendMessageOptions.DontRequireReceiver);
+        if ((Instance as Shell).Owner == collision.GetComponent<CustomObject>())
+        {
+            return;
+        }
+
         collision.GetComponent<Tank_Damage>().Damaged((Instance as Shell).Damage, (Instance as Shell).Penetration);
         PoolManager.Pool(Instance.ID, gameObject);
     }
