@@ -21,7 +21,7 @@ public class Turret_Attack : Turret_Component
             }
             _onFire?.Invoke();
             PoolManager.Get("FireEffect_01", Turret.FirePoint.position, Turret.FirePoint.rotation);
-            PoolManager.Get<Shell>("APHE", Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(Turret.TurretSO.Power);
+            PoolManager.Get<Shell>("APHE", Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(GetComponent<Tank>(), Turret.TurretSO.Power);
         }
     }
 
