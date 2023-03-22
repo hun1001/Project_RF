@@ -22,6 +22,8 @@ public abstract class Item_Machingun : Item.Item_Base
 
         _currentDamage = _upgradeDamages[0];
         _currentMagazine = _maxMagazine;
+        _angle = 80f;
+        _range = 40f;
         _layerMask = 1 << LayerMask.NameToLayer("Tank");
         StartCoroutine(Shot());
     }
@@ -40,13 +42,16 @@ public abstract class Item_Machingun : Item.Item_Base
         WaitForSeconds reloadTime = new WaitForSeconds(4f);
         WaitForSeconds shotDelay = new WaitForSeconds(0.2f);
 
-        Collider[] cols;
+        Collider2D[] cols;
+        Vector2 machingunPosition;
         Transform enemy;
         float nearDist;
         Transform target;
         Vector3 dirToTarget;
         float dist;
-        Quaternion dir;
+        Vector2 directionV2;
+        Vector3 directionV3;
+        Quaternion directionRotation;
 
         while (true)
         {
@@ -54,19 +59,20 @@ public abstract class Item_Machingun : Item.Item_Base
 
             enemy = null;
             nearDist = Mathf.Infinity;
+            machingunPosition = transform.position;
 
-            cols = Physics.OverlapSphere(transform.position, _range, _layerMask);
+            cols = Physics2D.OverlapCircleAll(machingunPosition, _range, _layerMask);
             for (int i = 0; i < cols.Length; i++)
             {
                 // 플레이어 제외
                 if (cols[i].CompareTag("Player")) continue;
-
+                
                 target = cols[i].transform;
                 dirToTarget = (target.position - transform.position);
 
                 // FOV
                 // 머신건과 적 사이에 플레이어가 있으면 플레이어가 맞기에 시야각을 설정함
-                if (Vector3.Angle(transform.forward, dirToTarget.normalized) < _angle / 2)
+                if (Vector2.Angle(transform.forward, dirToTarget.normalized) < _angle / 2)
                 {
                     // 가장 가까운 적을 때리기 위해
                     dist = dirToTarget.sqrMagnitude;
@@ -80,11 +86,13 @@ public abstract class Item_Machingun : Item.Item_Base
             // 적을 찾지 못하면 재탐색
             if (enemy == null) continue;
 
-            dir = Quaternion.LookRotation(enemy.position - transform.position);
-            dir.x = 0f;
-            dir.z = 0f;
+            directionV2 = (enemy.position - transform.position).normalized;
+            directionV3 = new Vector3(-directionV2.x, 0, directionV2.y);
+            directionRotation = Quaternion.LookRotation(directionV3);
+            directionRotation = Quaternion.Euler(0, 0, directionRotation.eulerAngles.y);
 
             // 총알 생성, 총알 데미지 설정
+            PoolManager.Get("MachingunShell", transform.position, directionRotation);
 
             _currentMagazine--;
             if (_currentMagazine <= 0)
