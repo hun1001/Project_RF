@@ -20,12 +20,20 @@ public class CameraManager : MonoBehaviour
 
     public void CameraShake(float amplitudeGain, float frequencyGain, float duration)
     {
-
+        StartCoroutine(CameraShakeCoroutine(amplitudeGain, frequencyGain, duration));
     }
 
     private IEnumerator CameraShakeCoroutine(float a, float f, float d)
     {
+        var cinemachineBasicMultiChannelPerlin = _virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+        // 진폭
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = a;
+        // 횟수
+        cinemachineBasicMultiChannelPerlin.m_FrequencyGain = f;
 
         yield return new WaitForSeconds(d);
+
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = cinemachineBasicMultiChannelPerlin.m_FrequencyGain = 0;
     }
 }
