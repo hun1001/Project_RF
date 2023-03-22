@@ -11,7 +11,7 @@ public abstract class CustomObject : MonoBehaviour
 
     private Dictionary<ComponentType, CustomComponent> _components = new Dictionary<ComponentType, CustomComponent>();
 
-    private void Awake()
+    protected virtual void Awake()
     {
         foreach (var component in GetComponents<CustomComponent>())
         {

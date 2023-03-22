@@ -13,11 +13,14 @@ public class Tank_Damage : Tank_Component
     private Action<float> _onDamageAction = null;
     public void AddOnDamageAction(Action<float> action) => _onDamageAction += action;
 
+    private Action _onDeathAction = null;
+    public void AddOnDeathAction(Action action) => _onDeathAction += action;
+
     private void Awake()
     {
-        _maxHealth = Tank.TankSO.HP;
+        _maxHealth = (Instance as Tank).TankSO.HP;
         _currentHealth = _maxHealth;
-        _amour = Tank.TankSO.Armour;
+        _amour = (Instance as Tank).TankSO.Armour;
     }
 
     public void Damaged(float damage, float penetration)
@@ -30,8 +33,15 @@ public class Tank_Damage : Tank_Component
 
         if (_currentHealth <= 0)
         {
-            _currentHealth = 0;
-            EventManager.TriggerEvent(gameObject.GetInstanceID().ToString());
+            Death();
         }
+    }
+
+    private void Death()
+    {
+        _currentHealth = 0;
+        Pool.PoolManager.Pool(Instance.ID, gameObject);
+        EventManager.TriggerEvent(gameObject.GetInstanceID().ToString());
+        _onDeathAction?.Invoke();
     }
 }
