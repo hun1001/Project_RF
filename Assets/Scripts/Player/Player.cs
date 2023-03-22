@@ -38,9 +38,18 @@ public class Player : CustomObject
         {
             Debug.Log("Player Death");
             Time.timeScale = 0;
+
+            StartCoroutine(Change());
         });
 
         _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() => _cameraManager.CameraZoomInEffect(5f, 0.1f, 0.1f));
+    }
+
+    private IEnumerator Change()
+    {
+        yield return new WaitForSecondsRealtime(3f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MenuScene");
+        Time.timeScale = 1;
     }
 
     void Update()

@@ -7,6 +7,7 @@ public class SSSSS : MonoBehaviour
 {
     public void ChangeScene()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("GameScene");
     }
 }
