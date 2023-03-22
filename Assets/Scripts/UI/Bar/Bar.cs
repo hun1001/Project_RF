@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Bar : MonoBehaviour, Pool.IPoolReset
 {
+    [Header("Animation")]
     [SerializeField]
     private float _animationStartDelay = 0f;
 
@@ -13,8 +14,14 @@ public class Bar : MonoBehaviour, Pool.IPoolReset
 
     private bool _isSetting = false;
 
+    [Header("UI")]
+    [SerializeField]
     private Image _beforeValueImage = null;
+
+    [SerializeField]
     private Image _valueImage = null;
+
+    [SerializeField]
     private Text _valueText = null;
 
     private float _maxValue = 0;
@@ -22,12 +29,6 @@ public class Bar : MonoBehaviour, Pool.IPoolReset
 
     private bool _isChangingBeforeBar = false;
 
-    private void Awake()
-    {
-        _beforeValueImage = transform.GetChild(0).GetComponent<Image>();
-        _valueImage = transform.GetChild(1).GetComponent<Image>();
-        _valueText = transform.GetChild(2).GetComponent<Text>();
-    }
 
     public void Setting(float max, float cur = -1)
     {
@@ -41,6 +42,8 @@ public class Bar : MonoBehaviour, Pool.IPoolReset
         {
             _currentValue = _maxValue;
         }
+
+        UpdateValueText();
         _isSetting = true;
     }
 
@@ -54,7 +57,14 @@ public class Bar : MonoBehaviour, Pool.IPoolReset
         _currentValue += value;
         _valueImage.fillAmount = _currentValue / _maxValue;
 
+        UpdateValueText();
+
         StartCoroutine(nameof(ChangeBeforeBarCoroutine));
+    }
+
+    private void UpdateValueText()
+    {
+        _valueText.text = $"{_currentValue} / {_maxValue}";
     }
 
     private IEnumerator ChangeBeforeBarCoroutine()
