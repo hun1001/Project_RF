@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pool;
+using Event;
 
 public class AI : CustomObject
 {
@@ -11,6 +12,15 @@ public class AI : CustomObject
     private void Start()
     {
         _tank = PoolManager.Get<Tank>("T-44", transform.position, transform.rotation);
+        EventManager.DeleteEvent(_tank.gameObject.GetInstanceID().ToString());
+        EventManager.StartListening(_tank.gameObject.GetInstanceID().ToString(), () =>
+        {
+            GameWay_Base.Instance.RemainingEnemy--;
+            if (GameWay_Base.Instance.RemainingEnemy <= 0)
+            {
+                GameWay_Base.Instance.StageClear();
+            }
+        });
         _target = FindObjectOfType<Player>().Tank.transform;
     }
 
