@@ -7,8 +7,8 @@ public class Turret_Sound : Turret_Component
 {
     public void PlaySound(SoundType soundType)
     {
-        var audioSource = PoolManager.Get<AudioSourceController>("AudioSource", Turret.FirePoint.position, Turret.FirePoint.rotation);
-        audioSource.SetSound(Turret.TurretSound.GetAudioClip(soundType));
+        var audioSource = PoolManager.Get<AudioSourceController>("AudioSource", (Instance as Turret).FirePoint.position, (Instance as Turret).FirePoint.rotation);
+        audioSource.SetSound((Instance as Turret).TurretSound.GetAudioClip(soundType));
         audioSource.Play();
     }
 }
