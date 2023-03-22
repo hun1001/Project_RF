@@ -31,6 +31,8 @@ public class Player : CustomObject
         _hpBar.Setting(_tank.TankSO.HP);
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction(_hpBar.ChangeValue);
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction((a) => _cameraManager.CameraShake(2.5f, 2, 0.1f));
+
+        _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() => _cameraManager.CameraZoomInEffect(5f, 0.01f, 0.05f));
     }
 
     void Update()
