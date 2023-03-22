@@ -5,12 +5,47 @@ using Pool;
 
 public class EffectAutoPool : AutoPool
 {
-    [SerializeField]
-    private ParticleSystem _effect = null;
+    private List<ParticleSystem> _effectList = new List<ParticleSystem>();
+
+    private void Awake() => GetAllParticleSystem();
+
+
+    private void GetAllParticleSystem()
+    {
+        _effectList.AddRange(GetComponentsInChildren<ParticleSystem>());
+    }
 
     protected override IEnumerator Pool()
     {
-        yield return new WaitForSeconds(_effect.main.duration);
+        bool[] isPlaying = new bool[_effectList.Count];
+
+        while (true)
+        {
+            for (int i = 0; i < _effectList.Count; i++)
+            {
+                isPlaying[i] = _effectList[i].isPlaying;
+            }
+
+            bool isAllStop = true;
+
+            foreach (var isPlay in isPlaying)
+            {
+                if (isPlay)
+                {
+                    isAllStop = false;
+                    break;
+                }
+            }
+
+            if (isAllStop)
+            {
+                break;
+            }
+
+            yield return null;
+        }
+
+
         string id = gameObject.name;
 
         if (id.Contains("(Clone)"))
