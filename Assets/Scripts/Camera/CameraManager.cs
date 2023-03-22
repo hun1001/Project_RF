@@ -67,6 +67,4 @@ public class CameraManager : MonoBehaviour
 
         _virtualCamera.m_Lens.FieldOfView = origin;
     }
-
-
 }
