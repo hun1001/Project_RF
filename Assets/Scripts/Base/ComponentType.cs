@@ -7,5 +7,6 @@ public enum ComponentType
     Damage,
     Collision,
     Pool,
-    AimLine
+    AimLine,
+    Sound,
 }

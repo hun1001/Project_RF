@@ -9,6 +9,10 @@ public class Tank : MonoBehaviour
     private TankSO _tankSO = null;
     public TankSO TankSO => _tankSO;
 
+    [SerializeField]
+    private SoundBoxSO _tankSound = null;
+    public SoundBoxSO TankSound => _tankSound;
+
     private Turret _turret = null;
     public Turret Turret => _turret;
 
@@ -31,5 +35,16 @@ public class Tank : MonoBehaviour
         }
         Debug.LogError($"Tank doesn't have {componentType} component");
         return null;
+    }
+
+    public bool TryGetComponent<T>(ComponentType componentType, out T component) where T : Tank_Component
+    {
+        if (_tankComponents.ContainsKey(componentType))
+        {
+            component = _tankComponents[componentType] as T;
+            return true;
+        }
+        component = null;
+        return false;
     }
 }

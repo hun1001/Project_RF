@@ -28,4 +28,15 @@ public abstract class CustomObject : MonoBehaviour
         Debug.LogError($"Tank doesn't have {componentType} component");
         return null;
     }
+
+    public bool TryGetComponent<T>(ComponentType componentType, out T component) where T : CustomComponent
+    {
+        if (_components.ContainsKey(componentType))
+        {
+            component = _components[componentType] as T;
+            return true;
+        }
+        component = null;
+        return false;
+    }
 }
