@@ -1,8 +1,5 @@
 
-namespace Pool
+public interface IPoolReset
 {
-    public interface IPoolReset
-    {
-        void PoolObjectReset();
-    }
+    void PoolObjectReset();
 }

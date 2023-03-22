@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Bar : MonoBehaviour, Pool.IPoolReset
+public class Bar : MonoBehaviour, IPoolReset
 {
     [Header("Animation")]
     [SerializeField]

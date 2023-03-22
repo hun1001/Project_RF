@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shell : CustomObject
+public class Shell : CustomObject, IPoolReset
 {
     [SerializeField]
     private ShellSO _shellSO = null;
@@ -21,5 +21,12 @@ public class Shell : CustomObject
     {
         _owner = owner;
         _damage = turretDamage + _shellSO.Damage;
+    }
+
+    public void PoolObjectReset()
+    {
+        _owner = null;
+        _damage = 0;
+        GetComponent<TrailRenderer>().Clear();
     }
 }
