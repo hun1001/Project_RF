@@ -20,6 +20,7 @@ public class Turret_Attack : Turret_Component
                 turretSound.PlaySound(SoundType.Fire);
             }
             _onFire?.Invoke();
+            PoolManager.Get("FireEffect_01", Turret.FirePoint.position, Turret.FirePoint.rotation);
             PoolManager.Get<Shell>("APHE", Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(Turret.TurretSO.Power);
         }
     }
