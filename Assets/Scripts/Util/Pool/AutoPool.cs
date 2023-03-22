@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Pool
 {
-
     public class AutoPool : CustomComponent
     {
         private void OnEnable()
@@ -12,7 +11,7 @@ namespace Pool
             StartCoroutine(nameof(Pool));
         }
 
-        private IEnumerator Pool()
+        protected virtual IEnumerator Pool()
         {
             yield return new WaitForSeconds(2f);
             PoolManager.Pool(Instance.ID, gameObject);

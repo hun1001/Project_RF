@@ -18,6 +18,7 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
     /// <summary> 현재 맵 정보 </summary>
     protected static Map_Information _currentMap = null;
 
+    [HideInInspector]
     public int RemainingEnemy = 0;
 
     /// <summary> 적을 생성할 때 사용하는 함수 </summary>

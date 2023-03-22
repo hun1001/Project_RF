@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2339648406700629019}
   - component: {fileID: 2339648406715787645}
   - component: {fileID: 2339648406714410211}
+  - component: {fileID: 1390744014547061022}
   m_Layer: 0
   m_Name: FireEffect_01
   m_TagString: Untagged
@@ -4781,6 +4782,20 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &1390744014547061022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2339648406700852583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8bde9eee80a4d14b9e40a2d2a232537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentType: 6
+  _effect: {fileID: 2339648406715787645}
 --- !u!1 &6753613165884069953
 GameObject:
   m_ObjectHideFlags: 0
