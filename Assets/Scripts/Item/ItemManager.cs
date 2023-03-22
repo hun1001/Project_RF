@@ -32,7 +32,7 @@ namespace Item
         /// <summary> 아이템과 가중치 값을 넣는다 </summary>
         private void Awake()
         {
-            //PlayerTank = GameObject.Find("Player").transform.GetChild(0);
+            PlayerTank = GameObject.FindGameObjectWithTag("Player").transform;
 
             _picker.Clear();
             HaveItemList.Clear();

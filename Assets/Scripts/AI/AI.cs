@@ -8,13 +8,9 @@ public class AI : CustomObject
     private Tank _tank = null;
     private Transform _target = null;
 
-    private void Awake()
-    {
-        _tank = PoolManager.Get<Tank>("T-44", transform.position, transform.rotation);
-    }
-
     private void Start()
     {
+        _tank = PoolManager.Get<Tank>("T-44", transform.position, transform.rotation);
         _target = FindObjectOfType<Player>().Tank.transform;
     }
 

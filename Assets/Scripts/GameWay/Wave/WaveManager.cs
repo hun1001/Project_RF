@@ -9,7 +9,7 @@ public class WaveManager : GameWay_Base
 {
     private int _repeatCnt = 0;
 
-    protected override void Start()
+    private void Awake()
     {
         _currentMap = RandomMapSelect();
         MapCreation();

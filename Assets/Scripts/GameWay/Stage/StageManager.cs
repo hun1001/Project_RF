@@ -8,7 +8,7 @@ namespace Stage
 {
     public class StageManager : GameWay_Base
     {
-        protected override void Start()
+        private void Awake()
         {
             StageStart();
         }

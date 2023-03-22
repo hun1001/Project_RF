@@ -18,7 +18,8 @@ public class Item_Machingun_Side : Item_Machingun
             transform.localPosition = new Vector3(3f, 0f, -2f);
             transform.forward = Vector3.right;
 
-            _otherSideMachingun = PoolManager.Get<Item_Base>("SideMachineGun", ItemManager.Instance.PlayerTank);
+            _otherSideMachingun = PoolManager.Get<Item_Base>("Side_Machingun", ItemManager.Instance.PlayerTank);
+            ItemManager.Instance.HaveItemList.Add(_otherSideMachingun, 0);
             _otherSideMachingun.AddItem();
         }
         else
