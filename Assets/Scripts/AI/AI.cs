@@ -16,6 +16,7 @@ public class AI : CustomObject
         EventManager.StartListening(_tank.gameObject.GetInstanceID().ToString(), () =>
         {
             GameWay_Base.Instance.RemainingEnemy--;
+            GoodsManager.AddGoods(GoodsType.GameGoods, 2);
             if (GameWay_Base.Instance.RemainingEnemy <= 0)
             {
                 GameWay_Base.Instance.StageClear();

@@ -14,6 +14,8 @@ namespace Item
     {
         [SerializeField]
         private GameObject _itemObject;
+        [SerializeField]
+        private Canvas _itemCanvas;
 
         /// <summary> 아이템 리스트 SO </summary>
         public ItemListSO ItemListSO;
@@ -28,6 +30,7 @@ namespace Item
 
         /// <summary> 가중치 랜덤 뽑기 - 아이템 </summary>
         private WeightedRandomPicker<Item_Base> _picker = new WeightedRandomPicker<Item_Base>();
+        private int _itemCnt = 0;
 
         /// <summary> 아이템과 가중치 값을 넣는다 </summary>
         private void Awake()
@@ -53,6 +56,8 @@ namespace Item
         /// <summary> 아이템 뽑기 시작하는 함수 </summary>
         public void ItemPickUp()
         {
+            _itemCanvas.enabled = true;
+            Time.timeScale = 0f;
             _showingItemList.Clear();
             Item_Base item;
             for(int i = 0; i < 3; i++)
@@ -66,7 +71,7 @@ namespace Item
                 _showingItemList.Add(item);
                 var itemObj = _itemObject.transform.GetChild(i).gameObject;
                 itemObj.SetActive(true);
-                Dummy(item, itemObj);
+                SetItem(item, itemObj);
                 
                 if(_picker.GetItemDictReadonly().Count == _showingItemList.Count)
                 {
@@ -75,8 +80,8 @@ namespace Item
             }
         }
 
-        /// <summary> 임시로 만든 함수 - UI 만들어지면 수정할거임 </summary>
-        private void Dummy(Item_Base item, GameObject obj)
+        /// <summary> 해당 UI에 아이템을 설정하는 함수 </summary>
+        private void SetItem(Item_Base item, GameObject obj)
         {
             var nameText = obj.transform.GetChild(0).GetComponent<Text>();
             var descriptionText = obj.transform.GetChild(1).GetComponent<Text>();
@@ -116,7 +121,15 @@ namespace Item
                 {
                     _picker.Remove(item);
                 }
+
                 item.AddItem();
+
+                if(_itemCnt++ > 1)
+                {
+                    _itemCanvas.enabled = false;
+                    _itemCnt = 0;
+                }
+
                 obj.SetActive(false);
             });
 
