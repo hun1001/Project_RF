@@ -15,7 +15,7 @@ public class Tank_Rotate : Tank_Component
             _direction.z = direction.y;
 
             Quaternion targetRotation = Quaternion.LookRotation(_direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, targetRotation.eulerAngles.y), (Instance as Tank).TankSO.RotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, targetRotation.eulerAngles.y), Tank.TankSO.RotationSpeed * Time.deltaTime);
         }
     }
 }

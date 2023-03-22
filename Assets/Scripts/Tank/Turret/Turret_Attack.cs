@@ -14,14 +14,14 @@ public class Turret_Attack : Turret_Component
     {
         if (_reloadingTime <= 0)
         {
-            _reloadingTime = (Instance as Turret).TurretSO.ReloadTime;
-            if (Instance.TryGetComponent<Turret_Sound>(ComponentType.Sound, out var turretSound))
+            _reloadingTime = Turret.TurretSO.ReloadTime;
+            if (Turret.TryGetComponent<Turret_Sound>(ComponentType.Sound, out var turretSound))
             {
                 turretSound.PlaySound(SoundType.Fire);
             }
             _onFire?.Invoke();
-            PoolManager.Get("FireEffect_01", (Instance as Turret).FirePoint.position, (Instance as Turret).FirePoint.rotation);
-            PoolManager.Get<Shell>("APHE", (Instance as Turret).FirePoint.position, (Instance as Turret).FirePoint.rotation).SetShell(Instance, (Instance as Turret).TurretSO.Power);
+            PoolManager.Get("FireEffect_01", Turret.FirePoint.position, Turret.FirePoint.rotation);
+            PoolManager.Get<Shell>("APHE", Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(Turret.TurretSO.Power);
         }
     }
 
