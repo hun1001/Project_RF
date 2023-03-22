@@ -36,4 +36,35 @@ public class CameraManager : MonoBehaviour
 
         cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = cinemachineBasicMultiChannelPerlin.m_FrequencyGain = 0;
     }
+
+    public void CameraZoomInEffect(float zoom, float delay, float duration)
+    {
+        StartCoroutine(CameraZoomInEffectCoroutine(zoom, delay, duration));
+    }
+
+    private IEnumerator CameraZoomInEffectCoroutine(float zoom, float delay, float duration)
+    {
+        yield return new WaitForSeconds(delay);
+
+        var origin = _virtualCamera.m_Lens.FieldOfView;
+        var target = origin + zoom;
+
+        var timer = 0f;
+        while (timer < duration)
+        {
+            _virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(origin, target, timer / duration);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        timer = 0f;
+        while (timer < duration)
+        {
+            _virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(target, origin, timer / duration);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        _virtualCamera.m_Lens.FieldOfView = origin;
+    }
 }

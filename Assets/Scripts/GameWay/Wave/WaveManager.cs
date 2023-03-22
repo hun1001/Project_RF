@@ -1,9 +1,11 @@
-﻿using Stage;
+﻿using Item;
+using Stage;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+using Util;
 
 public class WaveManager : GameWay_Base
 {
@@ -24,7 +26,7 @@ public class WaveManager : GameWay_Base
         }
     }
 
-    protected override void StageClear()
+    public override void StageClear()
     {
         if (_currentStage < _stageListSO.Stages.Length - 1)
         {
@@ -35,7 +37,7 @@ public class WaveManager : GameWay_Base
             _repeatCnt++;
         }
 
-        // 아이템 창 띄우고
+        ItemManager.Instance.ItemPickUp();
         Spawn();
     }
 }
