@@ -29,6 +29,7 @@ public abstract class GameWay_Base : MonoBehaviour
     /// <returns> 랜덤으로 선택된 맵 </returns>
     protected Map_Information RandomMapSelect()
     {
+        if(_stageListSO.Maps.Length == 0) return FindObjectOfType<Map_Information>();
         int randomIndex = Random.Range(0, _stageListSO.Maps.Length);
         return _stageListSO.Maps[randomIndex];
     }
@@ -36,9 +37,8 @@ public abstract class GameWay_Base : MonoBehaviour
     /// <summary> 선택된 맵을 생성하는 함수 </summary>
     protected void MapCreation()
     {
+        if (_stageListSO.Maps.Length == 0) return;
         _currentMap = PoolManager.Get(_currentMap.name).GetComponent<Map_Information>();
-
-
     }
 
     /// <summary> 해당 스테이지를 클리어시 실행하는 함수 </summary>
