@@ -9,5 +9,6 @@ public class SSSSS : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("GameScene");
+        Pool.PoolManager.DeleteAllPool();
     }
 }

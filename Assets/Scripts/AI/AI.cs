@@ -26,16 +26,23 @@ public class AI : CustomObject
 
     private void Update()
     {
-        _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate((_target.position - _tank.transform.position).normalized);
-        _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate).Rotate((_target.position - _tank.Turret.FirePoint.position).normalized);
-
-        if (Vector3.Distance(_tank.transform.position, _target.position) > 15f)
+        if (_target == null)
         {
-            _tank.GetComponent<Tank_Move>(ComponentType.Move).Move(1f);
+            _target = FindObjectOfType<Player>().Tank.transform;
         }
         else
         {
-            _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire();
+            _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate((_target.position - _tank.transform.position).normalized);
+            _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate).Rotate((_target.position - _tank.Turret.FirePoint.position).normalized);
+
+            if (Vector3.Distance(_tank.transform.position, _target.position) > 15f)
+            {
+                _tank.GetComponent<Tank_Move>(ComponentType.Move).Move(1f);
+            }
+            else
+            {
+                _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire();
+            }
         }
     }
 }

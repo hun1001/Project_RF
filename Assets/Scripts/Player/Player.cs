@@ -24,6 +24,8 @@ public class Player : CustomObject
     protected override void Awake()
     {
         base.Awake();
+
+        Debug.Log("Player Awake");
         _tank = PoolManager.Get<Tank>("T-44");
         _tank.tag = "Player";
 
