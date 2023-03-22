@@ -40,4 +40,14 @@ public class Turret : MonoBehaviour
         return null;
     }
 
+    public bool TryGetComponent<T>(ComponentType componentType, out T component) where T : Turret_Component
+    {
+        if (_turretComponents.ContainsKey(componentType))
+        {
+            component = _turretComponents[componentType] as T;
+            return true;
+        }
+        component = null;
+        return false;
+    }
 }

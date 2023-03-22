@@ -15,10 +15,12 @@ GameObject:
   - component: {fileID: 5690142102574701969}
   - component: {fileID: 5628129104449068835}
   - component: {fileID: 7284749550972313525}
+  - component: {fileID: 8998681981973870737}
   - component: {fileID: 47475164400298202}
   - component: {fileID: 7082348934727329660}
   - component: {fileID: 635043131106572580}
   - component: {fileID: 4667216903000952935}
+  - component: {fileID: -6098210243739279599}
   - component: {fileID: 4036680307826578889}
   m_Layer: 6
   m_Name: T-44
@@ -57,7 +59,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -142,6 +144,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _componentType: 4
+--- !u!114 &8998681981973870737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842629362019553630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1211a59a1e6a2f4e98d32a53ed8ffdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentType: 8
 --- !u!114 &47475164400298202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,6 +212,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _componentType: 7
+--- !u!114 &-6098210243739279599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842629362019553630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e6a47baee4dcd24dba1c903ab9fc9fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentType: 8
 --- !u!120 &4036680307826578889
 LineRenderer:
   m_ObjectHideFlags: 0

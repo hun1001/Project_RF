@@ -11,6 +11,7 @@ public class Turret_Attack : Turret_Component
         if (_reloadingTime <= 0)
         {
             _reloadingTime = Turret.TurretSO.ReloadTime;
+            Turret.TryGetComponent<Turret_Sound>(ComponentType.Sound, out var turretSound);
             PoolManager.Get<Shell>("APHE", Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(Turret.TurretSO.Power);
         }
     }
