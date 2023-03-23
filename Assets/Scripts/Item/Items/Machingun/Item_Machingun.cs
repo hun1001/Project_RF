@@ -47,7 +47,7 @@ public abstract class Item_Machingun : Item.Item_Base
         Transform enemy;
         float nearDist;
         Transform target;
-        Vector3 dirToTarget;
+        Vector2 dirToTarget;
         float dist;
         Vector2 directionV2;
         Vector3 directionV3;
