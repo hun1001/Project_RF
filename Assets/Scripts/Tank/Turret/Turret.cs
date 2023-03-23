@@ -8,7 +8,7 @@ public class Turret : MonoBehaviour
     private TurretSO _turretStatSO = null;
 
     private TurretSO _thisTurretSO = null;
-    public TurretSO TurretSO => _thisTurretSO;
+    public TurretSO TurretData => _thisTurretSO;
 
     [SerializeField]
     private SoundBoxSO _turretSound = null;

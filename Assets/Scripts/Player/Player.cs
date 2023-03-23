@@ -30,7 +30,7 @@ public class Player : CustomObject
 
         _cameraManager.SetPlayer(_tank.transform);
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);
-        _hpBar.Setting(_tank.TankSO.HP);
+        _hpBar.Setting(_tank.TankData.HP);
 
         // TODO : 연동이 잘 안되는 경우 존재 해결 필요
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction(_hpBar.ChangeValue);

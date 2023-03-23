@@ -9,7 +9,7 @@ public class Tank : CustomObject
     private TankSO _tankSO = null;
 
     private TankSO _thisTankSO = null;
-    public TankSO TankSO => _thisTankSO;
+    public TankSO TankData => _thisTankSO;
 
     [SerializeField]
     private SoundBoxSO _tankSound = null;

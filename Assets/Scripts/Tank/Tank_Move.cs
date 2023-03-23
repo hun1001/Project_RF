@@ -11,8 +11,8 @@ public class Tank_Move : Tank_Component
 
     private void Awake()
     {
-        _maxSpeed = (Instance as Tank).TankSO.Speed;
-        _acceleration = (Instance as Tank).TankSO.Acceleration;
+        _maxSpeed = (Instance as Tank).TankData.Speed;
+        _acceleration = (Instance as Tank).TankData.Acceleration;
     }
 
     public void Move(float magnitude)

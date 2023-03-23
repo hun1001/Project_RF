@@ -18,9 +18,9 @@ public class Tank_Damage : Tank_Component
 
     private void OnEnable()
     {
-        _maxHealth = (Instance as Tank).TankSO.HP;
+        _maxHealth = (Instance as Tank).TankData.HP;
         _currentHealth = _maxHealth;
-        _amour = (Instance as Tank).TankSO.Armour;
+        _amour = (Instance as Tank).TankData.Armour;
     }
 
     public void Damaged(float damage, float penetration)
