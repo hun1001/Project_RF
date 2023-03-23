@@ -81,7 +81,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6733371891195137907}
   toggleTransition: 1
   graphic: {fileID: 5302462893709737095}
-  m_Group: {fileID: 1692622586708065927}
+  m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7739279489420643035}
   toggleTransition: 1
   graphic: {fileID: 5835922338656135326}
-  m_Group: {fileID: 1692622586708065927}
+  m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1441,6 +1441,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveJoystick: {fileID: 6140919451293914630}
   _attackJoystick: {fileID: 2631327743074584711}
+  _buttonGroup: {fileID: 8939850846984549614}
+  _toggleGroup: {fileID: 4425665985785509351}
 --- !u!1 &6189754799819746105
 GameObject:
   m_ObjectHideFlags: 0
@@ -1771,6 +1773,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6189754800087753256}
+  - component: {fileID: 8939850846984549614}
   m_Layer: 5
   m_Name: SkillButtons
   m_TagString: Untagged
@@ -1800,6 +1803,18 @@ RectTransform:
   m_AnchoredPosition: {x: -110, y: 128}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8939850846984549614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6189754800087753259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53c771a42fc512742996d76f7c99661d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6189754800576117492
 GameObject:
   m_ObjectHideFlags: 0
@@ -2089,7 +2104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6189754800992611691}
   - component: {fileID: 6189754800992611688}
-  - component: {fileID: 1692622586708065927}
+  - component: {fileID: 4425665985785509351}
   m_Layer: 5
   m_Name: ShellToggles
   m_TagString: Untagged
@@ -2145,7 +2160,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &1692622586708065927
+--- !u!114 &4425665985785509351
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2154,7 +2169,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6189754800992611690}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
+  m_Script: {fileID: 11500000, guid: bd31b8e8b322a484aa00e2509d85691d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_AllowSwitchOff: 1
@@ -2239,7 +2254,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6089590186100092518}
   toggleTransition: 1
   graphic: {fileID: 8100847901346972167}
-  m_Group: {fileID: 1692622586708065927}
+  m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
