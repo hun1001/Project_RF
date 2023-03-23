@@ -7,10 +7,11 @@ using Util;
 public class Player : CustomObject
 {
     [SerializeField]
-    private Joystick _moveJoystick = null;
+    private ControllerCanvas _controllerCanvas = null;
 
-    [SerializeField]
-    private Joystick _attackJoystick = null;
+    private Joystick _moveJoystick => _controllerCanvas.MoveJoystick;
+    private Joystick _attackJoystick => _controllerCanvas.AttackJoystick;
+
 
     [SerializeField]
     private CameraManager _cameraManager = null;
@@ -37,7 +38,6 @@ public class Player : CustomObject
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction((a) => _cameraManager.CameraShake(5f, 8, 0.2f));
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDeathAction(() =>
         {
-            Debug.Log("Player Death");
             Time.timeScale = 0;
 
             StartCoroutine(Change());

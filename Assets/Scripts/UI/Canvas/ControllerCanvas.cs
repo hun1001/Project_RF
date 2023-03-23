@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ControllerCanvas : MonoBehaviour
+public class ControllerCanvas : BaseCanvas
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private Joystick _moveJoystick = null;
+    public Joystick MoveJoystick => _moveJoystick;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField]
+    private Joystick _attackJoystick = null;
+    public Joystick AttackJoystick => _attackJoystick;
+
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemCanvas : MonoBehaviour
+public class ItemCanvas : BaseCanvas
 {
     private Canvas _canvas;
 
