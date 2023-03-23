@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Custom;
 using UnityEngine;
 
 public class ControllerCanvas : BaseCanvas

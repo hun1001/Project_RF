@@ -14,10 +14,9 @@ public class Player : CustomObject
 
 
     [SerializeField]
-    private CameraManager _cameraManager = null;
-
-    [SerializeField]
     private Bar _hpBar = null;
+
+    private CameraManager _cameraManager = null;
 
     private Tank _tank = null;
     public Tank Tank => _tank;
@@ -25,6 +24,7 @@ public class Player : CustomObject
     protected override void Awake()
     {
         base.Awake();
+        _cameraManager = Camera.main.GetComponent<CameraManager>();
 
         _tank = PoolManager.Get<Tank>("T-44").SetGroupType(GroupType.Player);
         _tank.tag = "Player";
