@@ -11,7 +11,7 @@ public class AI : CustomObject
 
     private void Start()
     {
-        _tank = PoolManager.Get<Tank>("T-44", transform.position, transform.rotation);
+        _tank = PoolManager.Get<Tank>("T-44", transform.position, transform.rotation).SetGroupType(GroupType.Enemy);
         EventManager.DeleteEvent(_tank.gameObject.GetInstanceID().ToString());
         EventManager.StartListening(_tank.gameObject.GetInstanceID().ToString(), () =>
         {

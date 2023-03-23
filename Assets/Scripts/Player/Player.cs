@@ -25,7 +25,7 @@ public class Player : CustomObject
     {
         base.Awake();
 
-        _tank = PoolManager.Get<Tank>("T-44");
+        _tank = PoolManager.Get<Tank>("T-44").SetGroupType(GroupType.Player);
         _tank.tag = "Player";
 
         _cameraManager.SetPlayer(_tank.transform);
