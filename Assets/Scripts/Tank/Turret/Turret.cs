@@ -6,7 +6,9 @@ public class Turret : MonoBehaviour
 {
     [SerializeField]
     private TurretSO _turretStatSO = null;
-    public TurretSO TurretSO => _turretStatSO;
+
+    private TurretSO _thisTurretSO = null;
+    public TurretSO TurretSO => _thisTurretSO;
 
     [SerializeField]
     private SoundBoxSO _turretSound = null;
@@ -26,6 +28,7 @@ public class Turret : MonoBehaviour
         {
             _turretComponents.Add(component.ComponentType, component);
         }
+        _thisTurretSO = _turretStatSO.Clone();
     }
 
     private Dictionary<ComponentType, Turret_Component> _turretComponents = new Dictionary<ComponentType, Turret_Component>();

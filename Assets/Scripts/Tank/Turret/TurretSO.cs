@@ -8,4 +8,6 @@ public class TurretSO : ScriptableObject
     public float Power;
     public float RotationSpeed;
     public float ReloadTime;
+
+    public TurretSO Clone() => Instantiate(this);
 }

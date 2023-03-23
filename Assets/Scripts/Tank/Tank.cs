@@ -7,7 +7,9 @@ public class Tank : CustomObject
 {
     [SerializeField]
     private TankSO _tankSO = null;
-    public TankSO TankSO => _tankSO;
+
+    private TankSO _thisTankSO = null;
+    public TankSO TankSO => _thisTankSO;
 
     [SerializeField]
     private SoundBoxSO _tankSound = null;
@@ -29,5 +31,6 @@ public class Tank : CustomObject
     {
         base.Awake();
         _turret = GetComponent<Turret>();
+        _thisTankSO = _tankSO.Clone();
     }
 }

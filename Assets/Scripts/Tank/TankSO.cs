@@ -11,4 +11,6 @@ public class TankSO : ScriptableObject
     public float Acceleration;
     public float RotationSpeed;
     public TankType TankType;
+
+    public TankSO Clone() => Instantiate(this);
 }
