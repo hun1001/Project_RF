@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public abstract class BaseCanvas : MonoBehaviour
+public abstract class BaseSceneCanvasManager : MonoBehaviour
 {
 
 }
