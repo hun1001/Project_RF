@@ -32,4 +32,5 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
         }
         return null;
     }
+
 }
