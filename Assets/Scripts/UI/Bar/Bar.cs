@@ -76,11 +76,12 @@ public class Bar : MonoBehaviour, IPoolReset
 
         _isChangingBeforeBar = true;
         yield return new WaitForSeconds(_animationStartDelay);
-        while (_beforeValueImage.fillAmount > _valueImage.fillAmount)
-        {
-            _beforeValueImage.fillAmount -= 0.001f;
-            yield return new WaitForSeconds(_animationNextMoveDelay);
-        }
+        // while (_beforeValueImage.fillAmount > _valueImage.fillAmount)
+        // {
+        //     _beforeValueImage.fillAmount -= 0.001f;
+        //     yield return new WaitForSeconds(_animationNextMoveDelay);
+        // }
+        _beforeValueImage.fillAmount = _valueImage.fillAmount;
         _isChangingBeforeBar = false;
     }
 }
