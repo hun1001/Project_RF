@@ -21,9 +21,4 @@ public abstract class BaseCanvas : MonoBehaviour
             return _canvas;
         }
     }
-
-    public void DisableCanvas()
-    {
-        Canvas.enabled = false;
-    }
 }

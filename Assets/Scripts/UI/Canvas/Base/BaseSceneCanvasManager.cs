@@ -20,14 +20,16 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
     {
         foreach (var canvas in _canvasDictionary)
         {
-            if (canvas.Key == canvasType)
-            {
-
-            }
-            else
-            {
-
-            }
+            canvas.Value.Canvas.enabled = canvas.Key == canvasType;
         }
+    }
+
+    public BaseCanvas GetCanvas(CanvasType canvasType)
+    {
+        if (_canvasDictionary.ContainsKey(canvasType))
+        {
+            return _canvasDictionary[canvasType];
+        }
+        return null;
     }
 }

@@ -6,17 +6,11 @@ public class GameSceneCanvasManager : BaseSceneCanvasManager
 {
     public override void ChangeCanvas(CanvasType canvasType)
     {
-        switch (canvasType)
+        base.ChangeCanvas(canvasType);
+        if (canvasType != CanvasType.Item)
         {
-            case CanvasType.Controller:
-                break;
-            case CanvasType.Item:
-                break;
-            case CanvasType.Information:
-                break;
-            default:
-                Debug.LogError("CanvasType is not defined");
-                break;
+            Time.timeScale = 1f;
+            GetCanvas(CanvasType.Controller).Canvas.enabled = GetCanvas(CanvasType.Information).Canvas.enabled = true;
         }
     }
 }

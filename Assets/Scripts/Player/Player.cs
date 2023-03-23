@@ -12,9 +12,10 @@ public class Player : CustomObject
     private Joystick _moveJoystick => _controllerCanvas.MoveJoystick;
     private Joystick _attackJoystick => _controllerCanvas.AttackJoystick;
 
-
     [SerializeField]
-    private Bar _hpBar = null;
+    private InformationCanvas _informationCanvas = null;
+
+    private Bar _hpBar => _informationCanvas.HpBar;
 
     private CameraManager _cameraManager = null;
 
