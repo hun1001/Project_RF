@@ -15,4 +15,19 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
             _canvasDictionary.Add(canvas.CanvasType, canvas);
         }
     }
+
+    public virtual void ChangeCanvas(CanvasType canvasType)
+    {
+        foreach (var canvas in _canvasDictionary)
+        {
+            if (canvas.Key == canvasType)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+    }
 }
