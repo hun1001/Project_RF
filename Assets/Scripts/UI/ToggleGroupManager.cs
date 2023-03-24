@@ -1,5 +1,6 @@
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine;
 
 public class ToggleGroupManager : ToggleGroup
 {
@@ -10,10 +11,10 @@ public class ToggleGroupManager : ToggleGroup
         _templateToggle ??= transform.GetChild(0).GetComponent<Toggle>();
         _templateToggle.gameObject.SetActive(false);
 
+        Toggle toggle = null;
+
         for (int i = 0; i < toggleText.Length; ++i)
         {
-            Toggle toggle = null;
-
             toggle = Instantiate(_templateToggle, transform);
             toggle.gameObject.SetActive(true);
 

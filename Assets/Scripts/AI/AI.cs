@@ -22,6 +22,7 @@ public class AI : CustomObject
                 GameWay_Base.Instance.StageClear();
             }
         });
+        _tank.Turret.CurrentShell = PoolManager.Get<Shell>("APHE", false);
         _target = FindObjectOfType<Player>().Tank.transform;
     }
 

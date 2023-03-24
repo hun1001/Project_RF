@@ -22,6 +22,13 @@ public class Turret : MonoBehaviour
     private Transform _firePoint = null;
     public Transform FirePoint => _firePoint;
 
+    private Shell _currentShell = null;
+    public Shell CurrentShell
+    {
+        get => _currentShell;
+        set => _currentShell = value;
+    }
+
     private void Awake()
     {
         foreach (var component in GetComponents<Turret_Component>())
