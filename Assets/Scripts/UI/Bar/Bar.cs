@@ -9,9 +9,6 @@ public class Bar : MonoBehaviour, IPoolReset
     [SerializeField]
     private float _animationStartDelay = 0f;
 
-    [SerializeField]
-    private float _animationNextMoveDelay = 0f;
-
     private bool _isSetting = false;
 
     [Header("UI")]
@@ -76,11 +73,7 @@ public class Bar : MonoBehaviour, IPoolReset
 
         _isChangingBeforeBar = true;
         yield return new WaitForSeconds(_animationStartDelay);
-        // while (_beforeValueImage.fillAmount > _valueImage.fillAmount)
-        // {
-        //     _beforeValueImage.fillAmount -= 0.001f;
-        //     yield return new WaitForSeconds(_animationNextMoveDelay);
-        // }
+
         _beforeValueImage.fillAmount = _valueImage.fillAmount;
         _isChangingBeforeBar = false;
     }
