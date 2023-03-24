@@ -41,7 +41,6 @@ public class Player : CustomObject
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDeathAction(() =>
         {
             Time.timeScale = 0;
-
             StartCoroutine(Change());
         });
 

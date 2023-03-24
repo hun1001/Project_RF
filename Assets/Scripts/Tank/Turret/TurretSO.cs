@@ -9,5 +9,7 @@ public class TurretSO : ScriptableObject
     public float RotationSpeed;
     public float ReloadTime;
 
+    public List<Shell> Shells;
+
     public TurretSO Clone() => Instantiate(this);
 }
