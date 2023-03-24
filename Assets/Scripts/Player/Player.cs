@@ -57,6 +57,8 @@ public class Player : CustomObject
             StartCoroutine(Change());
         });
 
+        _tank.Turret.CurrentShellID = "APHE";
+
         _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() => _cameraManager.CameraZoomInEffect(5f, 0.1f, 0.1f));
     }
 
