@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ToggleGroupManager : ToggleGroup
 {
-    private static Toggle _templateToggle = null;
+    private Toggle _templateToggle = null;
 
     public void SetToggleGroup(string[] toggleText, UnityAction<bool>[] onValueChanged, int onIndex = 0)
     {
