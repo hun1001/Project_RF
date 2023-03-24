@@ -5,6 +5,7 @@ using UnityEngine;
 public class Tank_Rotate : Tank_Component
 {
     private Vector3 _direction = Vector3.zero;
+    private float _rotationSpeed => (Instance as Tank).TankData.RotationSpeed;
 
     public void Rotate(Vector2 direction)
     {
@@ -15,7 +16,9 @@ public class Tank_Rotate : Tank_Component
             _direction.z = direction.y;
 
             Quaternion targetRotation = Quaternion.LookRotation(_direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, targetRotation.eulerAngles.y), (Instance as Tank).TankData.RotationSpeed * Time.deltaTime);
+            float rotationTime = 1f / (_rotationSpeed / 360f);
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, targetRotation.eulerAngles.y), Time.deltaTime / rotationTime);
         }
     }
 }
