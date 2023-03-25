@@ -23,7 +23,6 @@ public class Shell_Collision : Shell_Component
             }
         }
 
-
         collision.GetComponent<Tank_Damage>().Damaged((Instance as Shell).Damage, (Instance as Shell).Penetration);
         PoolManager.Get("Explosion_APHE_01", transform.position, transform.rotation);
         PoolManager.Pool(Instance.ID, gameObject);

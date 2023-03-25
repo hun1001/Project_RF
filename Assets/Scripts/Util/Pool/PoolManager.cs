@@ -62,6 +62,7 @@ namespace Pool
             }
 
             obj.SetActive(false);
+            obj.transform.SetParent(null);
             _pool[name].Enqueue(obj);
         }
 
