@@ -15,8 +15,17 @@ public class Turret_AimLine : Turret_Component
 
     private void Update()
     {
-        // TODO : 사용중인 총알 가져와서 거리 계산하기 속도 * 2f
+        // TODO : 총알 존재 시간 2f -> 총알 속도 * 총알 존재 시간
         _lineRenderer.SetPosition(0, Turret.FirePoint.position);
-        _lineRenderer.SetPosition(1, Turret.FirePoint.position + Turret.FirePoint.up * Turret.CurrentShell.Speed * 2f);
+
+        var rayData = Physics2D.Raycast(Turret.FirePoint.position, Turret.FirePoint.up, Turret.CurrentShell.Speed * 2f);
+        if (rayData.collider != null)
+        {
+            _lineRenderer.SetPosition(1, rayData.point);
+        }
+        else
+        {
+            _lineRenderer.SetPosition(1, Turret.FirePoint.position + Turret.FirePoint.up * Turret.CurrentShell.Speed * 2f);
+        }
     }
 }
