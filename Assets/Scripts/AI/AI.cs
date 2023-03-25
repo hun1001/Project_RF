@@ -26,6 +26,13 @@ public class AI : CustomObject
         _target = FindObjectOfType<Player>().Tank.transform;
     }
 
+    public enum AIStateEnum
+    {
+        Move,
+        Zoom,
+
+    }
+
     private void Update()
     {
         if (_target == null)
