@@ -22,11 +22,11 @@ public class Turret : MonoBehaviour
     private Transform _firePoint = null;
     public Transform FirePoint => _firePoint;
 
-    private string _currentShellID = null;
-    public string CurrentShellID
+    private Shell _currentShell = null;
+    public Shell CurrentShell
     {
-        get => _currentShellID;
-        set => _currentShellID = value;
+        get => _currentShell;
+        set => _currentShell = value;
     }
 
     private void Awake()
