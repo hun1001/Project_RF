@@ -44,7 +44,13 @@ public class Player : CustomObject
         {
             int index = i;
             shellName[index] = _tank.Turret.TurretData.Shells[index].ID;
-            shellAction[index] = (_isOn) => ToggleChangeShellEvent(_isOn, _tank.Turret.TurretData.Shells[index]);
+            shellAction[index] = (_isOn) =>
+            {
+                if (_isOn)
+                {
+                    _tank.Turret.CurrentShell = _tank.Turret.TurretData.Shells[index];
+                }
+            };
         }
 
         _controllerCanvas.ToggleGroup.SetToggleGroup(shellName, shellAction);
@@ -73,13 +79,5 @@ public class Player : CustomObject
         yield return new WaitForSecondsRealtime(3f);
         UnityEngine.SceneManagement.SceneManager.LoadScene("MenuScene");
         Time.timeScale = 1;
-    }
-
-    private void ToggleChangeShellEvent(bool isOn, Shell shell)
-    {
-        if (isOn)
-        {
-            _tank.Turret.CurrentShell = shell;
-        }
     }
 }
