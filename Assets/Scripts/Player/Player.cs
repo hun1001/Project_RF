@@ -42,8 +42,9 @@ public class Player : CustomObject
 
         for (int i = 0; i < shellCnt; i++)
         {
-            shellName[i] = _tank.Turret.TurretData.Shells[i].ID;
-            shellAction[i] = (_isOn) => ToggleChangeShellEvent(_isOn, i);
+            int index = i;
+            shellName[index] = _tank.Turret.TurretData.Shells[index].ID;
+            shellAction[index] = (_isOn) => ToggleChangeShellEvent(_isOn, _tank.Turret.TurretData.Shells[index]);
         }
 
         _controllerCanvas.ToggleGroup.SetToggleGroup(shellName, shellAction);
@@ -76,8 +77,11 @@ public class Player : CustomObject
         Time.timeScale = 1;
     }
 
-    private void ToggleChangeShellEvent(bool isOn, int shellIndex)
+    private void ToggleChangeShellEvent(bool isOn, Shell shell)
     {
-        Debug.Log(shellIndex);
+        if (isOn)
+        {
+            _tank.Turret.CurrentShellID = shell.ID;
+        }
     }
 }
