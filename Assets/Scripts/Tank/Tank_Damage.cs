@@ -16,7 +16,7 @@ public class Tank_Damage : Tank_Component
     private Action _onDeathAction = null;
     public void AddOnDeathAction(Action action) => _onDeathAction += action;
 
-    private void OnEnable()
+    private void Start()
     {
         _maxHealth = (Instance as Tank).TankData.HP;
         _currentHealth = _maxHealth;

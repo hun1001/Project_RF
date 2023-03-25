@@ -36,6 +36,7 @@ public class Turret : MonoBehaviour
             _turretComponents.Add(component.ComponentType, component);
         }
         _thisTurretSO = _turretStatSO.Clone();
+        CurrentShell = _thisTurretSO.Shells[0];
     }
 
     private Dictionary<ComponentType, Turret_Component> _turretComponents = new Dictionary<ComponentType, Turret_Component>();
