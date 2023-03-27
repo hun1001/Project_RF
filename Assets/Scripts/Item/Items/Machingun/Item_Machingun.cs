@@ -47,7 +47,7 @@ public abstract class Item_Machingun : Item.Item_Base
         Transform enemy;
         float nearDist;
         Transform target;
-        Vector2 dirToTarget;
+        Vector3 dirToTarget;
         float dist;
         Vector2 directionV2;
         Vector3 directionV3;
@@ -72,7 +72,7 @@ public abstract class Item_Machingun : Item.Item_Base
 
                 // FOV
                 // 머신건과 적 사이에 플레이어가 있으면 플레이어가 맞기에 시야각을 설정함
-                if (Vector2.Angle(transform.forward, dirToTarget.normalized) < _angle / 2)
+                if (Vector3.Angle(transform.forward, dirToTarget.normalized) < _angle / 2)
                 {
                     // 가장 가까운 적을 때리기 위해
                     dist = dirToTarget.sqrMagnitude;

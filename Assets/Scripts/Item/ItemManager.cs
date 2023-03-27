@@ -57,6 +57,7 @@ namespace Item
             _itemCanvas.enabled = true;
             Time.timeScale = 0f;
             _showingItemList.Clear();
+            _itemCnt = 0;
             Item_Base item;
             for(int i = 0; i < 3; i++)
             {
@@ -125,7 +126,6 @@ namespace Item
                 if(_itemCnt++ > 1)
                 {
                     _itemCanvas.enabled = false;
-                    _itemCnt = 0;
                 }
 
                 obj.SetActive(false);
