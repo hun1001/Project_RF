@@ -20,11 +20,21 @@ public class MinimapSprite : MonoBehaviour
     private void Start()
     {
         _minimapCam = FindObjectOfType<MinimapCameraManager>();
+
+        if (_parent.CompareTag("Player"))
+        {
+            _spriteRenderer.color = Color.green;
+        }
+        else
+        {
+            _spriteRenderer.color = Color.red;
+            StartCoroutine(CheckVisible());
+        }
     }
 
-    private void Update()
+    private IEnumerator CheckVisible()
     {
-        if (_parent.CompareTag("Player") == false)
+        while (true)
         {
             if (_spriteRenderer.isVisible == false)
             {
@@ -39,6 +49,8 @@ public class MinimapSprite : MonoBehaviour
                 PoolManager.Pool("Indicator", _indicator.gameObject);
                 _indicator = null;
             }
+
+            yield return null;
         }
     }
 }
