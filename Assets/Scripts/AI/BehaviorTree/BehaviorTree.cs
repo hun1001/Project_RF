@@ -14,6 +14,6 @@ public class BehaviorTree
 
     public void Execute()
     {
-        _root.Execute();
+        _nodeStack.Push(_root);
     }
 }
