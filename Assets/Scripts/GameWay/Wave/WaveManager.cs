@@ -1,11 +1,4 @@
 ﻿using Item;
-using Stage;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.VFX;
-using Util;
 
 public class WaveManager : GameWay_Base
 {
