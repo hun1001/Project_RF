@@ -18,7 +18,7 @@ public class MinimapCameraManager : MonoBehaviour
     private void Start()
     {
         TryGetComponent(out _cam);
-        _size = new Vector2(_cam.orthographicSize, _cam.orthographicSize * _cam.aspect);
+        _size = new Vector2(_cam.orthographicSize - 7.5f, _cam.orthographicSize * _cam.aspect - 7.5f);
     }
 
     void Update()
@@ -29,7 +29,7 @@ public class MinimapCameraManager : MonoBehaviour
     public void ShowBorderIndicator(Transform target, Transform indicator)
     {
         _position = target.position;
-        _distance = new Vector3(transform.position.x - _position.x, transform.position.z - _position.z);
+        _distance = new Vector2(transform.position.x - _position.x, transform.position.y - _position.y);
 
         _distance = Quaternion.Euler(0, 0, target.eulerAngles.y) * _distance;
 
@@ -37,14 +37,15 @@ public class MinimapCameraManager : MonoBehaviour
         if (Mathf.Abs(_distance.x) > Mathf.Abs(_distance.y))
         {
             _reciprocal = Mathf.Abs(_size.x / _distance.x);
-            _rotation = (_distance.x > 0) ? 90 : -90;
+            //_rotation = (_distance.x > 0) ? -90 : 90;
         }
         // Y axis
         else
         {
             _reciprocal = Mathf.Abs(_size.y / _distance.y);
-            _rotation = (_distance.y > 0) ? 180 : 0;
+            //_rotation = (_distance.y > 0) ? 0 : 180;
         }
+        _rotation = Mathf.Atan2(transform.position.y - _position.y, transform.position.x - _position.x) * Mathf.Rad2Deg - 90f;
 
         indicator.localPosition = new Vector3(_distance.x * -_reciprocal, _distance.y * -_reciprocal, 1);
         indicator.localEulerAngles = new Vector3(0, 0, _rotation);

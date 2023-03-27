@@ -11,7 +11,7 @@ public class WaveManager : GameWay_Base
 {
     private int _repeatCnt = 0;
 
-    private void Awake()
+    private void Start()
     {
         _currentMap = RandomMapSelect();
         MapCreation();
