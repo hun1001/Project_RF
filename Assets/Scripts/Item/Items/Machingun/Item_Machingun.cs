@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Item_Machingun : Item.Item_Base
+public class Item_Machingun : Item.Item_Base
 {
     [SerializeField]
     protected float[] _upgradeDamages;
@@ -32,7 +32,10 @@ public abstract class Item_Machingun : Item.Item_Base
     }
 
     /// <summary> 머신건의 로컬 좌표와 방향을 설정하는 함수 </summary>
-    protected abstract void SetPosAndRot();
+    protected virtual void SetPosAndRot()
+    {
+        transform.forward = transform.position - _parent.position;
+    }
 
     protected override void UpgradeItem()
     {
