@@ -16,8 +16,11 @@ public abstract class Item_Machingun : Item.Item_Base
     private float _range = 40f;
     private int _layerMask = 0;
 
+    protected Transform _parent = null;
+
     protected override void CreateItem()
     {
+        _parent = transform.parent;
         SetPosAndRot();
 
         _currentDamage = _upgradeDamages[0];
