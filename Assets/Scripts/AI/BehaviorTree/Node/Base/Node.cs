@@ -3,6 +3,7 @@ using System.Collections.Generic;
 public abstract class Node
 {
     protected List<Node> _children = new List<Node>();
+    public List<Node> Children => _children;
 
     public Node() { }
 

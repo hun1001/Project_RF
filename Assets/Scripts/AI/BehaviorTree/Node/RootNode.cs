@@ -6,6 +6,6 @@ public class RootNode : Node
 {
     public override NodeStateType Execute()
     {
-        return NodeStateType.SUCCESS;
+        return _children[0].Execute();
     }
 }
