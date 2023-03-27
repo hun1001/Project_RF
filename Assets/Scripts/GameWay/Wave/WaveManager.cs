@@ -1,17 +1,10 @@
 ﻿using Item;
-using Stage;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.VFX;
-using Util;
 
 public class WaveManager : GameWay_Base
 {
     private int _repeatCnt = 0;
 
-    private void Awake()
+    private void Start()
     {
         _currentMap = RandomMapSelect();
         MapCreation();

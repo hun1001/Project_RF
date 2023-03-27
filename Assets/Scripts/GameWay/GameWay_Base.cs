@@ -1,10 +1,7 @@
 ﻿using Map;
 using Pool;
 using Stage;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Event;
 using Util;
 
 public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
