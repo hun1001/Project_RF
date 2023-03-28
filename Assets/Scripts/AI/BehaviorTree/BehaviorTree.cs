@@ -19,10 +19,9 @@ public class BehaviorTree
         {
             Node node = _nodeStack.Pop();
 
-            var state = node.Execute();
-
-            if (node.IsLeaf() == true)
+            if (node.IsLeaf())
             {
+                node.Execute();
                 continue;
             }
 
