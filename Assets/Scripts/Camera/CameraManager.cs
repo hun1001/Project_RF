@@ -35,6 +35,8 @@ public class CameraManager : MonoBehaviour
         yield return new WaitForSeconds(d);
 
         cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = cinemachineBasicMultiChannelPerlin.m_FrequencyGain = 0;
+        _virtualCamera.transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
     }
 
     public void CameraZoomInEffect(float zoom, float delay, float duration)
