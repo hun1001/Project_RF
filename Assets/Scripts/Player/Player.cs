@@ -28,8 +28,8 @@ public class Player : CustomObject
         _cameraManager = Camera.main.GetComponent<CameraManager>();
 
         _tank = PoolManager.Get<Tank>("T-44").SetTank(GroupType.Player);
-        PoolManager.Get("MinimapCamera", _tank.transform);
         _tank.tag = "Player";
+        PoolManager.Get("MinimapCamera", _tank.transform);
 
         _cameraManager.SetPlayer(_tank.transform);
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);

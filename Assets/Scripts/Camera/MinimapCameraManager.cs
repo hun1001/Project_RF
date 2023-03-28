@@ -12,8 +12,7 @@ public class MinimapCameraManager : MonoBehaviour
     /// <summary>  적의 포지션  </summary>
     private Vector3 _targetPosition = Vector3.zero;
 
-
-    private void Start()
+    private void Awake()
     {
         TryGetComponent(out _cam);
         _size = new Vector2(_cam.orthographicSize - 7.5f, _cam.orthographicSize * _cam.aspect - 7.5f);
