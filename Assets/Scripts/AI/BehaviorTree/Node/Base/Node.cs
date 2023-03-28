@@ -5,10 +5,7 @@ public abstract class Node
     protected List<Node> _children = new List<Node>();
     public List<Node> Children => _children;
 
-    public Node()
-    {
-
-    }
+    public Node() { }
 
     public abstract NodeStateType Execute();
 
