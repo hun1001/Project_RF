@@ -47,17 +47,17 @@ public class Tank_Move : Tank_Component
         BoxCollider2D boxCollider2D = GetComponent<BoxCollider2D>();
 
         var rayData = Physics2D.RaycastAll(transform.position, transform.up, boxCollider2D.offset.y + boxCollider2D.size.y / 2);
-        Debug.DrawRay(transform.position, transform.up * (boxCollider2D.offset.y + boxCollider2D.size.y / 2), Color.red);
+        Debug.Log(_currentSpeed);
 
         foreach (var ray in rayData)
         {
-            Debug.Log(ray.collider.gameObject.layer);
             if (ray.collider.gameObject.layer == LayerMask.NameToLayer("Wall") || (ray.collider.gameObject.layer == LayerMask.NameToLayer("Tank") && ray.collider.gameObject != gameObject))
             {
                 _currentSpeed = 0;
                 break;
             }
         }
+
 
         transform.Translate(Vector3.up * Time.deltaTime * _currentSpeed);
     }

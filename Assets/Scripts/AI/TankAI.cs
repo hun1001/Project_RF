@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pool;
+using Event;
 
 public class TankAI : MonoBehaviour
 {
@@ -13,6 +14,18 @@ public class TankAI : MonoBehaviour
     private void Start()
     {
         _tank = PoolManager.Get<Tank>("T-44", transform.position, transform.rotation).SetTank(GroupType.Enemy);
+
+        EventManager.DeleteEvent(_tank.gameObject.GetInstanceID().ToString());
+        EventManager.StartListening(_tank.gameObject.GetInstanceID().ToString(), () =>
+        {
+            GameWay_Base.Instance.RemainingEnemy--;
+            GoodsManager.AddGoods(GoodsType.GameGoods, 2);
+            EventManager.TriggerEvent("Recycling");
+            if (GameWay_Base.Instance.RemainingEnemy <= 0)
+            {
+                GameWay_Base.Instance.StageClear();
+            }
+        });
 
         RootNode rootNode = new RootNode();
         SequenceNode sequenceNode = new SequenceNode();
