@@ -25,8 +25,6 @@ public class BehaviorTree
                 continue;
             }
 
-
-
             for (int i = 0; i < node.Children.Count; ++i)
             {
                 _nodeStack.Push(node.Children[i]);

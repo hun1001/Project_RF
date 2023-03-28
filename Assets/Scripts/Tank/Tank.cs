@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FoW;
 
 [DisallowMultipleComponent]
 public class Tank : CustomObject
@@ -21,9 +22,12 @@ public class Tank : CustomObject
     private Turret _turret = null;
     public Turret Turret => _turret;
 
-    public Tank SetGroupType(GroupType groupType)
+    private FogOfWarUnit _fogOfWarUnit = null;
+
+    public Tank SetTank(GroupType groupType)
     {
         _groupType = groupType;
+        _fogOfWarUnit.team = (int)groupType;
         return this;
     }
 
@@ -31,6 +35,7 @@ public class Tank : CustomObject
     {
         base.Awake();
         _turret = GetComponent<Turret>();
+        _fogOfWarUnit = GetComponent<FogOfWarUnit>();
         _thisTankSO = _tankSO.Clone();
     }
 }

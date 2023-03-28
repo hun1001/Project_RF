@@ -12,7 +12,7 @@ public class TankAI : MonoBehaviour
 
     private void Start()
     {
-        _tank = PoolManager.Get<Tank>("T-44", transform.position, transform.rotation).SetGroupType(GroupType.Enemy);
+        _tank = PoolManager.Get<Tank>("T-44", transform.position, transform.rotation).SetTank(GroupType.Enemy);
 
         RootNode rootNode = new RootNode();
         SequenceNode sequenceNode = new SequenceNode();
