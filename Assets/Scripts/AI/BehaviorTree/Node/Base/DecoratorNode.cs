@@ -8,7 +8,7 @@ public abstract class DecoratorNode : Node
     private Func<bool> _condition;
     protected Func<bool> Condition => _condition;
 
-    public DecoratorNode(Func<bool> condition, Node parent) : base(parent)
+    public DecoratorNode(Func<bool> condition)
     {
         _condition = condition;
     }

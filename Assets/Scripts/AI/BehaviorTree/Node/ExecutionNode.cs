@@ -7,7 +7,7 @@ public class ExecutionNode : Node
 {
     private Action _action = null;
 
-    public ExecutionNode(Action action, Node parent) : base(parent)
+    public ExecutionNode(Action action)
     {
         _action = action;
     }

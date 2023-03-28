@@ -19,6 +19,12 @@ public class BehaviorTree
         {
             Node node = _nodeStack.Pop();
 
+            if (node.IsLeaf() == true)
+            {
+                node.Execute();
+                continue;
+            }
+
             for (int i = 0; i < node.Children.Count; ++i)
             {
                 _nodeStack.Push(node.Children[i]);
