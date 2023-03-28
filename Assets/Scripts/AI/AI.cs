@@ -17,6 +17,7 @@ public class AI : CustomObject
         {
             GameWay_Base.Instance.RemainingEnemy--;
             GoodsManager.AddGoods(GoodsType.GameGoods, 2);
+            EventManager.TriggerEvent("Recycling");
             if (GameWay_Base.Instance.RemainingEnemy <= 0)
             {
                 GameWay_Base.Instance.StageClear();
