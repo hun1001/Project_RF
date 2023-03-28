@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DecoratorNode : Node
+public abstract class ControlFlowNode : Node
 {
     public override NodeStateType Execute()
     {

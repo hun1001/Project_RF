@@ -18,9 +18,4 @@ public abstract class Node
     {
         return _children.Count == 0;
     }
-
-    public Node GetChildNode(int index)
-    {
-        return _children[index];
-    }
 }

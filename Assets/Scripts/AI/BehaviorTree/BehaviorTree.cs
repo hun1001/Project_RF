@@ -10,30 +10,26 @@ public class BehaviorTree
     public BehaviorTree(RootNode root)
     {
         this._root = root;
+        _nodeStack.Push(_root);
     }
 
     public void Execute()
     {
-        _nodeStack.Push(_root);
         while (_nodeStack.Count > 0)
         {
             Node node = _nodeStack.Pop();
-            NodeStateType nodeState = node.Execute();
-            if (nodeState == NodeStateType.RUNNING)
+
+            if (node.IsLeaf())
             {
-                _nodeStack.Push(node);
-                foreach (Node child in node.Children)
-                {
-                    _nodeStack.Push(child);
-                }
-            }
-            else if (nodeState == NodeStateType.FAILURE)
-            {
-                break;
-            }
-            else if (nodeState == NodeStateType.SUCCESS)
-            {
+                node.Execute();
                 continue;
+            }
+
+
+
+            for (int i = 0; i < node.Children.Count; ++i)
+            {
+                _nodeStack.Push(node.Children[i]);
             }
         }
     }
