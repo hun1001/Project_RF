@@ -2554,7 +2554,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4754041178466302995}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -2566,7 +2566,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &9084750365967611082
 MonoBehaviour:
@@ -2621,6 +2621,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvasType: 4
+  _frames:
+  - {fileID: 5003232329881995824}
+  - {fileID: 4460711683613982144}
+  _frameTexts:
+  - {fileID: 5552461985972944370}
+  - {fileID: 5095634530354673591}
 --- !u!1 &4820516025181314223
 GameObject:
   m_ObjectHideFlags: 0
@@ -3644,7 +3650,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 891710610599895892}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 49040023661099170}
+        m_TargetAssemblyTypeName: SettingCanvas, Assembly-CSharp
+        m_MethodName: OnHomeButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5893255177271548314
 GameObject:
   m_ObjectHideFlags: 0
@@ -4437,7 +4455,19 @@ MonoBehaviour:
   m_Group: {fileID: 8334828365554249946}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 49040023661099170}
+        m_TargetAssemblyTypeName: SettingCanvas, Assembly-CSharp
+        m_MethodName: OnChangeFrame
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &6968097651059356443
 GameObject:
@@ -5929,7 +5959,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7825036184359702867}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 49040023661099170}
+        m_TargetAssemblyTypeName: SettingCanvas, Assembly-CSharp
+        m_MethodName: OnBackButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8665916204192374381
 GameObject:
   m_ObjectHideFlags: 0
@@ -6089,7 +6131,19 @@ MonoBehaviour:
   m_Group: {fileID: 8334828365554249946}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 49040023661099170}
+        m_TargetAssemblyTypeName: SettingCanvas, Assembly-CSharp
+        m_MethodName: OnChangeFrame
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &8892189829560903901
 GameObject:
