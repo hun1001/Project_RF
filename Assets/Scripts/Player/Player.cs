@@ -57,7 +57,10 @@ public class Player : CustomObject
 
         // TODO : 연동이 잘 안되는 경우 존재 해결 필요
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction(_hpBar.ChangeValue);
-        _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction((a) => _cameraManager.CameraShake(5f, 8, 0.2f));
+        _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction((a) =>
+        {
+            if(a < 0) _cameraManager.CameraShake(5f, 8, 0.2f);
+        });
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDeathAction(() =>
         {
             Time.timeScale = 0;

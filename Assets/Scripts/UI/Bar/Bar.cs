@@ -52,6 +52,7 @@ public class Bar : MonoBehaviour, IPoolReset
     public void ChangeValue(float value)
     {
         _currentValue += value;
+        if(_currentValue > _maxValue) _currentValue = _maxValue;
         _valueImage.fillAmount = _currentValue / _maxValue;
 
         UpdateValueText();
@@ -61,7 +62,7 @@ public class Bar : MonoBehaviour, IPoolReset
 
     private void UpdateValueText()
     {
-        _valueText.text = $"{_currentValue} / {_maxValue}";
+        _valueText.text = string.Format("{0:0} / {1:0}", _currentValue, _maxValue);
     }
 
     private IEnumerator ChangeBeforeBarCoroutine()

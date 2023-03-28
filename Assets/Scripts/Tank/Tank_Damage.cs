@@ -45,4 +45,19 @@ public class Tank_Damage : Tank_Component
         EventManager.TriggerEvent(gameObject.GetInstanceID().ToString());
         _onDeathAction?.Invoke();
     }
+
+    public void Repair(float percent)
+    {
+        percent = percent * 0.01f;
+        percent = _maxHealth * percent;
+        if (_currentHealth + percent > _maxHealth)
+        {
+            _currentHealth = _maxHealth;
+        }
+        else
+        {
+            _currentHealth += percent;
+        }
+        _onDamageAction?.Invoke(percent);
+    }
 }
