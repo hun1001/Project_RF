@@ -1,4 +1,5 @@
 ﻿using Item;
+using Event;
 
 public class WaveManager : GameWay_Base
 {
@@ -30,6 +31,7 @@ public class WaveManager : GameWay_Base
             _repeatCnt++;
         }
 
+        EventManager.TriggerEvent("Clear");
         ItemManager.Instance.ItemPickUp();
         Spawn();
     }
