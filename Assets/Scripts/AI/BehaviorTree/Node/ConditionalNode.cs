@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConditionalNode : DecoratorNode
+public class ConditionalNode : INode
 {
-    public override bool Execute()
+    public bool Execute()
     {
         return true;
     }
