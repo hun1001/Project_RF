@@ -428,8 +428,16 @@ PrefabInstance:
       value: 4400
       objectReference: {fileID: 0}
     - target: {fileID: 7125051332291792591, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
+      propertyPath: threads
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7125051332291792591, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
       propertyPath: mapOffset.x
       value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7125051332291792591, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
+      propertyPath: multithreaded
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7125051332291792591, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
       propertyPath: mapResolution.x
@@ -825,83 +833,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &899502958
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7125051332291792584, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: m_RootOrder
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125051332291792584, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125051332291792584, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125051332291792584, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125051332291792584, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125051332291792584, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125051332291792584, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125051332291792584, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125051332291792584, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125051332291792584, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125051332291792584, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125051332291792590, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: m_Name
-      value: TeamGroup (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125051332291792591, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: team
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125051332291792591, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: mapSize
-      value: 4400
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125051332291792591, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: mapOffset.x
-      value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125051332291792591, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: mapResolution.x
-      value: 4400
-      objectReference: {fileID: 0}
-    - target: {fileID: 7125051332291792591, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
-      propertyPath: mapResolution.y
-      value: 4400
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 56a7a9834acbf204098e0c2e41440916, type: 3}
 --- !u!1 &962917553
 GameObject:
   m_ObjectHideFlags: 0
