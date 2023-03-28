@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParallelNode : Node
+public class ParallelNode : INode
 {
-    public override NodeStateType Execute()
+    public bool Execute()
     {
-        return NodeStateType.SUCCESS;
+        return true;
     }
 }

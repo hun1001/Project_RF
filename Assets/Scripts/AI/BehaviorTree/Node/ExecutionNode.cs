@@ -3,18 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExecutionNode : Node
+public class ExecutionNode : INode
 {
-    private Action _action = null;
-
-    public ExecutionNode(Action action)
+    public bool Execute()
     {
-        _action = action;
-    }
-
-    public override NodeStateType Execute()
-    {
-        _action?.Invoke();
-        return NodeStateType.SUCCESS;
+        return true;
     }
 }

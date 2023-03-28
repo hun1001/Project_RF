@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CompositeNode : Node
+public class CompositeNode : INode
 {
 
-    public override NodeStateType Execute()
+    public bool Execute()
     {
-        return NodeStateType.SUCCESS;
+        return true;
     }
 }

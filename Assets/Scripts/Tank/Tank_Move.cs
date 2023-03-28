@@ -44,12 +44,9 @@ public class Tank_Move : Tank_Component
             // }
         }
 
-        Debug.Log(_currentSpeed);
-
         BoxCollider2D boxCollider2D = GetComponent<BoxCollider2D>();
 
         var rayData = Physics2D.RaycastAll(transform.position, transform.up, boxCollider2D.offset.y + boxCollider2D.size.y / 2);
-        Debug.Log(_currentSpeed);
 
         foreach (var ray in rayData)
         {

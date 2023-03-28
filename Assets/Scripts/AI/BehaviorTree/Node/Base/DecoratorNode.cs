@@ -3,18 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class DecoratorNode : Node
+public abstract class DecoratorNode : INode
 {
-    private Func<bool> _condition;
-    protected Func<bool> Condition => _condition;
-
-    public DecoratorNode(Func<bool> condition)
+    public bool Execute()
     {
-        _condition = condition;
-    }
-
-    public override NodeStateType Execute()
-    {
-        return NodeStateType.SUCCESS;
+        return true;
     }
 }

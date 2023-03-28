@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ControlFlowNode : Node
+public abstract class ControlFlowNode : INode
 {
-    public override NodeStateType Execute()
+    public bool Execute()
     {
-        return NodeStateType.SUCCESS;
+        return true;
     }
 }

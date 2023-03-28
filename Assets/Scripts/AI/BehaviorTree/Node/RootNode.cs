@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RootNode : Node
+public class RootNode : INode
 {
-    public override NodeStateType Execute()
+    public bool Execute()
     {
-        return _children[0].Execute();
+        return true;
     }
 }
