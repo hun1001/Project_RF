@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class CompositeNode : INode
 {
-
-    public bool Execute()
+    public virtual NodeStateType Execute()
     {
-        return true;
+        return NodeStateType.SUCCESS;
     }
 }

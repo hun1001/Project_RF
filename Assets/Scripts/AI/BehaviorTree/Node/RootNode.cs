@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class RootNode : INode
 {
-    public bool Execute()
+    private readonly INode _child = null;
+
+    public RootNode(INode child) => _child = child;
+
+    public NodeStateType Execute()
     {
-        return true;
+        return _child.Execute();
     }
 }

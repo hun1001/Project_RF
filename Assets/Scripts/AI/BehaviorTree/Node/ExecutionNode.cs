@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class ExecutionNode : INode
 {
-    public bool Execute()
+    public NodeStateType Execute()
     {
-        return true;
+        return NodeStateType.SUCCESS;
     }
 }

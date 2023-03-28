@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WhileNode : INode
+public class WhileNode : DecoratorNode
 {
-    public bool Execute()
+    public override NodeStateType Execute()
     {
-        return true;
+        return NodeStateType.SUCCESS;
     }
 }

@@ -5,8 +5,8 @@ using UnityEngine;
 
 public abstract class DecoratorNode : INode
 {
-    public bool Execute()
+    public virtual NodeStateType Execute()
     {
-        return true;
+        return NodeStateType.SUCCESS;
     }
 }

@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SequenceNode : INode
+public class SequenceNode : CompositeNode
 {
-    public bool Execute()
+    public override NodeStateType Execute()
     {
-        return true;
+        return NodeStateType.SUCCESS;
     }
 }

@@ -59,7 +59,7 @@ public class Player : CustomObject
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction(_hpBar.ChangeValue);
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction((a) =>
         {
-            if(a < 0) _cameraManager.CameraShake(5f, 8, 0.2f);
+            if (a < 0) _cameraManager.CameraShake(5f, 8, 0.2f);
         });
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDeathAction(() =>
         {
@@ -67,7 +67,7 @@ public class Player : CustomObject
             StartCoroutine(Change());
         });
 
-        _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() => _cameraManager.CameraZoomInEffect(5f, 0.1f, 0.1f));
+        _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() => _cameraManager.CameraShake(4f, 6, 0.1f)); //_cameraManager.CameraZoomInEffect(5f, 0.1f, 0.1f));
     }
 
     void Update()

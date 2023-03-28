@@ -1,5 +1,5 @@
 
 public interface INode
 {
-    bool Execute();
+    NodeStateType Execute();
 }

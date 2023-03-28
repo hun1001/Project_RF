@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConditionalNode : INode
+public class ConditionalNode : DecoratorNode
 {
-    public bool Execute()
+    public override NodeStateType Execute()
     {
-        return true;
+        return NodeStateType.SUCCESS;
     }
 }
