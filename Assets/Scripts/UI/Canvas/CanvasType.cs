@@ -5,4 +5,5 @@ public enum CanvasType
     Controller,
     Information,
     Item,
+    Setting,
 }
