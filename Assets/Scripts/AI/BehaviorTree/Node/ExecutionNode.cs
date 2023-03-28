@@ -7,7 +7,10 @@ public class ExecutionNode : Node
 {
     private Action _action = null;
 
-    public ExecutionNode(Action action) => _action = action;
+    public ExecutionNode(Action action, Node parent) : base(parent)
+    {
+        _action = action;
+    }
 
     public override NodeStateType Execute()
     {

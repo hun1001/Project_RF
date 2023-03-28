@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ConditionalNode : DecoratorNode
 {
-    public ConditionalNode(Func<bool> condition) : base(condition)
+    public ConditionalNode(Func<bool> condition, Node parent) : base(condition, parent)
     {
 
     }

@@ -6,7 +6,7 @@ using Pool;
 public class TankAI : MonoBehaviour
 {
     private Tank _tank = null;
-    private Transform _target = null;
+    //private Transform _target = null;
 
     private BehaviorTree _behaviorTree = null;
 
@@ -14,12 +14,12 @@ public class TankAI : MonoBehaviour
     {
         _tank = PoolManager.Get<Tank>("T-44", transform.position, transform.rotation).SetTank(GroupType.Enemy);
 
-        RootNode rootNode = new RootNode();
-        SequenceNode sequenceNode = new SequenceNode();
+        // RootNode rootNode = new RootNode();
+        // SequenceNode sequenceNode = new SequenceNode();
 
-        rootNode.AddChild(sequenceNode);
+        // rootNode.AddChild(sequenceNode);
 
-        _behaviorTree = new BehaviorTree(rootNode);
+        // _behaviorTree = new BehaviorTree(rootNode);
 
 
     }

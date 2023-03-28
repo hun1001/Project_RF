@@ -2,10 +2,16 @@ using System.Collections.Generic;
 
 public abstract class Node
 {
+    private Node _parent = null;
+    public Node Parent => _parent;
+
     protected List<Node> _children = new List<Node>();
     public List<Node> Children => _children;
 
-    public Node() { }
+    public Node(Node parent)
+    {
+        _parent = parent;
+    }
 
     public abstract NodeStateType Execute();
 
