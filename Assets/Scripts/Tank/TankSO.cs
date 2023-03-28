@@ -7,7 +7,7 @@ public class TankSO : ScriptableObject
 {
     public float HP;
     public float Armour;
-    public float Speed;
+    public float MaxSpeed;
     public float Acceleration;
     public float RotationSpeed;
     public TankType TankType;

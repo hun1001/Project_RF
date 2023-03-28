@@ -39,13 +39,34 @@ public class TankAI : MonoBehaviour
         // 타겟을 향해 이동하는 노드
         ExecutionNode move2TargetNode = new ExecutionNode(() =>
         {
+            Vector3 direction = _target.position - _tank.transform.position;
+            direction.z = 0;
 
+            _tank.GetComponent<Tank_Move>(ComponentType.Move).Move(_tank.TankData.MaxSpeed);
+            _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(direction);
         });
 
         // 타겟을 향해 조준하는 노드
         ExecutionNode aim2TargetNode = new ExecutionNode(() =>
         {
+            Vector3 direction = _target.position - _tank.transform.position;
+            direction.z = 0;
 
+            _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(direction);
+        });
+
+        ConditionalNode checkTargetInAimNode = new ConditionalNode(() =>
+        {
+            var r = Physics2D.Raycast(_tank.transform.position, _tank.transform.up, _tank.Turret.CurrentShell.Speed * 2f, LayerMask.GetMask("Tank"));
+
+            if (r.collider != null)
+            {
+                if (r.collider.gameObject == _target.gameObject)
+                {
+                    return true;
+                }
+            }
+            return false;
         });
 
         // 타겟을 향해 발사하는 노드
@@ -56,6 +77,6 @@ public class TankAI : MonoBehaviour
 
         _behaviorTree = new BehaviorTree(rootNode);
 
-
+        _behaviorTree.Execute();
     }
 }

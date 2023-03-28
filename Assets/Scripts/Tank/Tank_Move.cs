@@ -11,7 +11,7 @@ public class Tank_Move : Tank_Component
 
     private void Start()
     {
-        _maxSpeed = (Instance as Tank).TankData.Speed;
+        _maxSpeed = (Instance as Tank).TankData.MaxSpeed;
         _acceleration = (Instance as Tank).TankData.Acceleration;
     }
 
