@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private Dictionary<GroupType, List<GameObject>> _spawnedUnits = new Dictionary<GroupType, List<GameObject>>();
 
-    // Update is called once per frame
-    void Update()
+    public void SpawnUnit(GameObject unit, Vector3 position, Quaternion rotation)
     {
-        
+
     }
 }
