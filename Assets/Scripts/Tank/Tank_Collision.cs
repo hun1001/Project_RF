@@ -4,5 +4,4 @@ using UnityEngine;
 
 public class Tank_Collision : Tank_Component
 {
-
 }

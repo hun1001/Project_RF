@@ -19,10 +19,26 @@ public class BehaviorTree
         {
             Node node = _nodeStack.Pop();
 
+            NodeStateType state = node.Execute();
+
             if (node.IsLeaf() == true)
             {
-                node.Execute();
                 continue;
+            }
+
+            if (node as DecoratorNode != null)
+            {
+
+            }
+
+            if (node as ControlFlowNode != null)
+            {
+
+            }
+
+            if (node as CompositeNode != null)
+            {
+
             }
 
             for (int i = 0; i < node.Children.Count; ++i)
