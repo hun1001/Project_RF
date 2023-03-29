@@ -50,8 +50,9 @@ public class SettingCanvas : BaseCanvas
     /// <summary> 메뉴씬으로 돌아가는 함수 </summary>
     public void OnHomeButton()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MenuScene");
         Time.timeScale = 1;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MenuScene");
+        Pool.PoolManager.DeleteAllPool();
     }
 
     /// <summary> 프레임 바꾸는 함수 </summary>

@@ -199,7 +199,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5384133845083431196}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1161041716000449652}
+        m_TargetAssemblyTypeName: MenuCanvas, Assembly-CSharp
+        m_MethodName: OnStartButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1523267837567660942
 GameObject:
   m_ObjectHideFlags: 0
@@ -1095,7 +1107,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9027064697191535770}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1161041716000449652}
+        m_TargetAssemblyTypeName: MenuCanvas, Assembly-CSharp
+        m_MethodName: OnModeButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4458038025564640750
 GameObject:
   m_ObjectHideFlags: 0
@@ -1900,6 +1924,7 @@ GameObject:
   - component: {fileID: 4519688075227164844}
   - component: {fileID: 900182417586133043}
   - component: {fileID: 512072702181570420}
+  - component: {fileID: 1161041716000449652}
   m_Layer: 0
   m_Name: MenuCanvas
   m_TagString: Untagged
@@ -1988,6 +2013,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1161041716000449652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7292973004925679683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cf1dee9860e19c4eb6de343381af7f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvasType: 5
 --- !u!1 &7945054755234638961
 GameObject:
   m_ObjectHideFlags: 0

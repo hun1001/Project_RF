@@ -6,4 +6,6 @@ public enum CanvasType
     Information,
     Item,
     Setting,
+    Menu,
+    Mode,
 }
