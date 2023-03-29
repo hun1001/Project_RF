@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pool;
 using Event;
-
 public class TankAI : MonoBehaviour
 {
     private Tank _tank = null;
@@ -101,6 +100,6 @@ public class TankAI : MonoBehaviour
 
     private void Update()
     {
-        _behaviorTree.Execute();
+        _behaviorTree.Tick();
     }
 }

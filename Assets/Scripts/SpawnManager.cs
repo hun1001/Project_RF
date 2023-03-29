@@ -1,10 +1,10 @@
-using System.Collections;
+using Util;
 using System.Collections.Generic;
 using UnityEngine;
 using Pool;
 using FoW;
 
-public class SpawnManager : MonoBehaviour
+public class SpawnManager : Singleton<SpawnManager>
 {
     private Dictionary<GroupType, List<CustomObject>> _spawnedUnits = new Dictionary<GroupType, List<CustomObject>>();
     private Dictionary<GroupType, FogOfWarTeam> _groupDictionary = new Dictionary<GroupType, FogOfWarTeam>();
@@ -26,11 +26,9 @@ public class SpawnManager : MonoBehaviour
 
         team.team = (int)groupType;
 
-        var data = FindObjectOfType<MapManager>().MapSO;
-
-        team.mapSize = data.MapSize;
-        team.mapResolution = data.MapResolution;
-        team.mapOffset = data.MapOffset;
+        // team.mapSize = data.MapSize;
+        // team.mapResolution = data.MapResolution;
+        // team.mapOffset = data.MapOffset;
 
         _groupDictionary.Add(groupType, team);
     }

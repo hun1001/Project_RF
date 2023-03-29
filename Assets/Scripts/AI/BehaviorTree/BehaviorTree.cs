@@ -11,7 +11,7 @@ public class BehaviorTree
         this._root = root;
     }
 
-    public void Execute()
+    public void Tick()
     {
         _root.Execute();
     }
