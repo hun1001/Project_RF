@@ -34,7 +34,6 @@ public class TankAI : MonoBehaviour
         ConditionalNode checkAroundTarget = null;
         ExecutionNode move2Target = null;
 
-        ConditionalNode checkTargetInSight = null;
         ExecutionNode aim2Target = null;
 
         ConditionalNode checkTargetInAim = null;
@@ -88,20 +87,7 @@ public class TankAI : MonoBehaviour
             return false;
         }, move2Target);
 
-        checkTargetInSight = new ConditionalNode(() =>
-        {
-            var r = Physics2D.Raycast(_tank.Turret.FirePoint.position, _tank.Turret.FirePoint.up, _tank.Turret.CurrentShell.Speed * 2f, LayerMask.GetMask("Tank"));
-            if (r.collider != null)
-            {
-                if (r.collider.GetComponent<Tank>().GroupType == GroupType.Player)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }, aim2Target);
-
-        sequenceNode = new SequenceNode(checkAroundTarget, checkTargetInSight, checkTargetInAim);
+        sequenceNode = new SequenceNode(checkAroundTarget, aim2Target, checkTargetInAim);
 
         whileNode = new WhileNode(() =>
         {
