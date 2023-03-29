@@ -28,8 +28,11 @@ public class SettingCanvas : BaseCanvas
         {
             if(Time.timeScale == 1f)
             {
-                Time.timeScale = 0f;
-                _isOpen = true;
+                if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
+                {
+                    Time.timeScale = 0f;
+                    _isOpen = true;
+                }
                 CanvasManager.ChangeCanvas(CanvasType.Setting);
             }
         }
@@ -42,9 +45,16 @@ public class SettingCanvas : BaseCanvas
     /// <summary> 설정창 닫는 함수 </summary>
     public void OnBackButton()
     {
-        Time.timeScale = 1f;
-        _isOpen = false;
-        CanvasManager.ChangeCanvas(CanvasType.Controller);
+        if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
+        {
+            CanvasManager.ChangeCanvas(CanvasType.Menu);
+        }
+        else if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
+        {
+            Time.timeScale = 1f;
+            _isOpen = false;
+            CanvasManager.ChangeCanvas(CanvasType.Controller);
+        }
     }
 
     /// <summary> 메뉴씬으로 돌아가는 함수 </summary>

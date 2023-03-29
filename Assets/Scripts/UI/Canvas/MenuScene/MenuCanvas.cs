@@ -17,6 +17,11 @@ public class MenuCanvas : BaseCanvas
         CanvasManager.ChangeCanvas(CanvasType.Mode);
     }
 
+    public void OnSettingButton()
+    {
+        CanvasManager.ChangeCanvas(CanvasType.Setting);
+    }
+
     public void OnShopButton()
     {
 
