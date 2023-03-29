@@ -13,7 +13,7 @@ public class ConditionalNode : DecoratorNode
     {
         if (Condition() == true)
         {
-            return NodeStateType.SUCCESS;
+            return _child.Execute();
         }
         else
         {

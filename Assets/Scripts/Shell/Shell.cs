@@ -6,6 +6,7 @@ public class Shell : CustomObject, IPoolReset
 {
     [SerializeField]
     private ShellSO _shellSO = null;
+    public ShellSO ShellSO => _shellSO;
 
     private CustomObject _owner = null;
     public CustomObject Owner => _owner;

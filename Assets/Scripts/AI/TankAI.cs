@@ -32,11 +32,9 @@ public class TankAI : MonoBehaviour
         SequenceNode sequenceNode = null;
 
         ConditionalNode checkAroundTarget = null;
-        WhileNode targetInSight = null;
         ExecutionNode move2Target = null;
 
         ConditionalNode checkTargetInSight = null;
-        WhileNode targetInAim = null;
         ExecutionNode aim2Target = null;
 
         ConditionalNode checkTargetInAim = null;
@@ -44,6 +42,7 @@ public class TankAI : MonoBehaviour
 
         move2Target = new ExecutionNode(() =>
         {
+            Debug.Log("move2Target");
             Vector3 direction = (_target.position - _tank.transform.position).normalized;
 
             _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(direction);
@@ -52,6 +51,7 @@ public class TankAI : MonoBehaviour
 
         aim2Target = new ExecutionNode(() =>
         {
+            Debug.Log("aim2Target");
             Vector3 direction = (_target.position - _tank.Turret.FirePoint.position).normalized;
 
             _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate).Rotate(direction);
@@ -59,38 +59,13 @@ public class TankAI : MonoBehaviour
 
         fire = new ExecutionNode(() =>
         {
+            Debug.Log("fire");
             _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire();
         });
 
-        targetInSight = new WhileNode(() =>
-        {
-            var c = Physics.OverlapSphere(_tank.transform.position, _tank.Turret.CurrentShell.Speed * 2f - 5f, LayerMask.GetMask("Tank"));
-            foreach (var item in c)
-            {
-                if (item.GetComponent<Tank>().GroupType == GroupType.Player)
-                {
-                    _target = item.transform;
-                    return true;
-                }
-            }
-            return false;
-        }, move2Target);
-
-        targetInAim = new WhileNode(() =>
-        {
-            var r = Physics2D.Raycast(_tank.Turret.FirePoint.position, _tank.Turret.FirePoint.up, _tank.Turret.CurrentShell.Speed * 2f, LayerMask.GetMask("Tank"));
-            if (r.collider != null)
-            {
-                if (r.collider.GetComponent<Tank>().GroupType == GroupType.Player)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }, aim2Target);
-
         checkTargetInAim = new ConditionalNode(() =>
         {
+            Debug.Log("checkTargetInAim");
             var r = Physics2D.Raycast(_tank.Turret.FirePoint.position, _tank.Turret.FirePoint.up, _tank.Turret.CurrentShell.Speed * 2f, LayerMask.GetMask("Tank"));
             if (r.collider != null)
             {
@@ -104,6 +79,7 @@ public class TankAI : MonoBehaviour
 
         checkAroundTarget = new ConditionalNode(() =>
         {
+            Debug.Log("checkAroundTarget");
             var c = Physics.OverlapSphere(_tank.transform.position, _tank.Turret.CurrentShell.Speed * 2f - 5f, LayerMask.GetMask("Tank"));
             foreach (var item in c)
             {
@@ -114,7 +90,7 @@ public class TankAI : MonoBehaviour
                 }
             }
             return false;
-        }, targetInSight);
+        }, move2Target);
 
         checkTargetInSight = new ConditionalNode(() =>
         {
@@ -127,9 +103,10 @@ public class TankAI : MonoBehaviour
                 }
             }
             return false;
-        }, targetInAim);
+        }, aim2Target);
 
         sequenceNode = new SequenceNode(checkAroundTarget, checkTargetInSight, checkTargetInAim);
+
         whileNode = new WhileNode(() =>
         {
             return true;
@@ -138,6 +115,10 @@ public class TankAI : MonoBehaviour
         rootNode = new RootNode(whileNode);
 
         _behaviorTree = new BehaviorTree(rootNode);
+    }
+
+    private void Update()
+    {
         _behaviorTree.Execute();
     }
 }

@@ -6,7 +6,7 @@ public class ToggleGroupManager : ToggleGroup
 {
     private Toggle _templateToggle = null;
 
-    public void SetToggleGroup(string[] toggleText, UnityAction<bool>[] onValueChanged, int onIndex = 0)
+    public void SetToggleGroup(string[] toggleText, Sprite[] s, UnityAction<bool>[] onValueChanged, int onIndex = 0)
     {
         _templateToggle ??= transform.GetChild(0).GetComponent<Toggle>();
         _templateToggle.gameObject.SetActive(false);
@@ -19,6 +19,7 @@ public class ToggleGroupManager : ToggleGroup
             toggle.gameObject.SetActive(true);
 
             toggle.transform.GetChild(1).GetComponent<Text>().text = toggleText[i];
+            toggle.transform.GetChild(0).GetComponent<Image>().sprite = s[i];
             toggle.onValueChanged.RemoveAllListeners();
             toggle.onValueChanged.AddListener(onValueChanged[i]);
             toggle.group = this;

@@ -11,6 +11,13 @@ public class WhileNode : DecoratorNode
 
     public override NodeStateType Execute()
     {
-        return NodeStateType.SUCCESS;
+        if (Condition())
+        {
+            return _child.Execute();
+        }
+        else
+        {
+            return NodeStateType.FAILURE;
+        }
     }
 }

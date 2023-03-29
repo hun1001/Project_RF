@@ -38,12 +38,14 @@ public class Player : CustomObject
         int shellCnt = _tank.Turret.TurretData.Shells.Count;
 
         string[] shellName = new string[shellCnt];
+        Sprite[] shellSprite = new Sprite[shellCnt];
         UnityAction<bool>[] shellAction = new UnityAction<bool>[shellCnt];
 
         for (int i = 0; i < shellCnt; i++)
         {
             int index = i;
             shellName[index] = _tank.Turret.TurretData.Shells[index].ID;
+            shellSprite[index] = _tank.Turret.TurretData.Shells[index].ShellSO.ShellSprite;
             shellAction[index] = (_isOn) =>
             {
                 if (_isOn)
@@ -53,7 +55,7 @@ public class Player : CustomObject
             };
         }
 
-        _controllerCanvas.ToggleGroup.SetToggleGroup(shellName, shellAction);
+        _controllerCanvas.ToggleGroup.SetToggleGroup(shellName, shellSprite, shellAction);
 
         // TODO : 연동이 잘 안되는 경우 존재 해결 필요
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction(_hpBar.ChangeValue);
