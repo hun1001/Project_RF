@@ -27,86 +27,117 @@ public class TankAI : MonoBehaviour
             }
         });
 
-        // RootNode rootNode = new RootNode();
-        // SequenceNode sequenceNode = new SequenceNode();
+        RootNode rootNode = null;
+        WhileNode whileNode = null;
+        SequenceNode sequenceNode = null;
 
-        // // 타겟이 살아있으면 타겟을 찾는 노드
-        // ExecutionNode findTargetNode = new ExecutionNode(() =>
-        // {
-        //     Debug.Log("findTargetNode");
-        //     _target = FindObjectOfType<Player>().Tank.transform;
-        // });
+        ConditionalNode checkAroundTarget = null;
+        WhileNode targetInSight = null;
+        ExecutionNode move2Target = null;
 
-        // // 타겟이 내 사정거리 안에 있는지 체크하는 노드(타겟이 내 사정거리 안에 있으면 false를 반환)
-        // ConditionalNode checkTargetInSightNode = new ConditionalNode(() =>
-        // {
-        //     Debug.Log("checkTargetInSightNode");
-        //     float tankDistance = _tank.Turret.CurrentShell.Speed * 2f;
+        ConditionalNode checkTargetInSight = null;
+        WhileNode targetInAim = null;
+        ExecutionNode aim2Target = null;
 
-        //     return !(Vector3.Distance(_tank.transform.position, _target.position) <= tankDistance);
-        // });
+        ConditionalNode checkTargetInAim = null;
+        ExecutionNode fire = null;
 
-        // // 타겟을 향해 이동하는 노드
-        // ExecutionNode move2TargetNode = new ExecutionNode(() =>
-        // {
-        //     Vector3 direction = _target.position - _tank.transform.position;
-        //     direction.z = 0;
+        move2Target = new ExecutionNode(() =>
+        {
+            Vector3 direction = (_target.position - _tank.transform.position).normalized;
 
-        //     Debug.Log("move2TargetNode");
+            _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(direction);
+            _tank.GetComponent<Tank_Move>(ComponentType.Move).Move(_tank.TankData.MaxSpeed);
+        });
 
-        //     _tank.GetComponent<Tank_Move>(ComponentType.Move).Move(_tank.TankData.MaxSpeed);
-        //     _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(direction);
-        // });
+        aim2Target = new ExecutionNode(() =>
+        {
+            Vector3 direction = (_target.position - _tank.Turret.FirePoint.position).normalized;
 
-        // // 타겟을 향해 조준하는 노드
-        // ExecutionNode aim2TargetNode = new ExecutionNode(() =>
-        // {
-        //     Vector3 direction = _target.position - _tank.transform.position;
-        //     direction.z = 0;
+            _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate).Rotate(direction);
+        });
 
-        //     Debug.Log("aim2TargetNode");
+        fire = new ExecutionNode(() =>
+        {
+            _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire();
+        });
 
-        //     _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(direction);
-        // });
+        targetInSight = new WhileNode(() =>
+        {
+            var c = Physics.OverlapSphere(_tank.transform.position, _tank.Turret.CurrentShell.Speed * 2f - 5f, LayerMask.GetMask("Tank"));
+            foreach (var item in c)
+            {
+                if (item.GetComponent<Tank>().GroupType == GroupType.Player)
+                {
+                    _target = item.transform;
+                    return true;
+                }
+            }
+            return false;
+        }, move2Target);
 
-        // ConditionalNode checkTargetInAimNode = new ConditionalNode(() =>
-        // {
-        //     var r = Physics2D.Raycast(_tank.transform.position, _tank.transform.up, _tank.Turret.CurrentShell.Speed * 2f, LayerMask.GetMask("Tank"));
+        targetInAim = new WhileNode(() =>
+        {
+            var r = Physics2D.Raycast(_tank.Turret.FirePoint.position, _tank.Turret.FirePoint.up, _tank.Turret.CurrentShell.Speed * 2f, LayerMask.GetMask("Tank"));
+            if (r.collider != null)
+            {
+                if (r.collider.GetComponent<Tank>().GroupType == GroupType.Player)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }, aim2Target);
 
-        //     Debug.Log("checkTargetInAimNode");
+        checkTargetInAim = new ConditionalNode(() =>
+        {
+            var r = Physics2D.Raycast(_tank.Turret.FirePoint.position, _tank.Turret.FirePoint.up, _tank.Turret.CurrentShell.Speed * 2f, LayerMask.GetMask("Tank"));
+            if (r.collider != null)
+            {
+                if (r.collider.GetComponent<Tank>().GroupType == GroupType.Player)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }, fire);
 
-        //     if (r.collider != null)
-        //     {
-        //         if (r.collider.gameObject == _target.gameObject)
-        //         {
-        //             return true;
-        //         }
-        //     }
-        //     return false;
-        // });
+        checkAroundTarget = new ConditionalNode(() =>
+        {
+            var c = Physics.OverlapSphere(_tank.transform.position, _tank.Turret.CurrentShell.Speed * 2f - 5f, LayerMask.GetMask("Tank"));
+            foreach (var item in c)
+            {
+                if (item.GetComponent<Tank>().GroupType == GroupType.Player)
+                {
+                    _target = item.transform;
+                    return true;
+                }
+            }
+            return false;
+        }, targetInSight);
 
-        // // 타겟을 향해 발사하는 노드
-        // ExecutionNode fireNode = new ExecutionNode(() =>
-        // {
-        //     Debug.Log("fireNode");
-        //     _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire();
-        // });
+        checkTargetInSight = new ConditionalNode(() =>
+        {
+            var r = Physics2D.Raycast(_tank.Turret.FirePoint.position, _tank.Turret.FirePoint.up, _tank.Turret.CurrentShell.Speed * 2f, LayerMask.GetMask("Tank"));
+            if (r.collider != null)
+            {
+                if (r.collider.GetComponent<Tank>().GroupType == GroupType.Player)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }, targetInAim);
 
-        // // 타겟이 살아있나 확인하는 노드
-        // WhileNode whileCheckAliveTargetNode = new WhileNode(() => _target != null && _target.gameObject.activeSelf == true);
+        sequenceNode = new SequenceNode(checkAroundTarget, checkTargetInSight, checkTargetInAim);
+        whileNode = new WhileNode(() =>
+        {
+            return true;
+        }, sequenceNode);
 
-        // rootNode.AddChild(sequenceNode);
-        // sequenceNode.AddChild(findTargetNode);
-        // sequenceNode.AddChild(whileCheckAliveTargetNode);
+        rootNode = new RootNode(whileNode);
 
-        // whileCheckAliveTargetNode.AddChild(checkTargetInSightNode);
-
-        // checkTargetInSightNode.AddChild(move2TargetNode);
-        // whileCheckAliveTargetNode.AddChild(aim2TargetNode);
-        // whileCheckAliveTargetNode.AddChild(checkTargetInAimNode);
-        // whileCheckAliveTargetNode.AddChild(fireNode);
-
-        // _behaviorTree = new BehaviorTree(rootNode);
-        // _behaviorTree.Execute();
+        _behaviorTree = new BehaviorTree(rootNode);
+        _behaviorTree.Execute();
     }
 }

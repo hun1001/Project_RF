@@ -5,8 +5,19 @@ using UnityEngine;
 
 public class ConditionalNode : DecoratorNode
 {
+    public ConditionalNode(Func<bool> condition, INode child) : base(condition, child)
+    {
+    }
+
     public override NodeStateType Execute()
     {
-        return NodeStateType.SUCCESS;
+        if (Condition() == true)
+        {
+            return NodeStateType.SUCCESS;
+        }
+        else
+        {
+            return NodeStateType.FAILURE;
+        }
     }
 }

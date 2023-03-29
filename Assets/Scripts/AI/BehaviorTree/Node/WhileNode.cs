@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class WhileNode : DecoratorNode
 {
+    public WhileNode(Func<bool> condition, INode child) : base(condition, child)
+    {
+    }
+
     public override NodeStateType Execute()
     {
         return NodeStateType.SUCCESS;
