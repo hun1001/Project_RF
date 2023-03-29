@@ -42,7 +42,6 @@ public class TankAI : MonoBehaviour
 
         move2Target = new ExecutionNode(() =>
         {
-            Debug.Log("move2Target");
             Vector3 direction = (_target.position - _tank.transform.position).normalized;
 
             _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(direction);
@@ -51,7 +50,6 @@ public class TankAI : MonoBehaviour
 
         aim2Target = new ExecutionNode(() =>
         {
-            Debug.Log("aim2Target");
             Vector3 direction = (_target.position - _tank.Turret.FirePoint.position).normalized;
 
             _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate).Rotate(direction);
@@ -59,13 +57,11 @@ public class TankAI : MonoBehaviour
 
         fire = new ExecutionNode(() =>
         {
-            Debug.Log("fire");
             _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire();
         });
 
         checkTargetInAim = new ConditionalNode(() =>
         {
-            Debug.Log("checkTargetInAim");
             var r = Physics2D.Raycast(_tank.Turret.FirePoint.position, _tank.Turret.FirePoint.up, _tank.Turret.CurrentShell.Speed * 2f, LayerMask.GetMask("Tank"));
             if (r.collider != null)
             {
@@ -79,8 +75,8 @@ public class TankAI : MonoBehaviour
 
         checkAroundTarget = new ConditionalNode(() =>
         {
-            Debug.Log("checkAroundTarget");
-            var c = Physics.OverlapSphere(_tank.transform.position, _tank.Turret.CurrentShell.Speed * 2f - 5f, LayerMask.GetMask("Tank"));
+            var c = Physics2D.OverlapCircleAll(_tank.transform.position, _tank.Turret.CurrentShell.Speed * 2.5f, LayerMask.GetMask("Tank"));
+
             foreach (var item in c)
             {
                 if (item.GetComponent<Tank>().GroupType == GroupType.Player)

@@ -52,6 +52,10 @@ public class Player : CustomObject
                 {
                     _tank.Turret.CurrentShell = _tank.Turret.TurretData.Shells[index];
                 }
+                else
+                {
+
+                }
             };
         }
 
