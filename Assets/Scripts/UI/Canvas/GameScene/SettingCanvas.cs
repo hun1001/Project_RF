@@ -23,7 +23,11 @@ public class SettingCanvas : BaseCanvas
         public Transform _bgmSwitch;
         public Toggle _bgmMuteToggle;
         public Slider _bgmSlider;
-        
+        [HideInInspector]
+        public bool _isBgmMinusDown;
+        [HideInInspector]
+        public bool _isBgmPlusDown;
+
         public static bool _isBgmOn = true;
         public static float _bgmVolume = 0f;
     }
@@ -37,6 +41,10 @@ public class SettingCanvas : BaseCanvas
         public Transform _sfxSwitch;
         public Toggle _sfxMuteToggle;
         public Slider _sfxSlider;
+        [HideInInspector]
+        public bool _isSfxMinusDown;
+        [HideInInspector]
+        public bool _isSfxPlusDown;
 
         public static bool _isSfxOn = true;
         public static float _sfxVolume = 0f;
@@ -62,6 +70,26 @@ public class SettingCanvas : BaseCanvas
         if (UnityEngine.Event.current.type == EventType.KeyDown && UnityEngine.Event.current.keyCode == KeyCode.Escape)
         {
             OpenSettingCanvas();
+        }
+    }
+
+    private void Update()
+    {
+        if(_bgm._isBgmMinusDown)
+        {
+            _bgm._bgmSlider.value -= 0.4f;
+        }
+        if (_bgm._isBgmPlusDown)
+        {
+            _bgm._bgmSlider.value += 0.4f;
+        }
+        if (_sfx._isSfxMinusDown)
+        {
+            _sfx._sfxSlider.value -= 0.4f;
+        }
+        if (_sfx._isSfxPlusDown)
+        {
+            _sfx._sfxSlider.value += 0.4f;
         }
     }
 
@@ -180,15 +208,23 @@ public class SettingCanvas : BaseCanvas
     }
 
     /// <summary> BGM 볼륨 줄이는 함수 </summary>
-    public void OnBgmMinus()
+    public void OnBgmMinusDown()
     {
-
+        _bgm._isBgmMinusDown = true;
+    }
+    public void OnBgmMinusUp()
+    {
+        _bgm._isBgmMinusDown = false;
     }
 
     /// <summary> BGM 볼륨 키우는 함수 </summary>
-    public void OnBgmPlus()
+    public void OnBgmPlusDown()
     {
-
+        _bgm._isBgmPlusDown = true;
+    }
+    public void OnBgmPlusUp()
+    {
+        _bgm._isBgmPlusDown = false;
     }
     #endregion
 
@@ -228,15 +264,23 @@ public class SettingCanvas : BaseCanvas
     }
 
     /// <summary> SFX 볼륨 줄이는 함수 </summary>
-    public void OnSfxMinus()
+    public void OnSfxMinusDown()
     {
-
+        _sfx._isSfxMinusDown = true;
+    }
+    public void OnSfxMinusUp()
+    {
+        _sfx._isSfxMinusDown = false;
     }
 
     /// <summary> SFX 볼륨 키우는 함수 </summary>
-    public void OnSfxPlus()
+    public void OnSfxPlusDown()
     {
-
+        _sfx._isSfxPlusDown = true;
+    }
+    public void OnSfxPlusUp()
+    {
+        _sfx._isSfxPlusDown = false;
     }
     #endregion
     #endregion
