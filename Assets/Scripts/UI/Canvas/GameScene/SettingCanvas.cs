@@ -18,11 +18,11 @@ public class SettingCanvas : BaseCanvas
 
     private static bool _isBgmOn = true;
 
-    [Header("VFX")]
+    [Header("SFX")]
     [SerializeField]
-    private Transform _vfxSwitch;
+    private Transform _sfxSwitch;
     [SerializeField]
-    private Toggle _vfxMuteToggle;
+    private Toggle _sfxMuteToggle;
 
     private static bool _isVfxOn = true;
 
@@ -31,7 +31,7 @@ public class SettingCanvas : BaseCanvas
     private void Awake()
     {
         _bgmMuteToggle.isOn = _isBgmOn;
-        _vfxMuteToggle.isOn = _isVfxOn;
+        _sfxMuteToggle.isOn = _isVfxOn;
     }
 
     /// <summary> ESC 체크 </summary>
@@ -149,29 +149,29 @@ public class SettingCanvas : BaseCanvas
     }
     #endregion
 
-    #region VFX
-    /// <summary> VFX을 ON/OFF하는 함수 </summary>
-    public void OnVfxMute(bool isOn)
+    #region SFX
+    /// <summary> SFX을 ON/OFF하는 함수 </summary>
+    public void OnSfxMute(bool isOn)
     {
         if (isOn)
         {
-            _vfxSwitch.DOLocalMoveX(-25f, 0.2f);
+            _sfxSwitch.DOLocalMoveX(-25f, 0.2f);
         }
         else
         {
-            _vfxSwitch.DOLocalMoveX(25f, 0.2f);
+            _sfxSwitch.DOLocalMoveX(25f, 0.2f);
         }
         _isVfxOn = isOn;
     }
 
-    /// <summary> VFX 볼륨 줄이는 함수 </summary>
-    public void OnVfxMinus()
+    /// <summary> SFX 볼륨 줄이는 함수 </summary>
+    public void OnSfxMinus()
     {
 
     }
 
     /// <summary> VFX 볼륨 키우는 함수 </summary>
-    public void OnVfxPlus()
+    public void OnSfxPlus()
     {
 
     }
