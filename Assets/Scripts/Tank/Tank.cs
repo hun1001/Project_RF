@@ -24,13 +24,11 @@ public class Tank : CustomObject, IPoolReset
     public Turret Turret => _turret;
 
     private FogOfWarUnit _fogOfWarUnit = null;
-    private HideInFog _hideInFog = null;
 
     public Tank SetTank(GroupType groupType)
     {
         _groupType = groupType;
         _fogOfWarUnit.team = (int)groupType;
-        _hideInFog.team = (int)groupType;
         return this;
     }
 
@@ -39,7 +37,6 @@ public class Tank : CustomObject, IPoolReset
         base.Awake();
         _turret = GetComponent<Turret>();
         _fogOfWarUnit = GetComponent<FogOfWarUnit>();
-        _hideInFog = transform.GetChild(0).GetComponent<HideInFog>();
         _thisTankSO = _tankSO.Clone();
     }
 
