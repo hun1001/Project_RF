@@ -10,7 +10,7 @@ namespace FoW
 
         [Range(0.0f, 1.0f)]
         public float minFogStrength = 0.2f;
-        
+
         Transform _transform;
         Renderer _renderer;
         Graphic _graphic;
