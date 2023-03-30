@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class SettingCanvas : BaseCanvas
 {
@@ -105,11 +106,11 @@ public class SettingCanvas : BaseCanvas
     {
         if(isMute)
         {
-
+            Debug.Log("a");
         }
         else
         {
-
+            Debug.Log("b");
         }
     }
 
