@@ -25,7 +25,7 @@ public class Tank_Damage : Tank_Component
 
     public void Damaged(float damage, float penetration)
     {
-        damage = Mathf.Round(penetration > (Instance as Tank).TankData.Armour ? 99999 : (penetration * 2) > (Instance as Tank).TankData.Armour ? (damage * 10) - ((Instance as Tank).TankData.Armour - (penetration * 3)) : (penetration * 3) > (Instance as Tank).TankData.Armour ? (damage * 10) - ((Instance as Tank).TankData.Armour - (penetration * 2)) : (penetration * 5) > (Instance as Tank).TankData.Armour ? (damage * 10) - ((Instance as Tank).TankData.Armour - (penetration / 2)) : 1);
+        //damage = Mathf.Round(penetration > (Instance as Tank).TankData.Armour ? 99999 : (penetration * 2) > (Instance as Tank).TankData.Armour ? (damage * 10) - ((Instance as Tank).TankData.Armour - (penetration * 3)) : (penetration * 3) > (Instance as Tank).TankData.Armour ? (damage * 10) - ((Instance as Tank).TankData.Armour - (penetration * 2)) : (penetration * 5) > (Instance as Tank).TankData.Armour ? (damage * 10) - ((Instance as Tank).TankData.Armour - (penetration / 2)) : 1);
         damage *= -1;
 
         _onDamageAction?.Invoke(damage);

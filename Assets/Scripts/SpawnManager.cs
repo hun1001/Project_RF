@@ -4,7 +4,7 @@ using UnityEngine;
 using Pool;
 using FoW;
 
-public class SpawnManager : Singleton<SpawnManager>
+public class SpawnManager// : Singleton<SpawnManager>
 {
     private Dictionary<GroupType, List<CustomObject>> _spawnedUnits = new Dictionary<GroupType, List<CustomObject>>();
     private Dictionary<GroupType, FogOfWarTeam> _groupDictionary = new Dictionary<GroupType, FogOfWarTeam>();
@@ -26,9 +26,7 @@ public class SpawnManager : Singleton<SpawnManager>
 
         team.team = (int)groupType;
 
-        // team.mapSize = data.MapSize;
-        // team.mapResolution = data.MapResolution;
-        // team.mapOffset = data.MapOffset;
+        // team의 맵 크기에 맞게 세팅해주는 코드 필요
 
         _groupDictionary.Add(groupType, team);
     }
