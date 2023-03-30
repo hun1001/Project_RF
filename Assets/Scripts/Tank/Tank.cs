@@ -1,10 +1,11 @@
+using System.Net;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FoW;
 
 [DisallowMultipleComponent]
-public class Tank : CustomObject
+public class Tank : CustomObject, IPoolReset
 {
     [SerializeField]
     private TankSO _tankSO = null;
@@ -36,6 +37,11 @@ public class Tank : CustomObject
         base.Awake();
         _turret = GetComponent<Turret>();
         _fogOfWarUnit = GetComponent<FogOfWarUnit>();
+        _thisTankSO = _tankSO.Clone();
+    }
+
+    public void PoolObjectReset()
+    {
         _thisTankSO = _tankSO.Clone();
     }
 }
