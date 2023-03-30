@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
+using UnityEngine.Audio;
+using System;
 
 public class SettingCanvas : BaseCanvas
 {
@@ -10,28 +13,47 @@ public class SettingCanvas : BaseCanvas
     [SerializeField]
     private Text[] _frameTexts;
 
-    [Header("BGM")]
+    [Header("Audio")]
     [SerializeField]
-    private Transform _bgmSwitch;
-    [SerializeField]
-    private Toggle _bgmMuteToggle;
+    private AudioMixer _audioMixer;
+    
+    [Serializable]
+    private struct Bgm
+    {
+        public Transform _bgmSwitch;
+        public Toggle _bgmMuteToggle;
+        public Slider _bgmSlider;
+        
+        public static bool _isBgmOn = true;
+        public static float _bgmVolume = 0f;
+    }
 
-    private static bool _isBgmOn = true;
-
-    [Header("SFX")]
     [SerializeField]
-    private Transform _sfxSwitch;
-    [SerializeField]
-    private Toggle _sfxMuteToggle;
+    private Bgm _bgm;
 
-    private static bool _isVfxOn = true;
+    [Serializable]
+    private struct Sfx
+    {
+        public Transform _sfxSwitch;
+        public Toggle _sfxMuteToggle;
+        public Slider _sfxSlider;
+
+        public static bool _isSfxOn = true;
+        public static float _sfxVolume = 0f;
+    }
+
+    [SerializeField]
+    private Sfx _sfx;
 
     private bool _isOpen = false;
 
     private void Awake()
     {
-        _bgmMuteToggle.isOn = _isBgmOn;
-        _sfxMuteToggle.isOn = _isVfxOn;
+        _bgm._bgmSlider.value = Bgm._bgmVolume;
+        _sfx._sfxSlider.value = Sfx._sfxVolume;
+
+        _bgm._bgmMuteToggle.isOn = Bgm._isBgmOn;
+        _sfx._sfxMuteToggle.isOn = Sfx._isSfxOn;
     }
 
     /// <summary> ESC 체크 </summary>
@@ -121,19 +143,40 @@ public class SettingCanvas : BaseCanvas
     }
 
     #region Normal
+    #region Audio
     #region BGM
     /// <summary> BGM을 ON/OFF하는 함수 </summary>
     public void OnBgmMute(bool isOn)
     {
         if(isOn)
         {
-            _bgmSwitch.DOLocalMoveX(-25f, 0.2f);
+            _bgm._bgmSwitch.DOLocalMoveX(-25f, 0.2f);
+            if (Bgm._bgmVolume == -80f)
+            {
+                _bgm._bgmSlider.value = 0f;
+            }
+            _audioMixer.SetFloat("BGM", Bgm._bgmVolume);
         }
         else
         {
-            _bgmSwitch.DOLocalMoveX(25f, 0.2f);
+            _bgm._bgmSwitch.DOLocalMoveX(25f, 0.2f);
+            _audioMixer.SetFloat("BGM", -80f);
         }
-        _isBgmOn = isOn;
+        Bgm._isBgmOn = isOn;
+    }
+
+    public void OnBgmSlider(float value)
+    {
+        Bgm._bgmVolume = value;
+        _audioMixer.SetFloat("BGM", value);
+        if(value <= -80f)
+        {
+            _bgm._bgmMuteToggle.isOn = false;
+        }
+        else if(Bgm._isBgmOn == false)
+        {
+            _bgm._bgmMuteToggle.isOn = true;
+        }
     }
 
     /// <summary> BGM 볼륨 줄이는 함수 </summary>
@@ -155,13 +198,33 @@ public class SettingCanvas : BaseCanvas
     {
         if (isOn)
         {
-            _sfxSwitch.DOLocalMoveX(-25f, 0.2f);
+            _sfx._sfxSwitch.DOLocalMoveX(-25f, 0.2f);
+            if(Sfx._sfxVolume == -80f)
+            {
+                _sfx._sfxSlider.value = 0f;
+            }
+            _audioMixer.SetFloat("SFX", Sfx._sfxVolume);
         }
         else
         {
-            _sfxSwitch.DOLocalMoveX(25f, 0.2f);
+            _sfx._sfxSwitch.DOLocalMoveX(25f, 0.2f);
+            _audioMixer.SetFloat("SFX", -80f);
         }
-        _isVfxOn = isOn;
+        Sfx._isSfxOn = isOn;
+    }
+
+    public void OnSfxSlider(float value)
+    {
+        Sfx._sfxVolume = value;
+        _audioMixer.SetFloat("SFX", value);
+        if (value <= -80f)
+        {
+            _sfx._sfxMuteToggle.isOn = false;
+        }
+        else if (Sfx._isSfxOn == false)
+        {
+            _sfx._sfxMuteToggle.isOn = true;
+        }
     }
 
     /// <summary> SFX 볼륨 줄이는 함수 </summary>
@@ -170,11 +233,12 @@ public class SettingCanvas : BaseCanvas
 
     }
 
-    /// <summary> VFX 볼륨 키우는 함수 </summary>
+    /// <summary> SFX 볼륨 키우는 함수 </summary>
     public void OnSfxPlus()
     {
 
     }
+    #endregion
     #endregion
     #endregion
 
