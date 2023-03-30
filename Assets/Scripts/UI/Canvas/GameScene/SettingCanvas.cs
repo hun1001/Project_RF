@@ -4,14 +4,35 @@ using DG.Tweening;
 
 public class SettingCanvas : BaseCanvas
 {
+    [Header("Frame")]
     [SerializeField]
     private GameObject[] _frames;
     [SerializeField]
     private Text[] _frameTexts;
 
+    [Header("BGM")]
+    [SerializeField]
+    private Transform _bgmSwitch;
+    [SerializeField]
+    private Toggle _bgmMuteToggle;
+
+    private static bool _isBgmOn = true;
+
+    [Header("VFX")]
+    [SerializeField]
+    private Transform _vfxSwitch;
+    [SerializeField]
+    private Toggle _vfxMuteToggle;
+
+    private static bool _isVfxOn = true;
+
     private bool _isOpen = false;
 
-    // Awake에서 함수들을 넣어줄까, 인스펙터상으로 집어넣을까
+    private void Awake()
+    {
+        _bgmMuteToggle.isOn = _isBgmOn;
+        _vfxMuteToggle.isOn = _isVfxOn;
+    }
 
     /// <summary> ESC 체크 </summary>
     private void OnGUI()
@@ -101,17 +122,18 @@ public class SettingCanvas : BaseCanvas
 
     #region Normal
     #region BGM
-    /// <summary> BGM을 뮤트 ON/OFF하는 함수 </summary>
-    public void OnBgmMute(bool isMute)
+    /// <summary> BGM을 ON/OFF하는 함수 </summary>
+    public void OnBgmMute(bool isOn)
     {
-        if(isMute)
+        if(isOn)
         {
-            Debug.Log("a");
+            _bgmSwitch.DOLocalMoveX(-25f, 0.2f);
         }
         else
         {
-            Debug.Log("b");
+            _bgmSwitch.DOLocalMoveX(25f, 0.2f);
         }
+        _isBgmOn = isOn;
     }
 
     /// <summary> BGM 볼륨 줄이는 함수 </summary>
@@ -128,17 +150,18 @@ public class SettingCanvas : BaseCanvas
     #endregion
 
     #region VFX
-    /// <summary> VFX을 뮤트 ON/OFF하는 함수 </summary>
-    public void OnVfxMute(bool isMute)
+    /// <summary> VFX을 ON/OFF하는 함수 </summary>
+    public void OnVfxMute(bool isOn)
     {
-        if (isMute)
+        if (isOn)
         {
-
+            _vfxSwitch.DOLocalMoveX(-25f, 0.2f);
         }
         else
         {
-
+            _vfxSwitch.DOLocalMoveX(25f, 0.2f);
         }
+        _isVfxOn = isOn;
     }
 
     /// <summary> VFX 볼륨 줄이는 함수 </summary>
