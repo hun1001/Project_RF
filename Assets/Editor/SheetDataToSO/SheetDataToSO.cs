@@ -1,3 +1,4 @@
+using System.IO;
 using System.Net;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using UnityEditor;
 public class SheetDataToSO : EditorWindow
 {
     private string _sheetURL = "";
-    // https://docs.google.com/spreadsheets/d/1Sph3_eEfKFAfOT_EEN2-XzM9RK7mrly_9FTFSueqgSo/export?format=tsv 탱크
+    // https://docs.google.com/spreadsheets/d/1Sph3_eEfKFAfOT_EEN2-XzM9RK7mrly_9FTFSueqgSo/ 탱크
 
     private string[] _dataType = new string[] { "Tank", "Turret", "Shell" };
     private int _dataTypeIndex = 0;
@@ -40,6 +41,8 @@ public class SheetDataToSO : EditorWindow
 
     private void LoadData()
     {
+        ResetFolder();
+
         switch (_dataType[_dataTypeIndex])
         {
             case "Tank":
@@ -53,16 +56,18 @@ public class SheetDataToSO : EditorWindow
 
                 string[] lines = result2.Split('\n');
 
-                Debug.Log(result);
 
                 for (int i = 0; i < lines.Length; i++)
                 {
-                    string[] datas = lines[i].Split('\t');
+                    string[] data = lines[i].Split('\t');
+                    string content = "";
 
-                    for (int j = 0; j < datas.Length; j++)
+                    for (int j = 0; j < data.Length; j++)
                     {
-                        //  Debug.Log(datas[j]);
+                        content += data[j] + "\n";
                     }
+
+                    //Debug.Log(content);
                 }
 
                 break;
@@ -74,6 +79,21 @@ public class SheetDataToSO : EditorWindow
                 break;
             default:
                 break;
+        }
+    }
+
+    private void ResetFolder()
+    {
+        DirectoryInfo dir = new DirectoryInfo(Application.dataPath + "/ScriptableObjects/" + _dataType[_dataTypeIndex]);
+
+        foreach (var item in dir.GetFiles())
+        {
+            item.Delete();
+        }
+
+        foreach (DirectoryInfo di in dir.GetDirectories())
+        {
+            di.Delete(true);
         }
     }
 }
