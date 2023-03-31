@@ -35,7 +35,19 @@ public class SheetDataToSO : EditorWindow
 
         if (GUILayout.Button("Load"))
         {
-            LoadData();
+            if (_sheetURL != "")
+            {
+                LoadData();
+            }
+            else
+            {
+                Debug.Log("URL을 입력해주세요.");
+            }
+        }
+
+        if (GUILayout.Button("Reset"))
+        {
+            ResetFolder();
         }
     }
 
@@ -57,17 +69,28 @@ public class SheetDataToSO : EditorWindow
                 string[] lines = result2.Split('\n');
 
 
-                for (int i = 0; i < lines.Length; i++)
+                for (int i = 1; i < lines.Length; i++)
                 {
                     string[] data = lines[i].Split('\t');
-                    string content = "";
 
                     for (int j = 0; j < data.Length; j++)
                     {
-                        content += data[j] + "\n";
-                    }
+                        TankSO tankSO = ScriptableObject.CreateInstance<TankSO>();
 
-                    //Debug.Log(content);
+                        tankSO.Acceleration = float.Parse(data[1]);
+                        data[2] = data[2].Replace("km/h", "");
+                        tankSO.MaxSpeed = float.Parse(data[2]);
+                        tankSO.RotationSpeed = float.Parse(data[3]);
+                        tankSO.Armour = float.Parse(data[4]);
+                        tankSO.HP = float.Parse(data[5]);
+                        tankSO.TankType = TankType.Medium;
+
+                        AssetDatabase.CreateAsset(tankSO, "Assets/ScriptableObjects/Tank/" + data[0].ToString() + "_TankSO.asset");
+                        AssetDatabase.SaveAssets();
+
+                        EditorUtility.FocusProjectWindow();
+                        //Selection.activeObject = tankSO;
+                    }
                 }
 
                 break;
