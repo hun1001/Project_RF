@@ -86,9 +86,6 @@ public class SheetDataToSO : EditorWindow
                         asset.TankType = TankType.Medium;
 
                         AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Tank/" + data[0].ToString() + "_TankSO.asset");
-                        AssetDatabase.SaveAssets();
-
-                        EditorUtility.FocusProjectWindow();
                     }
                 }
                 break;
@@ -107,9 +104,6 @@ public class SheetDataToSO : EditorWindow
                         asset.RotationSpeed = float.Parse(data[3]);
 
                         AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Turret/" + data[0].ToString() + "_TurretSO.asset");
-                        AssetDatabase.SaveAssets();
-
-                        EditorUtility.FocusProjectWindow();
                     }
                 }
                 break;
@@ -119,6 +113,8 @@ public class SheetDataToSO : EditorWindow
             default:
                 break;
         }
+        AssetDatabase.SaveAssets();
+        EditorUtility.FocusProjectWindow();
     }
 
     private void ResetFolder()
