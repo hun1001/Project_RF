@@ -7,11 +7,11 @@ using UnityEditor;
 
 public class SheetDataToSO : EditorWindow
 {
-    private string[] _dataType = new string[] { "Tank", "Turret", "Shell" };
-    private string[] _dataUrlKey = new string[] { "1Sph3_eEfKFAfOT_EEN2-XzM9RK7mrly_9FTFSueqgSo", "1mUDMYbdVgwLQDmMQb2mB6kYl4SzZdbGfOmiaQ9Ww0g4", "16lDqvKtl8077CH5PHDAzojDuWebBP8FXb_VVmwf88J0" };
+    private readonly string[] _dataType = new string[] { "Tank", "Turret", "Shell" };
+    private readonly string[] _dataUrlKey = new string[] { "1Sph3_eEfKFAfOT_EEN2-XzM9RK7mrly_9FTFSueqgSo", "1mUDMYbdVgwLQDmMQb2mB6kYl4SzZdbGfOmiaQ9Ww0g4", "16lDqvKtl8077CH5PHDAzojDuWebBP8FXb_VVmwf88J0" };
     private int _dataTypeIndex = 0;
 
-    private const string _sheetAPI = "/export?format=tsv";
+    private const string SheetAPI = "/export?format=tsv";
 
     [MenuItem("Window/SheetDataToSO")]
     static void Init()
@@ -41,7 +41,7 @@ public class SheetDataToSO : EditorWindow
     {
         ResetFolder();
 
-        UnityWebRequest www = UnityWebRequest.Get("https://docs.google.com/spreadsheets/d/" + _dataUrlKey[_dataTypeIndex] + _sheetAPI);
+        UnityWebRequest www = UnityWebRequest.Get("https://docs.google.com/spreadsheets/d/" + _dataUrlKey[_dataTypeIndex] + SheetAPI);
         www.SendWebRequest();
 
         while (!www.isDone) { }
