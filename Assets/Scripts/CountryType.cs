@@ -1,6 +1,6 @@
 
 public enum CountryType
 {
-    Soviet,
+    USSR,
     Germany,
 }
