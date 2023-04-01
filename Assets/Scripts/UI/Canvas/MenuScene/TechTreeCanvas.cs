@@ -11,4 +11,16 @@ public class TechTreeCanvas : BaseCanvas
     
     [SerializeField]
     private Dropdown _countryDropdown = null;
+    
+    [SerializeField]
+    private Transform _techTreeContentTransform = null;
+
+    private void Awake()
+    {
+        _countryDropdown.options.Clear();
+        foreach (var techTreeSO in _techTree.TechTreeSO)
+        {
+            _countryDropdown.options.Add(new Dropdown.OptionData(techTreeSO.CountryType.ToString()));
+        }
+    }
 }
