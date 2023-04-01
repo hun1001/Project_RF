@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class BaseCanvas : MonoBehaviour
 {
     private BaseSceneCanvasManager _canvasManager = null;
-    public BaseSceneCanvasManager CanvasManager
+    protected BaseSceneCanvasManager CanvasManager
     {
         get
         {

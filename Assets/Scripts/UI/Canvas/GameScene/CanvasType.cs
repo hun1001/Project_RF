@@ -8,4 +8,5 @@ public enum CanvasType
     Setting,
     Menu,
     Mode,
+    TechTree,
 }

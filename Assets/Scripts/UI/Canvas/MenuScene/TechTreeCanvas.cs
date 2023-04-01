@@ -1,18 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class TechTreeCanvas : MonoBehaviour
+public class TechTreeCanvas : BaseCanvas
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField]
+    private TechTree _techTree = null;
+    
+    [SerializeField]
+    private Dropdown _countryDropdown = null;
 }

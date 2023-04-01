@@ -26,6 +26,11 @@ public class MenuCanvas : BaseCanvas
     {
 
     }
+    
+    public void OnTechTreeButton()
+    {
+        CanvasManager.ChangeCanvas(CanvasType.TechTree);
+    }
 
     public void OnFreeGoodsButton()
     {
