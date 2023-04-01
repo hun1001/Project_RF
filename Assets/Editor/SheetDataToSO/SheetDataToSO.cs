@@ -87,6 +87,8 @@ public class SheetDataToSO : EditorWindow
                         asset.ReloadTime = float.Parse(data[2]);
                         data[3] = data[3].Replace("deg/s", "");
                         asset.RotationSpeed = float.Parse(data[3]);
+                        asset.Shells = new List<Shell>();
+                        asset.Shells.Add(Pool.PoolManager.Load<Shell>("APHE"));
 
                         AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Turret/" + data[0].ToString() + "_TurretSO.asset");
                     }
