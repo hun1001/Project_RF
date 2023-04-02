@@ -21,6 +21,11 @@ public class TechTreeCanvas : BaseCanvas
         foreach (var techTreeSO in _techTree.TechTreeSO)
         {
             _countryDropdown.options.Add(new Dropdown.OptionData(techTreeSO.CountryType.ToString()));
+            _countryDropdown.onValueChanged.AddListener((i) =>
+            {
+                var temp = _techTreeContentTransform.GetChild(0).gameObject;
+                 
+            });
         }
     }
 }
