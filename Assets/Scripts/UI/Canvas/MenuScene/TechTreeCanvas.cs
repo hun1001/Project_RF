@@ -42,6 +42,8 @@ public class TechTreeCanvas : BaseCanvas
                 for (int j = 0; j < techTreeSO.Length; ++j)
                 {
                     var techTreeColumn = Instantiate(_techTreeColumnTemplate, _techTreeContentTransform);
+                    techTreeColumn.GetComponent<VerticalLayoutGroup>().enabled = true;
+                    techTreeColumn.GetComponent<ContentSizeFitter>().enabled = true;
                     techTreeColumn.SetActive(true);
                     for (int k = 0; k < techTreeSO.GetTankArrayLength(j); ++k)
                     {
