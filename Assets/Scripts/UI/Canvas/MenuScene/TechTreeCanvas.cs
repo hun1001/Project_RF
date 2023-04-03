@@ -16,12 +16,14 @@ public class TechTreeCanvas : BaseCanvas
     [SerializeField]
     private Transform _techTreeContentTransform = null;
 
-
+    private GameObject _techTreeColumnTemplate = null;
     private GameObject _techTreeNodeTemplate = null;
 
     private void Awake()
     {
-        _techTreeNodeTemplate = _techTreeContentTransform.GetChild(0).gameObject;
+        _techTreeColumnTemplate = _techTreeContentTransform.GetChild(0).gameObject;
+        _techTreeNodeTemplate = _techTreeContentTransform.GetChild(1).gameObject;
+        _techTreeColumnTemplate.SetActive(false);
         _techTreeNodeTemplate.SetActive(false);
 
         _countryDropdown.options.Clear();
@@ -39,10 +41,11 @@ public class TechTreeCanvas : BaseCanvas
 
                 for (int j = 0; j < techTreeSO.Length; ++j)
                 {
+                    var techTreeColumn = Instantiate(_techTreeColumnTemplate, _techTreeContentTransform);
                     for (int k = 0; k < techTreeSO.GetTankArrayLength(j); ++k)
                     {
                         Debug.Log(techTreeSO[j, k].ToString());
-                        var techTreeNode = Instantiate(_techTreeNodeTemplate, _techTreeContentTransform);
+                        var techTreeNode = Instantiate(_techTreeNodeTemplate, techTreeColumn.transform);
 
                         // 눈에 보이는 정보들 초기화 해주는 부분
                         techTreeNode.GetComponent<Image>().enabled = true;
