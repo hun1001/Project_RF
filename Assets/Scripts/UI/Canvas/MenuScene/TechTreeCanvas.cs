@@ -47,10 +47,10 @@ public class TechTreeCanvas : BaseCanvas
                     techTreeColumn.SetActive(true);
                     for (int k = 0; k < techTreeSO.GetTankArrayLength(j); ++k)
                     {
-                        Debug.Log(techTreeSO[j, k].ToString());
                         var techTreeNode = Instantiate(_techTreeNodeTemplate, techTreeColumn.transform);
 
                         // 눈에 보이는 정보들 초기화 해주는 부분
+                        techTreeNode.transform.GetChild(1).GetComponent<Text>().text = techTreeSO[j, k].ID;
                         techTreeNode.GetComponent<Image>().enabled = true;
 
                         // 클릭시 일어나는 이벤트 추가해주는 부분
