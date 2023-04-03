@@ -16,11 +16,16 @@ public class TechTreeCanvas : BaseCanvas
     [SerializeField]
     private Transform _techTreeContentTransform = null;
 
+    [SerializeField]
+    private GameObject _tankInformationPanel = null;
+
     private GameObject _techTreeColumnTemplate = null;
     private GameObject _techTreeNodeTemplate = null;
 
     private void Awake()
     {
+        _tankInformationPanel.SetActive(false);
+
         _techTreeColumnTemplate = _techTreeContentTransform.GetChild(0).gameObject;
         _techTreeNodeTemplate = _techTreeColumnTemplate.transform.GetChild(0).gameObject;
         _techTreeColumnTemplate.SetActive(false);
@@ -59,7 +64,12 @@ public class TechTreeCanvas : BaseCanvas
                         entry.eventID = EventTriggerType.PointerClick;
                         entry.callback.AddListener((eventData) =>
                         {
-                            Debug.Log("Click");
+                            _tankInformationPanel.transform.GetChild(1).GetComponent<Text>().text = techTreeSO[j, k].ID;
+                            _tankInformationPanel.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() =>
+                            {
+                                _tankInformationPanel.SetActive(false);
+                            });
+                            _tankInformationPanel.SetActive(true);
                         });
                         techTreeNodeEventTrigger.triggers.Add(entry);
 
