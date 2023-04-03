@@ -22,7 +22,7 @@ public class TechTreeCanvas : BaseCanvas
     private void Awake()
     {
         _techTreeColumnTemplate = _techTreeContentTransform.GetChild(0).gameObject;
-        _techTreeNodeTemplate = _techTreeContentTransform.GetChild(1).gameObject;
+        _techTreeNodeTemplate = _techTreeColumnTemplate.transform.GetChild(0).gameObject;
         _techTreeColumnTemplate.SetActive(false);
         _techTreeNodeTemplate.SetActive(false);
 
@@ -42,6 +42,7 @@ public class TechTreeCanvas : BaseCanvas
                 for (int j = 0; j < techTreeSO.Length; ++j)
                 {
                     var techTreeColumn = Instantiate(_techTreeColumnTemplate, _techTreeContentTransform);
+                    techTreeColumn.SetActive(true);
                     for (int k = 0; k < techTreeSO.GetTankArrayLength(j); ++k)
                     {
                         Debug.Log(techTreeSO[j, k].ToString());
