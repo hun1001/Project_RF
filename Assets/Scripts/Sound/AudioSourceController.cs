@@ -12,7 +12,7 @@ public class AudioSourceController : MonoBehaviour, IPoolReset
     {
         _audioSource.clip = audioClip;
     }
-
+    
     public void Play()
     {
         _audioSource.Play();
