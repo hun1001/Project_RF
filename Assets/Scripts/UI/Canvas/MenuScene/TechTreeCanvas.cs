@@ -63,6 +63,8 @@ public class TechTreeCanvas : BaseCanvas
                         });
                         techTreeNodeEventTrigger.triggers.Add(entry);
 
+                        techTreeNodeEventTrigger.enabled = true;
+
                         techTreeNode.SetActive(true);
                     }
                 }
