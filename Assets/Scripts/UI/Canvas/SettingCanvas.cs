@@ -177,7 +177,7 @@ public class SettingCanvas : BaseCanvas
         if(isOn)
         {
             _bgm._bgmSwitch.DOLocalMoveX(-25f, 0.2f);
-            if (SoundManager.Instance.BgmVolume == -40f)
+            if (SoundManager.Instance.BgmVolume == -20f)
             {
                 _bgm._bgmSlider.value = 0f;
             }
@@ -195,7 +195,7 @@ public class SettingCanvas : BaseCanvas
     {
         SoundManager.Instance.BgmVolume = value;
         _audioMixer.SetFloat("BGM", value);
-        if(value <= -40f)
+        if(value <= -20f)
         {
             _bgm._bgmMuteToggle.isOn = false;
         }
@@ -233,7 +233,7 @@ public class SettingCanvas : BaseCanvas
         if (isOn)
         {
             _sfx._sfxSwitch.DOLocalMoveX(-25f, 0.2f);
-            if(SoundManager.Instance.SfxVolume == -40f)
+            if(SoundManager.Instance.SfxVolume == -20f)
             {
                 _sfx._sfxSlider.value = 0f;
             }
@@ -251,7 +251,7 @@ public class SettingCanvas : BaseCanvas
     {
         SoundManager.Instance.SfxVolume = value;
         _audioMixer.SetFloat("SFX", value);
-        if (value <= -40f)
+        if (value <= -20f)
         {
             _sfx._sfxMuteToggle.isOn = false;
         }

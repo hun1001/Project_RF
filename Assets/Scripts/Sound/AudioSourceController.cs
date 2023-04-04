@@ -17,11 +17,17 @@ public class AudioSourceController : MonoBehaviour, IPoolReset
     {
         _audioSource.outputAudioMixerGroup = SoundManager.Instance.GetAudioMixerGroup(type);
     }
+
+    public void SetLoop()
+    {
+        _audioSource.loop = true;
+    }
     
     public void Play()
     {
         _audioSource.Play();
-        StartCoroutine(ReturnToPool());
+        if(_audioSource.loop == false)
+            StartCoroutine(ReturnToPool());
     }
 
     private IEnumerator ReturnToPool()
@@ -33,5 +39,6 @@ public class AudioSourceController : MonoBehaviour, IPoolReset
     public void PoolObjectReset()
     {
         _audioSource.clip = null;
+        _audioSource.loop = false;
     }
 }

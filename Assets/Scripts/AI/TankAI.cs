@@ -8,6 +8,8 @@ public class TankAI : MonoBehaviour
     private Tank _tank = null;
     private Transform _target = null;
 
+    private bool _isAiming = false;
+
     private BehaviorTree _behaviorTree = null;
 
     private void Start()
@@ -43,7 +45,14 @@ public class TankAI : MonoBehaviour
             Vector3 direction = (_target.position - _tank.transform.position).normalized;
 
             _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(direction);
-            _tank.GetComponent<Tank_Move>(ComponentType.Move).Move(0.9f);
+            if (Vector3.Distance(_tank.transform.position, _target.position) > 20f && !_isAiming)
+            {
+                _tank.GetComponent<Tank_Move>(ComponentType.Move).Move(0.9f);
+            }
+            else
+            {
+                _isAiming = true;
+            }
         });
 
         aim2Target = new ExecutionNode(() =>
@@ -73,7 +82,7 @@ public class TankAI : MonoBehaviour
 
         checkAroundTarget = new ConditionalNode(() =>
         {
-            var c = Physics2D.OverlapCircleAll(_tank.transform.position, _tank.Turret.CurrentShell.Speed * 2.5f, LayerMask.GetMask("Tank"));
+            var c = Physics2D.OverlapCircleAll(_tank.transform.position, _tank.Turret.CurrentShell.Speed * 2f, LayerMask.GetMask("Tank"));
 
             foreach (var item in c)
             {
@@ -83,6 +92,7 @@ public class TankAI : MonoBehaviour
                     return true;
                 }
             }
+            _isAiming = false;
             return false;
         }, move2Target);
 

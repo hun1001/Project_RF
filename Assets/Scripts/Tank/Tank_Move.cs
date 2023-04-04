@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class Tank_Move : Tank_Component
@@ -8,6 +9,14 @@ public class Tank_Move : Tank_Component
     private float _currentSpeed = 0f;
     private float _acceleration = 0f;
     private float _targetSpeed = 0f;
+
+    private Tank_Sound _tankSound = null;
+    private bool _isDepart = false;
+
+    private void Awake()
+    {
+        (Instance as Tank).TryGetComponent(out _tankSound);
+    }
 
     private void Start()
     {
@@ -19,6 +28,11 @@ public class Tank_Move : Tank_Component
     {
         if (magnitude > 0)
         {
+            if(_isDepart == false)
+            {
+                _isDepart = true;
+                _tankSound.PlaySound(SoundType.Load, AudioMixerType.Sfx);
+            }
             _targetSpeed = magnitude * _maxSpeed;
 
             if (_currentSpeed < _targetSpeed)
@@ -34,6 +48,7 @@ public class Tank_Move : Tank_Component
         {
             _targetSpeed = 0;
             _currentSpeed = 0;
+            _isDepart = false;
             // if (_currentSpeed > _targetSpeed)
             // {
             //     _currentSpeed -= _acceleration * Time.deltaTime;

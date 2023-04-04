@@ -16,7 +16,9 @@ public class SoundManager : MonoSingleton<SoundManager>
     [SerializeField]
     private AudioMixer _audioMixer;
 
+    [HideInInspector]
     public float BgmVolume = 0f;
+    [HideInInspector]
     public float SfxVolume = 0f;
 
     private void Awake()
