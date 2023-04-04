@@ -76,6 +76,15 @@ public class TechTreeCanvas : BaseCanvas
 
                                 // 탱크 이미지 없으니까 일단  null
                                 _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
+                                //_tankInformationPanel.transform.GetChild(2).GetComponent<Text>().text = $"SPEED: {_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.MaxSpeed}km/h\nReload: {_techTree.TechTreeSO[index][jIndex, lIndex].Turret.TurretStatSO}";
+
+                                _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.RemoveAllListeners();
+                                _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
+                                {
+                                    FindObjectOfType<TankModelManager>().ChangeTankModel(_techTree.TechTreeSO[index][jIndex, lIndex]);
+                                    _tankInformationPanel.SetActive(false);
+                                    CanvasManager.ChangeCanvas(CanvasType.Menu);
+                                });
                             });
                             eventTrigger.triggers.Add(entry);
 
