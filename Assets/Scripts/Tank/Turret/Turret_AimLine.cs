@@ -19,6 +19,7 @@ public class Turret_AimLine : Turret_Component
         _lineRenderer.SetPosition(0, Turret.FirePoint.position);
 
         var rayData = Physics2D.Raycast(Turret.FirePoint.position, Turret.FirePoint.up, Turret.CurrentShell.Speed * 2f);
+
         if (rayData.collider != null && rayData.collider != Turret.GetComponent<Tank>().GetComponent<Collider2D>())
         {
             _lineRenderer.SetPosition(1, rayData.point + (Vector2)Turret.FirePoint.up);
