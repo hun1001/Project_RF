@@ -17,7 +17,7 @@ public class Tank_Sound : Tank_Component
 
     public void PlaySound(SoundType soundType, AudioMixerType type = AudioMixerType.Master, bool isLoop = false)
     {
-        var audioSource = PoolManager.Get<AudioSourceController>("AudioSource");
+        var audioSource = PoolManager.Get<AudioSourceController>("AudioSource", Instance.transform.position, Quaternion.identity, Instance.transform);
         audioSource.SetSound((Instance as Tank).TankSound.GetAudioClip(soundType));
         audioSource.SetGroup(type);
         if (isLoop) audioSource.SetLoop();
