@@ -9,6 +9,10 @@ public class TechTreeSO : ScriptableObject
     public CountryType CountryType => _countryType;
 
     [SerializeField]
+    private Sprite _countrySprite = null;
+    public Sprite CountrySprite => _countrySprite;
+
+    [SerializeField]
     private TankArray[] _tankArrays = null;
     public Tank this[int i, int j] => _tankArrays[i][j];
 
