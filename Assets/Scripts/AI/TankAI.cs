@@ -44,10 +44,17 @@ public class TankAI : MonoBehaviour
         {
             Vector3 direction = (_target.position - _tank.transform.position).normalized;
 
-            _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(direction);
-            if (Vector3.Distance(_tank.transform.position, _target.position) > 20f && !_isAiming)
+            float dis = Vector3.Distance(_tank.transform.position, _target.position);
+
+            if (dis > 20f && !_isAiming)
             {
+                _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(direction);
                 _tank.GetComponent<Tank_Move>(ComponentType.Move).Move(0.9f);
+            }
+            else if (dis < 10)
+            {
+                _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(-direction);
+                _tank.GetComponent<Tank_Move>(ComponentType.Move).Move(-0.4f);
             }
             else
             {
@@ -58,6 +65,12 @@ public class TankAI : MonoBehaviour
         aim2Target = new ExecutionNode(() =>
         {
             Vector3 direction = (_target.position - _tank.Turret.FirePoint.position).normalized;
+            float dis = Vector3.Distance(_tank.Turret.FirePoint.position, _target.position);
+
+            if (dis > _tank.Turret.CurrentShell.Speed * 2f)
+            {
+                _isAiming = false;
+            }
 
             _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate).Rotate(direction);
         });

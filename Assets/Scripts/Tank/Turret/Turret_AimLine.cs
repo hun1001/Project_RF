@@ -16,7 +16,6 @@ public class Turret_AimLine : Turret_Component
     private void Update()
     {
         // TODO : 총알 존재 시간 2f -> 총알 속도 * 총알 존재 시간
-
         _lineRenderer.SetPosition(0, Turret.FirePoint.position);
 
         var rayData = Physics2D.Raycast(Turret.FirePoint.position, Turret.FirePoint.up, Turret.CurrentShell.Speed * 2f);
