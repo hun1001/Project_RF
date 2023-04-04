@@ -11,7 +11,32 @@ public class TechTree : MonoBehaviour
 
     [SerializeField]
     private Sprite[] _tankTypeSprites = null;
-    public Sprite[] TankTypeSprites => _tankTypeSprites;
 
     public readonly string[] TankTierNumber = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X" };
+
+    public Sprite GetTankTypeSprite(TankType tankType)
+    {
+        Sprite sprite = null;
+
+        switch (tankType)
+        {
+            case TankType.Light:
+                sprite = _tankTypeSprites[0];
+                break;
+            case TankType.Medium:
+                sprite = _tankTypeSprites[1];
+                break;
+            case TankType.Heavy:
+                sprite = _tankTypeSprites[2];
+                break;
+            case TankType.Destroyer:
+                sprite = _tankTypeSprites[3];
+                break;
+            default:
+                Debug.LogError("TankType Error");
+                break;
+        }
+
+        return sprite;
+    }
 }

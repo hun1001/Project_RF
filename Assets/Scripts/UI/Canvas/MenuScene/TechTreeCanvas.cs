@@ -13,12 +13,17 @@ public class TechTreeCanvas : BaseCanvas
     [SerializeField]
     private Transform _tankNodeContentTransform = null;
 
+    [SerializeField]
+    private GameObject _tankInformationPanel = null;
+
     private GameObject _countryToggleTemplate = null;
     private GameObject _tankNodeRowTemplate = null;
     private GameObject _tankNodeTemplate = null;
 
     private void Awake()
     {
+        _tankInformationPanel.SetActive(false);
+
         _countryToggleTemplate = _countryToggleGroupManager.transform.GetChild(0).gameObject;
         _tankNodeRowTemplate = _tankNodeContentTransform.GetChild(0).gameObject;
         _tankNodeTemplate = _tankNodeRowTemplate.transform.GetChild(0).gameObject;
@@ -38,7 +43,7 @@ public class TechTreeCanvas : BaseCanvas
             {
                 if (isOn)
                 {
-                    for (int k = 0; k < _tankNodeContentTransform.transform.childCount; ++k)
+                    for (int k = 1; k < _tankNodeContentTransform.transform.childCount; ++k)
                     {
                         Destroy(_tankNodeContentTransform.transform.GetChild(k).gameObject);
                     }
@@ -55,24 +60,7 @@ public class TechTreeCanvas : BaseCanvas
 
 
                             // 대충 색 설정 해야됨
-                            switch (_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType)
-                            {
-                                case TankType.Light:
-                                    tankNode.transform.GetChild(0).GetComponent<Image>().sprite = _techTree.TankTypeSprites[0];
-                                    break;
-                                case TankType.Medium:
-                                    tankNode.transform.GetChild(0).GetComponent<Image>().sprite = _techTree.TankTypeSprites[1];
-                                    break;
-                                case TankType.Heavy:
-                                    tankNode.transform.GetChild(0).GetComponent<Image>().sprite = _techTree.TankTypeSprites[2];
-                                    break;
-                                case TankType.Destroyer:
-                                    tankNode.transform.GetChild(0).GetComponent<Image>().sprite = _techTree.TankTypeSprites[3];
-                                    break;
-                                default:
-                                    Debug.LogError("TankType Error");
-                                    break;
-                            }
+                            _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
 
                             var eventTrigger = tankNode.GetComponent<EventTrigger>();
                             var entry = new EventTrigger.Entry();
@@ -80,6 +68,14 @@ public class TechTreeCanvas : BaseCanvas
                             entry.callback.AddListener((eventData) =>
                             {
                                 Debug.Log(_techTree.TechTreeSO[index][jIndex, lIndex].ID);
+                                _tankInformationPanel.SetActive(true);
+                                var topUI = _tankInformationPanel.transform.GetChild(0);
+                                topUI.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
+                                topUI.GetChild(1).GetComponent<Text>().text = _techTree.TankTierNumber[lIndex];
+                                topUI.GetChild(2).GetComponent<Text>().text = _techTree.TechTreeSO[index][jIndex, lIndex].ID;
+
+                                // 탱크 이미지 없으니까 일단  null
+                                _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
                             });
                             eventTrigger.triggers.Add(entry);
 
@@ -102,9 +98,9 @@ public class TechTreeCanvas : BaseCanvas
                 }
             });
 
+            countryToggle.onValueChanged.Invoke(index == 0);
             countryToggle.gameObject.SetActive(true);
         }
 
-        _countryToggleGroupManager.transform.GetChild(0).GetComponent<Toggle>().onValueChanged.Invoke(true);
     }
 }
