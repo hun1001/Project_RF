@@ -72,7 +72,11 @@ public class TankAI : MonoBehaviour
                 _isAiming = false;
             }
 
-            _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate).Rotate(direction);
+            var r = Physics2D.Raycast(_tank.Turret.FirePoint.position, _tank.Turret.FirePoint.up, _tank.Turret.CurrentShell.Speed * 2f, LayerMask.GetMask("Tank"));
+            if (r.collider == null || r.collider.GetComponent<Tank>().GroupType != GroupType.Player)
+            {
+                _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate).Rotate(direction);
+            }
         });
 
         fire = new ExecutionNode(() =>
