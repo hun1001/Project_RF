@@ -61,14 +61,8 @@ public class SheetDataToSO : EditorWindow
                     for (int j = 0; j < data.Length; j++)
                     {
                         TankSO asset = ScriptableObject.CreateInstance<TankSO>();
-
-                        asset.Acceleration = float.Parse(data[1]);
                         data[2] = data[2].Replace("km/h", "");
-                        asset.MaxSpeed = float.Parse(data[2]);
-                        asset.RotationSpeed = float.Parse(data[3]);
-                        asset.Armour = float.Parse(data[4]);
-                        asset.HP = float.Parse(data[5]);
-                        asset.TankType = TankType.Medium;
+                        asset.SetData(float.Parse(data[5]), float.Parse(data[4]), float.Parse(data[2]), float.Parse(data[1]), float.Parse(data[3]), TankType.Medium);
 
                         AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Tank/" + data[0].ToString() + "_TankSO.asset");
                     }

@@ -9,6 +9,7 @@ public class Tank : CustomObject, IPoolReset
 {
     [SerializeField]
     private TankSO _tankSO = null;
+    public TankSO TankSO => _tankSO;
 
     private TankSO _thisTankSO = null;
     public TankSO TankData => _thisTankSO;
