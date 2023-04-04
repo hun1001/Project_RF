@@ -43,7 +43,10 @@ public class TankAI : MonoBehaviour
             Vector3 direction = (_target.position - _tank.transform.position).normalized;
 
             _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(direction);
-            _tank.GetComponent<Tank_Move>(ComponentType.Move).Move(0.9f);
+            if (Vector3.Distance(_tank.transform.position, _target.position) > 20f)
+            {
+                _tank.GetComponent<Tank_Move>(ComponentType.Move).Move(0.9f);
+            }
         });
 
         aim2Target = new ExecutionNode(() =>
