@@ -8,6 +8,8 @@ public class TankAI : MonoBehaviour
     private Tank _tank = null;
     private Transform _target = null;
 
+    private bool _isAiming = false;
+
     private BehaviorTree _behaviorTree = null;
 
     private void Start()
@@ -43,9 +45,13 @@ public class TankAI : MonoBehaviour
             Vector3 direction = (_target.position - _tank.transform.position).normalized;
 
             _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(direction);
-            if (Vector3.Distance(_tank.transform.position, _target.position) > 20f)
+            if (Vector3.Distance(_tank.transform.position, _target.position) > 20f && !_isAiming)
             {
                 _tank.GetComponent<Tank_Move>(ComponentType.Move).Move(0.9f);
+            }
+            else
+            {
+                _isAiming = true;
             }
         });
 
@@ -86,6 +92,7 @@ public class TankAI : MonoBehaviour
                     return true;
                 }
             }
+            _isAiming = false;
             return false;
         }, move2Target);
 
