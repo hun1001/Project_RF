@@ -83,7 +83,6 @@ public class TechTreeCanvas : BaseCanvas
                                 {
                                     FindObjectOfType<TankModelManager>().ChangeTankModel(_techTree.TechTreeSO[index][jIndex, lIndex]);
                                     _tankInformationPanel.SetActive(false);
-                                    CanvasManager.ChangeCanvas(CanvasType.Menu);
                                 });
                             });
                             eventTrigger.triggers.Add(entry);
@@ -112,5 +111,11 @@ public class TechTreeCanvas : BaseCanvas
 
         _countryToggleGroupManager.transform.GetChild(1).GetComponent<Toggle>().onValueChanged.Invoke(true);
         _countryToggleGroupManager.transform.GetChild(1).GetComponent<Toggle>().isOn = true;
+    }
+
+    public void OnBackButton()
+    {
+        _tankInformationPanel.SetActive(false);
+        CanvasManager.ChangeCanvas(CanvasType.Menu);
     }
 }
