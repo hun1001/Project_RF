@@ -30,6 +30,8 @@ public class Shell_Collision : Shell_Component
         //var dir = (Vector2)transform.right + (Vector2)collision.transform.up * d * 2f;
         //Debug.DrawRay(hit.point, dir, Color.green, 5f);
 
+        //Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
+        //rb.Cast()
         Vector2 normalVector = collision.transform.up.normalized;
         Vector2 incidentVector = transform.up.normalized;
 
