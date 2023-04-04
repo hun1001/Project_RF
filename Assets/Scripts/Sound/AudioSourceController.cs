@@ -12,6 +12,11 @@ public class AudioSourceController : MonoBehaviour, IPoolReset
     {
         _audioSource.clip = audioClip;
     }
+
+    public void SetGroup(AudioMixerType type = AudioMixerType.Master)
+    {
+        _audioSource.outputAudioMixerGroup = SoundManager.Instance.GetAudioMixerGroup(type);
+    }
     
     public void Play()
     {
