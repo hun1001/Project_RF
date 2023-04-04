@@ -8,6 +8,7 @@ public class Turret_Attack : Turret_Component
     public float ReloadingTime => _reloadingTime;
 
     private bool _isReload = false;
+    public bool IsReload => _isReload;
 
     private Turret_Sound _turretSound = null;
 
@@ -41,7 +42,7 @@ public class Turret_Attack : Turret_Component
         if (_reloadingTime > 0)
         {
             _reloadingTime -= Time.deltaTime;
-            if(_isReload == true && _reloadingTime < Turret.TurretSound.GetAudioClip(SoundType.Reload).length)
+            if (_isReload == true && _reloadingTime < Turret.TurretSound.GetAudioClip(SoundType.Reload).length)
             {
                 _isReload = false;
                 _turretSound?.PlaySound(SoundType.Reload, AudioMixerType.Sfx);
