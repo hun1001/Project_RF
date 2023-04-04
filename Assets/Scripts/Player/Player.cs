@@ -36,7 +36,7 @@ public class Player : CustomObject
         base.Awake();
         _cameraManager = Camera.main.GetComponent<CameraManager>();
 
-        _tank = PoolManager.Get<Tank>("T-44").SetTank(GroupType.Player);
+        _tank = PoolManager.Get<Tank>(PlayerDataManager.Instance.GetPlayerTankID()).SetTank(GroupType.Player);
         _tank.tag = "Player";
         PoolManager.Get("MinimapCamera", _tank.transform);
 
