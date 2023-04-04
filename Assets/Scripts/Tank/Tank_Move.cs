@@ -22,6 +22,7 @@ public class Tank_Move : Tank_Component
     {
         _maxSpeed = (Instance as Tank).TankData.MaxSpeed;
         _acceleration = (Instance as Tank).TankData.Acceleration;
+        _tankSound.StartEngineSound();
     }
 
     public void Move(float magnitude)
@@ -31,7 +32,7 @@ public class Tank_Move : Tank_Component
             if(_isDepart == false)
             {
                 _isDepart = true;
-                _tankSound.PlaySound(SoundType.Load, AudioMixerType.Sfx);
+                _tankSound.PlaySound(SoundType.Load, AudioMixerType.Sfx, 0.7f);
             }
             _targetSpeed = magnitude * _maxSpeed;
 

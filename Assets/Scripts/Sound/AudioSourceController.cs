@@ -22,6 +22,11 @@ public class AudioSourceController : MonoBehaviour, IPoolReset
     {
         _audioSource.loop = true;
     }
+
+    public void SetVolume(float volume = 1f)
+    {
+        _audioSource.volume = volume;
+    }
     
     public void Play()
     {

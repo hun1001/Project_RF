@@ -75,19 +75,19 @@ public class SettingCanvas : BaseCanvas
     {
         if(_bgm._isBgmMinusDown)
         {
-            _bgm._bgmSlider.value -= 0.4f;
+            _bgm._bgmSlider.value -= 0.2f;
         }
         if (_bgm._isBgmPlusDown)
         {
-            _bgm._bgmSlider.value += 0.4f;
+            _bgm._bgmSlider.value += 0.2f;
         }
         if (_sfx._isSfxMinusDown)
         {
-            _sfx._sfxSlider.value -= 0.4f;
+            _sfx._sfxSlider.value -= 0.2f;
         }
         if (_sfx._isSfxPlusDown)
         {
-            _sfx._sfxSlider.value += 0.4f;
+            _sfx._sfxSlider.value += 0.2f;
         }
     }
 
