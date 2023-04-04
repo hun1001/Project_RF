@@ -63,7 +63,7 @@ public class TechTreeCanvas : BaseCanvas
 
 
                             // 대충 색 설정 해야됨
-                            _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
+                            tankNode.transform.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
 
                             var eventTrigger = tankNode.GetComponent<EventTrigger>();
                             var entry = new EventTrigger.Entry();
