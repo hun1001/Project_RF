@@ -19,6 +19,7 @@ public class TechTreeCanvas : BaseCanvas
     private GameObject _countryToggleTemplate = null;
     private GameObject _tankNodeRowTemplate = null;
     private GameObject _tankNodeTemplate = null;
+    private GameObject _tankNodeConnectLineTemplate = null;
 
     private void Awake()
     {
@@ -27,10 +28,12 @@ public class TechTreeCanvas : BaseCanvas
         _countryToggleTemplate = _countryToggleGroupManager.transform.GetChild(0).gameObject;
         _tankNodeRowTemplate = _tankNodeContentTransform.GetChild(0).gameObject;
         _tankNodeTemplate = _tankNodeRowTemplate.transform.GetChild(0).gameObject;
+        _tankNodeConnectLineTemplate = _tankNodeRowTemplate.transform.GetChild(1).gameObject;
 
         _countryToggleTemplate.SetActive(false);
         _tankNodeRowTemplate.SetActive(false);
         _tankNodeTemplate.SetActive(false);
+        _tankNodeConnectLineTemplate.SetActive(false);
 
         for (int i = 0; i < _techTree.TechTreeSO.Length; ++i)
         {
@@ -95,6 +98,12 @@ public class TechTreeCanvas : BaseCanvas
                             tankNode.GetComponent<Image>().enabled = true;
 
                             tankNode.SetActive(true);
+
+                            if (lIndex != _techTree.TechTreeSO[index].GetTankArrayLength(jIndex) - 1)
+                            {
+                                var tankNodeConnectLine = Instantiate(_tankNodeConnectLineTemplate, rowTransform);
+                                tankNodeConnectLine.SetActive(true);
+                            }
                         }
 
                         rowTransform.GetComponent<HorizontalLayoutGroup>().enabled = true;
