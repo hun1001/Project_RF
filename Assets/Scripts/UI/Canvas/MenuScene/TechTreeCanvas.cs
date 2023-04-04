@@ -47,9 +47,6 @@ public class TechTreeCanvas : BaseCanvas
                     {
                         int jIndex = j;
                         var rowTransform = Instantiate(_tankNodeRowTemplate, _tankNodeContentTransform).transform;
-                        rowTransform.GetComponent<HorizontalLayoutGroup>().enabled = true;
-                        rowTransform.GetComponent<ContentSizeFitter>().enabled = true;
-                        rowTransform.gameObject.SetActive(true);
 
                         for (int l = 0; l < _techTree.TechTreeSO[index].GetTankArrayLength(jIndex); ++l)
                         {
@@ -95,6 +92,12 @@ public class TechTreeCanvas : BaseCanvas
 
                             tankNode.SetActive(true);
                         }
+
+                        rowTransform.GetComponent<HorizontalLayoutGroup>().enabled = true;
+                        rowTransform.GetComponent<ContentSizeFitter>().enabled = true;
+                        rowTransform.gameObject.SetActive(true);
+
+                        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)rowTransform.transform);
                     }
                 }
             });
