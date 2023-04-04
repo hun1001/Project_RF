@@ -5,7 +5,7 @@ using Pool;
 
 public class Turret_Sound : Turret_Component
 {
-    public void PlaySound(SoundType soundType, SoundGroupType groupType = SoundGroupType.Master)
+    public void PlaySound(SoundType soundType)
     {
         var audioSource = PoolManager.Get<AudioSourceController>("AudioSource", Turret.FirePoint.position, Turret.FirePoint.rotation);
         audioSource.SetSound(Turret.TurretSound.GetAudioClip(soundType));
