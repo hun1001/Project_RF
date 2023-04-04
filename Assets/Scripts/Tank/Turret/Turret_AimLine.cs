@@ -27,5 +27,7 @@ public class Turret_AimLine : Turret_Component
         {
             _lineRenderer.SetPosition(1, Turret.FirePoint.position + Turret.FirePoint.up * Turret.CurrentShell.Speed * 2f);
         }
+
+        _lineRenderer.enabled = !Turret.GetComponent<Turret_Attack>(ComponentType.Attack).IsReload;
     }
 }
