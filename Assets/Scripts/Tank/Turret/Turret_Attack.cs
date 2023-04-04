@@ -8,7 +8,6 @@ public class Turret_Attack : Turret_Component
     public float ReloadingTime => _reloadingTime;
 
     private bool _isReload = false;
-    public bool IsReload => _isReload;
 
     private Turret_Sound _turretSound = null;
 
