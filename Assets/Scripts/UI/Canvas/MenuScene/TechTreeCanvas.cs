@@ -66,7 +66,10 @@ public class TechTreeCanvas : BaseCanvas
                             _tankInformationPanel.transform.GetChild(1).GetComponent<Text>().text = techTreeSO[jIndex, kIndex].ID;
                             _tankInformationPanel.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() =>
                             {
+                                TankModelManager.Instance.ChangeTankModel(techTreeSO[jIndex, kIndex]);
+
                                 _tankInformationPanel.SetActive(false);
+                                CanvasManager.ChangeCanvas(CanvasType.Menu);
                             });
                             _tankInformationPanel.SetActive(true);
                         });
