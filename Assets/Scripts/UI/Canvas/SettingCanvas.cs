@@ -29,7 +29,6 @@ public class SettingCanvas : BaseCanvas
         public bool _isBgmPlusDown;
 
         public static bool _isBgmOn = true;
-        public static float _bgmVolume = 0f;
     }
 
     [SerializeField]
@@ -47,7 +46,6 @@ public class SettingCanvas : BaseCanvas
         public bool _isSfxPlusDown;
 
         public static bool _isSfxOn = true;
-        public static float _sfxVolume = 0f;
     }
 
     [SerializeField]
@@ -55,10 +53,10 @@ public class SettingCanvas : BaseCanvas
 
     private bool _isOpen = false;
 
-    private void Awake()
+    private void Start()
     {
-        _bgm._bgmSlider.value = Bgm._bgmVolume;
-        _sfx._sfxSlider.value = Sfx._sfxVolume;
+        _bgm._bgmSlider.value = SoundManager.Instance.BgmVolume;
+        _sfx._sfxSlider.value = SoundManager.Instance.SfxVolume;
 
         _bgm._bgmMuteToggle.isOn = Bgm._isBgmOn;
         _sfx._sfxMuteToggle.isOn = Sfx._isSfxOn;
@@ -179,11 +177,11 @@ public class SettingCanvas : BaseCanvas
         if(isOn)
         {
             _bgm._bgmSwitch.DOLocalMoveX(-25f, 0.2f);
-            if (Bgm._bgmVolume == -80f)
+            if (SoundManager.Instance.BgmVolume == -40f)
             {
                 _bgm._bgmSlider.value = 0f;
             }
-            _audioMixer.SetFloat("BGM", Bgm._bgmVolume);
+            _audioMixer.SetFloat("BGM", SoundManager.Instance.BgmVolume);
         }
         else
         {
@@ -195,9 +193,9 @@ public class SettingCanvas : BaseCanvas
 
     public void OnBgmSlider(float value)
     {
-        Bgm._bgmVolume = value;
+        SoundManager.Instance.BgmVolume = value;
         _audioMixer.SetFloat("BGM", value);
-        if(value <= -80f)
+        if(value <= -40f)
         {
             _bgm._bgmMuteToggle.isOn = false;
         }
@@ -235,11 +233,11 @@ public class SettingCanvas : BaseCanvas
         if (isOn)
         {
             _sfx._sfxSwitch.DOLocalMoveX(-25f, 0.2f);
-            if(Sfx._sfxVolume == -80f)
+            if(SoundManager.Instance.SfxVolume == -40f)
             {
                 _sfx._sfxSlider.value = 0f;
             }
-            _audioMixer.SetFloat("SFX", Sfx._sfxVolume);
+            _audioMixer.SetFloat("SFX", SoundManager.Instance.SfxVolume);
         }
         else
         {
@@ -251,9 +249,9 @@ public class SettingCanvas : BaseCanvas
 
     public void OnSfxSlider(float value)
     {
-        Sfx._sfxVolume = value;
+        SoundManager.Instance.SfxVolume = value;
         _audioMixer.SetFloat("SFX", value);
-        if (value <= -80f)
+        if (value <= -40f)
         {
             _sfx._sfxMuteToggle.isOn = false;
         }
