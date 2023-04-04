@@ -57,7 +57,7 @@ public class MinimapSprite : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    public void Disabled()
     {
         if (_coroutine != null)
         {

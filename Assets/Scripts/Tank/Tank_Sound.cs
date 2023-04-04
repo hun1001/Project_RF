@@ -12,20 +12,20 @@ public class Tank_Sound : Tank_Component
     {
         if(speedPercent < 0.7f)
         {
-            _engineSource.SetVolume(0.7f);
+            _engineSource?.SetVolume(0.7f);
             if(speedPercent == 0f)
             {
-                _trackSource.SetVolume(0f);
+                _trackSource?.SetVolume(0f);
             }
             else
             {
-                _trackSource.SetVolume(0.7f);
+                _trackSource?.SetVolume(0.7f);
             }
         }
         else
         {
-            _engineSource.SetVolume(speedPercent);
-            _trackSource.SetVolume(speedPercent);
+            _engineSource?.SetVolume(speedPercent);
+            _trackSource?.SetVolume(speedPercent);
         }
     }
 

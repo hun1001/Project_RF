@@ -32,19 +32,19 @@ public class Tank_Move : Tank_Component
             if(_isDepart == false)
             {
                 _isDepart = true;
-                _tankSound.PlaySound(SoundType.Load, AudioMixerType.Sfx, 0.7f);
+                _tankSound?.PlaySound(SoundType.Load, AudioMixerType.Sfx, 0.7f);
             }
             _targetSpeed = magnitude * _maxSpeed;
 
             if (_currentSpeed < _targetSpeed)
             {
                 _currentSpeed += _acceleration * Time.deltaTime;
-                _tankSound.MoveSoundUpdate(_currentSpeed /  _maxSpeed);
+                _tankSound?.MoveSoundUpdate(_currentSpeed /  _maxSpeed);
             }
             else
             {
                 _currentSpeed = _targetSpeed;
-                _tankSound.MoveSoundUpdate(1f);
+                _tankSound?.MoveSoundUpdate(1f);
             }
         }
         else
@@ -52,7 +52,7 @@ public class Tank_Move : Tank_Component
             _targetSpeed = 0;
             _currentSpeed = 0;
             _isDepart = false;
-            _tankSound.MoveSoundUpdate(0f);
+            _tankSound?.MoveSoundUpdate(0f);
             // if (_currentSpeed > _targetSpeed)
             // {
             //     _currentSpeed -= _acceleration * Time.deltaTime;
