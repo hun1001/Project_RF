@@ -23,15 +23,31 @@ public class Shell_Collision : Shell_Component
             }
         }
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 0.1f);
-        Debug.DrawRay(hit.point, -transform.right, Color.blue, 5f);
-        Debug.DrawRay(hit.point, collision.transform.up, Color.red, 5f);
-        float d = Vector2.Dot(collision.transform.up, -transform.up);
-        var dir = (Vector2)transform.right + (Vector2)collision.transform.up * d * 2f;
-        Debug.DrawRay(hit.point, dir, Color.green, 5f);
+        //RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 0.1f);
+        //Debug.DrawRay(hit.point, -transform.right, Color.blue, 5f);
+        //Debug.DrawRay(hit.point, collision.transform.up, Color.red, 5f);
+        //float d = Vector2.Dot(collision.transform.up, -transform.up);
+        //var dir = (Vector2)transform.right + (Vector2)collision.transform.up * d * 2f;
+        //Debug.DrawRay(hit.point, dir, Color.green, 5f);
 
-        collision.GetComponent<Tank_Damage>().Damaged((Instance as Shell).Damage, (Instance as Shell).Penetration);
-        PoolManager.Get("Explosion_APHE_01", transform.position, transform.rotation);
-        PoolManager.Pool(Instance.ID, gameObject);
+        Vector2 normalVector = collision.transform.up.normalized;
+        Vector2 incidentVector = transform.up.normalized;
+
+        float angle = Vector2.Angle(incidentVector, -normalVector);
+        angle = Mathf.Abs(angle % 180f);
+        
+        if(angle <= 30f || angle >= 150f)
+        {
+            Vector2 incidentDir = -incidentVector;
+            Vector2 reflectionDir = Vector2.Reflect(incidentDir, normalVector);
+
+            transform.up = reflectionDir;
+        }
+        else
+        {
+            collision.GetComponent<Tank_Damage>().Damaged((Instance as Shell).Damage, (Instance as Shell).Penetration);
+            PoolManager.Get("Explosion_APHE_01", transform.position, transform.rotation);
+            PoolManager.Pool(Instance.ID, gameObject);
+        }
     }
 }
