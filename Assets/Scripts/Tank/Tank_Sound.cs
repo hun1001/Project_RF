@@ -10,7 +10,23 @@ public class Tank_Sound : Tank_Component
 
     public void MoveSoundUpdate(float speedPercent)
     {
-
+        if(speedPercent < 0.7f)
+        {
+            _engineSource.SetVolume(0.7f);
+            if(speedPercent == 0f)
+            {
+                _trackSource.SetVolume(0f);
+            }
+            else
+            {
+                _trackSource.SetVolume(0.7f);
+            }
+        }
+        else
+        {
+            _engineSource.SetVolume(speedPercent);
+            _trackSource.SetVolume(speedPercent);
+        }
     }
 
     public void StartEngineSound()
