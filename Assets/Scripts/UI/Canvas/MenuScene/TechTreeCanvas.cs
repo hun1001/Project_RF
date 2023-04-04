@@ -46,16 +46,18 @@ public class TechTreeCanvas : BaseCanvas
 
                 for (int j = 0; j < techTreeSO.Length; ++j)
                 {
+                    int jIndex = j;
                     var techTreeColumn = Instantiate(_techTreeColumnTemplate, _techTreeContentTransform);
                     techTreeColumn.GetComponent<VerticalLayoutGroup>().enabled = true;
                     techTreeColumn.GetComponent<ContentSizeFitter>().enabled = true;
                     techTreeColumn.SetActive(true);
-                    for (int k = 0; k < techTreeSO.GetTankArrayLength(j); ++k)
+                    for (int k = 0; k < techTreeSO.GetTankArrayLength(jIndex); ++k)
                     {
+                        int kIndex = k;
                         var techTreeNode = Instantiate(_techTreeNodeTemplate, techTreeColumn.transform);
 
                         // 눈에 보이는 정보들 초기화 해주는 부분
-                        techTreeNode.transform.GetChild(1).GetComponent<Text>().text = techTreeSO[j, k].ID;
+                        techTreeNode.transform.GetChild(1).GetComponent<Text>().text = techTreeSO[jIndex, kIndex].ID;
                         techTreeNode.GetComponent<Image>().enabled = true;
 
                         // 클릭시 일어나는 이벤트 추가해주는 부분
@@ -64,7 +66,7 @@ public class TechTreeCanvas : BaseCanvas
                         entry.eventID = EventTriggerType.PointerClick;
                         entry.callback.AddListener((eventData) =>
                         {
-                            _tankInformationPanel.transform.GetChild(1).GetComponent<Text>().text = techTreeSO[j, k].ID;
+                            _tankInformationPanel.transform.GetChild(1).GetComponent<Text>().text = techTreeSO[jIndex, kIndex].ID;
                             _tankInformationPanel.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() =>
                             {
                                 _tankInformationPanel.SetActive(false);
