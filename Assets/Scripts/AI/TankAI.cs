@@ -76,7 +76,7 @@ public class TankAI : MonoBehaviour
 
         checkAroundTarget = new ConditionalNode(() =>
         {
-            var c = Physics2D.OverlapCircleAll(_tank.transform.position, _tank.Turret.CurrentShell.Speed * 2.5f, LayerMask.GetMask("Tank"));
+            var c = Physics2D.OverlapCircleAll(_tank.transform.position, _tank.Turret.CurrentShell.Speed * 2f, LayerMask.GetMask("Tank"));
 
             foreach (var item in c)
             {
