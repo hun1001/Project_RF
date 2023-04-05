@@ -75,6 +75,10 @@ public class Turret_AimLine : Turret_Component
                 {
                     _lineRenderer.colorGradient = _gradients[2];
                 }
+                else
+                {
+                    _lineRenderer.colorGradient = _gradients[1];
+                }
             }
             else
             {
