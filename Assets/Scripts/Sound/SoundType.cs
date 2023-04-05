@@ -10,5 +10,6 @@ public enum SoundType
     Load,
     Fire,
     Reload,
-    ShellDrop
+    ShellDrop,
+    Ricochet,
 }

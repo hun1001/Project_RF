@@ -27,6 +27,11 @@ public class AudioSourceController : MonoBehaviour, IPoolReset
     {
         _audioSource.volume = volume;
     }
+
+    public void SetDimensionSound(float dimension)
+    {
+        _audioSource.spatialBlend = dimension;
+    }
     
     public void Play()
     {
@@ -45,5 +50,6 @@ public class AudioSourceController : MonoBehaviour, IPoolReset
     {
         _audioSource.clip = null;
         _audioSource.loop = false;
+        _audioSource.spatialBlend = 1f;
     }
 }

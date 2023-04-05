@@ -5,6 +5,19 @@ using Pool;
 
 public class Shell_Collision : Shell_Component
 {
+    private Tank pt;
+    private Tank et;
+    private Vector2 normalVector;
+    private Vector2 incidentVector;
+    private Vector2 reflectionDir;
+    int angle;
+
+    private Shell_Sound _shellSound;
+    private void Awake()
+    {
+        (Instance as Shell).TryGetComponent(out _shellSound);
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if ((Instance as Shell).Owner == collision.gameObject.GetComponent<CustomObject>())
@@ -12,8 +25,8 @@ public class Shell_Collision : Shell_Component
             return;
         }
 
-        var pt = ((Instance as Shell).Owner as Tank);
-        var et = collision.gameObject.GetComponent<Tank>();
+        pt = (Instance as Shell).Owner as Tank;
+        et = collision.gameObject.GetComponent<Tank>();
 
         if (pt != null && et != null)
         {
@@ -23,18 +36,18 @@ public class Shell_Collision : Shell_Component
             }
         }
 
-        Vector2 normalVector = collision.contacts[0].normal;
-        Vector2 incidentVector = -transform.up;
+        normalVector = collision.contacts[0].normal;
+        incidentVector = -transform.up;
 
-        int angle = (int)Vector2.Angle(incidentVector, normalVector);
+        angle = (int)Vector2.Angle(incidentVector, normalVector);
         angle %= 90;
 
         if (angle >= 60)
         {
-            Vector2 incidentDir = -incidentVector;
-            Vector2 reflectionDir = Vector2.Reflect(incidentDir, normalVector);
+            reflectionDir = Vector2.Reflect(-incidentVector, normalVector);
 
             transform.up = reflectionDir;
+            _shellSound.PlaySound(SoundType.Ricochet, AudioMixerType.Sfx);
         }
         else
         {

@@ -11,6 +11,10 @@ public class Shell : CustomObject, IPoolReset
     private CustomObject _owner = null;
     public CustomObject Owner => _owner;
 
+    [SerializeField]
+    private SoundBoxSO _shellSound = null;
+    public SoundBoxSO ShellSound => _shellSound;
+
     public float Speed => _shellSO.Speed;
 
     private float _damage = 0;

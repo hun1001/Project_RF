@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 7926760243846163765}
   - component: {fileID: 7280917092065792063}
   - component: {fileID: 1218764802851917248}
+  - component: {fileID: 8326363702236110805}
   - component: {fileID: 1319457666546717397}
   - component: {fileID: 343698117686866935}
   - component: {fileID: 5097588195503035500}
@@ -133,6 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: APHE
   _shellSO: {fileID: 11400000, guid: 881ced365de07f94c913affcef484a38, type: 2}
+  _shellSound: {fileID: 11400000, guid: d484eae83c8bbb74eb97a966579ecc2f, type: 2}
 --- !u!114 &7926760243846163765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +174,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _componentType: 6
+--- !u!114 &8326363702236110805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7926760243846163764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa0f4f6382dc60e4b9247a39268fadf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentType: 8
 --- !u!58 &1319457666546717397
 CircleCollider2D:
   m_ObjectHideFlags: 0
