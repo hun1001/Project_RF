@@ -5,15 +5,15 @@ using Pool;
 
 public class Shell_Collision : Shell_Component
 {
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((Instance as Shell).Owner == collision.GetComponent<CustomObject>())
+        if ((Instance as Shell).Owner == collision.gameObject.GetComponent<CustomObject>())
         {
             return;
         }
 
         var pt = ((Instance as Shell).Owner as Tank);
-        var et = collision.GetComponent<Tank>();
+        var et = collision.gameObject.GetComponent<Tank>();
 
         if (pt != null && et != null)
         {
@@ -23,22 +23,13 @@ public class Shell_Collision : Shell_Component
             }
         }
 
-        //RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 0.1f);
-        //Debug.DrawRay(hit.point, -transform.right, Color.blue, 5f);
-        //Debug.DrawRay(hit.point, collision.transform.up, Color.red, 5f);
-        //float d = Vector2.Dot(collision.transform.up, -transform.up);
-        //var dir = (Vector2)transform.right + (Vector2)collision.transform.up * d * 2f;
-        //Debug.DrawRay(hit.point, dir, Color.green, 5f);
+        Vector2 normalVector = collision.contacts[0].normal;
+        Vector2 incidentVector = -transform.up;
 
-        //Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
-        //rb.Cast()
-        Vector2 normalVector = collision.transform.up.normalized;
-        Vector2 incidentVector = transform.up.normalized;
+        int angle = (int)Vector2.Angle(incidentVector, normalVector);
+        angle %= 90;
 
-        float angle = Vector2.Angle(incidentVector, -normalVector);
-        angle = Mathf.Abs(angle % 180f);
-        
-        if(angle <= 30f || angle >= 150f)
+        if (angle >= 60)
         {
             Vector2 incidentDir = -incidentVector;
             Vector2 reflectionDir = Vector2.Reflect(incidentDir, normalVector);
@@ -47,7 +38,7 @@ public class Shell_Collision : Shell_Component
         }
         else
         {
-            collision.GetComponent<Tank_Damage>().Damaged((Instance as Shell).Damage, (Instance as Shell).Penetration);
+            collision.gameObject.GetComponent<Tank_Damage>().Damaged((Instance as Shell).Damage, (Instance as Shell).Penetration);
             PoolManager.Get("Explosion_APHE_01", transform.position, transform.rotation);
             PoolManager.Pool(Instance.ID, gameObject);
         }
