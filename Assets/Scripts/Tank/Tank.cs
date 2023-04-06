@@ -48,6 +48,7 @@ public class Tank : CustomObject, IPoolReset
     public void PoolObjectReset()
     {
         _thisTankSO = _tankSO.Clone();
+        GetComponent<Tank_Damage>(ComponentType.Damage).ResetData();
         _minimapSprite.Disabled();
     }
 }
