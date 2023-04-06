@@ -7,7 +7,7 @@ using System;
 public class TechTreeEditor : EditorWindow
 {
     private TechTreeSO _techTreeSO;
-    private Tank[] _techTreeNodes;
+    private Tank[] _techTreeNodes = new Tank[0];
     private int _techTreeLength;
 
     [MenuItem("Window/TechTreeEditor")]
@@ -31,6 +31,11 @@ public class TechTreeEditor : EditorWindow
         for (int i = 0; i < _techTreeNodes.Length; ++i)
         {
             _techTreeNodes[i] = (Tank)EditorGUILayout.ObjectField("Tech Tree Node " + i, _techTreeNodes[i], typeof(Tank), true);
+        }
+
+        if (GUILayout.Button("Save"))
+        {
+
         }
     }
 }
