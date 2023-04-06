@@ -1,6 +1,3 @@
-using System.ComponentModel;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
@@ -88,7 +85,17 @@ public class Turret_AimLine : Turret_Component
         }
         else
         {
-            _lineRenderer.SetPosition(1, Turret.FirePoint.position + Turret.FirePoint.up * Turret.CurrentShell.Speed * 2f);
+            var rayData = Physics2D.Raycast(Turret.FirePoint.position, Turret.FirePoint.up, Turret.CurrentShell.Speed * 2f);
+
+            if (rayData.collider != null && rayData.collider != Turret.GetComponent<Tank>().GetComponent<Collider2D>())
+            {
+                _lineRenderer.SetPosition(1, rayData.point + (Vector2)Turret.FirePoint.up);
+            }
+            else
+            {
+                _lineRenderer.SetPosition(1, Turret.FirePoint.position + Turret.FirePoint.up * Turret.CurrentShell.Speed * 2f);
+            }
+
             _lineRenderer.colorGradient = _gradients[0];
         }
     }
