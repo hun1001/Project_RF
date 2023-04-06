@@ -8,6 +8,7 @@ public class TankAI : MonoBehaviour
 {
     private Tank _tank = null;
     private Transform _target = null;
+    private Bar _hpBar = null;
 
     private bool _isAiming = false;
 
@@ -16,6 +17,8 @@ public class TankAI : MonoBehaviour
     private void Start()
     {
         _tank = PoolManager.Get<Tank>("T-44", transform.position, transform.rotation).SetTank(GroupType.Enemy);
+        _hpBar = PoolManager.Get<Bar>("EnemyBar", _tank.transform.position, Quaternion.identity, _tank.transform);
+        _hpBar.Setting(_tank.TankData.HP);
 
         EventManager.DeleteEvent(_tank.gameObject.GetInstanceID().ToString());
         EventManager.StartListening(_tank.gameObject.GetInstanceID().ToString(), () =>
@@ -28,6 +31,8 @@ public class TankAI : MonoBehaviour
                 GameWay_Base.Instance.StageClear();
             }
         });
+
+        _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction(_hpBar.ChangeValue);
 
         RootNode rootNode = null;
         WhileNode whileNode = null;
