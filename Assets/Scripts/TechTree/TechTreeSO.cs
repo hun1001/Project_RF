@@ -16,6 +16,8 @@ public class TechTreeSO : ScriptableObject
     private TankArray[] _tankArrays = null;
     public Tank this[int i, int j] => _tankArrays[i][j];
 
+    private bool[,] _isLink = null;
+
     public int Length => _tankArrays.Length;
     public int GetTankArrayLength(int i) => _tankArrays[i].Length;
 
