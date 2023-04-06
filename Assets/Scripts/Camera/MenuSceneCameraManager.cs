@@ -14,7 +14,14 @@ public class MenuSceneCameraManager : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && EventSystem.current.IsPointerOverGameObject() == false)
+        bool isOnUI;
+#if UNITY_EDITOR
+        isOnUI = EventSystem.current.IsPointerOverGameObject();
+#else
+        isOnUI = EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+#endif
+
+        if (Input.GetMouseButtonDown(0) && isOnUI == false)
         {
             _cam.m_XAxis.m_InputAxisName = "Mouse X";
             _cam.m_YAxis.m_InputAxisName = "Mouse Y";
