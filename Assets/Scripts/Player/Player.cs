@@ -22,6 +22,10 @@ public class Player : CustomObject
     private Tank _tank = null;
     public Tank Tank => _tank;
 
+    private Tank_Move _tankMove = null;
+    private Tank_Rotate _tankRotate = null;
+    private Turret_Rotate _turretRotate = null;
+
     [Header("Camera Shake")]
     public float cameraAttackShakeAmplitudeGain = 4f;
     public float cameraAttackShakeFrequencyGain = 6;
@@ -83,13 +87,17 @@ public class Player : CustomObject
         });
 
         _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() => _cameraManager.CameraShake(cameraAttackShakeAmplitudeGain, cameraAttackShakeFrequencyGain, cameraAttackShakeDuration)); //_cameraManager.CameraZoomInEffect(5f, 0.1f, 0.1f));
+
+        _tankMove = _tank.GetComponent<Tank_Move>(ComponentType.Move);
+        _tankRotate = _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate);
+        _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
     }
 
     void Update()
     {
-        _tank.GetComponent<Tank_Move>(ComponentType.Move).Move(_moveJoystick.Magnitude);
-        _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(_moveJoystick.Direction);
-        _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate).Rotate(_attackJoystick.Direction);
+        _tankMove.Move(_moveJoystick.Magnitude);
+        _tankRotate.Rotate(_moveJoystick.Direction);
+        _turretRotate.Rotate(_attackJoystick.Direction);
     }
 
     private IEnumerator Change()

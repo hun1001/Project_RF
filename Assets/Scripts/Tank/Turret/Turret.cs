@@ -48,7 +48,7 @@ public class Turret : MonoBehaviour
         {
             return _turretComponents[componentType] as T;
         }
-        Debug.LogError($"Tank doesn't have {componentType} component");
+        Debug.LogError($"Turret doesn't have {componentType} component");
         return null;
     }
 
