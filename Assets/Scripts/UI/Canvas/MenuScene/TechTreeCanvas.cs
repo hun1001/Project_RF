@@ -40,7 +40,7 @@ public class TechTreeCanvas : BaseCanvas
             int index = i;
 
             var countryToggle = Instantiate(_countryToggleTemplate, _countryToggleGroupManager.transform).GetComponent<Toggle>();
-            countryToggle.transform.GetChild(0).GetComponent<Image>().sprite = _techTree.TechTreeSO[index].CountrySprite;
+            countryToggle.transform.GetChild(0).GetComponent<Image>().sprite = _techTree.TechTreeSO[index].FlagSprite;
 
             countryToggle.onValueChanged.AddListener((isOn) =>
             {
