@@ -38,7 +38,7 @@ class Server
                 ClientHandle client = new ClientHandle();
                 clientsDictionary.Add(counter, client);
 
-                client.startClient(clientSocket, clientsList, counter);
+                client.startClient(clientSocket, counter);
             }
             clientSocket.Close();
             serverSocket.Stop();
@@ -54,9 +54,9 @@ class Server
     public static TcpClient GetSocket(int id)
     {
         TcpClient socket = null;
-        if (clientsList.ContainsKey(id))
+        if (clientsDictionary.ContainsKey(id))
         {
-            ClientHandle hc = (ClientHandle)clientsList[id];
+            ClientHandle hc = clientsDictionary[id];
             socket = hc.clientSocket;
         }
         return socket;
@@ -77,10 +77,10 @@ class Server
 
         lock (lockSocket)
         {
-            foreach (DictionaryEntry Item in clientsList)
+            foreach (var Item in clientsDictionary.Values)
             {
                 TcpClient broadcastSocket;
-                ClientHandle hc = (ClientHandle)Item.Value;
+                ClientHandle hc = Item;
                 broadcastSocket = hc.clientSocket;
 
                 NetworkStream broadcastStream = broadcastSocket.GetStream();
@@ -109,14 +109,14 @@ class Server
 
     public static void UserLeft(int userID, string clientNo)
     {
-        if (clientsList.ContainsKey(userID))
+        if (clientsDictionary.ContainsKey(userID))
         {
             broadcast(clientNo + "$#Left#", clientNo, false);
             Console.WriteLine("Client Left: " + clientNo);
 
             TcpClient clientSocket = GetSocket(userID);
 
-            clientsList.Remove(userID);
+            clientsDictionary.Remove(userID);
             clientSocket.Close();
         }
     }
@@ -135,19 +135,13 @@ public class ClientHandle
 
     public float posX;
     public float posY;
-
-    private Hashtable clientsList;
+    
     private bool noConnection = false;
 
-    public void startClient(TcpClient inClientSocket,
-        Hashtable cList, int userSerial)
+    public void startClient(TcpClient inClientSocket, int userSerial)
     {
         clientSocket = inClientSocket;
         userID = userSerial;
-        clientsList = cList;
-
-        Thread ctThread = new Thread(doChat);
-        ctThread.Start();
     }
 
     bool SocketConnected(Socket e)
@@ -218,6 +212,7 @@ public class ClientHandle
         }
         Server.UserLeft(userID, clientID);
     }
+    
     private string DeleteTerminator(string remain)
     {
         int idx = remain.IndexOf(CHAR_TERMINATOR);
@@ -227,7 +222,6 @@ public class ClientHandle
         }
         return remain;
     }
-
 
     private void ProcessMove(string clientID, string remain)
     {
