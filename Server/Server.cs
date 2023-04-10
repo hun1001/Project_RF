@@ -23,8 +23,8 @@ class Server
             byte[] bytesFrom = new byte[1024];
             string dataFromClient = "";
 
-            serverSocket.Start(); //listen
-            Console.WriteLine("C# Server Started...");
+            serverSocket.Start();
+            Console.WriteLine("Server Started...");
 
             while (true)
             {
@@ -104,7 +104,7 @@ class Server
     public static void UserAdd(string clientNo)
     {
         broadcast(clientNo + "$#Enter#", "", false);
-        Console.WriteLine(clientNo + "Joined chat room");
+        Console.WriteLine(clientNo + "Joined");
     }
 
     public static void UserLeft(int userID, string clientNo)

@@ -6,7 +6,6 @@ namespace Server;
 public class ClientHandle
 {
     const string COMMAND_ENTER = "#Enter#";
-    const string COMMAND_HISTORY = "#HISTORY#";
     const string COMMAND_MOVE = "#Move#";
     const char CHAR_TERMINATOR = ';';
 
@@ -83,8 +82,6 @@ public class ClientHandle
                         {
                             dataFromClient = "";
                         }
-
-
                     }
                 }
             }
