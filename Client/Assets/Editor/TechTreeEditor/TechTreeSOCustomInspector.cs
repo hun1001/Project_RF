@@ -9,6 +9,7 @@ public class TechTreeSOCustomInspector : Editor
     private TechTreeSO _techTreeSO = null;
 
     private List<List<Tank>> _tankList = new List<List<Tank>>();
+    private List<List<bool>> _isLinkList = new List<List<bool>>();
 
     private uint _lineCount = 0;
 
@@ -17,6 +18,7 @@ public class TechTreeSOCustomInspector : Editor
         _techTreeSO = (TechTreeSO)target;
 
         _tankList.Clear();
+        _isLinkList.Clear();
 
         for (int i = 0; i < _techTreeSO.Length; i++)
         {
@@ -24,6 +26,16 @@ public class TechTreeSOCustomInspector : Editor
             for (int j = 0; j < _techTreeSO.GetTankArrayLength(i); j++)
             {
                 _tankList[i].Add(_techTreeSO[i, j]);
+            }
+        }
+
+        for (int i = 0; i < _techTreeSO.Length; ++i)
+        {
+            _isLinkList.Add(new List<bool>());
+            for (int j = 0; j < _techTreeSO.GetTankArrayLength(i); ++j)
+            {
+                Debug.Log(j + " " + _techTreeSO.GetTankArrayLength(i));
+                _isLinkList[i].Add(_techTreeSO.IsLink(i, j));
             }
         }
 
@@ -75,7 +87,15 @@ public class TechTreeSOCustomInspector : Editor
 
         for (int i = 0; i < _tankList.Count; i++)
         {
+            EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Line " + (i + 1), EditorStyles.boldLabel);
+            if (GUILayout.Button("X", GUILayout.Width(20)))
+            {
+                _tankList.RemoveAt(i);
+                _lineCount = (uint)Mathf.Max((int)_lineCount - 1, 0);
+                i--;
+            }
+            EditorGUILayout.EndHorizontal();
 
             for (int j = 0; j < _tankList[i].Count; j++)
             {
@@ -95,6 +115,8 @@ public class TechTreeSOCustomInspector : Editor
                 _tankList[i].Add(null);
             }
             EditorGUILayout.EndHorizontal();
+
+
 
             EditorGUILayout.Space();
         }

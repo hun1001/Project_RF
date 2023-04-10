@@ -22,14 +22,16 @@ public class TechTreeSO : ScriptableObject
     }
 
     [SerializeField]
-    [HideInInspector]
     private TankArray[] _tankArrays = null;
     public Tank this[int i, int j] => _tankArrays[i][j];
 
-    private bool[,] _isLink = null;
+    private bool[][] _isLink = null;
+    public bool IsLink(int i, int j) => _isLink[i][j];
 
     public int Length => _tankArrays.Length;
     public int GetTankArrayLength(int i) => _tankArrays[i].Length;
+    public int GetIsLinkLength() => _isLink.Length;
+    public int GetIsLinkLength(int i) => _isLink[i].Length;
 
     public void SetTankArray(List<List<Tank>> tankList)
     {
@@ -37,6 +39,19 @@ public class TechTreeSO : ScriptableObject
         for (int i = 0; i < tankList.Count; i++)
         {
             _tankArrays[i] = new TankArray(tankList[i].ToArray());
+        }
+    }
+
+    public void SetIsLink(List<List<bool>> isLinkList)
+    {
+        _isLink = new bool[isLinkList.Count][];
+        for (int i = 0; i < isLinkList.Count; i++)
+        {
+            _isLink[i] = new bool[isLinkList[i].Count];
+            for (int j = 0; j < isLinkList[i].Count; j++)
+            {
+                _isLink[i][j] = isLinkList[i][j];
+            }
         }
     }
 
