@@ -83,6 +83,8 @@ public class Player : CustomObject
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDeathAction(() =>
         {
             Time.timeScale = 0;
+            ServerManager.Instance.SendToServer("Dead");
+            ServerManager.Instance.Disconnect();
             StartCoroutine(Change());
         });
 
@@ -98,6 +100,8 @@ public class Player : CustomObject
         _tankMove.Move(_moveJoystick.Magnitude);
         _tankRotate.Rotate(_moveJoystick.Direction);
         _turretRotate.Rotate(_attackJoystick.Direction);
+
+        ServerManager.Instance.SendTransform(_tank.transform);
     }
 
     private IEnumerator Change()

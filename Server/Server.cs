@@ -23,7 +23,7 @@ class Server
             byte[] bytesFrom = new byte[1024];
             string dataFromClient = "";
 
-            serverSocket.Start();
+            serverSocket.Start(); 
             Console.WriteLine("Server Started...");
 
             while (true)
