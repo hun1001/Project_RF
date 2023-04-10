@@ -4,7 +4,21 @@ using System.Text;
 [Serializable]
 public class Packet
 {
-    public void SetPacket(string id, string command, string[] args)
+    public Packet()
+    {
+        id = "";
+        command = "";
+        args = null;
+    }
+
+    public Packet(string id, string command, params string[] args)
+    {
+        this.id = id;
+        this.command = command;
+        this.args = args;
+    }
+    
+    public void SetPacket(string id, string command, string[]? args)
     {
         this.id = id;
         this.command = command;

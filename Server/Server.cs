@@ -8,7 +8,6 @@ using System.Collections;
 namespace Server;
 class Server
 {
-    const string STRING_TERMINATOR = ";";
     public static Dictionary<int, ClientHandle> clientsDictionary = new();
     private static int userCnt = 0;
     private static object lockSocket = new();
@@ -28,7 +27,7 @@ class Server
 
             while (true)
             {
-                counter += 1;
+                ++counter;
                 clientSocket = serverSocket.AcceptTcpClient();
                 dataFromClient = "";
 
@@ -61,49 +60,36 @@ class Server
         }
         return socket;
     }
-    
-    public static void broadcast(string msg, string uName, bool flag)
-    {
-        Byte[] broadcastBytes = null;
 
-        if (flag == true) //클라이언트
-        {
-            broadcastBytes = Encoding.UTF8.GetBytes(uName + "$" + msg + STRING_TERMINATOR);
-        }
-        else //서버
-        {
-            broadcastBytes = Encoding.UTF8.GetBytes(msg + STRING_TERMINATOR);
-        }
+    public static void Broadcast(Packet packet)
+    {
+        Byte[] data = packet.ToBytes();
 
         lock (lockSocket)
         {
-            foreach (var Item in clientsDictionary.Values)
+            foreach (KeyValuePair<int, ClientHandle> client in clientsDictionary)
             {
-                TcpClient broadcastSocket;
-                ClientHandle hc = Item;
-                broadcastSocket = hc.clientSocket;
-
-                NetworkStream broadcastStream = broadcastSocket.GetStream();
+                TcpClient socket = client.Value.clientSocket;
+                NetworkStream networkStream = socket.GetStream();
 
                 try
                 {
-
-                    broadcastStream.Write(broadcastBytes, 0, broadcastBytes.Length);
-                    broadcastStream.Flush();
+                    networkStream.Write(data, 0, data.Length);
+                    networkStream.Flush();
                 }
-                catch (Exception ex)
+                catch(Exception e)
                 {
-                    broadcastStream.Close();
-                    broadcastSocket.Close();
+                    socket.Close();
+                    networkStream.Close();
+                    Console.WriteLine(e.ToString());
                 }
-
             }
         }
     }
 
     public static void UserAdd(string clientNo)
     {
-        broadcast(clientNo + "$#Enter#", "", false);
+        Broadcast(new Packet(clientNo, Command.COMMAND_ENTER, ""));
 
         lock (lockSocket)
         {
@@ -135,7 +121,7 @@ class Server
     {
         if (clientsDictionary.ContainsKey(userID))
         {
-            broadcast(clientNo + "$#Left#", clientNo, false);
+            Broadcast(new Packet("id", Command.COMMAND_LEFT, ""));
             Console.WriteLine("Client Left: " + clientNo);
 
             TcpClient clientSocket = GetSocket(userID);

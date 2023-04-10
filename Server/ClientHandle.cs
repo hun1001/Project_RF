@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Text;
 
 namespace Server;
@@ -15,6 +14,12 @@ public class ClientHandle
 
     public float posX;
     public float posY;
+    public float posZ;
+
+    public float rotX;
+    public float rotY;
+    public float rotZ;
+    public float rotW;
 
     private bool noConnection = false;
 
@@ -63,33 +68,27 @@ public class ClientHandle
                             packet.SetPacket(Encoding.UTF8.GetString(bytesFrom, 0, numBytesRead));
                         }
 
-                        switch(packet.Command)
+                        Console.WriteLine($"ID: {packet.ID} | Cmd: {packet.Command} | Data: {packet.Args}");
+
+                        switch (packet.Command)
                         {
                             case Command.COMMAND_REGISTER:
+                                clientID = packet.ID;
+                                Server.UserAdd(clientID);
+                                break;
+                            case Command.COMMAND_LEFT:
+                                Server.UserLeft(userID, clientID);
+                                break;
+                            case Command.COMMAND_MOVE:
+                            case Command.COMMAND_ATTACK:
+                            case Command.COMMAND_DAMAGED:
+                                Server.Broadcast(packet);
                                 break;
                             default:
                                 break;
                         }
 
                         packet.Clear();
-
-                        //if (clientID == null && idx > 0) //닉네임 전송
-                        //{
-                        //    clientID = dataFromClient.Substring(0, idx);
-                        //    Server.broadcast(clientID + "$" + Command.COMMAND_ENTER, clientID, false);
-                        //    Server.UserAdd(clientID);
-                        //}
-                        //else if (idx + 1 < dataFromClient.Length)
-                        //{
-                        //    dataFromClient = dataFromClient.Substring(idx + 1, dataFromClient.Length - (idx + 1));
-                        //    //Console.WriteLine("From Client - " + clientID + ": " + dataFromClient);
-                        //    ProcessCommand(clientID, dataFromClient);
-                        //    Server.broadcast(dataFromClient, clientID, true);
-                        //}
-                        //else
-                        //{
-                        //    dataFromClient = "";
-                        //}
                     }
                 }
             }
@@ -100,48 +99,5 @@ public class ClientHandle
             }
         }
         Server.UserLeft(userID, clientID);
-    }
-    
-    private string DeleteTerminator(string remain)
-    {
-        int idx = remain.IndexOf(CHAR_TERMINATOR);
-        if (idx >= 0)
-        {
-            remain = remain.Substring(0, idx);
-        }
-        return remain;
-    }
-
-    private void ProcessMove(string clientID, string remain)
-    {
-        var strs = remain.Split(',');
-        try
-        {
-            posX = float.Parse(strs[0]);
-            posY = float.Parse(strs[1]);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.ToString());
-        }
-    }
-
-    private void ProcessCommand(string clientID, string dataFromClient)
-    {
-        if (dataFromClient[0] == '#')
-        {
-            string command;
-            string remain;
-            int idx = dataFromClient.IndexOf('#', 1);
-            if (idx > 1)
-            {
-                command = dataFromClient.Substring(0, idx + 1);
-                if (command == Command.COMMAND_MOVE)
-                {
-                    remain = DeleteTerminator(dataFromClient.Substring(idx + 1));
-                    ProcessMove(clientID, remain);
-                }
-            }
-        }
     }
 }
