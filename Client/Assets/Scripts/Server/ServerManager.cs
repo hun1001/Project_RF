@@ -140,7 +140,7 @@ public class ServerManager : MonoSingleton<ServerManager>
 
                             Vector3 position = new Vector3(float.Parse(t[0]), float.Parse(t[1]), float.Parse(t[2]));
                             Quaternion rotation = new Quaternion(float.Parse(t[3]), float.Parse(t[4]), float.Parse(t[5]), float.Parse(t[6]));
-                            UpdateOtherPlayerTransform(id, position, Quaternion.identity);
+                            UpdateOtherPlayerTransform(id, position, rotation);
                             break;
                         case "Left":
                             Debug.Log($"Left {id}");
