@@ -38,7 +38,7 @@ class Server
                 ClientHandle client = new ClientHandle();
                 clientsDictionary.Add(counter, client);
 
-                client.startClient(clientSocket, counter);
+                client.StartClient(clientSocket, counter);
             }
             clientSocket.Close();
             serverSocket.Stop();
@@ -104,7 +104,7 @@ class Server
     public static void UserAdd(string clientNo)
     {
         broadcast(clientNo + "$#Enter#", "", false);
-        Console.WriteLine(clientNo + "Joined");
+        Console.WriteLine(clientNo + " Joined");
     }
 
     public static void UserLeft(int userID, string clientNo)

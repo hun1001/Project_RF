@@ -42,7 +42,7 @@ public class ServerManager : MonoSingleton<ServerManager>
 
     public void SendToServer(string message)
     {
-        message = _id + "$" + message;
+        message = _id + "$" + message + CHAR_TERMINATOR;
         byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
         stream.Write(data, 0, data.Length);
     }
@@ -62,6 +62,13 @@ public class ServerManager : MonoSingleton<ServerManager>
             {
                 numBytesRead = stream.Read(inStream, 0, inStream.Length);
                 returnData += Encoding.UTF8.GetString(inStream, 0, numBytesRead);
+
+                int endIdx = returnData.IndexOf(CHAR_TERMINATOR);
+                if (endIdx < returnData.Length - 1)
+                {
+                    string nextCommand = returnData.Substring(endIdx + 1);
+                    returnData = returnData.Substring(0, endIdx + 1);
+                }
             }
             commandQueue.Enqueue(returnData);
             returnData = "";
@@ -119,7 +126,7 @@ public class ServerManager : MonoSingleton<ServerManager>
 
                 Debug.Log($"command = {command}, id = {id}, remain = {remain}, nextCommand = {nextCommand}");
 
-                if (id.CompareTo(id) != 0)
+                if (_id.CompareTo(id) != 0)
                 {
                     switch (command)
                     {
@@ -130,9 +137,10 @@ public class ServerManager : MonoSingleton<ServerManager>
                         case "Move":
                             Debug.Log($"Move {id}");
                             string[] t = remain.Split(',');
+
                             Vector3 position = new Vector3(float.Parse(t[0]), float.Parse(t[1]), float.Parse(t[2]));
                             Quaternion rotation = new Quaternion(float.Parse(t[3]), float.Parse(t[4]), float.Parse(t[5]), float.Parse(t[6]));
-                            UpdateOtherPlayerTransform(id, position, rotation);
+                            UpdateOtherPlayerTransform(id, position, Quaternion.identity);
                             break;
                         case "Left":
                             Debug.Log($"Left {id}");
@@ -175,14 +183,17 @@ public class ServerManager : MonoSingleton<ServerManager>
     {
         if (otherPlayers.ContainsKey(_id))
         {
-            otherPlayers[_id].transform.position = position;
-            otherPlayers[_id].transform.rotation = rotation;
+            otherPlayers[_id].Tank.transform.position = position;
+            otherPlayers[_id].Tank.transform.rotation = rotation;
         }
     }
 
     public void SendTransform(Transform transform)
     {
         string message = COMMAND_MOVE + transform.position.x + "," + transform.position.y + "," + transform.position.z + "," + transform.rotation.x + "," + transform.rotation.y + "," + transform.rotation.z + "," + transform.rotation.w;
+
+        Debug.Log(message);
+
         SendToServer(message);
     }
 
