@@ -9,6 +9,7 @@ public class MenuCanvas : BaseCanvas
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("GameScene");
+        ServerManager.Instance.ConnectToServer();
         Pool.PoolManager.DeleteAllPool();
     }
 
@@ -26,7 +27,7 @@ public class MenuCanvas : BaseCanvas
     {
 
     }
-    
+
     public void OnTechTreeButton()
     {
         CanvasManager.ChangeCanvas(CanvasType.TechTree);
