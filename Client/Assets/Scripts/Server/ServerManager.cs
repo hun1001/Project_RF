@@ -149,10 +149,6 @@ public class ServerManager : MonoSingleton<ServerManager>
                             break;
                     }
                 }
-                else
-                {
-                    Debug.Log("Skip");
-                }
             }
         }
     }
