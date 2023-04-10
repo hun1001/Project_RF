@@ -104,6 +104,30 @@ class Server
     public static void UserAdd(string clientNo)
     {
         broadcast(clientNo + "$#Enter#", "", false);
+
+        lock (lockSocket)
+        {
+            TcpClient addedUserSocket = clientsDictionary[userCnt - 1].clientSocket;
+            NetworkStream addedUserStream = addedUserSocket.GetStream();
+
+            try
+            {
+                foreach (var i in clientsDictionary.Values)
+                {
+                    string otherUserData = i.clientID + "$#Enter#";
+                    byte[] bytes = Encoding.UTF8.GetBytes(otherUserData);
+
+                    addedUserStream.Write(bytes, 0, bytes.Length);
+                    addedUserStream.Flush();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                addedUserStream.Close();
+                addedUserSocket.Close();
+            }
+        }
         Console.WriteLine(clientNo + " Joined");
     }
 

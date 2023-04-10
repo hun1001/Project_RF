@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class OtherPlayer : MonoBehaviour
 {
+    public string ID;
     private Tank tank = null;
     public Tank Tank => tank;
 

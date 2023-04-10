@@ -6,6 +6,7 @@ using UnityEngine;
 using Util;
 using System.Text;
 using Pool;
+using UnityEngine.SceneManagement;
 
 public class ServerManager : MonoSingleton<ServerManager>
 {
@@ -27,13 +28,15 @@ public class ServerManager : MonoSingleton<ServerManager>
     {
         _id = "Player" + Random.Range(0, 1000);
         client = new TcpClient();
-        IPAddress ip = IPAddress.Parse("172.31.1.200");
+        IPAddress ip = IPAddress.Parse("192.168.0.21");
         client.Connect(ip, 7777);
         stream = client.GetStream();
 
         byte[] outStream = Encoding.UTF8.GetBytes(_id + '$');
         stream.Write(outStream, 0, outStream.Length);
         stream.Flush();
+
+        Packet packet = new Packet(_id, COMMAND_ENTER, null);
 
         isPlayingGame = true;
         StartCoroutine(GetMessage());
@@ -132,10 +135,21 @@ public class ServerManager : MonoSingleton<ServerManager>
                     {
                         case "Enter":
                             Debug.Log($"Enter {id}");
-                            AddOtherPlayer(id);
+                            StartCoroutine(AddOtherPlayer(id));
                             break;
                         case "Move":
-                            Debug.Log($"Move {id}");
+                            string i = "";
+                            int index = id.IndexOf('r');
+                            if (index > 0)
+                            {
+                                i = id.Substring(index);
+                            }
+                            i = "Player" + id;
+                            if (otherPlayers.ContainsKey(i) == false)
+                            {
+                                StartCoroutine(AddOtherPlayer(i));
+                            }
+
                             string[] t = remain.Split(',');
 
                             Vector3 position = new Vector3(float.Parse(t[0]), float.Parse(t[1]), float.Parse(t[2]));
@@ -170,8 +184,9 @@ public class ServerManager : MonoSingleton<ServerManager>
         }
     }
 
-    private void AddOtherPlayer(string _id)
+    private IEnumerator AddOtherPlayer(string _id)
     {
+        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "GameScene");
         if (otherPlayers.ContainsKey(_id) == false)
         {
             var otherPlayer = PoolManager.Get<OtherPlayer>("Assets/Prefabs/OtherPlayer.prefab");
@@ -191,9 +206,6 @@ public class ServerManager : MonoSingleton<ServerManager>
     public void SendTransform(Transform transform)
     {
         string message = COMMAND_MOVE + transform.position.x + "," + transform.position.y + "," + transform.position.z + "," + transform.rotation.x + "," + transform.rotation.y + "," + transform.rotation.z + "," + transform.rotation.w;
-
-        Debug.Log(message);
-
         SendToServer(message);
     }
 
