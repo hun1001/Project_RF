@@ -1,4 +1,5 @@
-﻿using System.Net.Sockets;
+﻿using System.Diagnostics;
+using System.Net.Sockets;
 using System.Text;
 
 namespace Server;
@@ -19,7 +20,7 @@ public class ClientHandle
 
     private bool noConnection = false;
 
-    public void startClient(TcpClient inClientSocket, int userSerial)
+    public void StartClient(TcpClient inClientSocket, int userSerial)
     {
         clientSocket = inClientSocket;
         userID = userSerial;
@@ -68,13 +69,13 @@ public class ClientHandle
                         if (clientID == null && idx > 0) //닉네임 전송
                         {
                             clientID = dataFromClient.Substring(0, idx);
-                            //Server.broadcast(clientID + "$" + COMMAND_ENTER, clientID, false);
+                            Server.broadcast(clientID + "$" + COMMAND_ENTER, clientID, false);
                             Server.UserAdd(clientID);
                         }
                         else if (idx + 1 < dataFromClient.Length)
                         {
                             dataFromClient = dataFromClient.Substring(idx + 1, dataFromClient.Length - (idx + 1));
-                            Console.WriteLine("From Client - " + clientID + ": " + dataFromClient);
+                            //Console.WriteLine("From Client - " + clientID + ": " + dataFromClient);
                             ProcessCommand(clientID, dataFromClient);
                             Server.broadcast(dataFromClient, clientID, true);
                         }

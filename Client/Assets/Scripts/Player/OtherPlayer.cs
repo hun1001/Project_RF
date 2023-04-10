@@ -5,18 +5,11 @@ using UnityEngine;
 public class OtherPlayer : MonoBehaviour
 {
     private Tank tank = null;
+    public Tank Tank => tank;
 
     private void Awake()
     {
         tank = Pool.PoolManager.Get<Tank>(PlayerDataManager.Instance.GetPlayerTankID()).SetTank(GroupType.Enemy);
-    }
-
-    private void Update()
-    {
-        if (tank == null)
-            return;
-
-
     }
 
     public void ReturnToPool()
