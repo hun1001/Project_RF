@@ -28,7 +28,7 @@ public class Turret_Attack : Turret_Component
             {
                 _isReload = true;
                 _turretSound.PlaySound(SoundType.Fire, AudioMixerType.Sfx);
-                _turretSound.PlaySound(SoundType.ShellDrop, AudioMixerType.Sfx, 0.6f);
+                _turretSound.PlaySound(SoundType.ShellDrop, AudioMixerType.Sfx, 0.5f);
             }
             _onFire?.Invoke();
             PoolManager.Get<Shell>(Turret.CurrentShell.ID, Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(GetComponent<Tank>(), Turret.TurretData.Power);

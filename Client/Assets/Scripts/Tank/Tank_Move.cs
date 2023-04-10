@@ -32,7 +32,7 @@ public class Tank_Move : Tank_Component
             if(_isDepart == false)
             {
                 _isDepart = true;
-                _tankSound?.PlaySound(SoundType.Load, AudioMixerType.Sfx, 0.5f);
+                _tankSound?.PlaySound(SoundType.Load, AudioMixerType.Sfx, 0.3f);
             }
             _targetSpeed = magnitude * _maxSpeed;
 

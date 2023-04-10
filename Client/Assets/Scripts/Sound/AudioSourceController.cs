@@ -32,6 +32,11 @@ public class AudioSourceController : MonoBehaviour, IPoolReset
     {
         _audioSource.spatialBlend = dimension;
     }
+
+    public void SetPitch(float pitch)
+    {
+        _audioSource.pitch = pitch;
+    }
     
     public void Play()
     {
