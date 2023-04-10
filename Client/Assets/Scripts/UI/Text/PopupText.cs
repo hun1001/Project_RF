@@ -2,16 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using UnityEngine.UI;
+using TMPro;
+using Pool;
 
 public class PopupText : MonoBehaviour, IPoolReset
 {
     [SerializeField]
-    private Text _text;
+    private TextMeshProUGUI _text;
+
+    [SerializeField]
+    private float _moveValue;
+    [SerializeField]
+    private float _moveDuration;
 
     public void SetText(string text)
     {
         _text.text = text;
+    }
+
+    public void DoMoveText()
+    {
+        transform.DOMoveY(_moveValue, _moveDuration).OnComplete(() => PoolManager.Pool("PopupDamage", gameObject));
     }
 
     public void PoolObjectReset()

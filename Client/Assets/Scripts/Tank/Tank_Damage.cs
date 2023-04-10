@@ -1,4 +1,5 @@
 using Event;
+using Pool;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,6 +33,17 @@ public class Tank_Damage : Tank_Component
 
         _onDamageAction?.Invoke(damage);
         _currentHealth += damage;
+
+        PopupText text = PoolManager.Get<PopupText>("PopupDamage", transform.position, Quaternion.identity);
+        if(damage <= 0)
+        {
+            text.SetText("Armor!");
+        }
+        else
+        {
+            text.SetText(damage);
+        }
+        text.DoMoveText();
 
         if (_currentHealth <= 0)
         {
