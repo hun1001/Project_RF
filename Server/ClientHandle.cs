@@ -12,15 +12,6 @@ public class ClientHandle
     public int userID;
     public string clientID;
 
-    public float posX;
-    public float posY;
-    public float posZ;
-
-    public float rotX;
-    public float rotY;
-    public float rotZ;
-    public float rotW;
-
     private bool noConnection = false;
 
     public void StartClient(TcpClient inClientSocket, int userSerial)
