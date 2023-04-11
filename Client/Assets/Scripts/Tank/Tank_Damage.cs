@@ -8,6 +8,7 @@ using UnityEngine;
 public class Tank_Damage : Tank_Component
 {
     private float _currentHealth = 0f;
+    public float CurrentHealth => _currentHealth;
     private float _maxHealth = 0f;
     private float _amour = 0f;
 
@@ -26,6 +27,8 @@ public class Tank_Damage : Tank_Component
         _amour = (Instance as Tank).TankData.Armour;
     }
 
+    public void SetHP(float hp) => _currentHealth = hp > _maxHealth ? _maxHealth : hp < 0 ? 0 : hp;
+
     public void Damaged(float damage, float penetration, Vector3 hitPos)
     {
         //damage = Mathf.Round(penetration > (Instance as Tank).TankData.Armour ? 99999 : (penetration * 2) > (Instance as Tank).TankData.Armour ? (damage * 10) - ((Instance as Tank).TankData.Armour - (penetration * 3)) : (penetration * 3) > (Instance as Tank).TankData.Armour ? (damage * 10) - ((Instance as Tank).TankData.Armour - (penetration * 2)) : (penetration * 5) > (Instance as Tank).TankData.Armour ? (damage * 10) - ((Instance as Tank).TankData.Armour - (penetration / 2)) : 1);
@@ -43,8 +46,8 @@ public class Tank_Damage : Tank_Component
 
         damage *= -1;
 
-        _onDamageAction?.Invoke(damage);
         _currentHealth += damage;
+        _onDamageAction?.Invoke(damage);
 
         if (_currentHealth <= 0)
         {

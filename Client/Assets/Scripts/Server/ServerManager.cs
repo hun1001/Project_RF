@@ -109,14 +109,12 @@ public class ServerManager : MonoSingleton<ServerManager>
         string command = p.Command;
         string data = p.Data;
 
-        Debug.Log($"id: {id} | command: {command} | data: {data}");
-
         if (_id.CompareTo(id) == 0 || (otherPlayers.ContainsKey(id) == false && id.CompareTo(id) != 0))
         {
             return;
         }
 
-
+        Debug.Log($"id: {id} | command: {command} | data: {data}");
 
         switch (command)
         {
@@ -133,7 +131,7 @@ public class ServerManager : MonoSingleton<ServerManager>
                 FireOtherPlayer(id);
                 break;
             case "Damage":
-                DamageOtherPlayer(id);
+                UpdateOtherTankHP(id, float.Parse(data));
                 break;
             default:
                 Debug.Log($"Unknown command: {command}");
@@ -199,24 +197,29 @@ public class ServerManager : MonoSingleton<ServerManager>
         }
     }
 
-    private void DamageOtherPlayer(string id)
-    {
-        if (otherPlayers.ContainsKey(id))
-        {
-            Debug.Log($"{id} is damaged");
-        }
-        else
-        {
-            Debug.Log("OtherPlayer not found");
-        }
-    }
-
     private void LeftOtherPlayer(string id)
     {
         if (otherPlayers.ContainsKey(id))
         {
             otherPlayers[id].ReturnToPool();
             otherPlayers.Remove(id);
+        }
+    }
+
+    public void SendHP(float hp)
+    {
+        RegisterSendPacket(new Packet(_id, "Damage", hp.ToString()));
+    }
+
+    private void UpdateOtherTankHP(string id, float hp)
+    {
+        if (otherPlayers.ContainsKey(id))
+        {
+            otherPlayers[id].UpdateHP(hp);
+        }
+        else
+        {
+            Debug.Log("OtherPlayer not found");
         }
     }
 

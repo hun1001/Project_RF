@@ -80,6 +80,14 @@ public class Player : CustomObject
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction((a) =>
         {
             if (a < 0) _cameraManager.CameraShake(cameraDamageShakeAmplitudeGain, cameraDamageShakeFrequencyGain, cameraDamageShakeDuration);
+
+            if (ServerManager.Instance.IsPlayingGame)
+            {
+                for (int i = 0; i < 25; ++i)
+                {
+                    ServerManager.Instance.SendHP(_tank.GetComponent<Tank_Damage>(ComponentType.Damage).CurrentHealth);
+                }
+            }
         });
 
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDeathAction(() =>
@@ -92,7 +100,13 @@ public class Player : CustomObject
         _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() =>
         {
             _cameraManager.CameraShake(cameraAttackShakeAmplitudeGain, cameraAttackShakeFrequencyGain, cameraAttackShakeDuration);
-            ServerManager.Instance.AttackPlayer();
+            if (ServerManager.Instance.IsPlayingGame)
+            {
+                for (int i = 0; i < 25; ++i)
+                {
+                    ServerManager.Instance.AttackPlayer();
+                }
+            }
         });
 
         _tankMove = _tank.GetComponent<Tank_Move>(ComponentType.Move);

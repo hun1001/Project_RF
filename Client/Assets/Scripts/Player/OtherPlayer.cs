@@ -26,9 +26,9 @@ public class OtherPlayer : MonoBehaviour
         tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire();
     }
 
-    public void Damage(int damage)
+    public void UpdateHP(float hp)
     {
-
+        tank.GetComponent<Tank_Damage>(ComponentType.Damage).SetHP(hp);
     }
 
     public void ReturnToPool()

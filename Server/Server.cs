@@ -60,7 +60,7 @@ static class Server
     public static void Broadcast(Packet packet)
     {
         byte[] data = packet.Serialize();
-
+        
         lock (lockSocket)
         {
             foreach (KeyValuePair<int, ClientHandle> client in clientsDictionary)
