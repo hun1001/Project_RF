@@ -36,7 +36,7 @@ public abstract class BaseCanvas : MonoBehaviour
     }
 
     /// <summary> 메뉴씬으로 돌아가는 함수 </summary>
-    public void OnHomeButton()
+    public virtual void OnHomeButton()
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
         {
