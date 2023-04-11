@@ -25,8 +25,8 @@ public class TechTreeSO : ScriptableObject
     private TankArray[] _tankArrays = null;
     public Tank this[int i, int j] => _tankArrays[i][j];
 
-    private bool[][] _isLink = null;
-    public bool IsLink(int i, int j) => _isLink[i][j];
+    private TechTreeLinkStateType[][] _isLink = null;
+    public TechTreeLinkStateType IsLink(int i, int j) => _isLink[i][j];
 
     public int Length => _tankArrays.Length;
     public int GetTankArrayLength(int i) => _tankArrays[i].Length;
@@ -42,7 +42,7 @@ public class TechTreeSO : ScriptableObject
         }
     }
 
-    public void SetIsLink(bool[][] isLink)
+    public void SetIsLink(TechTreeLinkStateType[][] isLink)
     {
         _isLink = isLink;
     }
