@@ -16,6 +16,7 @@ public class ServerManager : MonoSingleton<ServerManager>
     private string _id = "Player";
     public string ID => _id;
     private bool isPlayingGame = false;
+    public bool IsPlayingGame => isPlayingGame;
 
     private Queue<Packet> packetQueue = new Queue<Packet>();
     private Dictionary<string, OtherPlayer> otherPlayers = new Dictionary<string, OtherPlayer>();
@@ -24,7 +25,7 @@ public class ServerManager : MonoSingleton<ServerManager>
     {
         _id = "Player" + Random.Range(0, 1000);
         client = new TcpClient();
-        IPAddress ip = IPAddress.Parse("192.168.0.21");
+        IPAddress ip = IPAddress.Parse("172.31.1.200");
         client.Connect(ip, 7777);
         stream = client.GetStream();
 

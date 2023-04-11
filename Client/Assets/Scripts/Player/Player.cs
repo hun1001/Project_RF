@@ -101,7 +101,8 @@ public class Player : CustomObject
         _tankRotate.Rotate(_moveJoystick.Direction);
         _turretRotate.Rotate(_attackJoystick.Direction);
 
-        ServerManager.Instance.SendTransform(_tank.transform);
+        if (ServerManager.Instance.IsPlayingGame)
+            ServerManager.Instance.SendTransform(_tank.transform);
     }
 
     private IEnumerator Change()
