@@ -13,6 +13,23 @@ public class OtherPlayer : MonoBehaviour
         tank = Pool.PoolManager.Get<Tank>(PlayerDataManager.Instance.GetPlayerTankID()).SetTank(GroupType.Enemy);
     }
 
+    public void TransformUpdate(string args)
+    {
+        string[] arg = args.Split(',');
+        tank.transform.position = new Vector3(float.Parse(arg[0]), float.Parse(arg[1]), float.Parse(arg[2]));
+        tank.transform.rotation = new Quaternion(float.Parse(arg[3]), float.Parse(arg[4]), ((byte)float.Parse(arg[5])), float.Parse(arg[6]));
+    }
+
+    public void Fire()
+    {
+        tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire();
+    }
+
+    public void Damage(int damage)
+    {
+
+    }
+
     public void ReturnToPool()
     {
         Pool.PoolManager.Pool(PlayerDataManager.Instance.GetPlayerTankID(), tank.gameObject);

@@ -22,7 +22,7 @@ public class PopupText : MonoBehaviour, IPoolReset
 
     public void DoMoveText()
     {
-        transform.DOMoveY(_moveValue, _moveDuration).OnComplete(() => PoolManager.Pool("PopupDamage", gameObject));
+        transform.DOMoveY(transform.position.y + _moveValue, _moveDuration).OnComplete(() => PoolManager.Pool("PopupDamage", gameObject));
     }
 
     public void PoolObjectReset()
