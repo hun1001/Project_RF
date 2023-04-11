@@ -96,12 +96,7 @@ public class ServerManager : MonoSingleton<ServerManager>
         switch (command)
         {
             case "Move":
-                string t = "";
-                for (int i = 0; i < data.Length; i++)
-                {
-                    t += data[i] + " ";
-                }
-                Debug.Log($"Move {id}: {t}");
+                MoveOtherPlayer(id, data);
                 break;
             case "Enter":
                 UpdateMemberList(data);
@@ -110,8 +105,10 @@ public class ServerManager : MonoSingleton<ServerManager>
                 LeftOtherPlayer(id);
                 break;
             case "Attack":
+                FireOtherPlayer(id);
                 break;
             case "Damage":
+                DamageOtherPlayer(id);
                 break;
             default:
                 break;
@@ -133,6 +130,42 @@ public class ServerManager : MonoSingleton<ServerManager>
             {
                 StartCoroutine(AddOtherPlayer(idList[i]));
             }
+        }
+    }
+
+    private void MoveOtherPlayer(string id, string data)
+    {
+        if (otherPlayers.ContainsKey(id))
+        {
+            otherPlayers[id].TransformUpdate(data);
+        }
+        else
+        {
+            Debug.Log("OtherPlayer not found");
+        }
+    }
+
+    private void FireOtherPlayer(string id)
+    {
+        if (otherPlayers.ContainsKey(id))
+        {
+            otherPlayers[id].Fire();
+        }
+        else
+        {
+            Debug.Log("OtherPlayer not found");
+        }
+    }
+
+    private void DamageOtherPlayer(string id)
+    {
+        if (otherPlayers.ContainsKey(id))
+        {
+            Debug.Log($"{id} is damaged");
+        }
+        else
+        {
+            Debug.Log("OtherPlayer not found");
         }
     }
 
