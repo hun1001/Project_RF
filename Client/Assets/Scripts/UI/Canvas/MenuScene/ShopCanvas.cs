@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Rendering;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,7 +28,7 @@ public class ShopCanvas : BaseCanvas
 
     private void Awake()
     {
-        _premiumTankToggle.onValueChanged.AddListener(delegate{ OnToggle(ShopToggle.PremiumTank); });
+        _premiumTankToggle.onValueChanged.AddListener(delegate { OnToggle(ShopToggle.PremiumTank); });
         _itemToggle.onValueChanged.AddListener(delegate { OnToggle(ShopToggle.Item); });
         _randomGachaToggle.onValueChanged.AddListener(delegate { OnToggle(ShopToggle.RandomGacha); });
         _paidGoodsToggle.onValueChanged.AddListener(delegate { OnToggle(ShopToggle.PaidGoods); });
@@ -45,7 +41,7 @@ public class ShopCanvas : BaseCanvas
 
         switch (x)
         {
-           case 0f:
+            case 0f:
                 {
                     _premiumTankToggle.isOn = true;
                 }
@@ -70,7 +66,7 @@ public class ShopCanvas : BaseCanvas
 
     public void OnToggle(ShopToggle value)
     {
-        switch(value)
+        switch (value)
         {
             case ShopToggle.PremiumTank:
                 {
@@ -92,7 +88,7 @@ public class ShopCanvas : BaseCanvas
                     _scrollRect.horizontalNormalizedPosition = 1f;
                 }
                 break;
-            default : break;
+            default: break;
         }
     }
 
