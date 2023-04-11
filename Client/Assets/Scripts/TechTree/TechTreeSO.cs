@@ -42,17 +42,9 @@ public class TechTreeSO : ScriptableObject
         }
     }
 
-    public void SetIsLink(List<List<bool>> isLinkList)
+    public void SetIsLink(bool[][] isLink)
     {
-        _isLink = new bool[isLinkList.Count][];
-        for (int i = 0; i < isLinkList.Count; i++)
-        {
-            _isLink[i] = new bool[isLinkList[i].Count];
-            for (int j = 0; j < isLinkList[i].Count; j++)
-            {
-                _isLink[i][j] = isLinkList[i][j];
-            }
-        }
+        _isLink = isLink;
     }
 
     [Serializable]
