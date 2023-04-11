@@ -1,8 +1,10 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Runtime.InteropServices;
 
 [Serializable]
+[StructLayout(LayoutKind.Sequential)]
 public class Packet
 {
     private string id;

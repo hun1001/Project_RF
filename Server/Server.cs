@@ -100,7 +100,6 @@ class Server
         }
 
         Broadcast(new Packet(clientNo, Command.COMMAND_ENTER, memberIDList));
-        Console.WriteLine(clientNo + " Joined");
     }
 
     public static void UserLeft(int userID, string clientNo)

@@ -46,17 +46,22 @@ public class ServerManager : MonoSingleton<ServerManager>
     private IEnumerator GetMessage()
     {
         byte[] inStream = new byte[1024];
+        Packet packet;
+        int numBytesRead;
+
+        stream = client.GetStream();
 
         while (isPlayingGame)
         {
-            stream = client.GetStream();
-            int numBytesRead;
 
             if (stream.DataAvailable)
             {
-                numBytesRead = stream.Read(inStream, 0, client.ReceiveBufferSize);
-                Packet packet = Packet.Deserialize(inStream);
-                packetQueue.Enqueue(packet);
+                while (stream.DataAvailable)
+                {
+                    numBytesRead = stream.Read(inStream, 0, inStream.Length);
+                    packet = Packet.Deserialize(inStream);
+                    packetQueue.Enqueue(packet);
+                }
             }
 
             inStream = new byte[1024];
@@ -88,10 +93,12 @@ public class ServerManager : MonoSingleton<ServerManager>
         string command = p.Command;
         string data = p.Data;
 
-        if (_id.CompareTo(id) == 0)
+        if (_id.CompareTo(id) == 0 || (otherPlayers.ContainsKey(id) == false && id.CompareTo(id) != 0))
         {
             return;
         }
+
+        Debug.Log($"id: {id}, command: {command}, data: {data}");
 
         switch (command)
         {
@@ -111,6 +118,7 @@ public class ServerManager : MonoSingleton<ServerManager>
                 DamageOtherPlayer(id);
                 break;
             default:
+                Debug.Log($"Unknown command: {command}");
                 break;
         }
     }
@@ -121,7 +129,7 @@ public class ServerManager : MonoSingleton<ServerManager>
 
         for (int i = 0; i < idList.Length; i++)
         {
-            if (idList[i].CompareTo(_id) == 0)
+            if (idList[i] == _id)
             {
                 continue;
             }
@@ -141,7 +149,7 @@ public class ServerManager : MonoSingleton<ServerManager>
         }
         else
         {
-            Debug.Log("OtherPlayer not found");
+            UpdateMemberList(id);
         }
     }
 
@@ -184,6 +192,7 @@ public class ServerManager : MonoSingleton<ServerManager>
         if (otherPlayers.ContainsKey(id) == false)
         {
             var otherPlayer = PoolManager.Get<OtherPlayer>("Assets/Prefabs/OtherPlayer.prefab");
+            otherPlayer.ID = id;
             otherPlayers.Add(id, otherPlayer);
         }
     }

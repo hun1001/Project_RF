@@ -74,7 +74,7 @@ public class ClientHandle
                         {
                             case Command.COMMAND_REGISTER:
                                 clientID = packet.ID;
-                                //Server.UserAdd(clientID);
+                                Server.UserAdd(clientID);
                                 break;
                             case Command.COMMAND_LEFT:
                                 Server.UserLeft(userID, clientID);
