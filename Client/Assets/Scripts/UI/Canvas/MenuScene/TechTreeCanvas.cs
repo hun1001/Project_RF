@@ -61,7 +61,6 @@ public class TechTreeCanvas : BaseCanvas
                             int lIndex = l;
                             var tankNode = Instantiate(_tankNodeTemplate, rowTransform);
 
-
                             // 대충 색 설정 해야됨
                             tankNode.transform.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
 
@@ -70,7 +69,6 @@ public class TechTreeCanvas : BaseCanvas
                             entry.eventID = EventTriggerType.PointerClick;
                             entry.callback.AddListener((eventData) =>
                             {
-                                Debug.Log(_techTree.TechTreeSO[index][jIndex, lIndex].ID);
                                 _tankInformationPanel.SetActive(true);
                                 var topUI = _tankInformationPanel.transform.GetChild(0);
                                 topUI.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
