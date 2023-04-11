@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyBar : Bar
 {
-    private static Vector3 _offset = Vector3.down * 3.5f;
+    private static Vector3 _offset = Vector3.down * 3.5f + Vector3.back;
 
     private void LateUpdate()
     {

@@ -17,10 +17,10 @@ public class Tank_Sound : Tank_Component
         }
         else
         {
-            _trackSource.SetVolume(0.1f);
-            _trackSource.SetPitch(speedPercent);
+            _trackSource?.SetVolume(0.1f);
+            _trackSource?.SetPitch(speedPercent);
             speedPercent = 0.5f * speedPercent * 0.1f;
-            _engineSource.SetVolume(speedPercent);
+            _engineSource?.SetVolume(speedPercent);
         }
     }
 

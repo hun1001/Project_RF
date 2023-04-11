@@ -26,16 +26,12 @@ public class Tank_Damage : Tank_Component
         _amour = (Instance as Tank).TankData.Armour;
     }
 
-    public void Damaged(float damage, float penetration)
+    public void Damaged(float damage, float penetration, Vector3 hitPos)
     {
         //damage = Mathf.Round(penetration > (Instance as Tank).TankData.Armour ? 99999 : (penetration * 2) > (Instance as Tank).TankData.Armour ? (damage * 10) - ((Instance as Tank).TankData.Armour - (penetration * 3)) : (penetration * 3) > (Instance as Tank).TankData.Armour ? (damage * 10) - ((Instance as Tank).TankData.Armour - (penetration * 2)) : (penetration * 5) > (Instance as Tank).TankData.Armour ? (damage * 10) - ((Instance as Tank).TankData.Armour - (penetration / 2)) : 1);
-        damage *= -1;
 
-        _onDamageAction?.Invoke(damage);
-        _currentHealth += damage;
-
-        PopupText text = PoolManager.Get<PopupText>("PopupDamage", transform.position, Quaternion.identity);
-        if(damage <= 0)
+        PopupText text = PoolManager.Get<PopupText>("PopupDamage", hitPos + Vector3.back * 5, Quaternion.identity);
+        if (damage <= 0)
         {
             text.SetText("Armor!");
         }
@@ -44,6 +40,11 @@ public class Tank_Damage : Tank_Component
             text.SetText(damage);
         }
         text.DoMoveText();
+
+        damage *= -1;
+
+        _onDamageAction?.Invoke(damage);
+        _currentHealth += damage;
 
         if (_currentHealth <= 0)
         {
