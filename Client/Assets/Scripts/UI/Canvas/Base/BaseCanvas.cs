@@ -49,4 +49,9 @@ public abstract class BaseCanvas : MonoBehaviour
             Pool.PoolManager.DeleteAllPool();
         }
     }
+
+    public virtual void OnOpenAnimation()
+    {
+
+    }
 }

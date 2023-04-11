@@ -21,6 +21,8 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
         foreach (var canvas in _canvasDictionary)
         {
             canvas.Value.Canvas.enabled = canvas.Key == canvasType;
+            if (canvas.Key == canvasType)
+                canvas.Value.OnOpenAnimation();
         }
     }
 
