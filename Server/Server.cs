@@ -63,7 +63,7 @@ class Server
 
     public static void Broadcast(Packet packet)
     {
-        Byte[] data = packet.Serialize();
+        byte[] data = packet.Serialize();
 
         lock (lockSocket)
         {

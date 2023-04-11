@@ -98,7 +98,7 @@ public class ServerManager : MonoSingleton<ServerManager>
             return;
         }
 
-        // Debug.Log($"id: {id} | command: {command} | data: {data}");
+        Debug.Log($"id: {id} | command: {command} | data: {data}");
 
         switch (command)
         {
@@ -112,7 +112,6 @@ public class ServerManager : MonoSingleton<ServerManager>
                 LeftOtherPlayer(id);
                 break;
             case "Attack":
-                Debug.Log("Attack");
                 FireOtherPlayer(id);
                 break;
             case "Damage":
