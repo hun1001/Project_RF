@@ -139,6 +139,22 @@ public class ServerManager : MonoSingleton<ServerManager>
                 StartCoroutine(AddOtherPlayer(idList[i]));
             }
         }
+
+        var ot = FindObjectsOfType<OtherPlayer>();
+        for (int i = 0; i < ot.Length; i++)
+        {
+            for (int j = 0; j < idList.Length; j++)
+            {
+                if (ot[i].ID == idList[j])
+                {
+                    break;
+                }
+                if (j == idList.Length - 1)
+                {
+                    ot[i].ReturnToPool();
+                }
+            }
+        }
     }
 
     private void MoveOtherPlayer(string id, string data)
@@ -186,6 +202,11 @@ public class ServerManager : MonoSingleton<ServerManager>
         }
     }
 
+    public void AttackPlayer()
+    {
+        SendToServer(new Packet(_id, "Attack", null));
+    }
+
     private IEnumerator AddOtherPlayer(string id)
     {
         yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "GameScene");
@@ -197,9 +218,9 @@ public class ServerManager : MonoSingleton<ServerManager>
         }
     }
 
-    public void SendTransform(Transform transform)
+    public void SendTransform(Transform tankTransform, Transform turretTransform)
     {
-        string message = transform.position.x + "," + transform.position.y + "," + transform.position.z + "," + transform.rotation.x + "," + transform.rotation.y + "," + transform.rotation.z + "," + transform.rotation.w;
+        string message = tankTransform.position.x + "," + tankTransform.position.y + "," + tankTransform.position.z + "," + tankTransform.rotation.x + "," + tankTransform.rotation.y + "," + tankTransform.rotation.z + "," + tankTransform.rotation.w + "," + turretTransform.rotation.x + "," + turretTransform.rotation.y + "," + turretTransform.rotation.z + "," + turretTransform.rotation.w;
         Packet packet = new Packet(_id, "Move", message);
         SendToServer(packet);
     }

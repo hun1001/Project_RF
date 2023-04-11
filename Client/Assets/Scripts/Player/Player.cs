@@ -88,7 +88,11 @@ public class Player : CustomObject
             StartCoroutine(Change());
         });
 
-        _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() => _cameraManager.CameraShake(cameraAttackShakeAmplitudeGain, cameraAttackShakeFrequencyGain, cameraAttackShakeDuration)); //_cameraManager.CameraZoomInEffect(5f, 0.1f, 0.1f));
+        _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() =>
+        {
+            _cameraManager.CameraShake(cameraAttackShakeAmplitudeGain, cameraAttackShakeFrequencyGain, cameraAttackShakeDuration);
+            ServerManager.Instance.AttackPlayer();
+        });
 
         _tankMove = _tank.GetComponent<Tank_Move>(ComponentType.Move);
         _tankRotate = _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate);
@@ -102,7 +106,7 @@ public class Player : CustomObject
         _turretRotate.Rotate(_attackJoystick.Direction);
 
         if (ServerManager.Instance.IsPlayingGame)
-            ServerManager.Instance.SendTransform(_tank.transform);
+            ServerManager.Instance.SendTransform(_tank.transform, _tank.Turret.transform);
     }
 
     private IEnumerator Change()
