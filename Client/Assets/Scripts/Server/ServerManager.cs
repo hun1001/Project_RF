@@ -10,10 +10,6 @@ using UnityEngine.SceneManagement;
 
 public class ServerManager : MonoSingleton<ServerManager>
 {
-    public const string COMMAND_ENTER = "#Enter#";
-    public const string COMMAND_MOVE = "#Move#";
-    public const char CHAR_TERMINATOR = ';';
-
     private TcpClient client = null;
     private NetworkStream stream = null;
 
@@ -21,7 +17,7 @@ public class ServerManager : MonoSingleton<ServerManager>
     public string ID => _id;
     private bool isPlayingGame = false;
 
-    private Queue<string> commandQueue = new Queue<string>();
+    private Queue<Packet> packetQueue = new Queue<Packet>();
     private Dictionary<string, OtherPlayer> otherPlayers = new Dictionary<string, OtherPlayer>();
 
     public void ConnectToServer()
@@ -32,26 +28,23 @@ public class ServerManager : MonoSingleton<ServerManager>
         client.Connect(ip, 7777);
         stream = client.GetStream();
 
-        byte[] outStream = Encoding.UTF8.GetBytes(_id + '$');
-        stream.Write(outStream, 0, outStream.Length);
-        stream.Flush();
-
-        Packet packet = new Packet(_id, COMMAND_ENTER, null);
+        Packet packet = new Packet(_id, "Enter", null);
+        SendToServer(packet);
 
         isPlayingGame = true;
         StartCoroutine(GetMessage());
         StartCoroutine(ProcessQueue());
     }
 
-    public void SendToServer(string message)
+    public void SendToServer(Packet packet)
     {
-        message = _id + "$" + message + CHAR_TERMINATOR;
-        byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
+        byte[] data = packet.ToBytes();
         stream.Write(data, 0, data.Length);
     }
 
     private IEnumerator GetMessage()
     {
+        Packet packet = new Packet();
         byte[] inStream = new byte[1024];
         string returnData = "";
 
@@ -65,15 +58,11 @@ public class ServerManager : MonoSingleton<ServerManager>
             {
                 numBytesRead = stream.Read(inStream, 0, inStream.Length);
                 returnData += Encoding.UTF8.GetString(inStream, 0, numBytesRead);
-
-                int endIdx = returnData.IndexOf(CHAR_TERMINATOR);
-                if (endIdx < returnData.Length - 1)
-                {
-                    string nextCommand = returnData.Substring(endIdx + 1);
-                    returnData = returnData.Substring(0, endIdx + 1);
-                }
+                packet.SetPacket(returnData);
+                packetQueue.Enqueue(packet);
             }
-            commandQueue.Enqueue(returnData);
+
+            inStream = new byte[1024];
             returnData = "";
             yield return null;
         }
@@ -83,96 +72,121 @@ public class ServerManager : MonoSingleton<ServerManager>
     {
         while (true)
         {
-            if (commandQueue.Count > 0)
+            if (packetQueue.Count > 0)
             {
-                string command = commandQueue.Dequeue();
+                Packet command = packetQueue.Dequeue();
                 ProcessCommand(command);
             }
             yield return null;
         }
     }
 
-    private void ProcessCommand(string cmd)
+    private void ProcessCommand(Packet p)
     {
         if (isPlayingGame == false)
         {
             return;
         }
 
-        int nameIdx = cmd.IndexOf("$");
-        string id = "";
-        if (nameIdx > 0)
+        string id = p.ID;
+        string command = p.Command;
+        string[] args = p.Args;
+
+        if (_id.CompareTo(id) == 0)
         {
-            id = cmd.Substring(0, nameIdx);
+            return;
         }
 
-        int cmdIdx1 = cmd.IndexOf("#");
-        if (cmdIdx1 > nameIdx)
+        switch (command)
         {
-            int cmdIdx2 = cmd.IndexOf("#", cmdIdx1 + 1);
-            if (cmdIdx2 > cmdIdx1)
-            {
-                string command = cmd.Substring(cmdIdx1 + 1, cmdIdx2 - cmdIdx1 - 1);
-
-                string remain = "";
-                string nextCommand;
-                int endIdx = cmd.IndexOf(CHAR_TERMINATOR, cmdIdx2 + 1);
-                if (endIdx > cmdIdx2)
-                {
-                    remain = cmd.Substring(cmdIdx2 + 1, endIdx - cmdIdx2 - 1);
-                    nextCommand = cmd.Substring(endIdx + 1);
-                }
-                else
-                {
-                    nextCommand = cmd.Substring(cmdIdx2 + 1);
-                }
-
-                Debug.Log($"command = {command}, id = {id}, remain = {remain}, nextCommand = {nextCommand}");
-
-                if (_id.CompareTo(id) != 0)
-                {
-                    switch (command)
-                    {
-                        case "Enter":
-                            Debug.Log($"Enter {id}");
-                            StartCoroutine(AddOtherPlayer(id));
-                            break;
-                        case "Move":
-                            string i = "";
-                            int index = id.IndexOf('r');
-                            if (index > 0)
-                            {
-                                i = id.Substring(index);
-                            }
-                            i = "Player" + id;
-                            if (otherPlayers.ContainsKey(i) == false)
-                            {
-                                StartCoroutine(AddOtherPlayer(i));
-                            }
-
-                            string[] t = remain.Split(',');
-
-                            Vector3 position = new Vector3(float.Parse(t[0]), float.Parse(t[1]), float.Parse(t[2]));
-                            Quaternion rotation = new Quaternion(float.Parse(t[3]), float.Parse(t[4]), float.Parse(t[5]), float.Parse(t[6]));
-                            UpdateOtherPlayerTransform(id, position, rotation);
-                            break;
-                        case "Left":
-                            Debug.Log($"Left {id}");
-                            LeftOtherPlayer(id);
-                            break;
-                        case "Attack":
-                            Debug.Log($"Attack {id}");
-                            break;
-                        case "Damage":
-                            Debug.Log($"Damage {id}");
-                            break;
-                        case "Dead":
-                            Debug.Log($"Dead {id}");
-                            break;
-                    }
-                }
-            }
+            case "Move":
+                break;
+            case "Enter":
+                break;
+            case "Left":
+                break;
+            case "Attack":
+                break;
+            case "Damage":
+                break;
+            default:
+                break;
         }
+
+        // int nameIdx = cmd.IndexOf("$");
+        // string id = "";
+        // if (nameIdx > 0)
+        // {
+        //     id = cmd.Substring(0, nameIdx);
+        // }
+
+        // int cmdIdx1 = cmd.IndexOf("#");
+        // if (cmdIdx1 > nameIdx)
+        // {
+        //     int cmdIdx2 = cmd.IndexOf("#", cmdIdx1 + 1);
+        //     if (cmdIdx2 > cmdIdx1)
+        //     {
+        //         string command = cmd.Substring(cmdIdx1 + 1, cmdIdx2 - cmdIdx1 - 1);
+
+        //         string remain = "";
+        //         string nextCommand;
+        //         int endIdx = cmd.IndexOf(CHAR_TERMINATOR, cmdIdx2 + 1);
+        //         if (endIdx > cmdIdx2)
+        //         {
+        //             remain = cmd.Substring(cmdIdx2 + 1, endIdx - cmdIdx2 - 1);
+        //             nextCommand = cmd.Substring(endIdx + 1);
+        //         }
+        //         else
+        //         {
+        //             nextCommand = cmd.Substring(cmdIdx2 + 1);
+        //         }
+
+        //         Debug.Log($"command = {command}, id = {id}, remain = {remain}, nextCommand = {nextCommand}");
+
+        //         if (_id.CompareTo(id) != 0)
+        //         {
+        //             switch (command)
+        //             {
+        //                 case "Enter":
+        //                     Debug.Log($"Enter {id}");
+        //                     StartCoroutine(AddOtherPlayer(id));
+        //                     break;
+        //                 case "Move":
+        //                     string i = "";
+        //                     int index = id.IndexOf('r');
+        //                     if (index > 0)
+        //                     {
+        //                         i = id.Substring(index);
+        //                     }
+        //                     i = "Player" + id;
+        //                     if (otherPlayers.ContainsKey(i) == false)
+        //                     {
+        //                         StartCoroutine(AddOtherPlayer(i));
+        //                     }
+
+        //                     string[] t = remain.Split(',');
+
+        //                     Vector3 position = new Vector3(float.Parse(t[0]), float.Parse(t[1]), float.Parse(t[2]));
+        //                     Quaternion rotation = new Quaternion(float.Parse(t[3]), float.Parse(t[4]), float.Parse(t[5]), float.Parse(t[6]));
+        //                     UpdateOtherPlayerTransform(id, position, rotation);
+        //                     break;
+        //                 case "Left":
+        //                     Debug.Log($"Left {id}");
+        //                     LeftOtherPlayer(id);
+        //                     break;
+        //                 case "Attack":
+        //                     Debug.Log($"Attack {id}");
+        //                     break;
+        //                 case "Damage":
+        //                     Debug.Log($"Damage {id}");
+        //                     break;
+        //                 case "Dead":
+        //                     Debug.Log($"Dead {id}");
+        //                     break;
+        //             }
+        //         }
+        //     }
+        // }
     }
 
     private void LeftOtherPlayer(string id)
@@ -205,15 +219,16 @@ public class ServerManager : MonoSingleton<ServerManager>
 
     public void SendTransform(Transform transform)
     {
-        string message = COMMAND_MOVE + transform.position.x + "," + transform.position.y + "," + transform.position.z + "," + transform.rotation.x + "," + transform.rotation.y + "," + transform.rotation.z + "," + transform.rotation.w;
-        SendToServer(message);
+        string message = transform.position.x + "," + transform.position.y + "," + transform.position.z + "," + transform.rotation.x + "," + transform.rotation.y + "," + transform.rotation.z + "," + transform.rotation.w;
+        Packet packet = new Packet(_id, "Move", message);
+        SendToServer(packet);
     }
 
     public void Disconnect()
     {
         if (client != null)
         {
-            SendToServer("Left");
+            SendToServer(new Packet(_id, "Left", null));
             isPlayingGame = false;
             stream.Close();
             client.Close();

@@ -80,10 +80,10 @@ public class Player : CustomObject
         {
             if (a < 0) _cameraManager.CameraShake(cameraDamageShakeAmplitudeGain, cameraDamageShakeFrequencyGain, cameraDamageShakeDuration);
         });
+
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDeathAction(() =>
         {
             Time.timeScale = 0;
-            ServerManager.Instance.SendToServer("Dead");
             ServerManager.Instance.Disconnect();
             StartCoroutine(Change());
         });
