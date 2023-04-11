@@ -35,8 +35,7 @@ public class Packet
         string str = id + ";" + command + ";" + data + ";";
         return Encoding.UTF8.GetBytes(str);
     }
-
-    // 역직렬화 메서드
+    
     public static Packet Deserialize(byte[] data)
     {
         string str = Encoding.UTF8.GetString(data);
