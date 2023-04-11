@@ -51,7 +51,7 @@ public class ShopCanvas : BaseCanvas
                     _itemToggle.isOn = true;
                 }
                 break;
-            case 0.8f:
+            case 0.7f:
                 {
                     _randomGachaToggle.isOn = true;
                 }
@@ -70,22 +70,22 @@ public class ShopCanvas : BaseCanvas
         {
             case ShopToggle.PremiumTank:
                 {
-                    _scrollRect.horizontalNormalizedPosition = 0f;
+                    _scrollRect.normalizedPosition = Vector2.zero;
                 }
                 break;
             case ShopToggle.Item:
                 {
-                    _scrollRect.horizontalNormalizedPosition = 0.3f;
+                    _scrollRect.normalizedPosition = new Vector2(0.3f, 0f);
                 }
                 break;
             case ShopToggle.RandomGacha:
                 {
-                    _scrollRect.horizontalNormalizedPosition = 0.8f;
+                    _scrollRect.normalizedPosition = new Vector2(0.7f, 0f);
                 }
                 break;
             case ShopToggle.PaidGoods:
                 {
-                    _scrollRect.horizontalNormalizedPosition = 1f;
+                    _scrollRect.normalizedPosition = Vector2.right;
                 }
                 break;
             default: break;
@@ -95,6 +95,6 @@ public class ShopCanvas : BaseCanvas
     public override void OnHomeButton()
     {
         base.OnHomeButton();
-        _scrollRect.horizontalNormalizedPosition = 0f;
+        _scrollRect.normalizedPosition = Vector2.zero;
     }
 }
