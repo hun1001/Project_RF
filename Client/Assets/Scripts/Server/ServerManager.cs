@@ -210,7 +210,7 @@ public class ServerManager : MonoSingleton<ServerManager>
     private IEnumerator AddOtherPlayer(string id)
     {
         yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "GameScene");
-        if (otherPlayers.ContainsKey(id) == false)
+        if (otherPlayers.ContainsKey(id) == false && id != "")
         {
             var otherPlayer = PoolManager.Get<OtherPlayer>("Assets/Prefabs/OtherPlayer.prefab");
             otherPlayer.ID = id;
