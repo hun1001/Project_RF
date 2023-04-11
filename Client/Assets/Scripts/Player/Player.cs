@@ -113,7 +113,9 @@ public class Player : CustomObject
         while (true)
         {
             if (ServerManager.Instance.IsPlayingGame)
-                ServerManager.Instance.SendTransform(_tank.transform, _tank.Turret.transform);
+            {
+                ServerManager.Instance.SendTransform(_tank.transform, _tank.Turret.TurretTransform);
+            }
 
             yield return new WaitForSecondsRealtime(0.01f);
         }

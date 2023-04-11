@@ -17,8 +17,8 @@ public class OtherPlayer : MonoBehaviour
     {
         string[] arg = args.Split(',');
         tank.transform.position = new Vector3(float.Parse(arg[0]), float.Parse(arg[1]), 0);
-        tank.transform.rotation = Quaternion.Euler(0, 0, float.Parse(arg[2]));
-        tank.Turret.transform.rotation = Quaternion.Euler(0, 0, float.Parse(arg[3]));
+        tank.transform.rotation = new Quaternion(0, 0, float.Parse(arg[2]), float.Parse(arg[3]));
+        tank.Turret.transform.rotation = new Quaternion(0, 0, float.Parse(arg[4]), float.Parse(arg[5]));
     }
 
     public void Fire()
