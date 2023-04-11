@@ -46,6 +46,7 @@ public class Player : CustomObject
 
         _cameraManager.SetPlayer(_tank.transform);
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);
+        _attackJoystick.AddOnPointerUpAction(() => ServerManager.Instance.AttackPlayer());
         _hpBar.Setting(_tank.TankData.HP);
 
         int shellCnt = _tank.Turret.TurretData.Shells.Count;
@@ -91,7 +92,6 @@ public class Player : CustomObject
         _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() =>
         {
             _cameraManager.CameraShake(cameraAttackShakeAmplitudeGain, cameraAttackShakeFrequencyGain, cameraAttackShakeDuration);
-            ServerManager.Instance.AttackPlayer();
         });
 
         _tankMove = _tank.GetComponent<Tank_Move>(ComponentType.Move);
@@ -117,7 +117,7 @@ public class Player : CustomObject
                 ServerManager.Instance.SendTransform(_tank.transform, _tank.Turret.TurretTransform);
             }
 
-            yield return new WaitForSecondsRealtime(0.01f);
+            yield return null;
         }
     }
 
