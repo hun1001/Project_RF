@@ -18,8 +18,9 @@ public class ServerManager : MonoSingleton<ServerManager>
     private bool isPlayingGame = false;
     public bool IsPlayingGame => isPlayingGame;
 
-    private Queue<Packet> packetQueue = new Queue<Packet>();
     private Dictionary<string, OtherPlayer> otherPlayers = new Dictionary<string, OtherPlayer>();
+    private Queue<Packet> packetQueue = new Queue<Packet>();
+    private Queue<Packet> sendQueue = new Queue<Packet>();
 
     public void ConnectToServer()
     {
@@ -30,17 +31,32 @@ public class ServerManager : MonoSingleton<ServerManager>
         stream = client.GetStream();
 
         Packet packet = new Packet(_id, "Register", "");
-        SendToServer(packet);
+        RegisterSendPacket(packet);
 
         isPlayingGame = true;
         StartCoroutine(GetMessage());
         StartCoroutine(ProcessQueue());
+        StartCoroutine(SendToServer());
     }
 
-    public void SendToServer(Packet packet)
+    public void RegisterSendPacket(Packet packet)
     {
-        byte[] data = packet.Serialize();
-        stream.Write(data, 0, data.Length);
+        sendQueue.Enqueue(packet);
+    }
+
+    private IEnumerator SendToServer()
+    {
+        while (true)
+        {
+            if (sendQueue.Count > 0)
+            {
+                Packet packet = sendQueue.Dequeue();
+                byte[] outStream = packet.Serialize();
+                stream.Write(outStream, 0, outStream.Length);
+                stream.Flush();
+            }
+            yield return null;
+        }
     }
 
     private IEnumerator GetMessage()
@@ -93,12 +109,14 @@ public class ServerManager : MonoSingleton<ServerManager>
         string command = p.Command;
         string data = p.Data;
 
+        Debug.Log($"id: {id} | command: {command} | data: {data}");
+
         if (_id.CompareTo(id) == 0 || (otherPlayers.ContainsKey(id) == false && id.CompareTo(id) != 0))
         {
             return;
         }
 
-        Debug.Log($"id: {id} | command: {command} | data: {data}");
+
 
         switch (command)
         {
@@ -204,7 +222,7 @@ public class ServerManager : MonoSingleton<ServerManager>
 
     public void AttackPlayer()
     {
-        SendToServer(new Packet(_id, "Attack", null));
+        RegisterSendPacket(new Packet(_id, "Attack", null));
     }
 
     private IEnumerator AddOtherPlayer(string id)
@@ -222,14 +240,14 @@ public class ServerManager : MonoSingleton<ServerManager>
     {
         string message = tankTransform.position.x + "," + tankTransform.position.y + "," + tankTransform.rotation.z + "," + tankTransform.rotation.w + "," + turretTransform.rotation.z + "," + turretTransform.rotation.w;
         Packet packet = new Packet(_id, "Move", message);
-        SendToServer(packet);
+        RegisterSendPacket(packet);
     }
 
     public void Disconnect()
     {
         if (client != null)
         {
-            SendToServer(new Packet(_id, "Left", null));
+            RegisterSendPacket(new Packet(_id, "Left", null));
             isPlayingGame = false;
             stream.Close();
             client.Close();
