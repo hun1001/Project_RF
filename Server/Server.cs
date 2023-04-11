@@ -6,7 +6,7 @@ using System.Text;
 using System.Collections;
 
 namespace Server;
-class Server
+static class Server
 {
     public static Dictionary<int, ClientHandle> clientsDictionary = new();
     private static int userCnt = 0;
@@ -39,10 +39,6 @@ class Server
 
                 client.StartClient(clientSocket, counter);
             }
-            clientSocket.Close();
-            serverSocket.Stop();
-            Console.WriteLine("Exit");
-            Console.ReadLine();
         }
         catch (Exception ex)
         {

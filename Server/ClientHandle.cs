@@ -67,9 +67,9 @@ public class ClientHandle
                             case Command.COMMAND_LEFT:
                                 Server.UserLeft(userID, clientID);
                                 break;
-                            case Command.COMMAND_MOVE:
                             case Command.COMMAND_ATTACK:
                             case Command.COMMAND_DAMAGED:
+                            case Command.COMMAND_MOVE:
                                 Server.Broadcast(packet);
                                 break;
                             default:
