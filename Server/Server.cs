@@ -99,7 +99,7 @@ class Server
             }
         }
 
-        Broadcast(new Packet(clientNo, Command.COMMAND_ENTER, memberIDList));
+        Broadcast(new Packet("", Command.COMMAND_ENTER, memberIDList));
     }
 
     public static void UserLeft(int userID, string clientNo)

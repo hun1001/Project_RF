@@ -220,7 +220,7 @@ public class ServerManager : MonoSingleton<ServerManager>
 
     public void SendTransform(Transform tankTransform, Transform turretTransform)
     {
-        string message = tankTransform.position.x + "," + tankTransform.position.y + "," + tankTransform.position.z + "," + tankTransform.rotation.x + "," + tankTransform.rotation.y + "," + tankTransform.rotation.z + "," + tankTransform.rotation.w + "," + turretTransform.rotation.x + "," + turretTransform.rotation.y + "," + turretTransform.rotation.z + "," + turretTransform.rotation.w;
+        string message = tankTransform.position.x + "," + tankTransform.position.y + "," + tankTransform.rotation.z + "," + turretTransform.rotation.z;
         Packet packet = new Packet(_id, "Move", message);
         SendToServer(packet);
     }

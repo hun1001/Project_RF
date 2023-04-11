@@ -16,9 +16,9 @@ public class OtherPlayer : MonoBehaviour
     public void TransformUpdate(string args)
     {
         string[] arg = args.Split(',');
-        tank.transform.position = new Vector3(float.Parse(arg[0]), float.Parse(arg[1]), float.Parse(arg[2]));
-        tank.transform.rotation = new Quaternion(float.Parse(arg[3]), float.Parse(arg[4]), (float.Parse(arg[5])), float.Parse(arg[6]));
-        tank.Turret.transform.rotation = new Quaternion(float.Parse(arg[7]), float.Parse(arg[8]), (float.Parse(arg[9])), float.Parse(arg[10]));
+        tank.transform.position = new Vector3(float.Parse(arg[0]), float.Parse(arg[1]), 0);
+        tank.transform.rotation = Quaternion.Euler(0, 0, float.Parse(arg[2]));
+        tank.Turret.transform.rotation = Quaternion.Euler(0, 0, float.Parse(arg[3]));
     }
 
     public void Fire()
