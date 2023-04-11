@@ -13,8 +13,6 @@ public class ModeCanvas : BaseCanvas
     private RectTransform _scrollView;
 
     private Image[] _mapImages;
-    private Vector3 _originPos = Vector3.zero;
-    private Sequence _startSequence;
 
     private void Awake()
     {
@@ -41,10 +39,5 @@ public class ModeCanvas : BaseCanvas
                 image.DOFade(1f, 1f);
             }
         });
-    }
-
-    public override void OnOpenAnimation()
-    {
-        _startSequence.Restart();
     }
 }

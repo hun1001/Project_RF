@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 [DisallowMultipleComponent]
 public abstract class BaseCanvas : MonoBehaviour
@@ -35,6 +36,8 @@ public abstract class BaseCanvas : MonoBehaviour
         }
     }
 
+    protected Sequence _startSequence;
+
     /// <summary> 메뉴씬으로 돌아가는 함수 </summary>
     public virtual void OnHomeButton()
     {
@@ -52,6 +55,6 @@ public abstract class BaseCanvas : MonoBehaviour
 
     public virtual void OnOpenAnimation()
     {
-
+        _startSequence?.Restart();
     }
 }

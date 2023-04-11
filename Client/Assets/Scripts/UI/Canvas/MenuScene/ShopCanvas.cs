@@ -1,6 +1,7 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public enum ShopToggle
 {
@@ -26,15 +27,45 @@ public class ShopCanvas : BaseCanvas
     [SerializeField]
     private Toggle _paidGoodsToggle;
 
+    [Header("Animation")]
+    [SerializeField]
+    private RectTransform _content;
+    [SerializeField]
+    private RectTransform _toggleGroup;
+    private Image[] _toggleImages;
+
     private void Awake()
     {
         _premiumTankToggle.onValueChanged.AddListener(delegate { OnToggle(ShopToggle.PremiumTank); });
         _itemToggle.onValueChanged.AddListener(delegate { OnToggle(ShopToggle.Item); });
         _randomGachaToggle.onValueChanged.AddListener(delegate { OnToggle(ShopToggle.RandomGacha); });
         _paidGoodsToggle.onValueChanged.AddListener(delegate { OnToggle(ShopToggle.PaidGoods); });
+
+        _toggleImages = _toggleGroup.GetComponentsInChildren<Image>();
     }
 
-    // 0 ~ 1 °ªÀÌ Àü´ÞµÈ´Ù.
+    private void Start()
+    {
+        _scrollRect.normalizedPosition = Vector2.zero;
+
+        _startSequence = DOTween.Sequence()
+        .SetAutoKill(false)
+        .PrependCallback(() =>
+        {
+            _content.anchoredPosition += Vector2.down * 300f;
+            for(int i = 0; i < _toggleImages.Length; i += 2)
+            {
+                _toggleImages[i].DOFade(0f, 0f);
+            }
+        })
+        .Append(_content.DOAnchorPosY(0f, 1f))
+        .Append(_toggleImages[0].DOFade(1f, 0.5f))
+        .Insert(1.25f, _toggleImages[2].DOFade(1f, 0.5f))
+        .Insert(1.5f, _toggleImages[4].DOFade(1f, 0.5f))
+        .Insert(1.75f, _toggleImages[6].DOFade(1f, 0.5f));
+    }
+
+    // 0 ~ 1 ê°’ì´ ì „ë‹¬ëœë‹¤.
     public void OnScroll(Vector2 vector2)
     {
         float x = (float)Math.Round(vector2.x, 1);
