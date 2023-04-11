@@ -132,7 +132,7 @@ public class Player : CustomObject
                 ServerManager.Instance.SendTransform(_tank.transform, _tank.Turret.TurretTransform);
             }
 
-            yield return null;
+            yield return new WaitForSecondsRealtime(0.1f);
         }
     }
 
