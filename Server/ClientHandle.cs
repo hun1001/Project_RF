@@ -5,9 +5,6 @@ namespace Server;
 
 public class ClientHandle
 {
-    
-    const char CHAR_TERMINATOR = ';';
-
     public TcpClient clientSocket;
     public int userID;
     public string clientID;
