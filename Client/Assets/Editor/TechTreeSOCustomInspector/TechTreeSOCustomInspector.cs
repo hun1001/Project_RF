@@ -29,15 +29,6 @@ public class TechTreeSOCustomInspector : Editor
             }
         }
 
-        for (int i = 0; i < _techTreeSO.Length; ++i)
-        {
-            _isLinkList.Add(new List<bool>());
-            for (int j = 0; j < _techTreeSO.GetTankArrayLength(i); ++j)
-            {
-                Debug.Log(j + " " + _techTreeSO.GetTankArrayLength(i));
-                _isLinkList[i].Add(_techTreeSO.IsLink(i, j));
-            }
-        }
 
         _lineCount = (uint)_tankList.Count;
     }
