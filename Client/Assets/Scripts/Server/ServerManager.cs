@@ -29,7 +29,7 @@ public class ServerManager : MonoSingleton<ServerManager>
         client.Connect(ip, 7777);
         stream = client.GetStream();
 
-        Packet packet = new Packet(_id, "Enter", null);
+        Packet packet = new Packet(_id, "Register", "");
         SendToServer(packet);
 
         isPlayingGame = true;
@@ -39,32 +39,27 @@ public class ServerManager : MonoSingleton<ServerManager>
 
     public void SendToServer(Packet packet)
     {
-        byte[] data = packet.ToBytes();
+        byte[] data = packet.Serialize();
         stream.Write(data, 0, data.Length);
     }
 
     private IEnumerator GetMessage()
     {
-        Packet packet = new Packet();
         byte[] inStream = new byte[1024];
-        string returnData = "";
 
         while (isPlayingGame)
         {
             stream = client.GetStream();
-            int buffSize = client.ReceiveBufferSize;
             int numBytesRead;
 
             if (stream.DataAvailable)
             {
-                numBytesRead = stream.Read(inStream, 0, inStream.Length);
-                returnData += Encoding.UTF8.GetString(inStream, 0, numBytesRead);
-                packet.SetPacket(returnData);
+                numBytesRead = stream.Read(inStream, 0, client.ReceiveBufferSize);
+                Packet packet = Packet.Deserialize(inStream);
                 packetQueue.Enqueue(packet);
             }
 
             inStream = new byte[1024];
-            returnData = "";
             yield return null;
         }
     }
@@ -91,7 +86,7 @@ public class ServerManager : MonoSingleton<ServerManager>
 
         string id = p.ID;
         string command = p.Command;
-        string[] args = p.Args;
+        string data = p.Data;
 
         if (_id.CompareTo(id) == 0)
         {
@@ -101,10 +96,18 @@ public class ServerManager : MonoSingleton<ServerManager>
         switch (command)
         {
             case "Move":
+                string t = "";
+                for (int i = 0; i < data.Length; i++)
+                {
+                    t += data[i] + " ";
+                }
+                Debug.Log($"Move {id}: {t}");
                 break;
             case "Enter":
+                UpdateMemberList(data);
                 break;
             case "Left":
+                LeftOtherPlayer(id);
                 break;
             case "Attack":
                 break;
@@ -113,81 +116,24 @@ public class ServerManager : MonoSingleton<ServerManager>
             default:
                 break;
         }
+    }
 
-        // int nameIdx = cmd.IndexOf("$");
-        // string id = "";
-        // if (nameIdx > 0)
-        // {
-        //     id = cmd.Substring(0, nameIdx);
-        // }
+    private void UpdateMemberList(string id)
+    {
+        string[] idList = id.Split(',');
 
-        // int cmdIdx1 = cmd.IndexOf("#");
-        // if (cmdIdx1 > nameIdx)
-        // {
-        //     int cmdIdx2 = cmd.IndexOf("#", cmdIdx1 + 1);
-        //     if (cmdIdx2 > cmdIdx1)
-        //     {
-        //         string command = cmd.Substring(cmdIdx1 + 1, cmdIdx2 - cmdIdx1 - 1);
+        for (int i = 0; i < idList.Length; i++)
+        {
+            if (idList[i].CompareTo(_id) == 0)
+            {
+                continue;
+            }
 
-        //         string remain = "";
-        //         string nextCommand;
-        //         int endIdx = cmd.IndexOf(CHAR_TERMINATOR, cmdIdx2 + 1);
-        //         if (endIdx > cmdIdx2)
-        //         {
-        //             remain = cmd.Substring(cmdIdx2 + 1, endIdx - cmdIdx2 - 1);
-        //             nextCommand = cmd.Substring(endIdx + 1);
-        //         }
-        //         else
-        //         {
-        //             nextCommand = cmd.Substring(cmdIdx2 + 1);
-        //         }
-
-        //         Debug.Log($"command = {command}, id = {id}, remain = {remain}, nextCommand = {nextCommand}");
-
-        //         if (_id.CompareTo(id) != 0)
-        //         {
-        //             switch (command)
-        //             {
-        //                 case "Enter":
-        //                     Debug.Log($"Enter {id}");
-        //                     StartCoroutine(AddOtherPlayer(id));
-        //                     break;
-        //                 case "Move":
-        //                     string i = "";
-        //                     int index = id.IndexOf('r');
-        //                     if (index > 0)
-        //                     {
-        //                         i = id.Substring(index);
-        //                     }
-        //                     i = "Player" + id;
-        //                     if (otherPlayers.ContainsKey(i) == false)
-        //                     {
-        //                         StartCoroutine(AddOtherPlayer(i));
-        //                     }
-
-        //                     string[] t = remain.Split(',');
-
-        //                     Vector3 position = new Vector3(float.Parse(t[0]), float.Parse(t[1]), float.Parse(t[2]));
-        //                     Quaternion rotation = new Quaternion(float.Parse(t[3]), float.Parse(t[4]), float.Parse(t[5]), float.Parse(t[6]));
-        //                     UpdateOtherPlayerTransform(id, position, rotation);
-        //                     break;
-        //                 case "Left":
-        //                     Debug.Log($"Left {id}");
-        //                     LeftOtherPlayer(id);
-        //                     break;
-        //                 case "Attack":
-        //                     Debug.Log($"Attack {id}");
-        //                     break;
-        //                 case "Damage":
-        //                     Debug.Log($"Damage {id}");
-        //                     break;
-        //                 case "Dead":
-        //                     Debug.Log($"Dead {id}");
-        //                     break;
-        //             }
-        //         }
-        //     }
-        // }
+            if (otherPlayers.ContainsKey(idList[i]) == false)
+            {
+                StartCoroutine(AddOtherPlayer(idList[i]));
+            }
+        }
     }
 
     private void LeftOtherPlayer(string id)
@@ -199,22 +145,13 @@ public class ServerManager : MonoSingleton<ServerManager>
         }
     }
 
-    private IEnumerator AddOtherPlayer(string _id)
+    private IEnumerator AddOtherPlayer(string id)
     {
         yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "GameScene");
-        if (otherPlayers.ContainsKey(_id) == false)
+        if (otherPlayers.ContainsKey(id) == false)
         {
             var otherPlayer = PoolManager.Get<OtherPlayer>("Assets/Prefabs/OtherPlayer.prefab");
-            otherPlayers.Add(_id, otherPlayer);
-        }
-    }
-
-    public void UpdateOtherPlayerTransform(string _id, Vector3 position, Quaternion rotation)
-    {
-        if (otherPlayers.ContainsKey(_id))
-        {
-            otherPlayers[_id].Tank.transform.position = position;
-            otherPlayers[_id].Tank.transform.rotation = rotation;
+            otherPlayers.Add(id, otherPlayer);
         }
     }
 

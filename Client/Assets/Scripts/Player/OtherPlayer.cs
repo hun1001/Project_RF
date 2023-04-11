@@ -13,6 +13,11 @@ public class OtherPlayer : MonoBehaviour
         tank = Pool.PoolManager.Get<Tank>(PlayerDataManager.Instance.GetPlayerTankID()).SetTank(GroupType.Enemy);
     }
 
+    public void TransformUpdate(string[] args)
+    {
+
+    }
+
     public void ReturnToPool()
     {
         Pool.PoolManager.Pool(PlayerDataManager.Instance.GetPlayerTankID(), tank.gameObject);

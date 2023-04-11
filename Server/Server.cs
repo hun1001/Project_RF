@@ -63,7 +63,7 @@ class Server
 
     public static void Broadcast(Packet packet)
     {
-        Byte[] data = packet.ToBytes();
+        Byte[] data = packet.Serialize();
 
         lock (lockSocket)
         {
@@ -89,31 +89,17 @@ class Server
 
     public static void UserAdd(string clientNo)
     {
-        Broadcast(new Packet(clientNo, Command.COMMAND_ENTER, ""));
+        string memberIDList = "";
 
         lock (lockSocket)
         {
-            TcpClient addedUserSocket = clientsDictionary[userCnt - 1].clientSocket;
-            NetworkStream addedUserStream = addedUserSocket.GetStream();
-
-            try
+            foreach (KeyValuePair<int, ClientHandle> client in clientsDictionary)
             {
-                foreach (var i in clientsDictionary.Values)
-                {
-                    string otherUserData = i.clientID + "$#Enter#";
-                    byte[] bytes = Encoding.UTF8.GetBytes(otherUserData);
-
-                    addedUserStream.Write(bytes, 0, bytes.Length);
-                    addedUserStream.Flush();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                addedUserStream.Close();
-                addedUserSocket.Close();
+                memberIDList += client.Value.clientID + ",";
             }
         }
+
+        Broadcast(new Packet(clientNo, Command.COMMAND_ENTER, memberIDList));
         Console.WriteLine(clientNo + " Joined");
     }
 

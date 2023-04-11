@@ -46,8 +46,8 @@ public class ClientHandle
     private void Recv()
     {
         byte[] bytesFrom = new byte[1024];
-        Packet packet = new Packet();
         NetworkStream networkStream = clientSocket.GetStream();
+        Packet packet = new Packet();
 
         while (!noConnection)
         {
@@ -65,16 +65,16 @@ public class ClientHandle
                         while (networkStream.DataAvailable)
                         {
                             numBytesRead = networkStream.Read(bytesFrom, 0, bytesFrom.Length);
-                            packet.SetPacket(Encoding.UTF8.GetString(bytesFrom, 0, numBytesRead));
+                            packet = Packet.Deserialize(bytesFrom);
                         }
 
-                        Console.WriteLine($"ID: {packet.ID} | Cmd: {packet.Command} | Data: {packet.Args}");
+                        Console.WriteLine($"ID: {packet.ID} | Cmd: {packet.Command} | Data: {packet.Data}");
 
                         switch (packet.Command)
                         {
                             case Command.COMMAND_REGISTER:
                                 clientID = packet.ID;
-                                Server.UserAdd(clientID);
+                                //Server.UserAdd(clientID);
                                 break;
                             case Command.COMMAND_LEFT:
                                 Server.UserLeft(userID, clientID);
