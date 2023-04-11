@@ -127,21 +127,6 @@ public class SettingCanvas : BaseCanvas
         }
     }
 
-    /// <summary> 메뉴씬으로 돌아가는 함수 </summary>
-    public void OnHomeButton()
-    {
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
-        {
-            CanvasManager.ChangeCanvas(CanvasType.Menu);
-        }
-        else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
-        {
-            Time.timeScale = 1;
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MenuScene");
-            Pool.PoolManager.DeleteAllPool();
-        }
-    }
-
     /// <summary> 프레임 바꾸는 함수 </summary>
     public void OnChangeFrame(int idx)
     {

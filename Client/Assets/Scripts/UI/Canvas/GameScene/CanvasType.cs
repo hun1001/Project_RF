@@ -9,4 +9,5 @@ public enum CanvasType
     Menu,
     Mode,
     TechTree,
+    Shop,
 }

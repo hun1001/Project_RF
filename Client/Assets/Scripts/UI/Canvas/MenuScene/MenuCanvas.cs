@@ -25,26 +25,11 @@ public class MenuCanvas : BaseCanvas
 
     public void OnShopButton()
     {
-
+        CanvasManager.ChangeCanvas(CanvasType.Shop);
     }
 
     public void OnTechTreeButton()
     {
         CanvasManager.ChangeCanvas(CanvasType.TechTree);
-    }
-
-    public void OnFreeGoodsButton()
-    {
-
-    }
-
-    public void OnPaidGoodsButton()
-    {
-
-    }
-
-    public void OnFreeExperienceButton()
-    {
-
     }
 }
