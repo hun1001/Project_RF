@@ -19,6 +19,8 @@ public class ShopCanvas : BaseCanvas
 
     [Header("Toggle")]
     [SerializeField]
+    private ToggleGroup _toggleGroup;
+    [SerializeField]
     private Toggle _premiumTankToggle;
     [SerializeField]
     private Toggle _itemToggle;
@@ -27,19 +29,28 @@ public class ShopCanvas : BaseCanvas
     [SerializeField]
     private Toggle _paidGoodsToggle;
 
+    [Header("Button")]
+    [SerializeField]
+    private Button _premiumTankButton;
+    [SerializeField]
+    private Button _itemButton;
+    [SerializeField]
+    private Button _randomGachaButton;
+    [SerializeField]
+    private Button _paidGoodsButton;
+
     [Header("Animation")]
     [SerializeField]
     private RectTransform _content;
-    [SerializeField]
-    private RectTransform _toggleGroup;
     private Image[] _toggleImages;
 
     private void Awake()
     {
-        _premiumTankToggle.onValueChanged.AddListener(delegate { OnToggle(ShopToggle.PremiumTank); });
-        _itemToggle.onValueChanged.AddListener(delegate { OnToggle(ShopToggle.Item); });
-        _randomGachaToggle.onValueChanged.AddListener(delegate { OnToggle(ShopToggle.RandomGacha); });
-        _paidGoodsToggle.onValueChanged.AddListener(delegate { OnToggle(ShopToggle.PaidGoods); });
+        _scrollRect.onValueChanged.AddListener(OnScroll);
+        _premiumTankButton.onClick.AddListener(delegate { OnToggle(ShopToggle.PremiumTank); });
+        _itemButton.onClick.AddListener(delegate { OnToggle(ShopToggle.Item); });
+        _randomGachaButton.onClick.AddListener(delegate { OnToggle(ShopToggle.RandomGacha); });
+        _paidGoodsButton.onClick.AddListener(delegate { OnToggle(ShopToggle.PaidGoods); });
 
         _toggleImages = _toggleGroup.GetComponentsInChildren<Image>();
     }
@@ -52,24 +63,26 @@ public class ShopCanvas : BaseCanvas
         .SetAutoKill(false)
         .PrependCallback(() =>
         {
+            _scrollRect.onValueChanged.RemoveAllListeners();
             _content.anchoredPosition += Vector2.down * 300f;
-            for(int i = 0; i < _toggleImages.Length; i += 2)
+
+            for (int i = 3; i < _toggleImages.Length; i += 3)
             {
                 _toggleImages[i].DOFade(0f, 0f);
             }
         })
-        .Append(_content.DOAnchorPosY(0f, 1f))
-        .Append(_toggleImages[0].DOFade(1f, 0.5f))
-        .Insert(1.25f, _toggleImages[2].DOFade(1f, 0.5f))
-        .Insert(1.5f, _toggleImages[4].DOFade(1f, 0.5f))
-        .Insert(1.75f, _toggleImages[6].DOFade(1f, 0.5f));
+        .Insert(0f, _content.DOAnchorPosY(0f, 1f))
+        .Insert(0.25f, _toggleImages[3].DOFade(1f, 1f))
+        .Insert(0.5f, _toggleImages[6].DOFade(1f, 1f))
+        .Insert(0.75f, _toggleImages[9].DOFade(1f, 1f))
+        .AppendCallback(() => _scrollRect.onValueChanged.AddListener(OnScroll));
     }
 
     // 0 ~ 1 값이 전달된다.
     public void OnScroll(Vector2 vector2)
     {
         float x = (float)Math.Round(vector2.x, 1);
-
+        
         switch (x)
         {
             case 0f:
