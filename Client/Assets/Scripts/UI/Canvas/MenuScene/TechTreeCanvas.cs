@@ -20,6 +20,8 @@ public class TechTreeCanvas : BaseCanvas
     private GameObject _tankNodeRowTemplate = null;
     private GameObject _tankNodeTemplate = null;
     private GameObject _tankNodeConnectHorizontalLineTemplate = null;
+    private GameObject _tankNodeNullTemplate = null;
+    private GameObject _tankNodeConnectHorizontalNullLineTemplate = null;
 
     private GameObject _verticalLineRowTemplate = null;
     private GameObject _noneLineTemplate = null;
@@ -34,6 +36,8 @@ public class TechTreeCanvas : BaseCanvas
         _tankNodeRowTemplate = _tankNodeContentTransform.GetChild(0).gameObject;
         _tankNodeTemplate = _tankNodeRowTemplate.transform.GetChild(0).gameObject;
         _tankNodeConnectHorizontalLineTemplate = _tankNodeRowTemplate.transform.GetChild(1).gameObject;
+        _tankNodeNullTemplate = _tankNodeRowTemplate.transform.GetChild(2).gameObject;
+        _tankNodeConnectHorizontalNullLineTemplate = _tankNodeRowTemplate.transform.GetChild(3).gameObject;
 
         _verticalLineRowTemplate = _tankNodeContentTransform.GetChild(1).gameObject;
         _noneLineTemplate = _verticalLineRowTemplate.transform.GetChild(0).gameObject;
@@ -44,6 +48,8 @@ public class TechTreeCanvas : BaseCanvas
         _tankNodeRowTemplate.SetActive(false);
         _tankNodeTemplate.SetActive(false);
         _tankNodeConnectHorizontalLineTemplate.SetActive(false);
+        _tankNodeNullTemplate.SetActive(false);
+        _tankNodeConnectHorizontalNullLineTemplate.SetActive(false);
 
         _verticalLineRowTemplate.SetActive(false);
         _noneLineTemplate.SetActive(false);
@@ -74,49 +80,72 @@ public class TechTreeCanvas : BaseCanvas
                         for (int l = 0; l < _techTree.TechTreeSO[index].GetTankArrayLength(jIndex); ++l)
                         {
                             int lIndex = l;
-                            var tankNode = Instantiate(_tankNodeTemplate, rowTransform);
 
-                            // 대충 색 설정 해야됨
-                            tankNode.transform.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
+                            GameObject node;
 
-                            var eventTrigger = tankNode.GetComponent<EventTrigger>();
-                            var entry = new EventTrigger.Entry();
-                            entry.eventID = EventTriggerType.PointerClick;
-                            entry.callback.AddListener((eventData) =>
+                            if (_techTree.TechTreeSO[index][jIndex, lIndex] == null)
                             {
-                                _tankInformationPanel.SetActive(true);
-                                var topUI = _tankInformationPanel.transform.GetChild(0);
-                                topUI.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
-                                topUI.GetChild(1).GetComponent<Text>().text = _techTree.TankTierNumber[lIndex];
-                                topUI.GetChild(2).GetComponent<Text>().text = _techTree.TechTreeSO[index][jIndex, lIndex].ID;
-
-                                // 탱크 이미지 없으니까 일단  null
-                                _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
-                                //_tankInformationPanel.transform.GetChild(2).GetComponent<Text>().text = $"SPEED: {_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.MaxSpeed}km/h\nReload: {_techTree.TechTreeSO[index][jIndex, lIndex].Turret.TurretStatSO}";
-
-                                _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.RemoveAllListeners();
-                                _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
+                                node = Instantiate(_tankNodeNullTemplate, rowTransform);
+                                if (lIndex != _techTree.TechTreeSO[index].GetTankArrayLength(jIndex) - 1)
                                 {
-                                    FindObjectOfType<TankModelManager>().ChangeTankModel(_techTree.TechTreeSO[index][jIndex, lIndex]);
-                                    _tankInformationPanel.SetActive(false);
-                                });
-                            });
-                            eventTrigger.triggers.Add(entry);
-
-                            eventTrigger.enabled = true;
-
-                            tankNode.transform.GetChild(1).GetComponent<Text>().text = _techTree.TankTierNumber[lIndex];
-                            tankNode.transform.GetChild(2).GetComponent<Text>().text = _techTree.TechTreeSO[index][jIndex, lIndex].ID;
-
-                            tankNode.GetComponent<Image>().enabled = true;
-
-                            tankNode.SetActive(true);
-
-                            if (lIndex != _techTree.TechTreeSO[index].GetTankArrayLength(jIndex) - 1)
-                            {
-                                var tankNodeConnectLine = Instantiate(_tankNodeConnectHorizontalLineTemplate, rowTransform);
-                                tankNodeConnectLine.SetActive(true);
+                                    if (_techTree.TechTreeSO[index][jIndex, lIndex + 1] == null)
+                                    {
+                                        var tankNodeConnectLine = Instantiate(_tankNodeConnectHorizontalNullLineTemplate, rowTransform);
+                                        tankNodeConnectLine.SetActive(true);
+                                    }
+                                    else
+                                    {
+                                        var tankNodeConnectLine = Instantiate(_tankNodeConnectHorizontalLineTemplate, rowTransform);
+                                        tankNodeConnectLine.SetActive(true);
+                                    }
+                                }
                             }
+                            else
+                            {
+                                node = Instantiate(_tankNodeTemplate, rowTransform);
+
+                                // 대충 색 설정 해야됨
+                                node.transform.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
+
+                                var eventTrigger = node.GetComponent<EventTrigger>();
+                                var entry = new EventTrigger.Entry();
+                                entry.eventID = EventTriggerType.PointerClick;
+                                entry.callback.AddListener((eventData) =>
+                                {
+                                    _tankInformationPanel.SetActive(true);
+                                    var topUI = _tankInformationPanel.transform.GetChild(0);
+                                    topUI.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
+                                    topUI.GetChild(1).GetComponent<Text>().text = _techTree.TankTierNumber[lIndex];
+                                    topUI.GetChild(2).GetComponent<Text>().text = _techTree.TechTreeSO[index][jIndex, lIndex].ID;
+
+                                    // 탱크 이미지 없으니까 일단  null
+                                    _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
+                                    //_tankInformationPanel.transform.GetChild(2).GetComponent<Text>().text = $"SPEED: {_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.MaxSpeed}km/h\nReload: {_techTree.TechTreeSO[index][jIndex, lIndex].Turret.TurretStatSO}";
+
+                                    _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.RemoveAllListeners();
+                                    _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
+                                    {
+                                        FindObjectOfType<TankModelManager>().ChangeTankModel(_techTree.TechTreeSO[index][jIndex, lIndex]);
+                                        _tankInformationPanel.SetActive(false);
+                                    });
+                                });
+                                eventTrigger.triggers.Add(entry);
+
+                                eventTrigger.enabled = true;
+
+                                node.transform.GetChild(1).GetComponent<Text>().text = _techTree.TankTierNumber[lIndex];
+                                node.transform.GetChild(2).GetComponent<Text>().text = _techTree.TechTreeSO[index][jIndex, lIndex].ID;
+
+                                node.GetComponent<Image>().enabled = true;
+
+                                if (lIndex != _techTree.TechTreeSO[index].GetTankArrayLength(jIndex) - 1)
+                                {
+                                    var tankNodeConnectLine = Instantiate(_tankNodeConnectHorizontalLineTemplate, rowTransform);
+                                    tankNodeConnectLine.SetActive(true);
+                                }
+                            }
+
+                            node.SetActive(true);
                         }
 
 
@@ -137,6 +166,7 @@ public class TechTreeCanvas : BaseCanvas
                                         break;
                                     case TechTreeLinkStateType.UpLink:
                                         line = Instantiate(_verticalUpLineTemplate, verticalLineRow);
+
                                         break;
                                     case TechTreeLinkStateType.DownLink:
                                         line = Instantiate(_verticalDownLineTemplate, verticalLineRow);
@@ -145,6 +175,7 @@ public class TechTreeCanvas : BaseCanvas
                                         Debug.LogError("TechTreeLinkStateType Error");
                                         break;
                                 }
+                                line.SetActive(true);
                             }
                             verticalLineRow.gameObject.SetActive(true);
                         }
