@@ -9,8 +9,13 @@ public class MenuCanvas : BaseCanvas
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("GameScene");
-        ServerManager.Instance.ConnectToServer();
         Pool.PoolManager.DeleteAllPool();
+    }
+
+    public void OnServerGameStart()
+    {
+        OnStartButton();
+        ServerManager.Instance.ConnectToServer();
     }
 
     public void OnModeButton()
