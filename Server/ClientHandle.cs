@@ -55,6 +55,12 @@ public class ClientHandle
                             numBytesRead = networkStream.Read(bytesFrom, 0, bytesFrom.Length);
                             packet = Packet.Deserialize(bytesFrom);
                         }
+                        
+                        if(!PacketUtil.IsPacketRight(packet))
+                        {
+                            Console.WriteLine("Wrong Packet");
+                            continue;
+                        }
 
                         Console.WriteLine($"ID: {packet.ID} | Cmd: {packet.Command} | Data: {packet.Data}");
 

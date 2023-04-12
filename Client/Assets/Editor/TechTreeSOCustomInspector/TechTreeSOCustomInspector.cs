@@ -28,10 +28,16 @@ public class TechTreeSOCustomInspector : Editor
             }
         }
 
-        _isLink = new TechTreeLinkStateType[_tankList.Count - 1][];
-        for (int i = 0; i < _tankList.Count - 1; i++)
+        if (_tankList.Count > 1)
         {
-            _isLink[i] = new TechTreeLinkStateType[_tankList[i].Count];
+            _isLink = new TechTreeLinkStateType[_tankList.Count - 1][];
+            for (int i = 0; i < _tankList.Count - 1; i++)
+            {
+                if (i != _tankList.Count - 1)
+                {
+                    _isLink[i] = new TechTreeLinkStateType[_tankList[i].Count];
+                }
+            }
         }
 
         _lineCount = (uint)_tankList.Count;
@@ -115,7 +121,7 @@ public class TechTreeSOCustomInspector : Editor
 
             if (i != _tankList.Count - 1)
             {
-                for (int j = 0; j < _tankList[i].Count - 1; j++)
+                for (int j = 0; j < _isLink[i].Length; j++)
                 {
                     EditorGUILayout.BeginHorizontal();
                     _isLink[i][j] = (TechTreeLinkStateType)EditorGUILayout.EnumPopup("Link " + (j + 1), _isLink[i][j]);

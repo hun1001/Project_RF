@@ -76,7 +76,11 @@ public class ServerManager : MonoSingleton<ServerManager>
                 {
                     numBytesRead = stream.Read(inStream, 0, inStream.Length);
                     packet = Packet.Deserialize(inStream);
-                    packetQueue.Enqueue(packet);
+
+                    if (PacketUtil.IsPacketRight(packet))
+                    {
+                        packetQueue.Enqueue(packet);
+                    }
                 }
             }
 
