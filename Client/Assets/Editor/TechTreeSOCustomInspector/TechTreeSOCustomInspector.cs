@@ -9,7 +9,7 @@ public class TechTreeSOCustomInspector : Editor
     private TechTreeSO _techTreeSO = null;
 
     private List<List<Tank>> _tankList = new List<List<Tank>>();
-    private TechTreeLinkStateType[][] _isLink = null;
+    private List<List<TechTreeLinkStateType>> _isLinkList = null;
 
     private uint _lineCount = 0;
 
@@ -30,18 +30,7 @@ public class TechTreeSOCustomInspector : Editor
 
         if (_tankList.Count > 1)
         {
-            _isLink = new TechTreeLinkStateType[_tankList.Count - 1][];
-            for (int i = 0; i < _tankList.Count - 1; i++)
-            {
-                if (i != _tankList.Count - 1)
-                {
-                    _isLink[i] = new TechTreeLinkStateType[_tankList[i].Count];
-                    for (int j = 0; j < _tankList[i].Count; j++)
-                    {
-                        _isLink[i][j] = _techTreeSO.IsLink(i, j);
-                    }
-                }
-            }
+            UpdateIsLinkList();
         }
 
         _lineCount = (uint)_tankList.Count;
@@ -118,6 +107,7 @@ public class TechTreeSOCustomInspector : Editor
             if (GUILayout.Button("Add"))
             {
                 _tankList[i].Add(null);
+                UpdateIsLinkList();
             }
             EditorGUILayout.EndHorizontal();
 
@@ -125,10 +115,10 @@ public class TechTreeSOCustomInspector : Editor
 
             if (i != _tankList.Count - 1)
             {
-                for (int j = 0; j < _isLink[i].Length; j++)
+                for (int j = 0; j < _isLinkList[i].Count; j++)
                 {
                     EditorGUILayout.BeginHorizontal();
-                    _isLink[i][j] = (TechTreeLinkStateType)EditorGUILayout.EnumPopup("Link " + (j + 1), _isLink[i][j]);
+                    _isLinkList[i][j] = (TechTreeLinkStateType)EditorGUILayout.EnumPopup("Link " + (j + 1), _isLinkList[i][j]);
                     EditorGUILayout.EndHorizontal();
                 }
             }
@@ -139,8 +129,24 @@ public class TechTreeSOCustomInspector : Editor
         if (GUI.changed)
         {
             _techTreeSO.SetTankArray(_tankList);
-            _techTreeSO.SetIsLink(_isLink);
+            _techTreeSO.SetIsLink(_isLinkList);
             EditorUtility.SetDirty(_techTreeSO);
+        }
+    }
+
+    private void UpdateIsLinkList()
+    {
+        _isLinkList = new List<List<TechTreeLinkStateType>>();
+        for (int i = 0; i < _tankList.Count - 1; i++)
+        {
+            if (i != _tankList.Count - 1)
+            {
+                _isLinkList.Add(new List<TechTreeLinkStateType>());
+                for (int j = 0; j < _tankList[i].Count; j++)
+                {
+                    _isLinkList[i].Add(_techTreeSO.IsLink(i, j));
+                }
+            }
         }
     }
 
@@ -148,6 +154,7 @@ public class TechTreeSOCustomInspector : Editor
     {
         _techTreeSO = null;
 
+        _isLinkList.Clear();
         _tankList.Clear();
     }
 }
