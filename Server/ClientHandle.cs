@@ -5,9 +5,9 @@ namespace Server;
 
 public class ClientHandle
 {
-    public TcpClient clientSocket;
+    public TcpClient? clientSocket;
     public int userID;
-    public string clientID;
+    public string? clientID;
 
     private bool noConnection = false;
 
@@ -34,7 +34,7 @@ public class ClientHandle
     private void Recv()
     {
         byte[] bytesFrom = new byte[1024];
-        NetworkStream networkStream = clientSocket.GetStream();
+        NetworkStream networkStream = clientSocket!.GetStream();
         Packet packet = new Packet();
 
         while (!noConnection)
@@ -71,7 +71,7 @@ public class ClientHandle
                                 Server.UserAdd(clientID);
                                 break;
                             case Command.COMMAND_LEFT:
-                                Server.UserLeft(userID, clientID);
+                                Server.UserLeft(userID, clientID!);
                                 break;
                             case Command.COMMAND_ATTACK:
                             case Command.COMMAND_DAMAGED:
@@ -92,6 +92,6 @@ public class ClientHandle
                 Console.WriteLine(e.ToString());
             }
         }
-        Server.UserLeft(userID, clientID);
+        Server.UserLeft(userID, clientID!);
     }
 }
