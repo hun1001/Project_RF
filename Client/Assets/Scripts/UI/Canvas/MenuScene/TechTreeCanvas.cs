@@ -19,7 +19,12 @@ public class TechTreeCanvas : BaseCanvas
     private GameObject _countryToggleTemplate = null;
     private GameObject _tankNodeRowTemplate = null;
     private GameObject _tankNodeTemplate = null;
-    private GameObject _tankNodeConnectLineTemplate = null;
+    private GameObject _tankNodeConnectHorizontalLineTemplate = null;
+
+    private GameObject _verticalLineRowTemplate = null;
+    private GameObject _noneLineTemplate = null;
+    private GameObject _verticalUpLineTemplate = null;
+    private GameObject _verticalDownLineTemplate = null;
 
     private void Awake()
     {
@@ -28,12 +33,22 @@ public class TechTreeCanvas : BaseCanvas
         _countryToggleTemplate = _countryToggleGroupManager.transform.GetChild(0).gameObject;
         _tankNodeRowTemplate = _tankNodeContentTransform.GetChild(0).gameObject;
         _tankNodeTemplate = _tankNodeRowTemplate.transform.GetChild(0).gameObject;
-        _tankNodeConnectLineTemplate = _tankNodeRowTemplate.transform.GetChild(1).gameObject;
+        _tankNodeConnectHorizontalLineTemplate = _tankNodeRowTemplate.transform.GetChild(1).gameObject;
+
+        _verticalLineRowTemplate = _tankNodeContentTransform.GetChild(1).gameObject;
+        _noneLineTemplate = _verticalLineRowTemplate.transform.GetChild(0).gameObject;
+        _verticalUpLineTemplate = _verticalLineRowTemplate.transform.GetChild(1).gameObject;
+        _verticalDownLineTemplate = _verticalLineRowTemplate.transform.GetChild(2).gameObject;
 
         _countryToggleTemplate.SetActive(false);
         _tankNodeRowTemplate.SetActive(false);
         _tankNodeTemplate.SetActive(false);
-        _tankNodeConnectLineTemplate.SetActive(false);
+        _tankNodeConnectHorizontalLineTemplate.SetActive(false);
+
+        _verticalLineRowTemplate.SetActive(false);
+        _noneLineTemplate.SetActive(false);
+        _verticalUpLineTemplate.SetActive(false);
+        _verticalDownLineTemplate.SetActive(false);
 
         for (int i = 0; i < _techTree.TechTreeSO.Length; ++i)
         {
@@ -46,7 +61,7 @@ public class TechTreeCanvas : BaseCanvas
             {
                 if (isOn)
                 {
-                    for (int k = 1; k < _tankNodeContentTransform.transform.childCount; ++k)
+                    for (int k = 2; k < _tankNodeContentTransform.transform.childCount; ++k)
                     {
                         Destroy(_tankNodeContentTransform.transform.GetChild(k).gameObject);
                     }
@@ -99,9 +114,37 @@ public class TechTreeCanvas : BaseCanvas
 
                             if (lIndex != _techTree.TechTreeSO[index].GetTankArrayLength(jIndex) - 1)
                             {
-                                var tankNodeConnectLine = Instantiate(_tankNodeConnectLineTemplate, rowTransform);
+                                var tankNodeConnectLine = Instantiate(_tankNodeConnectHorizontalLineTemplate, rowTransform);
                                 tankNodeConnectLine.SetActive(true);
                             }
+                        }
+
+                        if (jIndex != _techTree.TechTreeSO[index].Length - 1)
+                        {
+                            var verticalLineRow = Instantiate(_verticalLineRowTemplate, _tankNodeContentTransform).transform;
+
+                            // for (int m = 0; m < _techTree.TechTreeSO[index].GetIsLinkLength(); ++m)
+                            // {
+                            //     int mIndex = m;
+                            //     GameObject line = null;
+
+                            //     switch (_techTree.TechTreeSO[index].IsLink(jIndex, mIndex))
+                            //     {
+                            //         case TechTreeLinkStateType.None:
+                            //             line = Instantiate(_noneLineTemplate, verticalLineRow);
+                            //             break;
+                            //         case TechTreeLinkStateType.UpLink:
+                            //             line = Instantiate(_verticalUpLineTemplate, verticalLineRow);
+                            //             break;
+                            //         case TechTreeLinkStateType.DownLink:
+                            //             line = Instantiate(_verticalDownLineTemplate, verticalLineRow);
+                            //             break;
+                            //         default:
+                            //             Debug.LogError("TechTreeLinkStateType Error");
+                            //             break;
+                            //     }
+                            // }
+                            verticalLineRow.gameObject.SetActive(true);
                         }
 
                         rowTransform.GetComponent<HorizontalLayoutGroup>().enabled = true;

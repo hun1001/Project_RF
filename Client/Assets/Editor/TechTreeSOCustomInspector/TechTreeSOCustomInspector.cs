@@ -135,7 +135,7 @@ public class TechTreeSOCustomInspector : Editor
         if (GUI.changed)
         {
             _techTreeSO.SetTankArray(_tankList);
-            //_techTreeSO.SetIsLink(_isLink);
+            _techTreeSO.SetIsLink(_isLink);
             EditorUtility.SetDirty(_techTreeSO);
         }
     }

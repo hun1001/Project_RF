@@ -25,7 +25,8 @@ public class TechTreeSO : ScriptableObject
     private TankArray[] _tankArrays = null;
     public Tank this[int i, int j] => _tankArrays[i][j];
 
-    private TechTreeLinkStateType[][] _isLink = null;
+    [SerializeField]
+    private TechTreeLinkStateTypeArray[] _isLink = null;
     public TechTreeLinkStateType IsLink(int i, int j) => _isLink[i][j];
 
     public int Length => _tankArrays.Length;
@@ -44,7 +45,11 @@ public class TechTreeSO : ScriptableObject
 
     public void SetIsLink(TechTreeLinkStateType[][] isLink)
     {
-        _isLink = isLink;
+        _isLink = new TechTreeLinkStateTypeArray[isLink.Length];
+        for (int i = 0; i < isLink.Length; i++)
+        {
+            _isLink[i] = new TechTreeLinkStateTypeArray(isLink[i]);
+        }
     }
 
     [Serializable]
@@ -58,6 +63,20 @@ public class TechTreeSO : ScriptableObject
         public TankArray(Tank[] tanks)
         {
             _tanks = tanks;
+        }
+    }
+
+    [Serializable]
+    public struct TechTreeLinkStateTypeArray
+    {
+        [SerializeField]
+        private TechTreeLinkStateType[] _techTreeLinkStateTypes;
+        public TechTreeLinkStateType this[int index] => _techTreeLinkStateTypes[index];
+        public int Length => _techTreeLinkStateTypes.Length;
+
+        public TechTreeLinkStateTypeArray(TechTreeLinkStateType[] techTreeLinkStateTypes)
+        {
+            _techTreeLinkStateTypes = techTreeLinkStateTypes;
         }
     }
 }
