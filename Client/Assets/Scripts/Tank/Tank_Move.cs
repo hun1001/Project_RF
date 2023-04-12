@@ -39,13 +39,12 @@ public class Tank_Move : Tank_Component
             if (_currentSpeed < _targetSpeed)
             {
                 _currentSpeed += _acceleration * Time.deltaTime;
-                _tankSound?.MoveSoundUpdate(_currentSpeed /  _maxSpeed);
             }
             else
             {
                 _currentSpeed = _targetSpeed;
-                _tankSound?.MoveSoundUpdate(1f);
             }
+            _tankSound?.MoveSoundUpdate(_currentSpeed / _maxSpeed);
         }
         else
         {
