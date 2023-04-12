@@ -13,7 +13,7 @@ public class SheetDataToSO : EditorWindow
 
     private const string SheetAPI = "/export?format=tsv";
 
-    [MenuItem("Window/SheetDataToSO")]
+    [MenuItem("Tools/SheetDataToSO")]
     static void Init()
     {
         SheetDataToSO window = (SheetDataToSO)EditorWindow.GetWindow(typeof(SheetDataToSO));
