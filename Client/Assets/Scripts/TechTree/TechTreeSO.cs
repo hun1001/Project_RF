@@ -54,6 +54,11 @@ public class TechTreeSO : ScriptableObject
 
     public void SetIsLink(List<List<TechTreeLinkStateType>> isLink)
     {
+        if (isLink == null)
+        {
+            return;
+        }
+
         _isLink = new TechTreeLinkStateTypeArray[isLink.Count];
         for (int i = 0; i < isLink.Count; i++)
         {

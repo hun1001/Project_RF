@@ -154,7 +154,7 @@ public class TechTreeSOCustomInspector : Editor
     {
         _techTreeSO = null;
 
-        _isLinkList.Clear();
-        _tankList.Clear();
+        _isLinkList = null;
+        _tankList = null;
     }
 }
