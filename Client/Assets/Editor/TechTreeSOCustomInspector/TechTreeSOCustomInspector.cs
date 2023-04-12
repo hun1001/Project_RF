@@ -36,6 +36,10 @@ public class TechTreeSOCustomInspector : Editor
                 if (i != _tankList.Count - 1)
                 {
                     _isLink[i] = new TechTreeLinkStateType[_tankList[i].Count];
+                    for (int j = 0; j < _tankList[i].Count; j++)
+                    {
+                        _isLink[i][j] = _techTreeSO.IsLink(i, j);
+                    }
                 }
             }
         }

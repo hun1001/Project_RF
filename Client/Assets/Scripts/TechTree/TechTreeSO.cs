@@ -32,7 +32,7 @@ public class TechTreeSO : ScriptableObject
     public int Length => _tankArrays.Length;
     public int GetTankArrayLength(int i) => _tankArrays[i].Length;
     public int GetIsLinkLength() => _isLink.Length;
-    public int GetIsLinkLength(int i) => _isLink[i].Length;
+    public int GetIsLinkLength(int i) => _isLink.Length == 0 ? 0 : _isLink[i].Length;
 
     public void SetTankArray(List<List<Tank>> tankList)
     {
@@ -72,7 +72,7 @@ public class TechTreeSO : ScriptableObject
         [SerializeField]
         private TechTreeLinkStateType[] _techTreeLinkStateTypes;
         public TechTreeLinkStateType this[int index] => _techTreeLinkStateTypes[index];
-        public int Length => _techTreeLinkStateTypes.Length;
+        public int Length => _techTreeLinkStateTypes == null ? 0 : _techTreeLinkStateTypes.Length;
 
         public TechTreeLinkStateTypeArray(TechTreeLinkStateType[] techTreeLinkStateTypes)
         {

@@ -22,6 +22,7 @@ public static class PacketUtil
         }
 
         var commandCheck = Command.GetCommandList();
+        
         if (!commandCheck.Contains(p.Command))
         {
             return false;

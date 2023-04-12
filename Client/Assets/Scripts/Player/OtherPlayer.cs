@@ -16,7 +16,15 @@ public class OtherPlayer : MonoBehaviour
     public void TransformUpdate(string args)
     {
         string[] arg = args.Split(',');
-        tank.transform.position = new Vector3(float.Parse(arg[0]), float.Parse(arg[1]), 0);
+
+        var vec = new Vector3(float.Parse(arg[0]), float.Parse(arg[1]), 0);
+
+        if (Vector3.Distance(vec, tank.transform.position) > 50)
+        {
+            return;
+        }
+
+        tank.transform.position = vec;
         tank.transform.rotation = new Quaternion(0, 0, float.Parse(arg[2]), float.Parse(arg[3]));
         tank.Turret.TurretTransform.rotation = new Quaternion(0, 0, float.Parse(arg[4]), float.Parse(arg[5]));
     }

@@ -119,31 +119,33 @@ public class TechTreeCanvas : BaseCanvas
                             }
                         }
 
-                        if (jIndex != _techTree.TechTreeSO[index].Length - 1)
+
+
+                        if (jIndex < _techTree.TechTreeSO[index].Length - 1)
                         {
                             var verticalLineRow = Instantiate(_verticalLineRowTemplate, _tankNodeContentTransform).transform;
 
-                            // for (int m = 0; m < _techTree.TechTreeSO[index].GetIsLinkLength(); ++m)
-                            // {
-                            //     int mIndex = m;
-                            //     GameObject line = null;
+                            for (int m = 0; m < _techTree.TechTreeSO[index].GetIsLinkLength(jIndex); ++m)
+                            {
+                                int mIndex = m;
+                                GameObject line = null;
 
-                            //     switch (_techTree.TechTreeSO[index].IsLink(jIndex, mIndex))
-                            //     {
-                            //         case TechTreeLinkStateType.None:
-                            //             line = Instantiate(_noneLineTemplate, verticalLineRow);
-                            //             break;
-                            //         case TechTreeLinkStateType.UpLink:
-                            //             line = Instantiate(_verticalUpLineTemplate, verticalLineRow);
-                            //             break;
-                            //         case TechTreeLinkStateType.DownLink:
-                            //             line = Instantiate(_verticalDownLineTemplate, verticalLineRow);
-                            //             break;
-                            //         default:
-                            //             Debug.LogError("TechTreeLinkStateType Error");
-                            //             break;
-                            //     }
-                            // }
+                                switch (_techTree.TechTreeSO[index].IsLink(jIndex, mIndex))
+                                {
+                                    case TechTreeLinkStateType.None:
+                                        line = Instantiate(_noneLineTemplate, verticalLineRow);
+                                        break;
+                                    case TechTreeLinkStateType.UpLink:
+                                        line = Instantiate(_verticalUpLineTemplate, verticalLineRow);
+                                        break;
+                                    case TechTreeLinkStateType.DownLink:
+                                        line = Instantiate(_verticalDownLineTemplate, verticalLineRow);
+                                        break;
+                                    default:
+                                        Debug.LogError("TechTreeLinkStateType Error");
+                                        break;
+                                }
+                            }
                             verticalLineRow.gameObject.SetActive(true);
                         }
 
