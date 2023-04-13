@@ -9,9 +9,15 @@ public class SettingCanvas : BaseCanvas
 {
     [Header("Frame")]
     [SerializeField]
-    private GameObject[] _frames;
+    private RectTransform _backGround;
+    [SerializeField]
+    private RectTransform[] _frames;
     [SerializeField]
     private Text[] _frameTexts;
+    [SerializeField]
+    private Toggle[] _toggles;
+
+    private Vector2 _frameOriginPos = new Vector2(-20f, 20f);
 
     [Header("Audio")]
     [SerializeField]
@@ -53,6 +59,8 @@ public class SettingCanvas : BaseCanvas
 
     private bool _isOpen = false;
 
+    private Sequence[] _changeFrameSequence = new Sequence[2];
+
     private void Start()
     {
         _bgm._bgmSlider.value = SoundManager.Instance.BgmVolume;
@@ -60,6 +68,14 @@ public class SettingCanvas : BaseCanvas
 
         _bgm._bgmMuteToggle.isOn = Bgm._isBgmOn;
         _sfx._sfxMuteToggle.isOn = Sfx._isSfxOn;
+
+        _startSequence = DOTween.Sequence()
+        .SetAutoKill(false)
+        .PrependCallback(() =>
+        {
+            _backGround.anchoredPosition += Vector2.down * 500f;
+        })
+        .Append(_backGround.DOAnchorPosY(0f, 0.5f));
     }
 
     /// <summary> ESC 체크 </summary>
@@ -101,8 +117,8 @@ public class SettingCanvas : BaseCanvas
                 if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
                 {
                     Time.timeScale = 0f;
-                    _isOpen = true;
                 }
+                _isOpen = true;
                 CanvasManager.ChangeCanvas(CanvasType.Setting);
             }
         }
@@ -115,36 +131,77 @@ public class SettingCanvas : BaseCanvas
     /// <summary> 설정창 닫는 함수 </summary>
     public void OnBackButton()
     {
-        if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
+        _isOpen = false;
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
         {
             CanvasManager.ChangeCanvas(CanvasType.Menu);
         }
         else if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
         {
             Time.timeScale = 1f;
-            _isOpen = false;
             CanvasManager.ChangeCanvas(CanvasType.Controller);
+        }
+        if (_toggles[1].isOn == true)
+        {
+            OnChangeFrame(0);
         }
     }
 
     /// <summary> 프레임 바꾸는 함수 </summary>
     public void OnChangeFrame(int idx)
     {
+        if (_toggles[idx].isOn == true) return;
         switch(idx)
         {
             case 0:
                 {
-                    _frames[idx].SetActive(true);
+                    _toggles[idx].isOn = true;
                     _frameTexts[idx].color = Color.black;
-                    _frames[1].SetActive(false);
+                    if (_changeFrameSequence[0] == null)
+                    {
+                        _changeFrameSequence[0] = DOTween.Sequence()
+                        .SetAutoKill(false)
+                        .PrependCallback(() =>
+                        {
+                            _frames[0].anchoredPosition += Vector2.up * 500f;
+                            _frames[0].gameObject.SetActive(true);
+                        })
+                        .Append(_frames[1].DOAnchorPosY(-500f, 0.7f))
+                        .Join(_frames[0].DOAnchorPosY(20f, 0.7f))
+                        .AppendCallback(() =>
+                        {
+                            _frames[1].gameObject.SetActive(false);
+                            _frames[1].anchoredPosition = _frameOriginPos;
+                        });
+                    }
+                    else _changeFrameSequence[idx].Restart();
+                    _toggles[1].isOn = false;
                     _frameTexts[1].color = Color.white;
                 }
                 break;
             case 1:
                 {
-                    _frames[idx].SetActive(true);
+                    _toggles[idx].isOn = true;
                     _frameTexts[idx].color = Color.black;
-                    _frames[0].SetActive(false);
+                    if(_changeFrameSequence[1] == null)
+                    {
+                        _changeFrameSequence[1] = DOTween.Sequence()
+                        .SetAutoKill(false)
+                        .PrependCallback(() =>
+                        {
+                            _frames[1].anchoredPosition += Vector2.down * 500f;
+                            _frames[1].gameObject.SetActive(true);
+                        })
+                        .Append(_frames[0].DOAnchorPosY(500f, 0.7f))
+                        .Join(_frames[1].DOAnchorPosY(20f, 0.7f))
+                        .AppendCallback(() =>
+                        {
+                            _frames[0].gameObject.SetActive(false);
+                            _frames[0].anchoredPosition = _frameOriginPos;
+                        });
+                    }
+                    else _changeFrameSequence[idx].Restart();
+                    _toggles[0].isOn = false;
                     _frameTexts[0].color = Color.white;
                 }
                 break;
