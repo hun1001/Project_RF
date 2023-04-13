@@ -38,6 +38,7 @@ public class Player : CustomObject
     public float cameraDamageShakeDuration = 0.2f;
 
     [Space(10f)]
+    public float cameraCrashShakeFrequencyGain = 8;
     public float cameraCrashShakeDuration = 0.2f;
 
     protected override void Awake()
@@ -104,7 +105,7 @@ public class Player : CustomObject
 
         _tank.GetComponent<Tank_Move>(ComponentType.Move).AddOnCrashAction((a) =>
         {
-            _cameraManager.CameraShake(a, a, cameraCrashShakeDuration);
+            _cameraManager.CameraShake(a, cameraCrashShakeFrequencyGain, cameraCrashShakeDuration);
         });
 
         _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() =>
