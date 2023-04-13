@@ -7,9 +7,13 @@ public class CameraManager : MonoBehaviour
 {
     private CinemachineVirtualCamera _virtualCamera = null;
 
+    private Transform _parent;
+
     private void Awake()
     {
         _virtualCamera = transform.GetChild(0).GetComponent<CinemachineVirtualCamera>();
+
+        _parent = transform.parent;
     }
 
     public void SetPlayer(Transform target)
@@ -37,6 +41,7 @@ public class CameraManager : MonoBehaviour
         cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = cinemachineBasicMultiChannelPerlin.m_FrequencyGain = 0;
         _virtualCamera.transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
+        _parent.rotation = Quaternion.identity;
     }
 
     public void CameraZoomInEffect(float zoom, float delay, float duration)
