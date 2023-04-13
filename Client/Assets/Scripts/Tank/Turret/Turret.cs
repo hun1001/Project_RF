@@ -6,7 +6,11 @@ public class Turret : MonoBehaviour
 {
     [SerializeField]
     private TurretSO _turretStatSO = null;
-    public TurretSO TurretStatSO => _turretStatSO;
+    public TurretSO TurretSO
+    {
+        get => _turretStatSO;
+        set => _turretStatSO = value;
+    }
 
     private TurretSO _thisTurretSO = null;
     public TurretSO TurretData => _thisTurretSO;
@@ -17,11 +21,19 @@ public class Turret : MonoBehaviour
 
     [SerializeField]
     private Transform _turret = null;
-    public Transform TurretTransform => _turret;
+    public Transform TurretTransform
+    {
+        get => _turret;
+        set => _turret = value;
+    }
 
     [SerializeField]
     private Transform _firePoint = null;
-    public Transform FirePoint => _firePoint;
+    public Transform FirePoint
+    {
+        get => _firePoint;
+        set => _firePoint = value;
+    }
 
     private Shell _currentShell = null;
     public Shell CurrentShell
@@ -61,10 +73,5 @@ public class Turret : MonoBehaviour
         }
         component = null;
         return false;
-    }
-
-    public void SetTurretSO(TurretSO turretSO)
-    {
-        _turretStatSO = turretSO;
     }
 }

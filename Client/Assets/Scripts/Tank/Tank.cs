@@ -6,7 +6,11 @@ public class Tank : CustomObject, IPoolReset
 {
     [SerializeField]
     private TankSO _tankSO = null;
-    public TankSO TankSO => _tankSO;
+    public TankSO TankSO
+    {
+        get => _tankSO;
+        set => _tankSO = value;
+    }
 
     private TankSO _thisTankSO = null;
     public TankSO TankData => _thisTankSO;
@@ -46,10 +50,5 @@ public class Tank : CustomObject, IPoolReset
         _thisTankSO = _tankSO.Clone();
         GetComponent<Tank_Damage>(ComponentType.Damage).ResetData();
         _minimapSprite.Disabled();
-    }
-
-    public void SetTankSO(TankSO tankSO)
-    {
-        _tankSO = tankSO;
     }
 }

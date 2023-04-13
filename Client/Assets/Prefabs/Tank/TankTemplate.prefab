@@ -43,7 +43,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 6518475231555397622}
   - {fileID: 4270942471704037196}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -190,7 +189,7 @@ MonoBehaviour:
   _turretStatSO: {fileID: 0}
   _turretSound: {fileID: 11400000, guid: 6b6b97e4b103b2b4494ca17f2de0838e, type: 2}
   _turret: {fileID: 0}
-  _firePoint: {fileID: 6518475231555397622}
+  _firePoint: {fileID: 0}
 --- !u!114 &7082348934727329660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,36 +389,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 1
   minFogStrength: 0.2
---- !u!1 &3004951003832167306
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6518475231555397622}
-  m_Layer: 6
-  m_Name: FirePoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6518475231555397622
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3004951003832167306}
-  m_LocalRotation: {x: 0.000000059604638, y: 7.1054257e-15, z: -1.7752293e-14, w: 1}
-  m_LocalPosition: {x: -0.0032501093, y: 4.586698, z: -1.8130784}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1842629362019553631}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8528906848412853606
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -433,7 +402,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5555660849920025130, guid: 41ebc6e095e5dd446afe4972d077e4bb, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5555660849920025130, guid: 41ebc6e095e5dd446afe4972d077e4bb, type: 3}
       propertyPath: m_LocalPosition.x

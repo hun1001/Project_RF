@@ -80,10 +80,14 @@ public class TankGenerator : EditorWindow
         tankModel.transform.SetParent(tankTemplate.transform);
 
         Tank tank = tankTemplate.GetComponent<Tank>();
-        tank.ID = tankTemplate.name;
+        Turret turret = tankTemplate.GetComponent<Turret>();
 
-        tank.SetTankSO(_tankSO);
-        tank.Turret.SetTurretSO(_turretSO);
+        tank.ID = tankTemplate.name;
+        tank.TankSO = _tankSO;
+
+        turret.TurretSO = _turretSO;
+        turret.TurretTransform = tankModel.transform.GetChild(1);
+        turret.FirePoint = turret.TurretTransform.GetChild(0);
 
         if (!AssetDatabase.IsValidFolder("Assets/Prefabs/Tank/" + _countryType.ToString()))
         {
