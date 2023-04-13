@@ -2,6 +2,10 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Settings;
+using System.IO;
+using System.Text;
 
 public class TankGenerator : EditorWindow
 {
@@ -9,6 +13,8 @@ public class TankGenerator : EditorWindow
     private GameObject _tankModel = null;
     private TankSO _tankSO = null;
     private TurretSO _turretSO = null;
+
+    StringBuilder path = null;
 
     [MenuItem("Tools/TankGenerator")]
     static void Init()
@@ -21,6 +27,7 @@ public class TankGenerator : EditorWindow
 
     private void OnEnable()
     {
+        path = new StringBuilder();
         if (TankTemplate == null)
         {
             var handle = Addressables.LoadAssetAsync<GameObject>("TankTemplate");
@@ -47,54 +54,71 @@ public class TankGenerator : EditorWindow
         GUI.enabled = _countryType != CountryType.None && _tankModel != null && _tankSO != null && _turretSO != null && TankTemplate != null;
         if (GUILayout.Button("Generate"))
         {
-            if (_countryType == CountryType.None)
-            {
-                Debug.LogError("Country Type is None");
-            }
-            else if (_tankModel == null)
-            {
-                Debug.LogError("Tank Model is null");
-            }
-            else if (_tankSO == null)
-            {
-                Debug.LogError("TankSO is null");
-            }
-            else if (_turretSO == null)
-            {
-                Debug.LogError("TurretSO is null");
-            }
-            else
-            {
-                GenerateTank();
-            }
+            GenerateTank();
         }
         GUI.enabled = true;
     }
 
     private void GenerateTank()
     {
-        // GameObject tankTemplate = Instantiate(TankTemplate);
-        // GameObject tankModel;
+        GameObject tankTemplate = Instantiate(TankTemplate);
+        GameObject tankModel = Instantiate(_tankModel);
 
-        // tankTemplate.name = tankModel.name;
-        // tankModel.transform.SetParent(tankTemplate.transform);
+        tankModel.name = _tankModel.name.Replace("(Clone)", "");
 
-        // Tank tank = tankTemplate.GetComponent<Tank>();
-        // Turret turret = tankTemplate.GetComponent<Turret>();
+        tankTemplate.name = tankModel.name;
+        tankModel.transform.SetParent(tankTemplate.transform);
 
-        // tank.ID = tankTemplate.name;
-        // tank.TankSO = _tankSO;
+        Tank tank = tankTemplate.GetComponent<Tank>();
+        Turret turret = tankTemplate.GetComponent<Turret>();
 
-        // turret.TurretSO = _turretSO;
-        // turret.TurretTransform = tankModel.transform.GetChild(1);
-        // turret.FirePoint = turret.TurretTransform.GetChild(0);
+        tank.ID = tankTemplate.name;
+        tank.TankSO = _tankSO;
 
-        // if (!AssetDatabase.IsValidFolder("Assets/Prefabs/Tank/" + _countryType.ToString()))
-        // {
-        //     AssetDatabase.CreateFolder("Assets/Prefabs/Tank", _countryType.ToString());
-        // }
+        turret.TurretSO = _turretSO;
+        turret.TurretTransform = tankModel.transform.GetChild(1);
+        turret.FirePoint = turret.TurretTransform.GetChild(0);
 
-        // AssetDatabase.CreateAsset(tankTemplate, "Assets/Prefabs/Tank/" + _countryType.ToString() + "/" + tankTemplate.name + ".prefab");
-        // AssetDatabase.SaveAssets();
+        path.Append("Assets/Prefabs/Tank/" + _countryType.ToString());
+
+        if (!AssetDatabase.IsValidFolder(path.ToString()))
+        {
+            AssetDatabase.CreateFolder("Assets/Prefabs/Tank", _countryType.ToString());
+        }
+
+        path.Append("/" + tankTemplate.name + ".prefab");
+
+        if (File.Exists(path.ToString()))
+        {
+            File.Delete(path.ToString());
+        }
+
+        PrefabUtility.SaveAsPrefabAsset(tankTemplate, path.ToString());
+
+        AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+
+        AddressableAssetGroup group = settings.FindGroup("TankGroup");
+        if (group == null)
+        {
+            group = settings.CreateGroup("TankGroup", false, false, false, null);
+        }
+
+        AddressableAssetEntry entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID(path.ToString()), group);
+
+        entry.SetAddress(Path.GetFileNameWithoutExtension(path.ToString()));
+        entry.SetAddress(tankTemplate.name);
+
+        settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entry, true);
+
+        AssetDatabase.SaveAssets();
+
+        DestroyImmediate(tankTemplate);
+        DestroyImmediate(tankModel);
+    }
+
+    private void OnDisable()
+    {
+        path.Clear();
+        path = null;
     }
 }
