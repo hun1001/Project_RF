@@ -62,4 +62,9 @@ public class Turret : MonoBehaviour
         component = null;
         return false;
     }
+
+    internal void SetTurretSO(TurretSO turretSO)
+    {
+        _turretStatSO = turretSO;
+    }
 }

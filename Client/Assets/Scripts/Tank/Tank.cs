@@ -1,9 +1,5 @@
-using System.Net;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using FoW;
-using System.Net.NetworkInformation;
 
 [DisallowMultipleComponent]
 public class Tank : CustomObject, IPoolReset
@@ -50,5 +46,10 @@ public class Tank : CustomObject, IPoolReset
         _thisTankSO = _tankSO.Clone();
         GetComponent<Tank_Damage>(ComponentType.Damage).ResetData();
         _minimapSprite.Disabled();
+    }
+
+    internal void SetTankSO(TankSO tankSO)
+    {
+        _tankSO = tankSO;
     }
 }
