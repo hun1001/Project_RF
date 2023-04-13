@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 public class Player : CustomObject
 {
+    [Header("Canvas")]
     [SerializeField]
     private ControllerCanvas _controllerCanvas = null;
 
@@ -31,14 +32,18 @@ public class Player : CustomObject
     public float cameraAttackShakeFrequencyGain = 6;
     public float cameraAttackShakeDuration = 0.1f;
 
+    [Space(10f)]
     public float cameraDamageShakeAmplitudeGain = 5f;
     public float cameraDamageShakeFrequencyGain = 8;
     public float cameraDamageShakeDuration = 0.2f;
 
+    [Space(10f)]
+    public float cameraCrashShakeDuration = 0.2f;
+
     protected override void Awake()
     {
         base.Awake();
-        _cameraManager = Camera.main.GetComponent<CameraManager>();
+        Camera.main.TryGetComponent(out _cameraManager);
 
         _tank = PoolManager.Get<Tank>(PlayerDataManager.Instance.GetPlayerTankID()).SetTank(GroupType.Player);
         _tank.tag = "Player";
@@ -95,6 +100,11 @@ public class Player : CustomObject
             Time.timeScale = 0;
             ServerManager.Instance.Disconnect();
             StartCoroutine(Change());
+        });
+
+        _tank.GetComponent<Tank_Move>(ComponentType.Move).AddOnCrashAction((a) =>
+        {
+            _cameraManager.CameraShake(a, a, cameraCrashShakeDuration);
         });
 
         _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() =>

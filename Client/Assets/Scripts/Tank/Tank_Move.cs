@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -12,6 +13,10 @@ public class Tank_Move : Tank_Component
 
     private Tank_Sound _tankSound = null;
     private bool _isDepart = false;
+
+    private bool _isCrash = false;
+    private Action<float> _onCrash = null;
+    public void AddOnCrashAction(Action<float> action) => _onCrash += action;
 
     private void Awake()
     {
@@ -70,7 +75,9 @@ public class Tank_Move : Tank_Component
         {
             if (ray.collider.gameObject.layer == LayerMask.NameToLayer("Wall") || (ray.collider.gameObject.layer == LayerMask.NameToLayer("Tank") && ray.collider.gameObject != gameObject))
             {
+                _onCrash?.Invoke(_currentSpeed);
                 _currentSpeed = 0;
+                
                 break;
             }
         }
