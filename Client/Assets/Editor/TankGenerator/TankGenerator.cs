@@ -32,8 +32,10 @@ public class TankGenerator : EditorWindow
     static void Init()
     {
         TankGenerator window = (TankGenerator)EditorWindow.GetWindow(typeof(TankGenerator));
-        Debug.Log(window.position.ToString());
-        window.position = new Rect(0, 0, 650, 350);
+        float w = 650, h = 310;
+        window.position = new Rect(0, 0, w, h);
+        window.maxSize = new Vector2(w, h);
+        window.minSize = new Vector2(w, h);
         window.Show();
     }
 
@@ -85,7 +87,7 @@ public class TankGenerator : EditorWindow
         GUILayout.BeginHorizontal();
 
         GUILayout.BeginVertical();
-        _modelScrollPos = GUILayout.BeginScrollView(_modelScrollPos, GUILayout.Width(200), GUILayout.Height(200));
+        _modelScrollPos = GUILayout.BeginScrollView(_modelScrollPos, GUILayout.Width(215), GUILayout.Height(200));
         foreach (var item in _tankModels)
         {
             GUILayout.BeginHorizontal();
@@ -109,7 +111,7 @@ public class TankGenerator : EditorWindow
         GUILayout.EndVertical();
 
         GUILayout.BeginVertical();
-        _tankSOScrollPos = GUILayout.BeginScrollView(_tankSOScrollPos, GUILayout.Width(200), GUILayout.Height(200));
+        _tankSOScrollPos = GUILayout.BeginScrollView(_tankSOScrollPos, GUILayout.Width(215), GUILayout.Height(200));
         foreach (var item in _tankSOs)
         {
             GUILayout.BeginHorizontal();
@@ -121,6 +123,8 @@ public class TankGenerator : EditorWindow
             GUILayout.EndHorizontal();
         }
 
+        GUILayout.EndScrollView();
+
         if (GUILayout.Button("Add"))
         {
             _tankSOs = _tankSOs.Concat(_selectedTankSOs).ToArray();
@@ -129,11 +133,10 @@ public class TankGenerator : EditorWindow
         {
             _tankSOs = new TankSO[0];
         }
-        GUILayout.EndScrollView();
         GUILayout.EndVertical();
 
         GUILayout.BeginVertical();
-        _turretSOScrollPos = GUILayout.BeginScrollView(_turretSOScrollPos, GUILayout.Width(200), GUILayout.Height(200));
+        _turretSOScrollPos = GUILayout.BeginScrollView(_turretSOScrollPos, GUILayout.Width(215), GUILayout.Height(200));
         foreach (var item in _turretSOs)
         {
             GUILayout.BeginHorizontal();
@@ -145,6 +148,8 @@ public class TankGenerator : EditorWindow
             GUILayout.EndHorizontal();
         }
 
+        GUILayout.EndScrollView();
+
         if (GUILayout.Button("Add"))
         {
             _turretSOs = _turretSOs.Concat(_selectedTurretSOs).ToArray();
@@ -153,7 +158,6 @@ public class TankGenerator : EditorWindow
         {
             _turretSOs = new TurretSO[0];
         }
-        GUILayout.EndScrollView();
         GUILayout.EndVertical();
 
         GUILayout.EndHorizontal();
