@@ -73,28 +73,28 @@ public class TankGenerator : EditorWindow
 
     private void GenerateTank()
     {
-        GameObject tankTemplate = Instantiate(TankTemplate);
-        GameObject tankModel = Instantiate(_tankModel);
+        // GameObject tankTemplate = Instantiate(TankTemplate);
+        // GameObject tankModel;
 
-        tankTemplate.name = tankModel.name;
-        tankModel.transform.SetParent(tankTemplate.transform);
+        // tankTemplate.name = tankModel.name;
+        // tankModel.transform.SetParent(tankTemplate.transform);
 
-        Tank tank = tankTemplate.GetComponent<Tank>();
-        Turret turret = tankTemplate.GetComponent<Turret>();
+        // Tank tank = tankTemplate.GetComponent<Tank>();
+        // Turret turret = tankTemplate.GetComponent<Turret>();
 
-        tank.ID = tankTemplate.name;
-        tank.TankSO = _tankSO;
+        // tank.ID = tankTemplate.name;
+        // tank.TankSO = _tankSO;
 
-        turret.TurretSO = _turretSO;
-        turret.TurretTransform = tankModel.transform.GetChild(1);
-        turret.FirePoint = turret.TurretTransform.GetChild(0);
+        // turret.TurretSO = _turretSO;
+        // turret.TurretTransform = tankModel.transform.GetChild(1);
+        // turret.FirePoint = turret.TurretTransform.GetChild(0);
 
-        if (!AssetDatabase.IsValidFolder("Assets/Prefabs/Tank/" + _countryType.ToString()))
-        {
-            AssetDatabase.CreateFolder("Assets/Prefabs/Tank", _countryType.ToString());
-        }
+        // if (!AssetDatabase.IsValidFolder("Assets/Prefabs/Tank/" + _countryType.ToString()))
+        // {
+        //     AssetDatabase.CreateFolder("Assets/Prefabs/Tank", _countryType.ToString());
+        // }
 
-        AssetDatabase.CreateAsset(tankTemplate, "Assets/Prefabs/Tank/" + _countryType.ToString() + "/" + tankTemplate.name + ".prefab");
-        AssetDatabase.SaveAssets();
+        // AssetDatabase.CreateAsset(tankTemplate, "Assets/Prefabs/Tank/" + _countryType.ToString() + "/" + tankTemplate.name + ".prefab");
+        // AssetDatabase.SaveAssets();
     }
 }
