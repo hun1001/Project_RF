@@ -63,7 +63,7 @@ public class Turret : MonoBehaviour
         return false;
     }
 
-    internal void SetTurretSO(TurretSO turretSO)
+    public void SetTurretSO(TurretSO turretSO)
     {
         _turretStatSO = turretSO;
     }

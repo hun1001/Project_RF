@@ -7,7 +7,22 @@ public abstract class CustomObject : MonoBehaviour
 {
     [SerializeField]
     private string _id = null;
-    public string ID => _id;
+    public string ID
+    {
+        set
+        {
+            if (string.IsNullOrEmpty(_id))
+            {
+                _id = value;
+            }
+            else
+            {
+                Debug.LogError("ID is already set");
+            }
+        }
+
+        get => _id;
+    }
 
     private Dictionary<ComponentType, CustomComponent> _components = new Dictionary<ComponentType, CustomComponent>();
 

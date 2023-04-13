@@ -48,7 +48,7 @@ public class Tank : CustomObject, IPoolReset
         _minimapSprite.Disabled();
     }
 
-    internal void SetTankSO(TankSO tankSO)
+    public void SetTankSO(TankSO tankSO)
     {
         _tankSO = tankSO;
     }

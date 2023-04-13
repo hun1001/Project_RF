@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class TankGenerator : EditorWindow
 {
@@ -17,6 +17,21 @@ public class TankGenerator : EditorWindow
         window.Show();
     }
 
+    private static GameObject TankTemplate = null;
+
+    private void OnEnable()
+    {
+        if (TankTemplate == null)
+        {
+            var handle = Addressables.LoadAssetAsync<GameObject>("TankTemplate");
+
+            handle.Completed += (AsyncOperationHandle<GameObject> obj) =>
+            {
+                TankTemplate = obj.Result;
+            };
+        }
+    }
+
     private void OnGUI()
     {
         _countryType = (CountryType)EditorGUILayout.EnumPopup("Country Type", _countryType);
@@ -29,9 +44,14 @@ public class TankGenerator : EditorWindow
 
         GUILayout.Space(10);
 
+        GUI.enabled = _countryType != CountryType.None && _tankModel != null && _tankSO != null && _turretSO != null && TankTemplate != null;
         if (GUILayout.Button("Generate"))
         {
-            if (_tankModel == null)
+            if (_countryType == CountryType.None)
+            {
+                Debug.LogError("Country Type is None");
+            }
+            else if (_tankModel == null)
             {
                 Debug.LogError("Tank Model is null");
             }
@@ -48,18 +68,29 @@ public class TankGenerator : EditorWindow
                 GenerateTank();
             }
         }
+        GUI.enabled = true;
     }
 
     private void GenerateTank()
     {
-        GameObject tankTemplate = Addressable.AddressablesManager.Instance.GetResource<GameObject>("TankTemplate");
+        GameObject tankTemplate = Instantiate(TankTemplate);
         GameObject tankModel = Instantiate(_tankModel);
 
-        while (tankTemplate == null)
-        {
+        tankTemplate.name = tankModel.name;
+        tankModel.transform.SetParent(tankTemplate.transform);
 
+        Tank tank = tankTemplate.GetComponent<Tank>();
+        tank.ID = tankTemplate.name;
+
+        tank.SetTankSO(_tankSO);
+        tank.Turret.SetTurretSO(_turretSO);
+
+        if (!AssetDatabase.IsValidFolder("Assets/Prefabs/Tank/" + _countryType.ToString()))
+        {
+            AssetDatabase.CreateFolder("Assets/Prefabs/Tank", _countryType.ToString());
         }
 
-        Debug.Log(tankTemplate);
+        AssetDatabase.CreateAsset(tankTemplate, "Assets/Prefabs/Tank/" + _countryType.ToString() + "/" + tankTemplate.name + ".prefab");
+        AssetDatabase.SaveAssets();
     }
 }
