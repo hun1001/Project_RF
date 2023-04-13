@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using DG.Tweening;
+using System.Collections.Generic;
 
 public class TechTreeCanvas : BaseCanvas
 {
@@ -11,7 +13,11 @@ public class TechTreeCanvas : BaseCanvas
     private ToggleGroupManager _countryToggleGroupManager = null;
 
     [SerializeField]
-    private Transform _tankNodeContentTransform = null;
+    private RectTransform _tankNodeContentTransform = null;
+
+    [SerializeField]
+    private RectTransform _techTreeScrollView = null;
+    private ScrollRect _scrollRect = null;
 
     [SerializeField]
     private GameObject _tankInformationPanel = null;
@@ -27,6 +33,8 @@ public class TechTreeCanvas : BaseCanvas
     private GameObject _noneLineTemplate = null;
     private GameObject _verticalUpLineTemplate = null;
     private GameObject _verticalDownLineTemplate = null;
+
+    private List<RectTransform> _toggleList = new List<RectTransform>();
 
     private void Awake()
     {
@@ -56,12 +64,15 @@ public class TechTreeCanvas : BaseCanvas
         _verticalUpLineTemplate.SetActive(false);
         _verticalDownLineTemplate.SetActive(false);
 
+        _techTreeScrollView.TryGetComponent(out _scrollRect);
+
         for (int i = 0; i < _techTree.TechTreeSO.Length; ++i)
         {
             int index = i;
 
             var countryToggle = Instantiate(_countryToggleTemplate, _countryToggleGroupManager.transform).GetComponent<Toggle>();
             countryToggle.transform.GetChild(0).GetComponent<Image>().sprite = _techTree.TechTreeSO[index].FlagSprite;
+            _toggleList.Add(countryToggle.transform as RectTransform);
 
             countryToggle.onValueChanged.AddListener((isOn) =>
             {
@@ -148,8 +159,6 @@ public class TechTreeCanvas : BaseCanvas
                             node.SetActive(true);
                         }
 
-
-
                         if (jIndex < _techTree.TechTreeSO[index].Length - 1)
                         {
                             var verticalLineRow = Instantiate(_verticalLineRowTemplate, _tankNodeContentTransform).transform;
@@ -194,6 +203,33 @@ public class TechTreeCanvas : BaseCanvas
 
         _countryToggleGroupManager.transform.GetChild(1).GetComponent<Toggle>().onValueChanged.Invoke(true);
         _countryToggleGroupManager.transform.GetChild(1).GetComponent<Toggle>().isOn = true;
+    }
+
+    private void Start()
+    {
+        int idx = 1;
+        _startSequence = DOTween.Sequence()
+        .SetAutoKill(false)
+        .PrependCallback(() =>
+        {
+            _techTreeScrollView.anchoredPosition = Vector2.right * 1000f;
+
+            idx = 1;
+            foreach(RectTransform rect in _toggleList)
+            {
+                rect.anchoredPosition += Vector2.down * 100f * idx++;
+            }
+        })
+        .Append(_techTreeScrollView.DOAnchorPosX(0f, 1f))
+        .InsertCallback(0.5f, () =>
+        {
+            idx = 1;
+            foreach (RectTransform rect in _toggleList)
+            {
+                rect.DOAnchorPosY(-25f, 0.2f * idx++);
+            }
+        })
+        .AppendCallback(() => _scrollRect.normalizedPosition = Vector2.zero);
     }
 
     public void OnBackButton()
