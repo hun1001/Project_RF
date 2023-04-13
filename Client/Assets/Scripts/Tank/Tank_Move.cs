@@ -54,7 +54,7 @@ public class Tank_Move : Tank_Component
         else
         {
             _targetSpeed = 0;
-            _currentSpeed = 0;
+            SpeedDeceleration();
             _isDepart = false;
             _tankSound?.MoveSoundUpdate(0f);
             // if (_currentSpeed > _targetSpeed)
@@ -85,5 +85,14 @@ public class Tank_Move : Tank_Component
 
 
         transform.Translate(Vector3.up * Time.deltaTime * _currentSpeed);
+    }
+
+    private void SpeedDeceleration()
+    {
+        if (_currentSpeed > 0f)
+        {
+            _currentSpeed -= _acceleration * Time.deltaTime * 3f;
+        }
+        else if (_currentSpeed < 0f) _currentSpeed = 0f;
     }
 }
