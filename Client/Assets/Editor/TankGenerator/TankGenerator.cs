@@ -6,13 +6,25 @@ using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
 using System.IO;
 using System.Text;
+using System.Linq;
 
 public class TankGenerator : EditorWindow
 {
     private CountryType _countryType = CountryType.None;
-    private GameObject _tankModel = null;
-    private TankSO _tankSO = null;
-    private TurretSO _turretSO = null;
+
+    private GameObject[] _tankModels = null;
+    private GameObject[] _selectedTankModels = null;
+    private Vector2 _modelScrollPos = Vector2.zero;
+
+    private TankSO[] _tankSOs = null;
+    private TankSO[] _selectedTankSOs = null;
+    private Vector2 _tankSOScrollPos = Vector2.zero;
+
+    private TurretSO[] _turretSOs = null;
+    private TurretSO[] _selectedTurretSOs = null;
+    private Vector2 _turretSOScrollPos = Vector2.zero;
+
+    private int GeneratedTankCount => _tankModels.Length;
 
     StringBuilder path = null;
 
@@ -20,6 +32,8 @@ public class TankGenerator : EditorWindow
     static void Init()
     {
         TankGenerator window = (TankGenerator)EditorWindow.GetWindow(typeof(TankGenerator));
+        Debug.Log(window.position.ToString());
+        window.position = new Rect(0, 0, 650, 350);
         window.Show();
     }
 
@@ -28,6 +42,11 @@ public class TankGenerator : EditorWindow
     private void OnEnable()
     {
         path = new StringBuilder();
+
+        _tankModels = new GameObject[0];
+        _tankSOs = new TankSO[0];
+        _turretSOs = new TurretSO[0];
+
         if (TankTemplate == null)
         {
             var handle = Addressables.LoadAssetAsync<GameObject>("TankTemplate");
@@ -39,32 +58,125 @@ public class TankGenerator : EditorWindow
         }
     }
 
+    private void OnSelectionChange()
+    {
+        _selectedTankModels = Selection.objects
+            .Where(obj => obj is GameObject)
+            .Cast<GameObject>()
+            .ToArray();
+
+        _selectedTankSOs = Selection.objects
+            .Where(obj => obj is TankSO)
+            .Cast<TankSO>()
+            .ToArray();
+
+        _selectedTurretSOs = Selection.objects
+            .Where(obj => obj is TurretSO)
+            .Cast<TurretSO>()
+            .ToArray();
+    }
+
     private void OnGUI()
     {
         _countryType = (CountryType)EditorGUILayout.EnumPopup("Country Type", _countryType);
 
-        _tankModel = (GameObject)EditorGUILayout.ObjectField("Tank Model", _tankModel, typeof(GameObject), false);
+        GUILayout.Space(10);
 
-        _tankSO = (TankSO)EditorGUILayout.ObjectField("Tank SO", _tankSO, typeof(TankSO), false);
+        GUILayout.BeginHorizontal();
 
-        _turretSO = (TurretSO)EditorGUILayout.ObjectField("Turret SO", _turretSO, typeof(TurretSO), false);
+        GUILayout.BeginVertical();
+        _modelScrollPos = GUILayout.BeginScrollView(_modelScrollPos, GUILayout.Width(200), GUILayout.Height(200));
+        foreach (var item in _tankModels)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(item.name);
+            if (GUILayout.Button("X", GUILayout.Width(20)))
+            {
+                _tankModels = _tankModels.Where(x => x != item).ToArray();
+            }
+            GUILayout.EndHorizontal();
+        }
+        GUILayout.EndScrollView();
+        if (GUILayout.Button("Add"))
+        {
+            _tankModels = _tankModels.Concat(_selectedTankModels).ToArray();
+        }
+        if (GUILayout.Button("Clear"))
+        {
+            _tankModels = new GameObject[0];
+        }
+
+        GUILayout.EndVertical();
+
+        GUILayout.BeginVertical();
+        _tankSOScrollPos = GUILayout.BeginScrollView(_tankSOScrollPos, GUILayout.Width(200), GUILayout.Height(200));
+        foreach (var item in _tankSOs)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(item.name);
+            if (GUILayout.Button("X", GUILayout.Width(20)))
+            {
+                _tankSOs = _tankSOs.Where(x => x != item).ToArray();
+            }
+            GUILayout.EndHorizontal();
+        }
+
+        if (GUILayout.Button("Add"))
+        {
+            _tankSOs = _tankSOs.Concat(_selectedTankSOs).ToArray();
+        }
+        if (GUILayout.Button("Clear"))
+        {
+            _tankSOs = new TankSO[0];
+        }
+        GUILayout.EndScrollView();
+        GUILayout.EndVertical();
+
+        GUILayout.BeginVertical();
+        _turretSOScrollPos = GUILayout.BeginScrollView(_turretSOScrollPos, GUILayout.Width(200), GUILayout.Height(200));
+        foreach (var item in _turretSOs)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(item.name);
+            if (GUILayout.Button("X", GUILayout.Width(20)))
+            {
+                _turretSOs = _turretSOs.Where(x => x != item).ToArray();
+            }
+            GUILayout.EndHorizontal();
+        }
+
+        if (GUILayout.Button("Add"))
+        {
+            _turretSOs = _turretSOs.Concat(_selectedTurretSOs).ToArray();
+        }
+        if (GUILayout.Button("Clear"))
+        {
+            _turretSOs = new TurretSO[0];
+        }
+        GUILayout.EndScrollView();
+        GUILayout.EndVertical();
+
+        GUILayout.EndHorizontal();
 
         GUILayout.Space(10);
 
-        GUI.enabled = _countryType != CountryType.None && _tankModel != null && _tankSO != null && _turretSO != null && TankTemplate != null;
+        GUI.enabled = _countryType != CountryType.None && _tankModels != null && _tankSOs != null && _turretSOs != null && TankTemplate != null && _tankModels.Length == _tankSOs.Length && _tankSOs.Length == _turretSOs.Length;
         if (GUILayout.Button("Generate"))
         {
-            GenerateTank();
+            for (int i = 0; i < GeneratedTankCount; i++)
+            {
+                GenerateTank(i);
+            }
         }
         GUI.enabled = true;
     }
 
-    private void GenerateTank()
+    private void GenerateTank(int index)
     {
         GameObject tankTemplate = Instantiate(TankTemplate);
-        GameObject tankModel = Instantiate(_tankModel);
+        GameObject tankModel = Instantiate(_tankModels[index]);
 
-        tankModel.name = _tankModel.name.Replace("(Clone)", "");
+        tankModel.name = _tankModels[index].name.Replace("(Clone)", "");
 
         tankTemplate.name = tankModel.name;
         tankModel.transform.SetParent(tankTemplate.transform);
@@ -73,9 +185,9 @@ public class TankGenerator : EditorWindow
         Turret turret = tankTemplate.GetComponent<Turret>();
 
         tank.ID = tankTemplate.name;
-        tank.TankSO = _tankSO;
+        tank.TankSO = _tankSOs[index];
 
-        turret.TurretSO = _turretSO;
+        turret.TurretSO = _turretSOs[index];
         turret.TurretTransform = tankModel.transform.GetChild(1);
         turret.FirePoint = turret.TurretTransform.GetChild(0);
 
@@ -112,13 +224,13 @@ public class TankGenerator : EditorWindow
 
         AssetDatabase.SaveAssets();
 
+        path.Clear();
         DestroyImmediate(tankTemplate);
         DestroyImmediate(tankModel);
     }
 
     private void OnDisable()
     {
-        path.Clear();
         path = null;
     }
 }

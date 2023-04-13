@@ -4,7 +4,7 @@ using System.Linq;
 
 public class MyWindow : EditorWindow
 {
-    private SerializedObject[] selectedObjects;
+    private GameObject[] selectedObjects;
 
     [MenuItem("Window/My Window")]
     public static void OpenWindow()
@@ -16,9 +16,10 @@ public class MyWindow : EditorWindow
 
     private void OnSelectionChange()
     {
-        // 선택된 모든 오브젝트를 SerializedObject로 변환합니다.
-        selectedObjects = Selection.gameObjects
-            .Select(obj => new SerializedObject(obj))
+        // 선택된 모든 게임오브젝트를 가져옵니다.
+        selectedObjects = Selection.objects
+            .Where(obj => obj is GameObject)
+            .Cast<GameObject>()
             .ToArray();
         Repaint();
     }
@@ -35,18 +36,10 @@ public class MyWindow : EditorWindow
             return;
         }
 
-        // SerializedProperty를 가져올 프로퍼티 경로를 지정합니다.
-        SerializedProperty layerProperty = selectedObjects[0].FindProperty("m_Layer");
-
-        // SerializedProperty를 사용하여 UI를 구성합니다.
-        EditorGUILayout.PropertyField(layerProperty);
-
-        EditorGUILayout.Space();
-
-        // 변경된 값을 모든 오브젝트에 적용합니다.
+        // 게임오브젝트를 사용하여 UI를 구성합니다.
         foreach (var obj in selectedObjects)
         {
-            obj.ApplyModifiedProperties();
+            EditorGUILayout.ObjectField(obj, typeof(GameObject), true);
         }
 
         EditorGUILayout.EndVertical();
