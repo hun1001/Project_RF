@@ -14,13 +14,17 @@ public class Tank_Move : Tank_Component
     private Tank_Sound _tankSound = null;
     private bool _isDepart = false;
 
+    private bool _isStop = false;
     private bool _isCrash = false;
     private Action<float> _onCrash = null;
     public void AddOnCrashAction(Action<float> action) => _onCrash += action;
 
+    private BoxCollider2D _boxCollider2D = null;
+
     private void Awake()
     {
         (Instance as Tank).TryGetComponent(out _tankSound);
+        TryGetComponent(out _boxCollider2D);
     }
 
     private void Start()
@@ -67,22 +71,27 @@ public class Tank_Move : Tank_Component
             // }
         }
 
-        BoxCollider2D boxCollider2D = GetComponent<BoxCollider2D>();
-
-        var rayData = Physics2D.RaycastAll(transform.position, transform.up, boxCollider2D.offset.y + boxCollider2D.size.y * 0.5f);
+        _isStop = false;
+        var rayData = Physics2D.RaycastAll(transform.position, transform.up, _boxCollider2D.offset.y + _boxCollider2D.size.y * 0.5f);
 
         foreach (var ray in rayData)
         {
             if (ray.collider.gameObject.layer == LayerMask.NameToLayer("Wall") || (ray.collider.gameObject.layer == LayerMask.NameToLayer("Tank") && ray.collider.gameObject != gameObject))
             {
-                if(_isCrash == false) _onCrash?.Invoke(_currentSpeed);
+                if (_isCrash == false)
+                {
+                    _onCrash?.Invoke(_currentSpeed);
+                    _isCrash = true;
+                }
                 _currentSpeed = 0;
-                
+                _isStop = true;
                 break;
             }
-            else if(_isCrash == true) _isCrash = false;
         }
-
+        if(_isCrash == true && _isStop == false)
+        {
+            _isCrash = false;
+        }
 
         transform.Translate(Vector3.up * Time.deltaTime * _currentSpeed);
     }
