@@ -192,7 +192,9 @@ namespace CustomEditorWindow.TankGenerator
                 {
                     GenerateTank(i);
                 }
+                ResetAllSettingData();
             }
+
             GUI.enabled = true;
         }
 
@@ -206,6 +208,10 @@ namespace CustomEditorWindow.TankGenerator
             tankTemplate.name = tankModel.name;
             tankModel.transform.SetParent(tankTemplate.transform);
 
+            tankModel.transform.position = Vector3.zero;
+            tankModel.transform.rotation = Quaternion.identity;
+            tankModel.transform.localScale = Vector3.one;
+
             Tank tank = tankTemplate.GetComponent<Tank>();
             Turret turret = tankTemplate.GetComponent<Turret>();
 
@@ -213,7 +219,7 @@ namespace CustomEditorWindow.TankGenerator
             tank.TankSO = _tankSOs[index];
 
             turret.TurretSO = _turretSOs[index];
-            turret.TurretTransform = tankModel.transform.GetChild(1);
+            turret.TurretTransform = tankModel.transform.GetChild(0);
             turret.FirePoint = turret.TurretTransform.GetChild(0);
 
             path.Append("Assets/Prefabs/Tank/" + _countryType.ToString());
@@ -252,6 +258,14 @@ namespace CustomEditorWindow.TankGenerator
             path.Clear();
             DestroyImmediate(tankTemplate);
             DestroyImmediate(tankModel);
+        }
+
+        private void ResetAllSettingData()
+        {
+            _countryType = CountryType.None;
+            _tankModels = new GameObject[0];
+            _tankSOs = new TankSO[0];
+            _turretSOs = new TurretSO[0];
         }
 
         private void OnDisable()

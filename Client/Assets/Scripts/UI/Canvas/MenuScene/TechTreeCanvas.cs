@@ -215,7 +215,7 @@ public class TechTreeCanvas : BaseCanvas
             _techTreeScrollView.anchoredPosition = Vector2.right * 1000f;
 
             idx = 1;
-            foreach(RectTransform rect in _toggleList)
+            foreach (RectTransform rect in _toggleList)
             {
                 rect.anchoredPosition += Vector2.down * 100f * idx++;
             }

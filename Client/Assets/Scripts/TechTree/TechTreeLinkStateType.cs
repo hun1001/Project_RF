@@ -7,5 +7,4 @@ public enum TechTreeLinkStateType
     None,
     UpLink,
     DownLink,
-    BothLink
 }
