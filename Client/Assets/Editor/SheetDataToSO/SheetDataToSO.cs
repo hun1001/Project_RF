@@ -19,6 +19,12 @@ namespace CustomEditorWindow.SheetDataToSO
         static void Init()
         {
             SheetDataToSO window = (SheetDataToSO)EditorWindow.GetWindow(typeof(SheetDataToSO));
+            int width = 300;
+            int height = 80;
+            window.position = new Rect(0, 0, width, height);
+            window.titleContent = new GUIContent("SheetDataToSO");
+            window.maxSize = new Vector2(width, height);
+            window.minSize = new Vector2(width, height);
             window.Show();
         }
 

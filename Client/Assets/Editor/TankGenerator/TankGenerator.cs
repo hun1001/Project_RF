@@ -34,7 +34,8 @@ namespace CustomEditorWindow.TankGenerator
         static void Init()
         {
             TankGenerator window = (TankGenerator)EditorWindow.GetWindow(typeof(TankGenerator));
-            float w = 650, h = 310;
+            float w = 650, h = 330;
+            window.titleContent = new GUIContent("TankGenerator");
             window.position = new Rect(0, 0, w, h);
             window.maxSize = new Vector2(w, h);
             window.minSize = new Vector2(w, h);
@@ -89,6 +90,12 @@ namespace CustomEditorWindow.TankGenerator
             GUILayout.BeginHorizontal();
 
             GUILayout.BeginVertical();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Tank Model");
+            GUILayout.FlexibleSpace();
+            GUILayout.Label(_tankModels.Length.ToString());
+            GUILayout.EndHorizontal();
             _modelScrollPos = GUILayout.BeginScrollView(_modelScrollPos, GUILayout.Width(215), GUILayout.Height(200));
             foreach (var item in _tankModels)
             {
@@ -113,6 +120,13 @@ namespace CustomEditorWindow.TankGenerator
             GUILayout.EndVertical();
 
             GUILayout.BeginVertical();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Tank SO");
+            GUILayout.FlexibleSpace();
+            GUILayout.Label(_tankSOs.Length.ToString());
+            GUILayout.EndHorizontal();
+
             _tankSOScrollPos = GUILayout.BeginScrollView(_tankSOScrollPos, GUILayout.Width(215), GUILayout.Height(200));
             foreach (var item in _tankSOs)
             {
@@ -138,6 +152,11 @@ namespace CustomEditorWindow.TankGenerator
             GUILayout.EndVertical();
 
             GUILayout.BeginVertical();
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Turret SO");
+            GUILayout.FlexibleSpace();
+            GUILayout.Label(_turretSOs.Length.ToString());
+            GUILayout.EndHorizontal();
             _turretSOScrollPos = GUILayout.BeginScrollView(_turretSOScrollPos, GUILayout.Width(215), GUILayout.Height(200));
             foreach (var item in _turretSOs)
             {
