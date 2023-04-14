@@ -5,113 +5,116 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEditor;
 
-public class SheetDataToSO : EditorWindow
+namespace CustomEditorWindow.SheetDataToSO
 {
-    private readonly string[] _dataType = new string[] { "Tank", "Turret", "Shell" };
-    private readonly string[] _dataUrlKey = new string[] { "1Sph3_eEfKFAfOT_EEN2-XzM9RK7mrly_9FTFSueqgSo", "1mUDMYbdVgwLQDmMQb2mB6kYl4SzZdbGfOmiaQ9Ww0g4", "16lDqvKtl8077CH5PHDAzojDuWebBP8FXb_VVmwf88J0" };
-    private int _dataTypeIndex = 0;
-
-    private const string SheetAPI = "/export?format=tsv";
-
-    [MenuItem("Tools/SheetDataToSO")]
-    static void Init()
+    public class SheetDataToSO : EditorWindow
     {
-        SheetDataToSO window = (SheetDataToSO)EditorWindow.GetWindow(typeof(SheetDataToSO));
-        window.Show();
-    }
+        private readonly string[] _dataType = new string[] { "Tank", "Turret", "Shell" };
+        private readonly string[] _dataUrlKey = new string[] { "1Sph3_eEfKFAfOT_EEN2-XzM9RK7mrly_9FTFSueqgSo", "1mUDMYbdVgwLQDmMQb2mB6kYl4SzZdbGfOmiaQ9Ww0g4", "16lDqvKtl8077CH5PHDAzojDuWebBP8FXb_VVmwf88J0" };
+        private int _dataTypeIndex = 0;
 
-    void OnGUI()
-    {
-        _dataTypeIndex = EditorGUILayout.Popup("Data Type", selectedIndex: _dataTypeIndex, displayedOptions: _dataType);
+        private const string SheetAPI = "/export?format=tsv";
 
-        GUILayout.Space(10);
-
-        if (GUILayout.Button("Load"))
+        [MenuItem("Tools/SheetDataToSO")]
+        static void Init()
         {
-            LoadData();
+            SheetDataToSO window = (SheetDataToSO)EditorWindow.GetWindow(typeof(SheetDataToSO));
+            window.Show();
         }
 
-        if (GUILayout.Button("Reset"))
+        void OnGUI()
+        {
+            _dataTypeIndex = EditorGUILayout.Popup("Data Type", selectedIndex: _dataTypeIndex, displayedOptions: _dataType);
+
+            GUILayout.Space(10);
+
+            if (GUILayout.Button("Load"))
+            {
+                LoadData();
+            }
+
+            if (GUILayout.Button("Reset"))
+            {
+                ResetFolder();
+            }
+        }
+
+        private void LoadData()
         {
             ResetFolder();
-        }
-    }
 
-    private void LoadData()
-    {
-        ResetFolder();
+            UnityWebRequest www = UnityWebRequest.Get("https://docs.google.com/spreadsheets/d/" + _dataUrlKey[_dataTypeIndex] + SheetAPI);
+            www.SendWebRequest();
 
-        UnityWebRequest www = UnityWebRequest.Get("https://docs.google.com/spreadsheets/d/" + _dataUrlKey[_dataTypeIndex] + SheetAPI);
-        www.SendWebRequest();
+            while (!www.isDone) { }
 
-        while (!www.isDone) { }
+            string result = www.downloadHandler.text;
+            string result2 = result.Replace("\r", "");
 
-        string result = www.downloadHandler.text;
-        string result2 = result.Replace("\r", "");
+            string[] lines = result2.Split('\n');
 
-        string[] lines = result2.Split('\n');
-
-        switch (_dataType[_dataTypeIndex])
-        {
-            case "Tank":
-                for (int i = 1; i < lines.Length; i++)
-                {
-                    string[] data = lines[i].Split('\t');
-
-                    for (int j = 0; j < data.Length; j++)
+            switch (_dataType[_dataTypeIndex])
+            {
+                case "Tank":
+                    for (int i = 1; i < lines.Length; i++)
                     {
-                        TankSO asset = ScriptableObject.CreateInstance<TankSO>();
-                        data[2] = data[2].Replace("km/h", "");
-                        asset.SetData(float.Parse(data[5]), float.Parse(data[4]), float.Parse(data[2]), float.Parse(data[1]), float.Parse(data[3]), TankType.Medium);
+                        string[] data = lines[i].Split('\t');
 
-                        AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Tank/" + data[0].ToString() + "_TankSO.asset");
+                        for (int j = 0; j < data.Length; j++)
+                        {
+                            TankSO asset = ScriptableObject.CreateInstance<TankSO>();
+                            data[2] = data[2].Replace("km/h", "");
+                            asset.SetData(float.Parse(data[5]), float.Parse(data[4]), float.Parse(data[2]), float.Parse(data[1]), float.Parse(data[3]), TankType.Medium);
+
+                            AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Tank/" + data[0].ToString() + "_TankSO.asset");
+                        }
                     }
-                }
-                break;
-            case "Turret":
-                for (int i = 1; i < lines.Length; i++)
-                {
-                    string[] data = lines[i].Split('\t');
-
-                    for (int j = 0; j < data.Length; j++)
+                    break;
+                case "Turret":
+                    for (int i = 1; i < lines.Length; i++)
                     {
-                        TurretSO asset = ScriptableObject.CreateInstance<TurretSO>();
+                        string[] data = lines[i].Split('\t');
 
-                        asset.Power = float.Parse(data[1]);
-                        asset.ReloadTime = float.Parse(data[2]);
-                        data[3] = data[3].Replace("deg/s", "");
-                        asset.RotationSpeed = float.Parse(data[3]);
-                        asset.Shells = new List<Shell>();
-                        asset.Shells.Add(Pool.PoolManager.Load<Shell>("APHE"));
+                        for (int j = 0; j < data.Length; j++)
+                        {
+                            TurretSO asset = ScriptableObject.CreateInstance<TurretSO>();
 
-                        AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Turret/" + data[0].ToString() + "_TurretSO.asset");
+                            asset.Power = float.Parse(data[1]);
+                            asset.ReloadTime = float.Parse(data[2]);
+                            data[3] = data[3].Replace("deg/s", "");
+                            asset.RotationSpeed = float.Parse(data[3]);
+                            asset.Shells = new List<Shell>();
+                            asset.Shells.Add(Pool.PoolManager.Load<Shell>("APHE"));
+
+                            AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Turret/" + data[0].ToString() + "_TurretSO.asset");
+                        }
                     }
-                }
-                break;
-            case "Shell":
-                Debug.Log("Shell is not implemented yet.");
-                break;
-            default:
-                break;
+                    break;
+                case "Shell":
+                    Debug.Log("Shell is not implemented yet.");
+                    break;
+                default:
+                    break;
+            }
+            AssetDatabase.SaveAssets();
+            EditorUtility.FocusProjectWindow();
         }
-        AssetDatabase.SaveAssets();
-        EditorUtility.FocusProjectWindow();
-    }
 
-    private void ResetFolder()
-    {
-        DirectoryInfo dir = new DirectoryInfo(Application.dataPath + "/ScriptableObjects/" + _dataType[_dataTypeIndex]);
-
-        foreach (var item in dir.GetFiles())
+        private void ResetFolder()
         {
-            item.Delete();
-        }
+            DirectoryInfo dir = new DirectoryInfo(Application.dataPath + "/ScriptableObjects/" + _dataType[_dataTypeIndex]);
 
-        foreach (DirectoryInfo di in dir.GetDirectories())
-        {
-            di.Delete(true);
-        }
+            foreach (var item in dir.GetFiles())
+            {
+                item.Delete();
+            }
 
-        AssetDatabase.Refresh();
+            foreach (DirectoryInfo di in dir.GetDirectories())
+            {
+                di.Delete(true);
+            }
+
+            AssetDatabase.Refresh();
+        }
     }
 }
