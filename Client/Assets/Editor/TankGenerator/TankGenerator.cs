@@ -222,6 +222,8 @@ namespace CustomEditorWindow.TankGenerator
             turret.TurretTransform = tankModel.transform.GetChild(0);
             turret.FirePoint = turret.TurretTransform.GetChild(0);
 
+            LayerUtil.SetGameObjectLayer(tankTemplate, LayerMask.NameToLayer("Tank"));
+
             path.Append("Assets/Prefabs/Tank/" + _countryType.ToString());
 
             if (!AssetDatabase.IsValidFolder(path.ToString()))

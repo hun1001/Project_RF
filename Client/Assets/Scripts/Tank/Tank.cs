@@ -27,8 +27,6 @@ public class Tank : CustomObject, IPoolReset
 
     private FogOfWarUnit _fogOfWarUnit = null;
 
-    private MinimapSprite _minimapSprite = null;
-
     public Tank SetTank(GroupType groupType)
     {
         _groupType = groupType;
@@ -42,13 +40,11 @@ public class Tank : CustomObject, IPoolReset
         _turret = GetComponent<Turret>();
         _fogOfWarUnit = GetComponent<FogOfWarUnit>();
         _thisTankSO = _tankSO.Clone();
-        _minimapSprite = GetComponentInChildren<MinimapSprite>();
     }
 
     public void PoolObjectReset()
     {
         _thisTankSO = _tankSO.Clone();
         GetComponent<Tank_Damage>(ComponentType.Damage).ResetData();
-        _minimapSprite.Disabled();
     }
 }
