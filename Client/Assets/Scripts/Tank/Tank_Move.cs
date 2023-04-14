@@ -38,7 +38,7 @@ public class Tank_Move : Tank_Component
     {
         if (magnitude > 0)
         {
-            if(_isDepart == false)
+            if (_isDepart == false)
             {
                 _isDepart = true;
                 _tankSound?.PlaySound(SoundType.Load, AudioMixerType.Sfx, 0.3f);
@@ -61,14 +61,6 @@ public class Tank_Move : Tank_Component
             SpeedDeceleration();
             _isDepart = false;
             _tankSound?.MoveSoundUpdate(0f);
-            // if (_currentSpeed > _targetSpeed)
-            // {
-            //     _currentSpeed -= _acceleration * Time.deltaTime;
-            // }
-            // else
-            // {
-            //     _currentSpeed = _targetSpeed;
-            // }
         }
 
         _isStop = false;
@@ -88,7 +80,7 @@ public class Tank_Move : Tank_Component
                 break;
             }
         }
-        if(_isCrash == true && _isStop == false)
+        if (_isCrash == true && _isStop == false)
         {
             _isCrash = false;
         }
