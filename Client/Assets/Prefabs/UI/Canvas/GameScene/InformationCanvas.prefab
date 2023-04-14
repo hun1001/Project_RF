@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 3607722167156466989}
   - component: {fileID: 3607722167156466987}
   - component: {fileID: 3607722167156466988}
+  - component: {fileID: 8624446442366066878}
   m_Layer: 5
   m_Name: Minimap
   m_TagString: Untagged
@@ -251,6 +252,38 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &8624446442366066878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3607722167156466990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 261ccccc16c0c6b4290962558bd47617, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 1
+  fogColor:
+    serializedVersion: 2
+    rgba: 4278190080
+  nonFogColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  unitColor:
+    serializedVersion: 2
+    rgba: 4294901760
+  enemyColor:
+    serializedVersion: 2
+    rgba: 4278190335
+  cameraColor:
+    serializedVersion: 2
+    rgba: 4278255360
+  opponentMinFogStrength: 0.2
+  camera: {fileID: 0}
+  iconSize: 2
+  aspectRatioFitter: {fileID: 0}
 --- !u!1001 &6097991580658827818
 PrefabInstance:
   m_ObjectHideFlags: 0
