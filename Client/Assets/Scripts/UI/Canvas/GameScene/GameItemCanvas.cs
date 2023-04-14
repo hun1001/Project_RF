@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemCanvas : BaseCanvas
+public class GameItemCanvas : BaseCanvas
 {
     [SerializeField]
     private Button _backButton = null;

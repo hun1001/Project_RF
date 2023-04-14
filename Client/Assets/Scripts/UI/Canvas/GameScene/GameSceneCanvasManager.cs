@@ -7,7 +7,7 @@ public class GameSceneCanvasManager : BaseSceneCanvasManager
     public override void ChangeCanvas(CanvasType canvasType)
     {
         base.ChangeCanvas(canvasType);
-        if (canvasType != CanvasType.Item || canvasType != CanvasType.Setting)
+        if (canvasType != CanvasType.GameItem || canvasType != CanvasType.Setting)
         {
             Time.timeScale = 1f;
             GetCanvas(CanvasType.Controller).Canvas.enabled = GetCanvas(CanvasType.Information).Canvas.enabled = true;

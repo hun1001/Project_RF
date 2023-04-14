@@ -4,10 +4,11 @@ public enum CanvasType
     Base,
     Controller,
     Information,
-    Item,
+    GameItem,
     Setting,
     Menu,
     Mode,
     TechTree,
     Shop,
+    MenuItem,
 }
