@@ -18,8 +18,16 @@ public class Tank_Rotate : Tank_Component
             _direction.z = direction.y;
 
             Quaternion targetRotation = Quaternion.LookRotation(_direction);
+
+            // 바로 봄
+            //transform.rotation = Quaternion.Euler(0, 0, targetRotation.eulerAngles.y);
+
+            // 기존 원하는 위치로 일정하게 회전하는 코드 그러나 180회전할 때 속도가 90도 회전보다 더 빠름
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, targetRotation.eulerAngles.y), Time.deltaTime / (1f / (_rotationSpeed / 360f)));
-            //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, targetRotation.eulerAngles.y), _rotationSpeed * Time.deltaTime);
+
+            // 초당 일정하게 회전하는 코드
+            // float maxRotationDelta = _rotationSpeed * Time.deltaTime;
+            // transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, targetRotation.eulerAngles.y), maxRotationDelta);
         }
     }
 }
