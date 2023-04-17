@@ -6,6 +6,8 @@ using UnityEngine;
 public abstract class BaseSceneCanvasManager : MonoBehaviour
 {
     private Dictionary<CanvasType, BaseCanvas> _canvasDictionary = new Dictionary<CanvasType, BaseCanvas>();
+    private CanvasType _beforeCanvas;
+    public CanvasType BeforeCanvas => _beforeCanvas;
 
     private void Awake()
     {
@@ -16,8 +18,9 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
         }
     }
 
-    public virtual void ChangeCanvas(CanvasType canvasType)
+    public virtual void ChangeCanvas(CanvasType canvasType, CanvasType beforeCanvas)
     {
+        _beforeCanvas = beforeCanvas;
         foreach (var canvas in _canvasDictionary)
         {
             canvas.Value.Canvas.enabled = canvas.Key == canvasType;

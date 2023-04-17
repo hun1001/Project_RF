@@ -232,9 +232,9 @@ public class TechTreeCanvas : BaseCanvas
         .AppendCallback(() => _scrollRect.normalizedPosition = Vector2.zero);
     }
 
-    public void OnBackButton()
+    public override void OnBackButton()
     {
         _tankInformationPanel.SetActive(false);
-        CanvasManager.ChangeCanvas(CanvasType.Menu);
+        base.OnBackButton();
     }
 }

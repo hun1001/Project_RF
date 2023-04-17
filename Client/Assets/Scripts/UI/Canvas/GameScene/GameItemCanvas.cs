@@ -12,7 +12,7 @@ public class GameItemCanvas : BaseCanvas
     {
         _backButton.onClick.AddListener(() =>
         {
-            CanvasManager.ChangeCanvas(CanvasType.Controller);
+            CanvasManager.ChangeCanvas(CanvasType.Controller, CanvasType);
         });
     }
 }

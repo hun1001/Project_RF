@@ -43,7 +43,7 @@ public abstract class BaseCanvas : MonoBehaviour
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
         {
-            CanvasManager.ChangeCanvas(CanvasType.Menu);
+            CanvasManager.ChangeCanvas(CanvasType.Menu, _canvasType);
         }
         else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
         {
@@ -51,6 +51,11 @@ public abstract class BaseCanvas : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene("MenuScene");
             Pool.PoolManager.DeleteAllPool();
         }
+    }
+
+    public virtual void OnBackButton()
+    {
+        CanvasManager.ChangeCanvas(CanvasManager.BeforeCanvas, _canvasType);
     }
 
     public virtual void OnOpenAnimation()

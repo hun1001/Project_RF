@@ -20,21 +20,21 @@ public class MenuCanvas : BaseCanvas
 
     public void OnModeButton()
     {
-        CanvasManager.ChangeCanvas(CanvasType.Mode);
+        CanvasManager.ChangeCanvas(CanvasType.Mode, CanvasType);
     }
 
     public void OnSettingButton()
     {
-        CanvasManager.ChangeCanvas(CanvasType.Setting);
+        CanvasManager.ChangeCanvas(CanvasType.Setting, CanvasType);
     }
 
     public void OnShopButton()
     {
-        CanvasManager.ChangeCanvas(CanvasType.Shop);
+        CanvasManager.ChangeCanvas(CanvasType.Shop, CanvasType);
     }
 
     public void OnTechTreeButton()
     {
-        CanvasManager.ChangeCanvas(CanvasType.TechTree);
+        CanvasManager.ChangeCanvas(CanvasType.TechTree, CanvasType);
     }
 }

@@ -119,7 +119,7 @@ public class SettingCanvas : BaseCanvas
                     Time.timeScale = 0f;
                 }
                 _isOpen = true;
-                CanvasManager.ChangeCanvas(CanvasType.Setting);
+                CanvasManager.ChangeCanvas(CanvasType.Setting, CanvasType);
             }
         }
         else
@@ -129,17 +129,17 @@ public class SettingCanvas : BaseCanvas
     }
 
     /// <summary> 설정창 닫는 함수 </summary>
-    public void OnBackButton()
+    public override void OnBackButton()
     {
         _isOpen = false;
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
         {
-            CanvasManager.ChangeCanvas(CanvasType.Menu);
+            base.OnBackButton();
         }
         else if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
         {
             Time.timeScale = 1f;
-            CanvasManager.ChangeCanvas(CanvasType.Controller);
+            CanvasManager.ChangeCanvas(CanvasType.Controller, CanvasType);
         }
         if (_toggles[1].isOn == true)
         {
