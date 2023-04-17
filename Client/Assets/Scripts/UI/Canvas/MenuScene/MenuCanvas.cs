@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuCanvas : BaseCanvas
 {
+    [Header("Hanger")]
     [SerializeField]
     private GameObject _hanger;
 

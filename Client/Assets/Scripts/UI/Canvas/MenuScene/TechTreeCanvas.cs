@@ -237,4 +237,10 @@ public class TechTreeCanvas : BaseCanvas
         _tankInformationPanel.SetActive(false);
         base.OnBackButton();
     }
+
+    public void OnItemButton()
+    {
+        _tankInformationPanel.SetActive(false);
+        CanvasManager.ChangeCanvas(CanvasType.MenuItem, CanvasType);
+    }
 }

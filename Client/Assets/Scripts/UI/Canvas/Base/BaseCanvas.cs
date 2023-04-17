@@ -41,6 +41,7 @@ public abstract class BaseCanvas : MonoBehaviour
     /// <summary> 메뉴씬으로 돌아가는 함수 </summary>
     public virtual void OnHomeButton()
     {
+        CanvasManager.BeforeCanvasClear();
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
         {
             CanvasManager.ChangeCanvas(CanvasType.Menu, _canvasType);
@@ -55,7 +56,7 @@ public abstract class BaseCanvas : MonoBehaviour
 
     public virtual void OnBackButton()
     {
-        CanvasManager.ChangeCanvas(CanvasManager.BeforeCanvas, _canvasType);
+        CanvasManager.ChangeBeforeCanvas();
     }
 
     public virtual void OnOpenAnimation()

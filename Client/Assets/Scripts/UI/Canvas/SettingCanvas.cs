@@ -119,13 +119,19 @@ public class SettingCanvas : BaseCanvas
                     Time.timeScale = 0f;
                 }
                 _isOpen = true;
-                CanvasManager.ChangeCanvas(CanvasType.Setting, CanvasType);
+                CanvasManager.ChangeCanvas(CanvasType.Setting, CanvasManager.ActiveCanvas);
             }
         }
         else
         {
             OnBackButton();
         }
+    }
+
+    public override void OnHomeButton()
+    {
+        _isOpen = false;
+        base.OnHomeButton();
     }
 
     /// <summary> 설정창 닫는 함수 </summary>
