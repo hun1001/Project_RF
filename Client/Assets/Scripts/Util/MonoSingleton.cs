@@ -14,10 +14,10 @@ namespace Util
                 {
                     GameObject obj = new GameObject(typeof(T).FullName);
                     instance = obj.AddComponent(typeof(T)) as T;
-
-                    DontDestroyOnLoad(obj);
                 }
-                DontDestroyOnLoad(instance);
+
+                if (Application.isPlaying)
+                    DontDestroyOnLoad(instance);
 
                 return instance;
             });

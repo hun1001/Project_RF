@@ -4,7 +4,7 @@ using UnityEngine;
 using Pool;
 using FoW;
 
-public class SpawnManager : Singleton<SpawnManager>
+public class SpawnManager : MonoSingleton<SpawnManager>
 {
     private Dictionary<GroupType, List<CustomObject>> _spawnedUnits = new Dictionary<GroupType, List<CustomObject>>();
     private Dictionary<GroupType, FogOfWarTeam> _groupDictionary = new Dictionary<GroupType, FogOfWarTeam>();
