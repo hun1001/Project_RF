@@ -1,13 +1,39 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuCanvas : BaseCanvas
 {
     [Header("Hanger")]
     [SerializeField]
-    private GameObject _hanger;
+    private RectTransform _smallHangerContent;
+    [SerializeField]
+    private GameObject _smallHangerTemplate;
+    [SerializeField]
+    private GameObject _bigHanger;
+    [SerializeField]
+    private RectTransform _bigHangerContent;
+    [SerializeField]
+    private GameObject _bigHangerTemplate;
+
+    private void Awake()
+    {
+        //foreach(var tankInfo in 보유한탱크리스트)
+        //{
+        //    var smallTank = Instantiate(_smallHangerTemplate, _smallHangerContent);
+        //    var bigTank = Instantiate(_bigHangerTemplate, _bigHangerContent);
+        //    smallTank.GetComponent<Button>().onClick.AddListener(() =>
+        //    {
+
+        //    });
+        //    bigTank.GetComponent<Button>().onClick.AddListener(() =>
+        //    {
+
+        //    });
+        //}
+    }
 
     public void OnStartButton()
     {
@@ -44,11 +70,11 @@ public class MenuCanvas : BaseCanvas
 
     public void OnOpenHanger()
     {
-        _hanger.SetActive(true);
+        _bigHanger.SetActive(true);
     }
 
     public void OnCloseHanger()
     {
-        _hanger.SetActive(false);
+        _bigHanger.SetActive(false);
     }
 }
