@@ -48,11 +48,10 @@ public class Player : CustomObject
 
         _tank = PoolManager.Get<Tank>(PlayerDataManager.Instance.GetPlayerTankID()).SetTank(GroupType.Player);
         _tank.tag = "Player";
-        transform.GetChild(0).SetParent(_tank.transform);
+        FindObjectOfType<MinimapCameraManager>().Target = _tank.transform;
 
         _cameraManager.SetPlayer(_tank.transform);
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);
-        //_attackJoystick.AddOnPointerUpAction(() => ServerManager.Instance.AttackPlayer());
         _hpBar.Setting(_tank.TankData.HP);
 
         int shellCnt = _tank.Turret.TurretData.Shells.Count;
