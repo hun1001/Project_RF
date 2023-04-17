@@ -29,6 +29,8 @@ namespace CustomEditorInspector.Group
             _groupColorList = new List<Color>();
             _mapData = MapManager.Instance.MapData;
 
+            Debug.Log(_groupManager.GroupColorList.Count);
+
             UpdateGroups();
         }
 

@@ -17,10 +17,5 @@ public class GroupManager : MonoSingleton<GroupManager>
         {
             _groupColorDictionary.Add((GroupType)i + 1, groupColorList[i]);
         }
-
-        foreach (var groupColor in _groupColorDictionary)
-        {
-            Debug.Log($"GroupColor_{groupColor.Key}_{groupColor.Value}");
-        }
     }
 }
