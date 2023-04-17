@@ -16,6 +16,7 @@ namespace CustomEditorInspector.Group
         private MapSO _mapData = null;
 
         private List<FogOfWarTeam> _groupList = null;
+        private List<Color> _groupColorList = null;
         private uint _childCount = 0;
 
         private int _groupCount = 0;
@@ -25,6 +26,7 @@ namespace CustomEditorInspector.Group
             _groupManager = (GroupManager)target;
 
             _groupList = new List<FogOfWarTeam>();
+            _groupColorList = new List<Color>();
             _mapData = MapManager.Instance.MapData;
 
             UpdateGroups();
@@ -41,7 +43,10 @@ namespace CustomEditorInspector.Group
 
             for (int i = 0; i < _childCount; i++)
             {
+                GUILayout.BeginHorizontal();
                 GUILayout.Label(_groupList[i].name);
+                _groupColorList[i] = EditorGUILayout.ColorField(_groupColorList[i], GUILayout.Width(200));
+                GUILayout.EndHorizontal();
             }
 
             GUILayout.EndVertical();
@@ -75,12 +80,31 @@ namespace CustomEditorInspector.Group
             GUI.enabled = true;
 
             GUILayout.EndHorizontal();
+
+            if (GUI.changed)
+            {
+                _groupManager.SetGroupColorList(_groupColorList);
+            }
         }
 
         private void UpdateGroups()
         {
             _groupList.Clear();
+            _groupColorList.Clear();
             _groupList = _groupManager.GetComponentsInChildren<FogOfWarTeam>().ToList();
+
+            if (_groupManager.GroupColorList.Count > 0)
+            {
+                _groupColorList = _groupManager.GroupColorList.Values.ToList();
+            }
+            else
+            {
+                for (int i = 0; i < _groupList.Count; i++)
+                {
+                    _groupColorList.Add(Color.white);
+                }
+            }
+
             _childCount = (uint)_groupList.Count;
             _groupCount = _groupList.Count;
         }

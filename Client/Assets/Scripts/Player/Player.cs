@@ -46,8 +46,8 @@ public class Player : CustomObject
         base.Awake();
         Camera.main.TryGetComponent(out _cameraManager);
 
-        _tank = PoolManager.Get<Tank>(PlayerDataManager.Instance.GetPlayerTankID()).SetTank(GroupType.Player);
-        //_tank = SpawnManager.Instance.SpawnUnit(PlayerDataManager.Instance.GetPlayerTankID(), Vector3.zero, Quaternion.identity, GroupType.Player);
+        //_tank = PoolManager.Get<Tank>(PlayerDataManager.Instance.GetPlayerTankID()).SetTank(GroupType.Player);
+        _tank = SpawnManager.Instance.SpawnUnit(PlayerDataManager.Instance.GetPlayerTankID(), Vector3.zero, Quaternion.identity, GroupType.Player);
         _tank.tag = "Player";
         MinimapCameraManager.Instance.Target = _tank.transform;
         var mi = PoolManager.Get("Assets/Prefabs/MinimapIcon.prefab", _tank.transform);
