@@ -86,6 +86,7 @@ namespace CustomEditorInspector.Group
             if (GUI.changed)
             {
                 _groupManager.SetGroupColorList(_groupColorList);
+                //  EditorUtility.SetDirty(_groupManager);
             }
         }
 
