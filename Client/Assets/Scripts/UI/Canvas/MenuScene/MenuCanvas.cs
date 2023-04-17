@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class MenuCanvas : BaseCanvas
 {
+    [SerializeField]
+    private GameObject _hanger;
+
     public void OnStartButton()
     {
         Time.timeScale = 1;
@@ -36,5 +39,15 @@ public class MenuCanvas : BaseCanvas
     public void OnTechTreeButton()
     {
         CanvasManager.ChangeCanvas(CanvasType.TechTree, CanvasType);
+    }
+
+    public void OnOpenHanger()
+    {
+        _hanger.SetActive(true);
+    }
+
+    public void OnCloseHanger()
+    {
+        _hanger.SetActive(false);
     }
 }
