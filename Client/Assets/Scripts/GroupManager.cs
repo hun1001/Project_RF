@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Util;
 
-public class GroupManager : Singleton<GroupManager>
+public class GroupManager : MonoSingleton<GroupManager>
 {
 
 }

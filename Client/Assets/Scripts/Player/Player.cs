@@ -47,8 +47,9 @@ public class Player : CustomObject
         Camera.main.TryGetComponent(out _cameraManager);
 
         _tank = PoolManager.Get<Tank>(PlayerDataManager.Instance.GetPlayerTankID()).SetTank(GroupType.Player);
+        //_tank = SpawnManager.Instance.SpawnUnit(PlayerDataManager.Instance.GetPlayerTankID(), Vector3.zero, Quaternion.identity, GroupType.Player);
         _tank.tag = "Player";
-        FindObjectOfType<MinimapCameraManager>().Target = _tank.transform;
+        MinimapCameraManager.Instance.Target = _tank.transform;
 
         _cameraManager.SetPlayer(_tank.transform);
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);

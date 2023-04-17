@@ -1,9 +1,7 @@
-using System.Transactions;
-using System.Collections;
-using System.Collections.Generic;
+using Util;
 using UnityEngine;
 
-public class MinimapCameraManager : MonoBehaviour
+public class MinimapCameraManager : MonoSingleton<MinimapCameraManager>
 {
     public Vector3 offset = new Vector3(0, 0, -20);
 

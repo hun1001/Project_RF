@@ -4,19 +4,19 @@ using UnityEngine;
 using Pool;
 using FoW;
 
-public class SpawnManager// : Singleton<SpawnManager>
+public class SpawnManager : Singleton<SpawnManager>
 {
     private Dictionary<GroupType, List<CustomObject>> _spawnedUnits = new Dictionary<GroupType, List<CustomObject>>();
     private Dictionary<GroupType, FogOfWarTeam> _groupDictionary = new Dictionary<GroupType, FogOfWarTeam>();
 
-    public Tank SpawnUnit(CustomObject unit, Vector3 position, Quaternion rotation, GroupType groupType)
+    public Tank SpawnUnit(string unitID, Vector3 position, Quaternion rotation, GroupType groupType)
     {
         if (_groupDictionary.ContainsKey(groupType) == false)
         {
             CreateTeamGroup(groupType);
         }
 
-        var spawnedUnit = PoolManager.Get<Tank>(unit.ID, position, rotation).SetTank(groupType);
+        var spawnedUnit = PoolManager.Get<Tank>(unitID, position, rotation).SetTank(groupType);
         return spawnedUnit;
     }
 
@@ -27,6 +27,10 @@ public class SpawnManager// : Singleton<SpawnManager>
         team.team = (int)groupType;
 
         // team의 맵 크기에 맞게 세팅해주는 코드 필요
+        MapSO mapData = MapManager.Instance.MapData;
+        team.mapSize = mapData.MapSize;
+        team.mapResolution = mapData.MapResolution;
+        team.mapOffset = mapData.MapOffset;
 
         _groupDictionary.Add(groupType, team);
     }
