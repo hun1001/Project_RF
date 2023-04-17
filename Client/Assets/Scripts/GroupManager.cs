@@ -7,15 +7,10 @@ using FoW;
 public class GroupManager : MonoSingleton<GroupManager>
 {
     [SerializeField]
-    private Dictionary<GroupType, Color> _groupColorDictionary = new Dictionary<GroupType, Color>();
-    public Dictionary<GroupType, Color> GroupColorList => _groupColorDictionary;
-
-    public void SetGroupColorList(List<Color> groupColorList)
+    private List<Color> _groupColorList = new List<Color>();
+    public List<Color> GroupColorList
     {
-        _groupColorDictionary.Clear();
-        for (int i = 0; i < groupColorList.Count; i++)
-        {
-            _groupColorDictionary.Add((GroupType)i + 1, groupColorList[i]);
-        }
+        get => _groupColorList;
+        set => _groupColorList = value;
     }
 }

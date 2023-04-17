@@ -29,7 +29,10 @@ namespace CustomEditorInspector.Group
             _groupColorList = new List<Color>();
             _mapData = MapManager.Instance.MapData;
 
-            Debug.Log(_groupManager.GroupColorList.Count);
+            foreach (var c in Enum.GetValues(typeof(GroupType)))
+            {
+                _groupColorList.Add(Color.white);
+            }
 
             UpdateGroups();
         }
@@ -85,7 +88,7 @@ namespace CustomEditorInspector.Group
 
             if (GUI.changed)
             {
-                _groupManager.SetGroupColorList(_groupColorList);
+                _groupManager.GroupColorList = _groupColorList;
                 //  EditorUtility.SetDirty(_groupManager);
             }
         }
@@ -93,19 +96,12 @@ namespace CustomEditorInspector.Group
         private void UpdateGroups()
         {
             _groupList.Clear();
-            _groupColorList.Clear();
             _groupList = _groupManager.GetComponentsInChildren<FogOfWarTeam>().ToList();
 
-            if (_groupManager.GroupColorList.Count > 0)
+            if (_groupManager.GroupColorList.Count == _groupColorList.Count)
             {
-                _groupColorList = _groupManager.GroupColorList.Values.ToList();
-            }
-            else
-            {
-                for (int i = 0; i < _groupList.Count; i++)
-                {
-                    _groupColorList.Add(Color.white);
-                }
+                _groupColorList.Clear();
+                _groupColorList = _groupManager.GroupColorList;
             }
 
             _childCount = (uint)_groupList.Count;
