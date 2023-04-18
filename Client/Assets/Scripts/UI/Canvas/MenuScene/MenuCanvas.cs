@@ -37,7 +37,12 @@ public class MenuCanvas : BaseCanvas
         //    });
         //}
 
+        GoodsManager.AddOnGoodsChanged((f, p) =>
+        {
+            _goodsTexts.SetGoodsTexts(f, p);
+        });
 
+        _goodsTexts.SetGoodsTexts(GoodsManager.FreeGoods, GoodsManager.PaidGoods);
     }
 
     public void OnStartButton()

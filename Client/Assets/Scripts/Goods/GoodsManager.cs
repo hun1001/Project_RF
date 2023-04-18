@@ -8,10 +8,10 @@ public static class GoodsManager
 {
     private static GoodsInformation _goodsInformation = new GoodsInformation();
 
-    private static Action<int> _onGoodsChanged;
-    public static Action<int> OnGoodsChanged
+    private static Action<int, int> _onGoodsChanged;
+    public static void AddOnGoodsChanged(Action<int, int> onGoodsChanged)
     {
-        set => _onGoodsChanged = value;
+        _onGoodsChanged += onGoodsChanged;
     }
 
     private static GoodsInformation GetGoodsInformation()
@@ -23,6 +23,7 @@ public static class GoodsManager
     private static void SetGoodsInformation(GoodsInformation goodsInformation)
     {
         _goodsInformation = goodsInformation;
+        _onGoodsChanged?.Invoke(_goodsInformation.freeGoods, _goodsInformation.paidGoods);
         SaveManager.Save(SaveKey.GoodsInformation, _goodsInformation);
     }
 
