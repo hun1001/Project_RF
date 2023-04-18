@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections.Generic;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class TechTreeCanvas : BaseCanvas
 {
@@ -117,35 +119,46 @@ public class TechTreeCanvas : BaseCanvas
                                 node = Instantiate(_tankNodeTemplate, rowTransform);
 
                                 var tNC = node.GetComponent<TankNode>();
+
                                 bool isLock = !TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex, lIndex].ID);
+                                UnityAction<BaseEventData> eventData = null;
 
-                                tNC.SetTankNode(_techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType), _techTree.TankTierNumber[lIndex], _techTree.TechTreeSO[index][jIndex, lIndex].ID, isLock, (eventData) =>
+                                if (lIndex != 0)
                                 {
-                                    _tankInformationPanel.SetActive(true);
-                                    var topUI = _tankInformationPanel.transform.GetChild(0);
-                                    topUI.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
-                                    topUI.GetChild(1).GetComponent<Text>().text = _techTree.TankTierNumber[lIndex];
-                                    topUI.GetChild(2).GetComponent<Text>().text = _techTree.TechTreeSO[index][jIndex, lIndex].ID;
+                                    eventData = (eventData) =>
+                                        {
+                                            _tankInformationPanel.SetActive(true);
+                                            var topUI = _tankInformationPanel.transform.GetChild(0);
+                                            topUI.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
+                                            topUI.GetChild(1).GetComponent<Text>().text = _techTree.TankTierNumber[lIndex];
+                                            topUI.GetChild(2).GetComponent<Text>().text = _techTree.TechTreeSO[index][jIndex, lIndex].ID;
 
-                                    // 탱크 이미지 없으니까 일단  null
-                                    _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
-                                    //_tankInformationPanel.transform.GetChild(2).GetComponent<Text>().text = $"SPEED: {_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.MaxSpeed}km/h\nReload: {_techTree.TechTreeSO[index][jIndex, lIndex].Turret.TurretStatSO}";
+                                            // 탱크 이미지 없으니까 일단  null
+                                            _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
+                                            //_tankInformationPanel.transform.GetChild(2).GetComponent<Text>().text = $"SPEED: {_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.MaxSpeed}km/h\nReload: {_techTree.TechTreeSO[index][jIndex, lIndex].Turret.TurretStatSO}";
 
-                                    _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.RemoveAllListeners();
-                                    _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
-                                    {
-                                        FindObjectOfType<TankModelManager>().ChangeTankModel(_techTree.TechTreeSO[index][jIndex, lIndex]);
-                                        _tankInformationPanel.SetActive(false);
-                                    });
+                                            _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.RemoveAllListeners();
+                                            _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
+                                            {
+                                                FindObjectOfType<TankModelManager>().ChangeTankModel(_techTree.TechTreeSO[index][jIndex, lIndex]);
+                                                _tankInformationPanel.SetActive(false);
+                                            });
 
-                                    _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
-                                    _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.AddListener(() =>
-                                    {
-                                        TechTreeDataManager.AddTank(_techTree.TechTreeSO[index].CountryType, _techTree.TechTreeSO[index][jIndex, lIndex].ID);
-                                        tNC.IsTankLocked = false;
-                                        _tankInformationPanel.SetActive(false);
-                                    });
-                                });
+                                            _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
+                                            _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.AddListener(() =>
+                                            {
+                                                TechTreeDataManager.AddTank(_techTree.TechTreeSO[index].CountryType, _techTree.TechTreeSO[index][jIndex, lIndex].ID);
+                                                tNC.IsTankLocked = false;
+                                                _tankInformationPanel.SetActive(false);
+                                            });
+                                        };
+                                }
+                                else
+                                {
+
+                                }
+
+                                tNC.SetTankNode(_techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType), _techTree.TankTierNumber[lIndex], _techTree.TechTreeSO[index][jIndex, lIndex].ID, isLock, eventData);
 
                                 node.GetComponent<Image>().enabled = true;
 
