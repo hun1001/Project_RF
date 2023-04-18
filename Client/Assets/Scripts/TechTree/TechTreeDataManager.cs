@@ -8,9 +8,14 @@ public static class TechTreeDataManager
 
     public static TechTreeProgress GetTechTreeProgress(CountryType countryType)
     {
-        TechTreeProgress techTreeProgress = SaveManager.Load<TechTreeProgress>(SaveKey.GetTechTreeProgress(countryType));
+        TechTreeProgress techTreeProgress = null;
+        if (_techTreeProgressDict.TryGetValue(countryType, out techTreeProgress) == false)
+        {
+            techTreeProgress = new TechTreeProgress();
+            _techTreeProgressDict.Add(countryType, techTreeProgress);
+        }
 
-        _techTreeProgressDict[countryType] = techTreeProgress;
+        _techTreeProgressDict[countryType] = SaveManager.Load<TechTreeProgress>(SaveKey.GetTechTreeProgress(countryType));
         return _techTreeProgressDict[countryType];
     }
 
