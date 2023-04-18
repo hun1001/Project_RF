@@ -13,4 +13,16 @@ public class GroupManager : MonoSingleton<GroupManager>
         get => _groupColorList;
         set => _groupColorList = value;
     }
+
+    public Color GetGroupColor(GroupType groupType)
+    {
+        if (groupType == GroupType.None)
+        {
+            return Color.white;
+        }
+        else
+        {
+            return _groupColorList[(int)groupType];
+        }
+    }
 }

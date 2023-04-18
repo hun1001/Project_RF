@@ -1,7 +1,7 @@
 
 public enum GroupType
 {
-    None,
+    None = -1,
     Player,
     Enemy,
 }

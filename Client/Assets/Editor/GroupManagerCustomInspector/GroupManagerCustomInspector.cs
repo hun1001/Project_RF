@@ -29,7 +29,7 @@ namespace CustomEditorInspector.Group
             _groupColorList = new List<Color>();
             _mapData = MapManager.Instance.MapData;
 
-            foreach (var c in Enum.GetValues(typeof(GroupType)))
+            for (int i = 0; i < Enum.GetValues(typeof(GroupType)).Length - 1; i++)
             {
                 _groupColorList.Add(Color.white);
             }
@@ -63,11 +63,14 @@ namespace CustomEditorInspector.Group
             if (GUILayout.Button("Add"))
             {
                 var teamGroup = PoolManager.Get<FogOfWarTeam>("TeamGroup", _groupManager.transform);
-                teamGroup.team = ++_groupCount;
+                teamGroup.team = _groupCount;
                 teamGroup.name = $"TeamGroup_{Enum.GetName(typeof(GroupType), (GroupType)(_groupCount))}";
                 teamGroup.mapSize = _mapData.MapSize;
                 teamGroup.mapResolution = _mapData.MapResolution;
                 teamGroup.mapOffset = _mapData.MapOffset;
+
+                UpdateGroups();
+                ++_groupCount;
             }
 
             GUI.enabled = true;
@@ -89,7 +92,6 @@ namespace CustomEditorInspector.Group
             if (GUI.changed)
             {
                 _groupManager.GroupColorList = _groupColorList;
-                //  EditorUtility.SetDirty(_groupManager);
             }
         }
 
@@ -98,7 +100,7 @@ namespace CustomEditorInspector.Group
             _groupList.Clear();
             _groupList = _groupManager.GetComponentsInChildren<FogOfWarTeam>().ToList();
 
-            if (_groupManager.GroupColorList.Count == _groupColorList.Count)
+            if (_groupManager.GroupColorList.Count == Enum.GetValues(typeof(GroupType)).Length - 1)
             {
                 _groupColorList.Clear();
                 _groupColorList = _groupManager.GroupColorList;
