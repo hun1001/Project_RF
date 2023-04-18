@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class MenuCanvas : BaseCanvas
 {
-    [Header("Hanger")]
-    [SerializeField]
-    private RectTransform _smallHangerContent;
-    [SerializeField]
-    private GameObject _smallHangerTemplate;
+    // [Header("Hanger")]
+    // [SerializeField]
+    // private RectTransform _smallHangerContent;
+    // [SerializeField]
+    // private GameObject _smallHangerTemplate;
     [SerializeField]
     private GameObject _bigHanger;
     [SerializeField]
@@ -25,23 +25,23 @@ public class MenuCanvas : BaseCanvas
     private void Awake()
     {
         //foreach (var tankInfo in 보유한탱크리스트)
-        for(int i = 0; i < 5; i++)
-        {
-            var smallTank = Instantiate(_smallHangerTemplate, _smallHangerContent);
-            smallTank.SetActive(true);
+        // for(int i = 0; i < 5; i++)
+        // {
+        //     var smallTank = Instantiate(_smallHangerTemplate, _smallHangerContent);
+        //     smallTank.SetActive(true);
 
-            var bigTank = Instantiate(_bigHangerTemplate, _bigHangerContent);
-            bigTank.SetActive(true);
+        //     var bigTank = Instantiate(_bigHangerTemplate, _bigHangerContent);
+        //     bigTank.SetActive(true);
 
-            smallTank.GetComponent<Button>().onClick.AddListener(() =>
-            {
-                OnOpenItem();
-            });
-            bigTank.GetComponent<Button>().onClick.AddListener(() =>
-            {
-                OnOpenItem();
-            });
-        }
+        //     smallTank.GetComponent<Button>().onClick.AddListener(() =>
+        //     {
+        //         OnOpenItem();
+        //     });
+        //     bigTank.GetComponent<Button>().onClick.AddListener(() =>
+        //     {
+        //         OnOpenItem();
+        //     });
+        // }
 
         GoodsManager.AddOnGoodsChanged((f, p) =>
         {
