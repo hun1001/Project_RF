@@ -24,7 +24,7 @@ public class TankAI : MonoBehaviour
         EventManager.StartListening(_tank.gameObject.GetInstanceID().ToString(), () =>
         {
             GameWay_Base.Instance.RemainingEnemy--;
-            GoodsManager.AddGoods(GoodsType.GameGoods, 2);
+            //GoodsManager.AddGoods(GoodsType.GameGoods, 2);
             EventManager.TriggerEvent("Recycling");
             if (GameWay_Base.Instance.RemainingEnemy <= 0)
             {

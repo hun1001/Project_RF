@@ -25,6 +25,11 @@ public static class SaveManager
             Directory.CreateDirectory(_savePath);
         }
 
+        if (!File.Exists(_savePath + key + ".json"))
+        {
+            return default(T);
+        }
+
         string json = File.ReadAllText(_savePath + key + ".json");
         return JsonUtility.FromJson<T>(json);
     }

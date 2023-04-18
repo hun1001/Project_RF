@@ -38,7 +38,7 @@ namespace Item
             _showingItemList.Clear();
 
             int weight = 0;
-            foreach(var item in ItemListSO.ItemList)
+            foreach (var item in ItemListSO.ItemList)
             {
                 // y = -x + (1 + 희귀도 최대값)
                 weight = -item.ItemSO.Rarity + 6;
@@ -59,7 +59,7 @@ namespace Item
             _showingItemList.Clear();
             _itemCnt = 0;
             Item_Base item;
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 while (true)
                 {
@@ -71,8 +71,8 @@ namespace Item
                 var itemObj = _itemObject.transform.GetChild(i).gameObject;
                 itemObj.SetActive(true);
                 SetItem(item, itemObj);
-                
-                if(_picker.GetItemDictReadonly().Count == _showingItemList.Count)
+
+                if (_picker.GetItemDictReadonly().Count == _showingItemList.Count)
                 {
                     break;
                 }
@@ -98,7 +98,7 @@ namespace Item
 
             entry.callback.AddListener((data) =>
             {
-                if (GoodsManager.DecreaseGoods(GoodsType.GameGoods, item.ItemSO.NecessaryGoods) == false)
+                if (GoodsManager.DecreaseFreeGoods(item.ItemSO.NecessaryGoods) == false)
                 {
                     // 재화 부족!
                     return;
@@ -123,7 +123,7 @@ namespace Item
 
                 item.AddItem();
 
-                if(_itemCnt++ > 1)
+                if (_itemCnt++ > 1)
                 {
                     _itemCanvas.enabled = false;
                 }
