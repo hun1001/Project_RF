@@ -18,6 +18,9 @@ public class MenuCanvas : BaseCanvas
     [SerializeField]
     private GameObject _bigHangerTemplate;
 
+    [SerializeField]
+    private GoodsTexts _goodsTexts = null;
+
     private void Awake()
     {
         //foreach(var tankInfo in 보유한탱크리스트)
@@ -33,6 +36,8 @@ public class MenuCanvas : BaseCanvas
 
         //    });
         //}
+
+
     }
 
     public void OnStartButton()
