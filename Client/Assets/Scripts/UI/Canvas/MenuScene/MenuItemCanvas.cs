@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class MenuItemCanvas : BaseCanvas
 {
+    [Header("Tank")]
+    [SerializeField]
+    private Dropdown _haveTankList;
+
     [Header("ItemList")]
     [SerializeField]
     private ItemListSO _itemList;

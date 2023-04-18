@@ -18,24 +18,30 @@ public class MenuCanvas : BaseCanvas
     [SerializeField]
     private GameObject _bigHangerTemplate;
 
+    [Header("Goods")]
     [SerializeField]
     private GoodsTexts _goodsTexts = null;
 
     private void Awake()
     {
-        //foreach(var tankInfo in 보유한탱크리스트)
-        //{
-        //    var smallTank = Instantiate(_smallHangerTemplate, _smallHangerContent);
-        //    var bigTank = Instantiate(_bigHangerTemplate, _bigHangerContent);
-        //    smallTank.GetComponent<Button>().onClick.AddListener(() =>
-        //    {
+        //foreach (var tankInfo in 보유한탱크리스트)
+        for(int i = 0; i < 5; i++)
+        {
+            var smallTank = Instantiate(_smallHangerTemplate, _smallHangerContent);
+            smallTank.SetActive(true);
 
-        //    });
-        //    bigTank.GetComponent<Button>().onClick.AddListener(() =>
-        //    {
+            var bigTank = Instantiate(_bigHangerTemplate, _bigHangerContent);
+            bigTank.SetActive(true);
 
-        //    });
-        //}
+            smallTank.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                OnOpenItem();
+            });
+            bigTank.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                OnOpenItem();
+            });
+        }
 
         GoodsManager.AddOnGoodsChanged((f, p) =>
         {
@@ -86,5 +92,10 @@ public class MenuCanvas : BaseCanvas
     public void OnCloseHanger()
     {
         _bigHanger.SetActive(false);
+    }
+
+    public void OnOpenItem()
+    {
+        CanvasManager.ChangeCanvas(CanvasType.MenuItem, CanvasType);
     }
 }
