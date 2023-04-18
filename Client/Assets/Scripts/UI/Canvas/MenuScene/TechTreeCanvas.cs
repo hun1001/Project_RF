@@ -23,6 +23,7 @@ public class TechTreeCanvas : BaseCanvas
     private GameObject _tankInformationPanel = null;
 
     private GameObject _countryToggleTemplate = null;
+
     private GameObject _tankNodeRowTemplate = null;
     private GameObject _tankNodeTemplate = null;
     private GameObject _tankNodeConnectHorizontalLineTemplate = null;
@@ -41,6 +42,7 @@ public class TechTreeCanvas : BaseCanvas
         _tankInformationPanel.SetActive(false);
 
         _countryToggleTemplate = _countryToggleGroupManager.transform.GetChild(0).gameObject;
+
         _tankNodeRowTemplate = _tankNodeContentTransform.GetChild(0).gameObject;
         _tankNodeTemplate = _tankNodeRowTemplate.transform.GetChild(0).gameObject;
         _tankNodeConnectHorizontalLineTemplate = _tankNodeRowTemplate.transform.GetChild(1).gameObject;
@@ -115,13 +117,8 @@ public class TechTreeCanvas : BaseCanvas
                             {
                                 node = Instantiate(_tankNodeTemplate, rowTransform);
 
-                                // 대충 색 설정 해야됨
-                                node.transform.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
-
-                                var eventTrigger = node.GetComponent<EventTrigger>();
-                                var entry = new EventTrigger.Entry();
-                                entry.eventID = EventTriggerType.PointerClick;
-                                entry.callback.AddListener((eventData) =>
+                                var tNC = node.GetComponent<TankNode>();
+                                tNC.SetTankNode(_techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType), _techTree.TankTierNumber[lIndex], _techTree.TechTreeSO[index][jIndex, lIndex].ID, false, (eventData) =>
                                 {
                                     _tankInformationPanel.SetActive(true);
                                     var topUI = _tankInformationPanel.transform.GetChild(0);
@@ -140,12 +137,6 @@ public class TechTreeCanvas : BaseCanvas
                                         _tankInformationPanel.SetActive(false);
                                     });
                                 });
-                                eventTrigger.triggers.Add(entry);
-
-                                eventTrigger.enabled = true;
-
-                                node.transform.GetChild(1).GetComponent<Text>().text = _techTree.TankTierNumber[lIndex];
-                                node.transform.GetChild(2).GetComponent<Text>().text = _techTree.TechTreeSO[index][jIndex, lIndex].ID;
 
                                 node.GetComponent<Image>().enabled = true;
 

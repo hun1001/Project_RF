@@ -180,6 +180,69 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.842266, y: 9.28668}
   m_EdgeRadius: 0
+--- !u!1 &42993102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 42993103}
+  - component: {fileID: 42993104}
+  m_Layer: 0
+  m_Name: TeamGroup_Player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &42993103
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42993102}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1682230207}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &42993104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42993102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6fec0d0c4161ac44b701192e743dde2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 0
+  mapResolution: {x: 440, y: 440}
+  mapSize: 440
+  mapOffset: {x: 28.88, y: 32.8}
+  plane: 0
+  physics: 1
+  pointFiltering: 0
+  blurAmount: 0
+  blurIterations: 0
+  blurType: 1
+  updateUnits: 1
+  updateAutomatically: 1
+  outputToTexture: 1
+  partialFogAmount: 0
+  fadeInDuration: 0.1
+  fadeOutDuration: 0.1
+  renderType: 0
+  multithreaded: 1
+  threads: 8
+  maxMillisecondsPerFrame: 5
 --- !u!1 &55987112
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,69 +1231,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 9.30191, y: 10.723427}
   m_EdgeRadius: 0
---- !u!1 &232546029
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 232546030}
-  - component: {fileID: 232546031}
-  m_Layer: 0
-  m_Name: TeamGroup_Player
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &232546030
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 232546029}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1682230207}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &232546031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 232546029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6fec0d0c4161ac44b701192e743dde2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team: 1
-  mapResolution: {x: 440, y: 440}
-  mapSize: 440
-  mapOffset: {x: 28.88, y: 32.8}
-  plane: 0
-  physics: 1
-  pointFiltering: 0
-  blurAmount: 0
-  blurIterations: 0
-  blurType: 1
-  updateUnits: 1
-  updateAutomatically: 1
-  outputToTexture: 1
-  partialFogAmount: 0
-  fadeInDuration: 0.1
-  fadeOutDuration: 0.1
-  renderType: 0
-  multithreaded: 1
-  threads: 8
-  maxMillisecondsPerFrame: 5
 --- !u!1 &283301651
 GameObject:
   m_ObjectHideFlags: 0
@@ -4810,6 +4810,69 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 12.952019, y: 17.400143}
   m_EdgeRadius: 0
+--- !u!1 &1309294458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1309294459}
+  - component: {fileID: 1309294460}
+  m_Layer: 0
+  m_Name: TeamGroup_Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1309294459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309294458}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1682230207}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1309294460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309294458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6fec0d0c4161ac44b701192e743dde2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 1
+  mapResolution: {x: 440, y: 440}
+  mapSize: 440
+  mapOffset: {x: 28.88, y: 32.8}
+  plane: 0
+  physics: 1
+  pointFiltering: 0
+  blurAmount: 0
+  blurIterations: 0
+  blurType: 1
+  updateUnits: 1
+  updateAutomatically: 1
+  outputToTexture: 1
+  partialFogAmount: 0
+  fadeInDuration: 0.1
+  fadeOutDuration: 0.1
+  renderType: 0
+  multithreaded: 1
+  threads: 8
+  maxMillisecondsPerFrame: 5
 --- !u!1 &1333880947
 GameObject:
   m_ObjectHideFlags: 0
@@ -6566,8 +6629,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 232546030}
-  - {fileID: 1701105746}
+  - {fileID: 42993103}
+  - {fileID: 1309294459}
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6583,6 +6646,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 962c0f11a2c003448aca31700685ec5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _groupColorList:
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1684872427
 GameObject:
   m_ObjectHideFlags: 0
@@ -6640,69 +6706,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.7914734, y: 5.9588356}
   m_EdgeRadius: 0
---- !u!1 &1701105745
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1701105746}
-  - component: {fileID: 1701105747}
-  m_Layer: 0
-  m_Name: TeamGroup_Enemy
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1701105746
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1701105745}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1682230207}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1701105747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1701105745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6fec0d0c4161ac44b701192e743dde2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team: 2
-  mapResolution: {x: 440, y: 440}
-  mapSize: 440
-  mapOffset: {x: 28.88, y: 32.8}
-  plane: 0
-  physics: 1
-  pointFiltering: 0
-  blurAmount: 0
-  blurIterations: 0
-  blurType: 1
-  updateUnits: 1
-  updateAutomatically: 1
-  outputToTexture: 1
-  partialFogAmount: 0
-  fadeInDuration: 0.1
-  fadeOutDuration: 0.1
-  renderType: 0
-  multithreaded: 1
-  threads: 8
-  maxMillisecondsPerFrame: 5
 --- !u!1 &1761629834
 GameObject:
   m_ObjectHideFlags: 0
