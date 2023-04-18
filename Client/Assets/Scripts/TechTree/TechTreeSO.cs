@@ -27,7 +27,14 @@ public class TechTreeSO : ScriptableObject
 
     [SerializeField]
     private TechTreeLinkStateTypeArray[] _isLink = null;
-    public TechTreeLinkStateType IsLink(int i, int j) => _isLink[i][j];
+    public TechTreeLinkStateType IsLink(int i, int j)
+    {
+        if (GetIsLinkLength() <= i || GetIsLinkLength(i) <= j)
+        {
+            return TechTreeLinkStateType.None;
+        }
+        return _isLink[i][j];
+    }
 
     public int Length => _tankArrays.Length;
     public int GetTankArrayLength(int i) => _tankArrays[i].Length;
