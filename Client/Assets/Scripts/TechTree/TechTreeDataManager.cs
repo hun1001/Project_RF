@@ -15,7 +15,15 @@ public static class TechTreeDataManager
             _techTreeProgressDict.Add(countryType, techTreeProgress);
         }
 
-        _techTreeProgressDict[countryType] = SaveManager.Load<TechTreeProgress>(SaveKey.GetTechTreeProgress(countryType));
+        if (SaveManager.WasSaved(SaveKey.GetTechTreeProgress(countryType)))
+        {
+            _techTreeProgressDict[countryType] = SaveManager.Load<TechTreeProgress>(SaveKey.GetTechTreeProgress(countryType));
+        }
+        else
+        {
+            SaveTechTreeProgress(countryType);
+        }
+
         return _techTreeProgressDict[countryType];
     }
 

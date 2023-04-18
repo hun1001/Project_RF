@@ -33,4 +33,6 @@ public static class SaveManager
         string json = File.ReadAllText(_savePath + key + ".json");
         return JsonUtility.FromJson<T>(json);
     }
+
+    public static bool WasSaved(string key) => File.Exists(_savePath + key + ".json");
 }
