@@ -23,6 +23,15 @@ public class TankNode : MonoBehaviour
     private EventTrigger _eventTrigger = null;
 
     private bool _isTankLocked = false;
+    public bool IsTankLocked
+    {
+        get => _isTankLocked;
+        set
+        {
+            _isTankLocked = value;
+            _tankLockImage.enabled = _isTankLocked;
+        }
+    }
 
     public void SetTankNode(Sprite tankTypeIcon, string tankTier, string tankName, bool isTankLocked, UnityAction<BaseEventData> onClick)
     {
@@ -36,7 +45,11 @@ public class TankNode : MonoBehaviour
         var entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerClick;
 
-        entry.callback.AddListener(onClick);
+        entry.callback.AddListener((d) =>
+        {
+            //if (!_isTankLocked)
+            onClick(d);
+        });
 
         _eventTrigger.triggers.Add(entry);
     }

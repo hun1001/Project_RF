@@ -4,6 +4,6 @@ using UnityEngine;
 
 public static class SaveKey
 {
-    public const string TechTree = "TechTree";
+    public static string GetTechTreeProgress(CountryType countryType) => countryType.ToString() + "_TechTreeProgress";
     public const string GoodsInformation = "GoodsInformation";
 }

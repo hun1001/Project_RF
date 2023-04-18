@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using DG.Tweening;
 using System.Collections.Generic;
 
@@ -118,7 +117,9 @@ public class TechTreeCanvas : BaseCanvas
                                 node = Instantiate(_tankNodeTemplate, rowTransform);
 
                                 var tNC = node.GetComponent<TankNode>();
-                                tNC.SetTankNode(_techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType), _techTree.TankTierNumber[lIndex], _techTree.TechTreeSO[index][jIndex, lIndex].ID, false, (eventData) =>
+                                bool isLock = !TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex, lIndex].ID);
+
+                                tNC.SetTankNode(_techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType), _techTree.TankTierNumber[lIndex], _techTree.TechTreeSO[index][jIndex, lIndex].ID, isLock, (eventData) =>
                                 {
                                     _tankInformationPanel.SetActive(true);
                                     var topUI = _tankInformationPanel.transform.GetChild(0);
@@ -134,6 +135,14 @@ public class TechTreeCanvas : BaseCanvas
                                     _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
                                     {
                                         FindObjectOfType<TankModelManager>().ChangeTankModel(_techTree.TechTreeSO[index][jIndex, lIndex]);
+                                        _tankInformationPanel.SetActive(false);
+                                    });
+
+                                    _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
+                                    _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.AddListener(() =>
+                                    {
+                                        TechTreeDataManager.AddTank(_techTree.TechTreeSO[index].CountryType, _techTree.TechTreeSO[index][jIndex, lIndex].ID);
+                                        tNC.IsTankLocked = false;
                                         _tankInformationPanel.SetActive(false);
                                     });
                                 });
