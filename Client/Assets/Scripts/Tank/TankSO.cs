@@ -29,7 +29,19 @@ public class TankSO : ScriptableObject
     private TankType _tankType = 0;
     public TankType TankType => _tankType;
 
-    public void SetData(float hp, float armour, float maxSpeed, float acceleration, float rotationSpeed, TankType tankType)
+    [SerializeField]
+    private bool _hasSkill = false;
+    public bool HasSkill => _hasSkill;
+
+    [SerializeField]
+    private uint _activeItemInventorySize = 0;
+    public uint ActiveItemInventorySize => _activeItemInventorySize;
+
+    [SerializeField]
+    private uint _passiveItemInventorySize = 0;
+    public uint PassiveItemInventorySize => _passiveItemInventorySize;
+
+    public void SetData(float hp, float armour, float maxSpeed, float acceleration, float rotationSpeed, TankType tankType, bool hasSkill, uint activeItemInventorySize, uint passiveItemInventorySize)
     {
         _hp = hp;
         _armour = armour;
@@ -37,6 +49,9 @@ public class TankSO : ScriptableObject
         _acceleration = acceleration;
         _rotationSpeed = rotationSpeed;
         _tankType = tankType;
+        _hasSkill = hasSkill;
+        _activeItemInventorySize = activeItemInventorySize;
+        _passiveItemInventorySize = passiveItemInventorySize;
     }
 
     public TankSO Clone() => Instantiate(this);
