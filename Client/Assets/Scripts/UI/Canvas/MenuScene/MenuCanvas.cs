@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -21,6 +23,12 @@ public class MenuCanvas : BaseCanvas
     [Header("Goods")]
     [SerializeField]
     private GoodsTexts _goodsTexts = null;
+
+    [Header("Item")]
+    [SerializeField]
+    private RectTransform _triangleImage;
+    [SerializeField]
+    private RectTransform _itemList;
 
     private void Awake()
     {
@@ -97,5 +105,19 @@ public class MenuCanvas : BaseCanvas
     public void OnOpenItem()
     {
         CanvasManager.ChangeCanvas(CanvasType.MenuItem, CanvasType);
+    }
+
+    public void OnFoldItemList(bool isFold)
+    {
+        if (isFold)
+        {
+            _triangleImage.rotation = Quaternion.Euler(0f, 0f, -90f);
+            _itemList.DOAnchorPosX(0f, 1f);
+        }
+        else
+        {
+            _triangleImage.rotation = Quaternion.Euler(0f, 0f, 90f);
+            _itemList.DOAnchorPosX(-350f, 1f);
+        }
     }
 }
