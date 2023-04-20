@@ -14,7 +14,7 @@ public class WaveManager : GameWay_Base
 
     protected override void Spawn()
     {
-        for(int i = 0; i < (_repeatCnt * 0.25) + 1; i++)
+        for (int i = 0; i < (_repeatCnt * 0.25) + 1; i++)
         {
             base.Spawn();
         }
@@ -32,7 +32,7 @@ public class WaveManager : GameWay_Base
         }
 
         EventManager.TriggerEvent("Clear");
-        ItemManager.Instance.ItemPickUp();
+        // ItemManager.Instance.ItemPickUp();
         Spawn();
     }
 }
