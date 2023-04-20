@@ -97,6 +97,11 @@ namespace CustomEditorWindow.SheetDataToSO
                             asset.Shells = new List<Shell>();
                             asset.Shells.Add(Pool.PoolManager.Load<Shell>("APHE"));
 
+                            // if(AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Turret/" + data[0].ToString()) == false)
+                            // {
+                            //     AssetDatabase.CreateFolder("Assets/ScriptableObjects/Turret", data[0].ToString());
+                            // }
+
                             AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Turret/" + data[0].ToString() + "_TurretSO.asset");
                         }
                     }
