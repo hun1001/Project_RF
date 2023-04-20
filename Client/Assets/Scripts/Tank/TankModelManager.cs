@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Util;
 using UnityEngine;
 
-public class TankModelManager : MonoBehaviour //MonoSingleton<TankModelManager>
+public class TankModelManager : MonoBehaviour
 {
     private GameObject _tankModel = null;
 

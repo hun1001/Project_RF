@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuItemCanvas : BaseCanvas
+public class GearCanvas : BaseCanvas
 {
     [Header("Tank")]
     [SerializeField]
