@@ -69,10 +69,15 @@ namespace CustomEditorWindow.SheetDataToSO
                         for (int j = 0; j < data.Length; j++)
                         {
                             TankSO asset = ScriptableObject.CreateInstance<TankSO>();
-                            data[2] = data[2].Replace("km/h", "");
-                            asset.SetData(float.Parse(data[5]), float.Parse(data[4]), float.Parse(data[2]), float.Parse(data[1]), float.Parse(data[3]), TankType.Medium);
 
-                            AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Tank/" + data[0].ToString() + "_TankSO.asset");
+                            asset.SetData(float.Parse(data[7]), float.Parse(data[6]), float.Parse(data[3]), float.Parse(data[4]), float.Parse(data[5]), SheetDataUtil.GetTankType(data[2]));
+
+                            if (AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Tank/" + data[1].ToString()) == false)
+                            {
+                                AssetDatabase.CreateFolder("Assets/ScriptableObjects/Tank", data[1].ToString());
+                            }
+
+                            AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Tank/" + data[1].ToString() + "/" + data[0].ToString() + "_TankSO.asset");
                         }
                     }
                     break;
@@ -123,4 +128,6 @@ namespace CustomEditorWindow.SheetDataToSO
             AssetDatabase.Refresh();
         }
     }
+
+
 }
