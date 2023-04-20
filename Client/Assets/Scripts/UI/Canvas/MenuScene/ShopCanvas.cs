@@ -44,6 +44,14 @@ public class ShopCanvas : BaseCanvas
     private RectTransform _content;
     private Image[] _toggleImages;
 
+    [Header("Product")]
+    [SerializeField]
+    private GameObject _productTemplate;
+    [SerializeField]
+    private RectTransform[] _productContents;
+    [SerializeField]
+    private GameObject _productInformation;
+
     private void Awake()
     {
         _scrollRect.onValueChanged.AddListener(OnScroll);
@@ -53,6 +61,19 @@ public class ShopCanvas : BaseCanvas
         _paidGoodsButton.onClick.AddListener(delegate { OnToggle(ShopToggle.PaidGoods); });
 
         _toggleImages = _toggleGroup.GetComponentsInChildren<Image>();
+
+        foreach(RectTransform content in _productContents)
+        {
+            for(int i = 0; i < 6; i++)
+            {
+                var product = Instantiate(_productTemplate, content);
+                product.SetActive(true);
+                product.GetComponent<Button>().onClick.AddListener(() =>
+                {
+                    _productInformation.SetActive(true);
+                });
+            }
+        }
     }
 
     private void Start()
@@ -140,5 +161,6 @@ public class ShopCanvas : BaseCanvas
     {
         base.OnHomeButton();
         _scrollRect.normalizedPosition = Vector2.zero;
+        _productInformation.SetActive(false);
     }
 }
