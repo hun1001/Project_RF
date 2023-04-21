@@ -4,9 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Util;
-using System.Text;
 using Pool;
 using UnityEngine.SceneManagement;
+using System;
+//using System.IO;
+//using ProtoBuf;
 
 public class ServerManager : MonoSingleton<ServerManager>
 {
@@ -22,9 +24,73 @@ public class ServerManager : MonoSingleton<ServerManager>
     private Queue<Packet> packetQueue = new Queue<Packet>();
     private Queue<Packet> sendQueue = new Queue<Packet>();
 
+    // [ProtoContract]
+    // class Packet1
+    // {
+    //     [ProtoMember(1)]
+    //     public int Index { get; set; }
+
+    //     [ProtoMember(2)]
+    //     public string Name { get; set; }
+
+    //     [ProtoMember(3)]
+    //     public Dictionary<int, Item> InventoryList { get; set; }
+    // }
+
+    // [ProtoContract]
+    // class Item
+    // {
+    //     [ProtoMember(1)]
+    //     public int Index { get; set; }
+
+    //     [ProtoMember(2)]
+    //     public int ItemId { get; set; }
+
+    //     [ProtoMember(3)]
+    //     public int ItemLevel { get; set; }
+    // }
+
+    // private void Awake()
+    // {
+    //     Item item1 = new Item() { Index = 1, ItemId = 10, ItemLevel = 1 };
+    //     Item item2 = new Item() { Index = 2, ItemId = 20, ItemLevel = 2 };
+    //     Item item3 = new Item() { Index = 3, ItemId = 30, ItemLevel = 3 };
+
+    //     Dictionary<int, Item> inventory = new Dictionary<int, Item>()
+    //         {
+    //             {1, item1}, {2, item2}, {3, item3}
+    //         };
+    //     Packet1 packet = new Packet1();
+    //     packet.Index = 1;
+    //     packet.Name = "kwon";
+    //     packet.InventoryList = inventory;
+
+    //     // serialize
+    //     MemoryStream serialize = new MemoryStream();
+    //     ProtoBuf.Serializer.Serialize<Packet1>(serialize, packet);
+    //     byte[] byteData = serialize.ToArray();
+    //     Debug.Log("Serialize Info: " + ByteArrayToString(byteData));
+
+    //     // deserialize 
+    //     MemoryStream deserialize = new MemoryStream(byteData);
+    //     Packet1 deserializePacket = ProtoBuf.Serializer.Deserialize<Packet1>(deserialize);
+    //     Debug.Log("Deserialize Info: " + deserializePacket.Index + " / " + deserializePacket.Name);
+
+    //     Debug.Log("Inventory List");
+    //     foreach (KeyValuePair<int, Item> pair in deserializePacket.InventoryList)
+    //     {
+    //         Debug.Log(pair.Value.Index + " / " + pair.Value.ItemId + " / " + pair.Value.ItemLevel);
+    //     }
+    // }
+
+    public static string ByteArrayToString(byte[] ba)
+    {
+        return BitConverter.ToString(ba);
+    }
+
     public void ConnectToServer()
     {
-        _id = "Player" + Random.Range(0, 1000);
+        _id = "Player" + UnityEngine.Random.Range(0, 1000);
         client = new TcpClient();
         IPAddress ip = IPAddress.Parse("172.31.1.200");
         client.Connect(ip, 7777);
