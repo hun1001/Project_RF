@@ -16,7 +16,7 @@ static class Server
     //{
     //    [ProtoMember(1)]
     //    public string UserID { get; set; }
-        
+
     //    [ProtoMember(2)]
     //    public int Age { get; set; }
 
@@ -33,15 +33,12 @@ static class Server
         //    Num = 1
         //};
 
-
-
         ////  serialize
         //MemoryStream serialize = new MemoryStream();
         //ProtoBuf.Serializer.Serialize<Account>(serialize, account);
         //byte[] byteData = serialize.ToArray();
         //Console.WriteLine($"Serialize : {BitConverter.ToString(byteData)}");
         ////Console.WriteLine($"Json : {}")
-
 
         ////  deserialize
         //MemoryStream deserialize = new MemoryStream(byteData);
