@@ -12,13 +12,13 @@ namespace Item
         /// <summary> 해당 아이템을 구매했을 때 실행되는 함수 </summary>
         public void AddItem()
         {
-            if (ItemManager.Instance.HaveItemList[this] == 0)
+            if (true)//ItemManager.Instance.HaveItemList[this] == 0)
             {
                 CreateItem();
             }
             else
             {
-                UpgradeItem();
+                // UpgradeItem();
             }
         }
 

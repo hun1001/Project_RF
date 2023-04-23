@@ -22,7 +22,7 @@ public class Item_AutoHeal : Item.Item_Base
 
     protected override void UpgradeItem()
     {
-        _currentHeal = _upgradeHeal[Item.ItemManager.Instance.HaveItemList[this]];
+        //_currentHeal = _upgradeHeal[Item.ItemManager.Instance.HaveItemList[this]];
     }
 
     private IEnumerator Heal()

@@ -21,7 +21,7 @@ public class Item_Recycling : Item.Item_Base
 
     protected override void UpgradeItem()
     {
-        _currentHeal = _upgradeHeal[Item.ItemManager.Instance.HaveItemList[this]];
+        //_currentHeal = _upgradeHeal[Item.ItemManager.Instance.HaveItemList[this]];
     }
 
     protected virtual void AddEvent()

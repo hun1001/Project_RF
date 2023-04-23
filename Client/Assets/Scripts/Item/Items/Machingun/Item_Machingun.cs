@@ -39,7 +39,7 @@ public class Item_Machingun : Item.Item_Base
 
     protected override void UpgradeItem()
     {
-        _currentDamage = _upgradeDamages[Item.ItemManager.Instance.HaveItemList[this]];
+        //_currentDamage = _upgradeDamages[Item.ItemManager.Instance.HaveItemList[this]];
     }
 
     /// <summary> 머신건 발사 시작 코루틴 </summary>
@@ -72,7 +72,7 @@ public class Item_Machingun : Item.Item_Base
             {
                 // 플레이어 제외
                 if (cols[i].CompareTag("Player")) continue;
-                
+
                 target = cols[i].transform;
                 dirToTarget = (target.position - transform.position);
 
