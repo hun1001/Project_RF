@@ -25,6 +25,9 @@ namespace Item
         /// <summary> 강화 최대치 </summary>
         public int UpgradeMax;
 
+        /// <summary> 아이템 타입 </summary>
+        public ItemType ItemType;
+
         /// <summary> 해당 아이템의 이미지 </summary>
         public Sprite Image;
     }

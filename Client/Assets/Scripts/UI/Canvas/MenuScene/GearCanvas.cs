@@ -1,6 +1,7 @@
 using Item;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,22 +22,17 @@ public class GearCanvas : BaseCanvas
 
     [Header("Equipped Item")]
     [SerializeField]
-    private RectTransform _buttonsParent;
+    private Image[] _passiveItemImages;
     [SerializeField]
-    private Image[] _selectItems;
-    private Button[] _equippedButtons;
+    private Image[] _activeItemImages;
 
-    private enum ItemType : int
-    {
-        Commander = 0,
-        Connoneer = 1,
-        Loader = 2,
-        Driver = 3,
-    }
+    private Dictionary<int, GameObject> _passiveEquipItemDictionary = new Dictionary<int, GameObject>();
+    private Dictionary<int, GameObject> _activeEquipItemDictionary = new Dictionary<int, GameObject>();
+
     int a = 0;
+    int b = 0;
     private void Awake()
     {
-        _equippedButtons = _buttonsParent.GetComponentsInChildren<Button>();
         foreach(Item_Base itemInfo in _itemList.ItemList)
         {
             var item = Instantiate(_itemTemplate, _itemContent);
@@ -45,10 +41,59 @@ public class GearCanvas : BaseCanvas
             _itemDictionary.Add(itemInfo, item);
             item.GetComponent<Button>().onClick.AddListener(() =>
             {
-                _selectItems[a].sprite = itemInfo.ItemSO.Image;
-                _selectItems[a++].gameObject.SetActive(true);
+                if(itemInfo.ItemSO.ItemType == ItemType.Passive)
+                {
+                    if (a >= _passiveItemImages.Length) return;
+                    for(int i = 0; i < _passiveItemImages.Length; i++)
+                    {
+                        if(_passiveEquipItemDictionary.ContainsKey(i) == false)
+                        {
+                            a = i;
+                            break;
+                        }
+                    }
+                    _passiveEquipItemDictionary.Add(a, item);
+                    _passiveItemImages[a].sprite = itemInfo.ItemSO.Image;
+                    _passiveItemImages[a].gameObject.SetActive(true);
+                    a = _passiveEquipItemDictionary.Count;
+                }
+                else
+                {
+                    if (b >= _activeItemImages.Length) return;
+                    for (int i = 0; i < _activeItemImages.Length; i++)
+                    {
+                        if (_activeEquipItemDictionary.ContainsKey(i) == false)
+                        {
+                            b = i;
+                            break;
+                        }
+                    }
+                    _activeEquipItemDictionary.Add(b, item);
+                    _activeItemImages[b].sprite = itemInfo.ItemSO.Image;
+                    _activeItemImages[b].gameObject.SetActive(true);
+                    b = _activeEquipItemDictionary.Count;
+                }
+
                 item.SetActive(false);
             });
         }
+    }
+
+    public void OnPassiveUnequip(int idx)
+    {
+        if (_passiveEquipItemDictionary.ContainsKey(idx) == false) return;
+        _passiveEquipItemDictionary[idx].SetActive(true);
+        _passiveEquipItemDictionary.Remove(idx);
+        _passiveItemImages[idx].gameObject.SetActive(false);
+        a = idx;
+    }
+
+    public void OnActiveUnequip(int idx)
+    {
+        if (_activeEquipItemDictionary.ContainsKey(idx) == false) return;
+        _activeEquipItemDictionary[idx].SetActive(true);
+        _activeEquipItemDictionary.Remove(idx);
+        _activeItemImages[idx].gameObject.SetActive(false);
+        b = idx;
     }
 }
