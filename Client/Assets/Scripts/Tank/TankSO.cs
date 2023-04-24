@@ -33,10 +33,13 @@ public class TankSO : ScriptableObject
     private bool _hasSkill = false;
     public bool HasSkill => _hasSkill;
 
+    [Header("Item")]
+    [Range(0, 2)]
     [SerializeField]
     private uint _activeItemInventorySize = 0;
     public uint ActiveItemInventorySize => _activeItemInventorySize;
 
+    [Range(0, 3)]
     [SerializeField]
     private uint _passiveItemInventorySize = 0;
     public uint PassiveItemInventorySize => _passiveItemInventorySize;
@@ -46,12 +49,16 @@ public class TankSO : ScriptableObject
         _hp = hp;
         _armour = armour;
         _maxSpeed = maxSpeed;
+
         _acceleration = acceleration;
         _rotationSpeed = rotationSpeed;
+
         _tankType = tankType;
+
         _hasSkill = hasSkill;
-        _activeItemInventorySize = activeItemInventorySize;
-        _passiveItemInventorySize = passiveItemInventorySize;
+
+        _activeItemInventorySize = (uint)Mathf.Clamp(activeItemInventorySize, 0, 2);
+        _passiveItemInventorySize = (uint)Mathf.Clamp(passiveItemInventorySize, 0, 3);
     }
 
     public TankSO Clone() => Instantiate(this);
