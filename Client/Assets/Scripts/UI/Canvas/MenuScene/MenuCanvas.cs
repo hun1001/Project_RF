@@ -104,7 +104,7 @@ public class MenuCanvas : BaseCanvas
 
     public void OnOpenItem()
     {
-        CanvasManager.ChangeCanvas(CanvasType.MenuItem, CanvasType);
+        CanvasManager.ChangeCanvas(CanvasType.Gear, CanvasType);
     }
 
     public void OnFoldItemList(bool isFold)

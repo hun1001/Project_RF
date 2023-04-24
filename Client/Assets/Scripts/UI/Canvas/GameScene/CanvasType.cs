@@ -10,5 +10,5 @@ public enum CanvasType
     Mode,
     TechTree,
     Shop,
-    MenuItem,
+    Gear,
 }

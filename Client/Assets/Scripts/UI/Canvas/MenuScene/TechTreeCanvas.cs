@@ -272,6 +272,6 @@ public class TechTreeCanvas : BaseCanvas
     public void OnItemButton()
     {
         _tankInformationPanel.SetActive(false);
-        CanvasManager.ChangeCanvas(CanvasType.MenuItem, CanvasType);
+        CanvasManager.ChangeCanvas(CanvasType.Gear, CanvasType);
     }
 }
