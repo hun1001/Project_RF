@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace Item
 {
-    public class ItemManager : MonoSingleton<ItemManager>
+    public class GearManager : MonoSingleton<GearManager>
     {
 
     }
