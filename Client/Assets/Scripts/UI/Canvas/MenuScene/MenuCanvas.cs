@@ -117,7 +117,7 @@ public class MenuCanvas : BaseCanvas
         else
         {
             _triangleImage.rotation = Quaternion.Euler(0f, 0f, 90f);
-            _itemList.DOAnchorPosX(-350f, 1f);
+            _itemList.DOAnchorPosX(-325f, 1f);
         }
     }
 }

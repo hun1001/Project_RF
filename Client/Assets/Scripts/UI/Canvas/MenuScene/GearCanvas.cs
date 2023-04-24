@@ -7,10 +7,6 @@ using UnityEngine.UI;
 
 public class GearCanvas : BaseCanvas
 {
-    [Header("Tank")]
-    [SerializeField]
-    private Dropdown _haveTankList;
-
     [Header("ItemList")]
     [SerializeField]
     private ItemListSO _itemList;
@@ -33,7 +29,7 @@ public class GearCanvas : BaseCanvas
     int b = 0;
     private void Awake()
     {
-        foreach(Item_Base itemInfo in _itemList.ItemList)
+        foreach(Item_Base itemInfo in _itemList.PassiveItemList)
         {
             var item = Instantiate(_itemTemplate, _itemContent);
             item.SetActive(true);
