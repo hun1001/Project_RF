@@ -89,10 +89,7 @@ public class MenuCanvas : BaseCanvas
                 _topFrame.DOAnchorPosY(0f, 0.25f);
                 _bottomFrame.DOAnchorPosY(0f, 0.25f);
                 _leftFrame.DOAnchorPosX(0f, 0.25f);
-                if(_isCameraMove == false)
-                {
-                    _showButton.DOAnchorPosY(0f, 0.25f);
-                }
+                _showButton.DOAnchorPosY(0f, 0.25f);
             }
         });
     }
