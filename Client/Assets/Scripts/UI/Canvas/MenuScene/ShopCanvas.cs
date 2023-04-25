@@ -46,7 +46,11 @@ public class ShopCanvas : BaseCanvas
 
     [Header("Product")]
     [SerializeField]
-    private GameObject _productTemplate;
+    private GameObject _premiumTankTemplate;
+    [SerializeField]
+    private GameObject _itemTemplate;
+    [SerializeField]
+    private GameObject _paidGoodsTemplate;
     [SerializeField]
     private RectTransform[] _productContents;
     [SerializeField]
@@ -62,17 +66,22 @@ public class ShopCanvas : BaseCanvas
 
         _toggleImages = _toggleGroup.GetComponentsInChildren<Image>();
 
-        foreach(RectTransform content in _productContents)
+        for(int i = 0; i < 6; i++)
         {
-            for(int i = 0; i < 6; i++)
-            {
-                var product = Instantiate(_productTemplate, content);
-                product.SetActive(true);
-                product.GetComponent<Button>().onClick.AddListener(() =>
-                {
-                    _productInformation.SetActive(true);
-                });
-            }
+            var product = Instantiate(_premiumTankTemplate, _productContents[0]);
+            product.SetActive(true);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            var product = Instantiate(_itemTemplate, _productContents[1]);
+            product.SetActive(true);
+        }
+
+        for (int i = 0; i < 6; i++)
+        {
+            var product = Instantiate(_paidGoodsTemplate, _productContents[3]);
+            product.SetActive(true);
         }
     }
 
