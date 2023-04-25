@@ -46,8 +46,7 @@ public class Player : CustomObject
     {
         base.Awake();
         Camera.main.TryGetComponent(out _cameraManager);
-        //PlayerDataManager.Instance.GetPlayerTankID()
-        _tank = SpawnManager.Instance.SpawnUnit("T-44", Vector3.zero, Quaternion.identity, GroupType.Player);
+        _tank = SpawnManager.Instance.SpawnUnit(PlayerDataManager.Instance.GetPlayerTankID(), Vector3.zero, Quaternion.identity, GroupType.Player);
         _tank.tag = "Player";
         MinimapCameraManager.Instance.Target = _tank.transform;
         _cameraManager.SetPlayer(_tank.transform);
@@ -58,6 +57,10 @@ public class Player : CustomObject
         {
             _tank.GetComponent<Tank_Skill>(ComponentType.Skill).SkillImage = _controllerCanvas.ButtonGroup.transform.GetChild(0).GetComponent<Image>();
             _controllerCanvas.ButtonGroup.SetButton(0, _tank.GetComponent<Tank_Skill>(ComponentType.Skill).UseSkill);
+        }
+        else
+        {
+            _controllerCanvas.ButtonGroup.SetButton(0, null, false);
         }
 
         _controllerCanvas.ButtonGroup.SetButton(1, null, false);
