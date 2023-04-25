@@ -33,7 +33,6 @@ public class MenuCanvas : BaseCanvas
     private RectTransform _leftFrame;
 
     private bool _isHide = false;
-    private Sequence _hideSequence;
 
     private void Awake()
     {
@@ -66,25 +65,33 @@ public class MenuCanvas : BaseCanvas
 
     private void Start()
     {
-        _hideSequence = DOTween.Sequence()
+        _isHide = true;
+
+        _startSequence = DOTween.Sequence()
         .SetAutoKill(false)
         .AppendCallback(() =>
         {
-            if (_isHide)
+            if (_isHide == false)
             {
-                _isHide = false;
-                _topFrame.DOAnchorPosY(32f, 0.5f);
-                _bottomFrame.DOAnchorPosY(-55f, 0.5f);
-                _leftFrame.DOAnchorPosX(-52f, 0.5f);
+                _isHide = true;
+                _topFrame.DOAnchorPosY(32f, 0.25f);
+                _bottomFrame.DOAnchorPosY(-55f, 0.25f);
+                _leftFrame.DOAnchorPosX(-52f, 0.25f);
             }
             else
             {
-                _isHide = true;
-                _topFrame.DOAnchorPosY(0f, 0.5f);
-                _bottomFrame.DOAnchorPosY(0f, 0.5f);
-                _leftFrame.DOAnchorPosX(0f, 0.5f);
+                _isHide = false;
+                _topFrame.DOAnchorPosY(0f, 0.25f);
+                _bottomFrame.DOAnchorPosY(0f, 0.25f);
+                _leftFrame.DOAnchorPosX(0f, 0.25f);
             }
         });
+    }
+
+    public override void OnOpenAnimation()
+    {
+        _isHide = true;
+        base.OnOpenAnimation();
     }
 
     public void OnStartButton()
@@ -137,6 +144,6 @@ public class MenuCanvas : BaseCanvas
 
     public void UIHide()
     {
-        _hideSequence.Restart();
+        _startSequence.Restart();
     }
 }
