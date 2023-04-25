@@ -32,7 +32,7 @@ public class MenuCanvas : BaseCanvas
     [SerializeField]
     private RectTransform _leftFrame;
     [SerializeField]
-    private GameObject _showButton;
+    private RectTransform _showButton;
 
     private bool _isHide = false;
 
@@ -78,14 +78,14 @@ public class MenuCanvas : BaseCanvas
                 _topFrame.DOAnchorPosY(32f, 0.25f);
                 _bottomFrame.DOAnchorPosY(-55f, 0.25f);
                 _leftFrame.DOAnchorPosX(-52f, 0.25f);
-                _showButton.SetActive(true);
+                _showButton.DOAnchorPosY(-_showButton.sizeDelta.y, 0.25f);
             }
             else
             {
                 _topFrame.DOAnchorPosY(0f, 0.25f);
                 _bottomFrame.DOAnchorPosY(0f, 0.25f);
                 _leftFrame.DOAnchorPosX(0f, 0.25f);
-                _showButton.SetActive(false);
+                _showButton.DOAnchorPosY(0f, 0.25f);
             }
         });
     }
