@@ -46,7 +46,7 @@ public class Player : CustomObject
         base.Awake();
         Camera.main.TryGetComponent(out _cameraManager);
         //PlayerDataManager.Instance.GetPlayerTankID()
-        _tank = SpawnManager.Instance.SpawnUnit("TigerH1", Vector3.zero, Quaternion.identity, GroupType.Player);
+        _tank = SpawnManager.Instance.SpawnUnit("T-44", Vector3.zero, Quaternion.identity, GroupType.Player);
         _tank.tag = "Player";
         MinimapCameraManager.Instance.Target = _tank.transform;
         _cameraManager.SetPlayer(_tank.transform);
