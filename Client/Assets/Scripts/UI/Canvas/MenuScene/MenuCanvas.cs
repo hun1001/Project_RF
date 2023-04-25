@@ -35,6 +35,7 @@ public class MenuCanvas : BaseCanvas
     private RectTransform _showButton;
 
     private bool _isHide = false;
+    private bool _isCameraMove = false;
 
     private void Awake()
     {
@@ -78,14 +79,20 @@ public class MenuCanvas : BaseCanvas
                 _topFrame.DOAnchorPosY(32f, 0.25f);
                 _bottomFrame.DOAnchorPosY(-55f, 0.25f);
                 _leftFrame.DOAnchorPosX(-52f, 0.25f);
-                _showButton.DOAnchorPosY(-_showButton.sizeDelta.y, 0.25f);
+                if(_isCameraMove == false)
+                {
+                    _showButton.DOAnchorPosY(-_showButton.sizeDelta.y, 0.25f);
+                }
             }
             else
             {
                 _topFrame.DOAnchorPosY(0f, 0.25f);
                 _bottomFrame.DOAnchorPosY(0f, 0.25f);
                 _leftFrame.DOAnchorPosX(0f, 0.25f);
-                _showButton.DOAnchorPosY(0f, 0.25f);
+                if(_isCameraMove == false)
+                {
+                    _showButton.DOAnchorPosY(0f, 0.25f);
+                }
             }
         });
     }
@@ -146,6 +153,14 @@ public class MenuCanvas : BaseCanvas
 
     public void UIHide(bool isHide)
     {
+        _isCameraMove = false;
+        _isHide = isHide;
+        _startSequence.Restart();
+    }
+
+    public void CameraUIHide(bool isHide)
+    {
+        _isCameraMove = true;
         _isHide = isHide;
         _startSequence.Restart();
     }
