@@ -20,12 +20,4 @@ public class ControllerCanvas : BaseCanvas
     [SerializeField]
     private ToggleGroupManager _toggleGroup = null;
     public ToggleGroupManager ToggleGroup => _toggleGroup;
-
-    [SerializeField]
-    private EventTrigger _eventTriggerL = null;
-    public EventTrigger EventTriggerL => _eventTriggerL;
-
-    [SerializeField]
-    private EventTrigger _eventTriggerR = null;
-    public EventTrigger EventTriggerR => _eventTriggerR;
 }

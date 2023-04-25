@@ -30,26 +30,4 @@ public class Tank_Rotate : Tank_Component
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, targetRotation.eulerAngles.y), maxRotationDelta);
         }
     }
-
-    public enum RotateDirection
-    {
-        Right,
-        Left,
-        None
-    }
-
-    public RotateDirection rotateDirection = RotateDirection.None;
-
-    private void Update()
-    {
-        switch (rotateDirection)
-        {
-            case RotateDirection.Right:
-                transform.Rotate(-Vector3.forward * _rotationSpeed * Time.deltaTime);
-                break;
-            case RotateDirection.Left:
-                transform.Rotate(-Vector3.forward * -_rotationSpeed * Time.deltaTime);
-                break;
-        }
-    }
 }

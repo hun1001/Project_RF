@@ -67,47 +67,6 @@ public class Player : CustomObject
         _controllerCanvas.ButtonGroup.SetButton(1, null, false);
         _controllerCanvas.ButtonGroup.SetButton(2, null, false);
 
-        EventTrigger triggerL = _controllerCanvas.EventTriggerL;
-        EventTrigger triggerR = _controllerCanvas.EventTriggerR;
-
-        EventTrigger.Entry entryL = new EventTrigger.Entry();
-        entryL.eventID = EventTriggerType.PointerDown;
-
-        EventTrigger.Entry entryR = new EventTrigger.Entry();
-        entryR.eventID = EventTriggerType.PointerDown;
-
-        entryL.callback.AddListener((data) =>
-        {
-            _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).rotateDirection = Tank_Rotate.RotateDirection.Left;
-        });
-
-        entryR.callback.AddListener((data) =>
-        {
-            _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).rotateDirection = Tank_Rotate.RotateDirection.Right;
-        });
-
-        triggerL.triggers.Add(entryL);
-        triggerR.triggers.Add(entryR);
-
-        entryL = new EventTrigger.Entry();
-        entryL.eventID = EventTriggerType.PointerUp;
-
-        entryR = new EventTrigger.Entry();
-        entryR.eventID = EventTriggerType.PointerUp;
-
-        entryL.callback.AddListener((data) =>
-        {
-            _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).rotateDirection = Tank_Rotate.RotateDirection.None;
-        });
-
-        entryR.callback.AddListener((data) =>
-        {
-            _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).rotateDirection = Tank_Rotate.RotateDirection.None;
-        });
-
-        triggerL.triggers.Add(entryL);
-        triggerR.triggers.Add(entryR);
-
         int shellCnt = _tank.Turret.TurretData.Shells.Count;
 
         string[] shellName = new string[shellCnt];
