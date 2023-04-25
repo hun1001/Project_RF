@@ -152,6 +152,8 @@ public class TechTreeCanvas : BaseCanvas
                                         canUnlock = true;
                                     }
 
+                                    canUnlock = true;
+
                                     _tankInformationPanel.SetActive(canUnlock);
                                     var topUI = _tankInformationPanel.transform.GetChild(0);
                                     topUI.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
