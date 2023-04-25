@@ -88,21 +88,31 @@ namespace CustomEditorWindow.SheetDataToSO
 
                         for (int j = 0; j < data.Length; j++)
                         {
+                            // 0: Name
+                            // 1: Country
+                            // 2: Reload
+                            // 3: Turn
+                            // 4: FOV
+                            // 5: UseBullet
+                            // 6: ATKPW
+                            // 7: PENPW
+
                             TurretSO asset = ScriptableObject.CreateInstance<TurretSO>();
 
-                            asset.Power = float.Parse(data[1]);
                             asset.ReloadTime = float.Parse(data[2]);
-                            data[3] = data[3].Replace("deg/s", "");
                             asset.RotationSpeed = float.Parse(data[3]);
+                            asset.FOV = float.Parse(data[4]);
                             asset.Shells = new List<Shell>();
                             asset.Shells.Add(Pool.PoolManager.Load<Shell>("APHE"));
+                            asset.AtkPower = float.Parse(data[6]);
+                            asset.PenetrationPower = float.Parse(data[7]);
 
-                            // if(AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Turret/" + data[0].ToString()) == false)
-                            // {
-                            //     AssetDatabase.CreateFolder("Assets/ScriptableObjects/Turret", data[0].ToString());
-                            // }
+                            if (AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Turret/" + data[1].ToString()) == false)
+                            {
+                                AssetDatabase.CreateFolder("Assets/ScriptableObjects/Turret", data[1].ToString());
+                            }
 
-                            AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Turret/" + data[0].ToString() + "_TurretSO.asset");
+                            AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Turret/" + data[1].ToString() + "/" + data[0].ToString() + "_TurretSO.asset");
                         }
                     }
                     break;
