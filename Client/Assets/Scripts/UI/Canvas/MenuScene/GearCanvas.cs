@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Item;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,14 +19,21 @@ public class GearCanvas : BaseCanvas
 
     [Header("Equipped Item")]
     [SerializeField]
+    private RectTransform _inventoryTransform;
+
+    [Space(10f)]
+    [SerializeField]
     private Image[] _passiveItemImages;
     [SerializeField]
     private Toggle[] _passiveItemToggles;
+
     [Space(20f)]
     [SerializeField]
     private Image[] _activeItemImages;
     [SerializeField]
     private Toggle[] _activeItemToggles;
+
+    [Space(20f)]
     [SerializeField]
     private Image _shellImage;
     [SerializeField]
@@ -48,59 +56,96 @@ public class GearCanvas : BaseCanvas
             {
                 if (itemInfo.ItemSO.ItemType == ItemType.Passive)
                 {
-                    if (a >= _passiveItemImages.Length) return;
-                    for (int i = 0; i < _passiveItemImages.Length; i++)
+                    if(_passiveEquipItemDictionary.ContainsKey(a) == false)
                     {
-                        if (_passiveEquipItemDictionary.ContainsKey(i) == false)
-                        {
-                            a = i;
-                            break;
-                        }
+                        _passiveEquipItemDictionary.Add(a, item);
+                        _passiveItemImages[a].gameObject.SetActive(true);
                     }
-                    _passiveEquipItemDictionary.Add(a, item);
+                    else
+                    {
+                        _passiveEquipItemDictionary[a].SetActive(true);
+                        _passiveEquipItemDictionary[a] = item;
+                    }
                     _passiveItemImages[a].sprite = itemInfo.ItemSO.Image;
-                    _passiveItemImages[a].gameObject.SetActive(true);
-                    a = _passiveEquipItemDictionary.Count;
                 }
-                else
+
+                else if (itemInfo.ItemSO.ItemType == ItemType.Active)
                 {
-                    if (b >= _activeItemImages.Length) return;
-                    for (int i = 0; i < _activeItemImages.Length; i++)
+                    if (_activeEquipItemDictionary.ContainsKey(b) == false)
                     {
-                        if (_activeEquipItemDictionary.ContainsKey(i) == false)
-                        {
-                            b = i;
-                            break;
-                        }
+                        _activeEquipItemDictionary.Add(b, item);
+                        _activeItemImages[b].gameObject.SetActive(true);
                     }
-                    _activeEquipItemDictionary.Add(b, item);
+                    else
+                    {
+                        _activeEquipItemDictionary[b].SetActive(true);
+                        _activeEquipItemDictionary[b] = item;
+                    }
                     _activeItemImages[b].sprite = itemInfo.ItemSO.Image;
-                    _activeItemImages[b].gameObject.SetActive(true);
-                    b = _activeEquipItemDictionary.Count;
                 }
 
                 item.SetActive(false);
+                CloseInvetory();
             });
         }
     }
 
-    public void OnPassiveUnequip(int idx)
+    public void OnPassiveInventory(int idx)
     {
-        if (_passiveEquipItemDictionary.ContainsKey(idx) == false) return;
-        _passiveEquipItemDictionary[idx].SetActive(true);
-        _passiveEquipItemDictionary.Remove(idx);
-        _passiveItemImages[idx].gameObject.SetActive(false);
+        foreach(var item in _itemDictionary)
+        {
+            if(item.Key.ItemSO.ItemType == ItemType.Passive)
+            {
+                if (_passiveEquipItemDictionary.ContainsValue(item.Value)) continue;
+                item.Value.SetActive(true);
+            }
+            else if (item.Key.ItemSO.ItemType != ItemType.Passive)
+            {
+                item.Value.SetActive(false);
+            }
+        }
+        _inventoryTransform.DOAnchorPosY(0f, 0.7f);
         _passiveItemToggles[idx].isOn = true;
         a = idx;
     }
 
-    public void OnActiveUnequip(int idx)
+    public void OnActiveInventory(int idx)
     {
-        if (_activeEquipItemDictionary.ContainsKey(idx) == false) return;
-        _activeEquipItemDictionary[idx].SetActive(true);
-        _activeEquipItemDictionary.Remove(idx);
-        _activeItemImages[idx].gameObject.SetActive(false);
+        foreach (var item in _itemDictionary)
+        {
+            if (item.Key.ItemSO.ItemType == ItemType.Active)
+            {
+                if (_passiveEquipItemDictionary.ContainsValue(item.Value)) continue;
+                item.Value.SetActive(true);
+            }
+            else if (item.Key.ItemSO.ItemType != ItemType.Active)
+            {
+                item.Value.SetActive(false);
+            }
+        }
+        _inventoryTransform.DOAnchorPosY(0f, 0.7f);
         _activeItemToggles[idx].isOn = true;
         b = idx;
+    }
+
+    public void OnShellInventory()
+    {
+        _inventoryTransform.DOAnchorPosY(0f, 0.7f);
+        _shellToggle.isOn = true;
+    }
+
+    public void CloseInvetory()
+    {
+        foreach(var toggle in _passiveItemToggles)
+        {
+            toggle.isOn = false;
+        }
+        foreach (var toggle in _activeItemToggles)
+        {
+            toggle.isOn = false;
+        }
+        _shellToggle.isOn = false;
+
+        _inventoryTransform.DOAnchorPosY(-_inventoryTransform.sizeDelta.y, 0.7f);
     }
 }
