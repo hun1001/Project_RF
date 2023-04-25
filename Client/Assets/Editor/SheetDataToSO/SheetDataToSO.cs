@@ -70,7 +70,7 @@ namespace CustomEditorWindow.SheetDataToSO
                         {
                             TankSO asset = ScriptableObject.CreateInstance<TankSO>();
 
-                            asset.SetData(float.Parse(data[7]), float.Parse(data[6]), float.Parse(data[3]), float.Parse(data[4]), float.Parse(data[5]), SheetDataUtil.GetTankType(data[2]), bool.Parse(data[8]), uint.Parse(data[9].ToString()), uint.Parse(data[10].ToString()));
+                            asset.SetData(float.Parse(data[6]), float.Parse(data[7]), float.Parse(data[3]), float.Parse(data[4]), float.Parse(data[5]), SheetDataUtil.GetTankType(data[2]), bool.Parse(data[8]), uint.Parse(data[9].ToString()), uint.Parse(data[10].ToString()));
 
                             if (AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Tank/" + data[1].ToString()) == false)
                             {
