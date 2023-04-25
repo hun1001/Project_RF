@@ -49,7 +49,7 @@ public class Player : CustomObject
         Camera.main.TryGetComponent(out _cameraManager);
         _tank = SpawnManager.Instance.SpawnUnit(PlayerDataManager.Instance.GetPlayerTankID(), Vector3.zero, Quaternion.identity, GroupType.Player);
         _tank.tag = "Player";
-        MinimapCameraManager.Instance.Target = _tank.transform;
+        FindObjectOfType<MinimapCameraManager>().Target = _tank.transform;
         _cameraManager.SetPlayer(_tank.transform);
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);
         _hpBar.Setting(_tank.TankData.HP);
