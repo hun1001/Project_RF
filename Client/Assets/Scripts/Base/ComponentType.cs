@@ -9,4 +9,5 @@ public enum ComponentType
     Pool,
     AimLine,
     Sound,
+    Skill
 }

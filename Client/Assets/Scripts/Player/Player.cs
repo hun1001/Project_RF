@@ -53,6 +53,14 @@ public class Player : CustomObject
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);
         _hpBar.Setting(_tank.TankData.HP);
 
+        if (_tank.TankData.HasSkill == true)
+        {
+            _controllerCanvas.ButtonGroup.SetButton(0, _tank.GetComponent<Tank_Skill>(ComponentType.Skill).UseSkill);
+        }
+
+        _controllerCanvas.ButtonGroup.SetButton(1, null, false);
+        _controllerCanvas.ButtonGroup.SetButton(2, null, false);
+
         int shellCnt = _tank.Turret.TurretData.Shells.Count;
 
         string[] shellName = new string[shellCnt];
