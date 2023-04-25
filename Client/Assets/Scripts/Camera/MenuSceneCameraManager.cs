@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 
 public class MenuSceneCameraManager : MonoBehaviour
 {
+    [SerializeField]
+    private MenuCanvas _menuCanvas = null;
     private CinemachineFreeLook _cam;
 
     private void Awake()
@@ -27,6 +29,7 @@ public class MenuSceneCameraManager : MonoBehaviour
             _cam.m_YAxis.m_InputAxisName = "Mouse Y";
             _cam.m_YAxis.m_InvertInput = true;
 
+            _menuCanvas.UIHide();
         }
         if (Input.GetMouseButtonUp(0))
         {
@@ -36,6 +39,8 @@ public class MenuSceneCameraManager : MonoBehaviour
 
             _cam.m_XAxis.m_InputAxisValue = 0f;
             _cam.m_YAxis.m_InputAxisValue = 0f;
+
+            _menuCanvas.UIHide();
         }
     }
 }

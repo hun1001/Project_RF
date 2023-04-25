@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class MenuCanvas : BaseCanvas
 {
-    // [Header("Hanger")]
+    [Header("Hanger")]
     // [SerializeField]
     // private RectTransform _smallHangerContent;
     // [SerializeField]
@@ -24,11 +24,16 @@ public class MenuCanvas : BaseCanvas
     [SerializeField]
     private GoodsTexts _goodsTexts = null;
 
-    [Header("Item")]
+    [Header("Animation")]
     [SerializeField]
-    private RectTransform _triangleImage;
+    private RectTransform _topFrame;
     [SerializeField]
-    private RectTransform _itemList;
+    private RectTransform _bottomFrame;
+    [SerializeField]
+    private RectTransform _leftFrame;
+
+    private bool _isHide = false;
+    private Sequence _hideSequence;
 
     private void Awake()
     {
@@ -57,6 +62,29 @@ public class MenuCanvas : BaseCanvas
         });
 
         _goodsTexts.SetGoodsTexts(GoodsManager.FreeGoods, GoodsManager.PaidGoods);
+    }
+
+    private void Start()
+    {
+        _hideSequence = DOTween.Sequence()
+        .SetAutoKill(false)
+        .AppendCallback(() =>
+        {
+            if (_isHide)
+            {
+                _isHide = false;
+                _topFrame.DOAnchorPosY(32f, 0.5f);
+                _bottomFrame.DOAnchorPosY(-55f, 0.5f);
+                _leftFrame.DOAnchorPosX(-52f, 0.5f);
+            }
+            else
+            {
+                _isHide = true;
+                _topFrame.DOAnchorPosY(0f, 0.5f);
+                _bottomFrame.DOAnchorPosY(0f, 0.5f);
+                _leftFrame.DOAnchorPosX(0f, 0.5f);
+            }
+        });
     }
 
     public void OnStartButton()
@@ -107,17 +135,8 @@ public class MenuCanvas : BaseCanvas
         CanvasManager.ChangeCanvas(CanvasType.Gear, CanvasType);
     }
 
-    public void OnFoldItemList(bool isFold)
+    public void UIHide()
     {
-        if (isFold)
-        {
-            _triangleImage.rotation = Quaternion.Euler(0f, 0f, -90f);
-            _itemList.DOAnchorPosX(0f, 1f);
-        }
-        else
-        {
-            _triangleImage.rotation = Quaternion.Euler(0f, 0f, 90f);
-            _itemList.DOAnchorPosX(-325f, 1f);
-        }
+        _hideSequence.Restart();
     }
 }
