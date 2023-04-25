@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pool;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Player : CustomObject
 {
@@ -55,6 +56,7 @@ public class Player : CustomObject
 
         if (_tank.TankData.HasSkill == true)
         {
+            _tank.GetComponent<Tank_Skill>(ComponentType.Skill).SkillImage = _controllerCanvas.ButtonGroup.transform.GetChild(0).GetComponent<Image>();
             _controllerCanvas.ButtonGroup.SetButton(0, _tank.GetComponent<Tank_Skill>(ComponentType.Skill).UseSkill);
         }
 

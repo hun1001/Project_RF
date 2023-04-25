@@ -11,7 +11,11 @@ public class TankSO : ScriptableObject
 
     [SerializeField]
     private float _armour = 0;
-    public float Armour => _armour;
+    public float Armour
+    {
+        get => _armour;
+        set => _armour = value;
+    }
 
     [SerializeField]
     private float _maxSpeed = 0;
