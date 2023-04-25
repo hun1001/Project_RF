@@ -52,13 +52,13 @@ namespace FoW
             // fog
             fow.GetTotalFogValues(ref _fogValues);
             for (int i = 0; i < _fogValues.Length; ++i)
-			{
-				int r = (fogColor.r - nonFogColor.r) * _fogValues[i] / 255 + nonFogColor.r;
-				int g = (fogColor.g - nonFogColor.g) * _fogValues[i] / 255 + nonFogColor.g;
-				int b = (fogColor.b - nonFogColor.b) * _fogValues[i] / 255 + nonFogColor.b;
-				int a = (fogColor.a - nonFogColor.a) * _fogValues[i] / 255 + nonFogColor.a;
+            {
+                int r = (fogColor.r - nonFogColor.r) * _fogValues[i] / 255 + nonFogColor.r;
+                int g = (fogColor.g - nonFogColor.g) * _fogValues[i] / 255 + nonFogColor.g;
+                int b = (fogColor.b - nonFogColor.b) * _fogValues[i] / 255 + nonFogColor.b;
+                int a = (fogColor.a - nonFogColor.a) * _fogValues[i] / 255 + nonFogColor.a;
                 _pixels[i] = new Color32((byte)r, (byte)g, (byte)b, (byte)a);
-			}
+            }
 
             // units
             byte opponentminvisibility = (byte)(opponentMinFogStrength * 255);
@@ -104,7 +104,7 @@ namespace FoW
                 {
                     if (x < 0 || x >= fow.mapResolution.x)
                         continue;
-                    
+
                     _pixels[fow.mapResolution.y * y + x] = color;
                 }
             }
