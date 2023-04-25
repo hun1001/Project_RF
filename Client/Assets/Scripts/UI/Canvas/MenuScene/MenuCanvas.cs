@@ -31,6 +31,8 @@ public class MenuCanvas : BaseCanvas
     private RectTransform _bottomFrame;
     [SerializeField]
     private RectTransform _leftFrame;
+    [SerializeField]
+    private GameObject _showButton;
 
     private bool _isHide = false;
 
@@ -73,17 +75,17 @@ public class MenuCanvas : BaseCanvas
         {
             if (_isHide == false)
             {
-                _isHide = true;
                 _topFrame.DOAnchorPosY(32f, 0.25f);
                 _bottomFrame.DOAnchorPosY(-55f, 0.25f);
                 _leftFrame.DOAnchorPosX(-52f, 0.25f);
+                _showButton.SetActive(true);
             }
             else
             {
-                _isHide = false;
                 _topFrame.DOAnchorPosY(0f, 0.25f);
                 _bottomFrame.DOAnchorPosY(0f, 0.25f);
                 _leftFrame.DOAnchorPosX(0f, 0.25f);
+                _showButton.SetActive(false);
             }
         });
     }
@@ -142,8 +144,9 @@ public class MenuCanvas : BaseCanvas
         CanvasManager.ChangeCanvas(CanvasType.Gear, CanvasType);
     }
 
-    public void UIHide()
+    public void UIHide(bool isHide)
     {
+        _isHide = isHide;
         _startSequence.Restart();
     }
 }

@@ -29,9 +29,9 @@ public class MenuSceneCameraManager : MonoBehaviour
             _cam.m_YAxis.m_InputAxisName = "Mouse Y";
             _cam.m_YAxis.m_InvertInput = true;
 
-            _menuCanvas.UIHide();
+            _menuCanvas.UIHide(false);
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && isOnUI == false)
         {
             _cam.m_XAxis.m_InputAxisName = "";
             _cam.m_YAxis.m_InputAxisName = "";
@@ -40,7 +40,7 @@ public class MenuSceneCameraManager : MonoBehaviour
             _cam.m_XAxis.m_InputAxisValue = 0f;
             _cam.m_YAxis.m_InputAxisValue = 0f;
 
-            _menuCanvas.UIHide();
+            _menuCanvas.UIHide(true);
         }
     }
 }
