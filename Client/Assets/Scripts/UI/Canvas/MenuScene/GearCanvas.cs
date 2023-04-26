@@ -50,7 +50,11 @@ public class GearCanvas : BaseCanvas
 
     [Header("Animation")]
     [SerializeField]
-    private RectTransform _topFrame;
+    private RectTransform _topPanel;
+    [SerializeField]
+    private RectTransform _leftPanel;
+    [SerializeField]
+    private RectTransform _rightPanel;
 
     private void Awake()
     {
@@ -101,7 +105,13 @@ public class GearCanvas : BaseCanvas
     private void Start()
     {
         _startSequence = DOTween.Sequence()
-        .SetAutoKill(false);
+        .SetAutoKill(false)
+        .Prepend(_topPanel.DOAnchorPosY(_topPanel.sizeDelta.y, 0f))
+        .Join(_leftPanel.DOAnchorPosX(-_leftPanel.sizeDelta.x, 0f))
+        .Join(_rightPanel.DOAnchorPosX(_rightPanel.sizeDelta.x, 0f))
+        .Append(_topPanel.DOAnchorPosY(0f, 0.7f))
+        .Insert(0.3f, _leftPanel.DOAnchorPosX(0f, 0.5f))
+        .Join(_rightPanel.DOAnchorPosX(0f, 0.5f));
     }
 
     public void OnPassiveInventory(int idx)
