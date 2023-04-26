@@ -48,11 +48,21 @@ public class ShopCanvas : BaseCanvas
     [SerializeField]
     private GameObject _premiumTankTemplate;
     [SerializeField]
+    private RectTransform _premiumTankTransform;
+
+    [Space(10f)]
+    [SerializeField]
     private GameObject _itemTemplate;
+    [SerializeField]
+    private RectTransform _itemTransform;
+
+    [Space(10f)]
     [SerializeField]
     private GameObject _paidGoodsTemplate;
     [SerializeField]
-    private RectTransform[] _productContents;
+    private RectTransform _paidGoodsTransform;
+
+    [Space(10f)]
     [SerializeField]
     private GameObject _productInformation;
 
@@ -68,19 +78,19 @@ public class ShopCanvas : BaseCanvas
 
         for(int i = 0; i < 6; i++)
         {
-            var product = Instantiate(_premiumTankTemplate, _productContents[0]);
+            var product = Instantiate(_premiumTankTemplate, _premiumTankTransform);
             product.SetActive(true);
         }
 
         for (int i = 0; i < 3; i++)
         {
-            var product = Instantiate(_itemTemplate, _productContents[1]);
+            var product = Instantiate(_itemTemplate, _itemTransform);
             product.SetActive(true);
         }
 
         for (int i = 0; i < 6; i++)
         {
-            var product = Instantiate(_paidGoodsTemplate, _productContents[3]);
+            var product = Instantiate(_paidGoodsTemplate, _paidGoodsTransform);
             product.SetActive(true);
         }
     }
