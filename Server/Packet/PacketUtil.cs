@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Server;
 
-namespace Server;
+namespace Project_RF_Server.Packet;
 
 public static class PacketUtil
 {
@@ -22,7 +23,7 @@ public static class PacketUtil
         }
 
         var commandCheck = Command.GetCommandList();
-        
+
         if (!commandCheck.Contains(p.Command))
         {
             return false;

@@ -11,13 +11,15 @@ static class Program
     private static int userCnt = 0;
     private static object lockSocket = new();
 
+    private static TcpListener serverSocket = null;
+
     static void Main()
     {
         try
         {
-            TcpListener serverSocket = new TcpListener(IPAddress.Any, 7777);
-            TcpClient clientSocket = default(TcpClient);
-            int counter = 0;
+            serverSocket = new TcpListener(IPAddress.Any, 7777);
+            
+            TcpClient clientSocket;
             byte[] bytesFrom = new byte[1024];
             string dataFromClient = "";
 
@@ -26,17 +28,15 @@ static class Program
 
             while (true)
             {
-                ++counter;
                 clientSocket = serverSocket.AcceptTcpClient();
                 dataFromClient = "";
 
-                counter = userCnt;
-                userCnt++;
-
                 ClientHandle client = new ClientHandle();
-                clientsDictionary.Add(counter, client);
+                clientsDictionary.Add(userCnt, client);
 
-                client.StartClient(clientSocket, counter);
+                client.StartClient(clientSocket, userCnt);
+
+                ++userCnt;
             }
         }
         catch (Exception ex)

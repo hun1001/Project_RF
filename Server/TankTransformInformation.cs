@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Project_RF_Server
 {
-    public class TankTransformInformation
+    public struct TankTransformInformation
     {        
         public float tankPositionX;
         public float tankPositionY;
