@@ -5,47 +5,14 @@ using System.Net.Sockets;
 using System.Text;
 
 namespace Server;
-static class Server
+static class Program
 {
     public static Dictionary<int, ClientHandle> clientsDictionary = new();
     private static int userCnt = 0;
     private static object lockSocket = new();
 
-    //[ProtoContract]
-    //public class Account
-    //{
-    //    [ProtoMember(1)]
-    //    public string UserID { get; set; }
-
-    //    [ProtoMember(2)]
-    //    public int Age { get; set; }
-
-    //    [ProtoMember(3)]
-    //    public int Num { get; set; }
-    //}
-
     static void Main()
     {
-        //Account account = new Account
-        //{
-        //    UserID = "Martin",
-        //    Age = 1337,
-        //    Num = 1
-        //};
-
-        ////  serialize
-        //MemoryStream serialize = new MemoryStream();
-        //ProtoBuf.Serializer.Serialize<Account>(serialize, account);
-        //byte[] byteData = serialize.ToArray();
-        //Console.WriteLine($"Serialize : {BitConverter.ToString(byteData)}");
-        ////Console.WriteLine($"Json : {}")
-
-        ////  deserialize
-        //MemoryStream deserialize = new MemoryStream(byteData);
-        //Account result = ProtoBuf.Serializer.Deserialize<Account>(deserialize);
-        //Console.WriteLine($"DeSerialize : {result.UserID}, {result.Age}, {result.Num}");
-        
-        //return;
         try
         {
             TcpListener serverSocket = new TcpListener(IPAddress.Any, 7777);

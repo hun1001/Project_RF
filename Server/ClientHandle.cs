@@ -67,15 +67,15 @@ public class ClientHandle
                         {
                             case Command.COMMAND_REGISTER:
                                 clientID = packet.ID;
-                                Server.UserAdd(clientID);
+                                Program.UserAdd(clientID);
                                 break;
                             case Command.COMMAND_LEFT:
-                                Server.UserLeft(userID, clientID!);
+                                Program.UserLeft(userID, clientID!);
                                 break;
                             case Command.COMMAND_ATTACK:
                             case Command.COMMAND_DAMAGED:
                             case Command.COMMAND_MOVE:
-                                Server.Broadcast(packet);
+                                Program.Broadcast(packet);
                                 break;
                             default:
                                 break;
@@ -91,6 +91,6 @@ public class ClientHandle
                 Console.WriteLine(e.ToString());
             }
         }
-        Server.UserLeft(userID, clientID!);
+        Program.UserLeft(userID, clientID!);
     }
 }
