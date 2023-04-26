@@ -8,15 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Proto\**" />
+    <EmbeddedResource Remove="Proto\**" />
+    <None Remove="Proto\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove=".gitignore" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.22.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Proto\" />
   </ItemGroup>
 
 </Project>
