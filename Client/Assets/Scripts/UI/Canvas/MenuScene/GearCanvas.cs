@@ -26,12 +26,16 @@ public class GearCanvas : BaseCanvas
     private Image[] _passiveItemImages;
     [SerializeField]
     private Toggle[] _passiveItemToggles;
+    [SerializeField]
+    private Image[] _passiveLockImages;
 
     [Space(20f)]
     [SerializeField]
     private Image[] _activeItemImages;
     [SerializeField]
     private Toggle[] _activeItemToggles;
+    [SerializeField]
+    private Image[] _activeLockImages;
 
     [Space(20f)]
     [SerializeField]
@@ -41,12 +45,16 @@ public class GearCanvas : BaseCanvas
 
     private Dictionary<int, GameObject> _passiveEquipItemDictionary = new Dictionary<int, GameObject>();
     private Dictionary<int, GameObject> _activeEquipItemDictionary = new Dictionary<int, GameObject>();
+    private int _passiveSlotIdx = 0;
+    private int _activeSlotIdx = 0;
 
-    int a = 0;
-    int b = 0;
+    [Header("Animation")]
+    [SerializeField]
+    private RectTransform _topFrame;
+
     private void Awake()
     {
-        foreach (Item_Base itemInfo in _itemList.PassiveItemList)
+        foreach (Item_Base itemInfo in _itemList.ItemList)
         {
             var item = Instantiate(_itemTemplate, _itemContent);
             item.SetActive(true);
@@ -56,38 +64,44 @@ public class GearCanvas : BaseCanvas
             {
                 if (itemInfo.ItemSO.ItemType == ItemType.Passive)
                 {
-                    if(_passiveEquipItemDictionary.ContainsKey(a) == false)
+                    if(_passiveEquipItemDictionary.ContainsKey(_passiveSlotIdx) == false)
                     {
-                        _passiveEquipItemDictionary.Add(a, item);
-                        _passiveItemImages[a].gameObject.SetActive(true);
+                        _passiveEquipItemDictionary.Add(_passiveSlotIdx, item);
+                        _passiveItemImages[_passiveSlotIdx].gameObject.SetActive(true);
                     }
                     else
                     {
-                        _passiveEquipItemDictionary[a].SetActive(true);
-                        _passiveEquipItemDictionary[a] = item;
+                        _passiveEquipItemDictionary[_passiveSlotIdx].SetActive(true);
+                        _passiveEquipItemDictionary[_passiveSlotIdx] = item;
                     }
-                    _passiveItemImages[a].sprite = itemInfo.ItemSO.Image;
+                    _passiveItemImages[_passiveSlotIdx].sprite = itemInfo.ItemSO.Image;
                 }
 
                 else if (itemInfo.ItemSO.ItemType == ItemType.Active)
                 {
-                    if (_activeEquipItemDictionary.ContainsKey(b) == false)
+                    if (_activeEquipItemDictionary.ContainsKey(_activeSlotIdx) == false)
                     {
-                        _activeEquipItemDictionary.Add(b, item);
-                        _activeItemImages[b].gameObject.SetActive(true);
+                        _activeEquipItemDictionary.Add(_activeSlotIdx, item);
+                        _activeItemImages[_activeSlotIdx].gameObject.SetActive(true);
                     }
                     else
                     {
-                        _activeEquipItemDictionary[b].SetActive(true);
-                        _activeEquipItemDictionary[b] = item;
+                        _activeEquipItemDictionary[_activeSlotIdx].SetActive(true);
+                        _activeEquipItemDictionary[_activeSlotIdx] = item;
                     }
-                    _activeItemImages[b].sprite = itemInfo.ItemSO.Image;
+                    _activeItemImages[_activeSlotIdx].sprite = itemInfo.ItemSO.Image;
                 }
 
                 item.SetActive(false);
                 CloseInvetory();
             });
         }
+    }
+
+    private void Start()
+    {
+        _startSequence = DOTween.Sequence()
+        .SetAutoKill(false);
     }
 
     public void OnPassiveInventory(int idx)
@@ -106,7 +120,7 @@ public class GearCanvas : BaseCanvas
         }
         _inventoryTransform.DOAnchorPosY(0f, 0.7f);
         _passiveItemToggles[idx].isOn = true;
-        a = idx;
+        _passiveSlotIdx = idx;
     }
 
     public void OnActiveInventory(int idx)
@@ -125,7 +139,7 @@ public class GearCanvas : BaseCanvas
         }
         _inventoryTransform.DOAnchorPosY(0f, 0.7f);
         _activeItemToggles[idx].isOn = true;
-        b = idx;
+        _activeSlotIdx = idx;
     }
 
     public void OnShellInventory()
