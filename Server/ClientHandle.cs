@@ -39,58 +39,58 @@ public class ClientHandle
 
         while (!noConnection)
         {
-            try
-            {
-                int numBytesRead;
-                if (!SocketConnected(clientSocket.Client))
-                {
-                    noConnection = true;
-                }
-                else
-                {
-                    if (networkStream.DataAvailable)
-                    {
-                        while (networkStream.DataAvailable)
-                        {
-                            numBytesRead = networkStream.Read(bytesFrom, 0, bytesFrom.Length);
-                            packet = Packet.Deserialize(bytesFrom);
-                        }
+            //try
+            //{
+            //    int numBytesRead;
+            //    if (!SocketConnected(clientSocket.Client))
+            //    {
+            //        noConnection = true;
+            //    }
+            //    else
+            //    {
+            //        if (networkStream.DataAvailable)
+            //        {
+            //            while (networkStream.DataAvailable)
+            //            {
+            //                numBytesRead = networkStream.Read(bytesFrom, 0, bytesFrom.Length);
+            //                packet = Packet.Deserialize(bytesFrom);
+            //            }
                         
-                        if(!PacketUtil.IsPacketRight(packet))
-                        {
-                            Console.WriteLine("Wrong Packet");
-                            continue;
-                        }
+            //            if(!PacketUtil.IsPacketRight(packet))
+            //            {
+            //                Console.WriteLine("Wrong Packet");
+            //                continue;
+            //            }
 
-                        Console.WriteLine($"ID: {packet.ID} | Cmd: {packet.Command} | Data: {packet.Data}");
+            //            Console.WriteLine($"ID: {packet.ID} | Cmd: {packet.Command} | Data: {packet.Data}");
 
-                        switch (packet.Command)
-                        {
-                            case Command.COMMAND_REGISTER:
-                                clientID = packet.ID;
-                                Program.UserAdd(clientID);
-                                break;
-                            case Command.COMMAND_LEFT:
-                                Program.UserLeft(userID, clientID!);
-                                break;
-                            case Command.COMMAND_ATTACK:
-                            case Command.COMMAND_DAMAGED:
-                            case Command.COMMAND_MOVE:
-                                Program.Broadcast(packet);
-                                break;
-                            default:
-                                break;
-                        }
+            //            switch (packet.Command)
+            //            {
+            //                case Command.COMMAND_REGISTER:
+            //                    clientID = packet.ID;
+            //                    Program.UserAdd(clientID);
+            //                    break;
+            //                case Command.COMMAND_LEFT:
+            //                    Program.UserLeft(userID, clientID!);
+            //                    break;
+            //                case Command.COMMAND_ATTACK:
+            //                case Command.COMMAND_DAMAGED:
+            //                case Command.COMMAND_MOVE:
+            //                    Program.Broadcast(packet);
+            //                    break;
+            //                default:
+            //                    break;
+            //            }
 
-                        packet.Clear();
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                noConnection = true;
-                Console.WriteLine(e.ToString());
-            }
+            //            packet.Clear();
+            //        }
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    noConnection = true;
+            //    Console.WriteLine(e.ToString());
+            //}
         }
         Program.UserLeft(userID, clientID!);
     }
