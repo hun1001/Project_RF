@@ -5,6 +5,7 @@ using Pool;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Mirror;
 
 public class Player : CustomObject
 {
@@ -43,10 +44,11 @@ public class Player : CustomObject
     public float cameraCrashShakeFrequencyGain = 8;
     public float cameraCrashShakeDuration = 0.2f;
 
-    protected override void Awake()
+    public void StartGame()
     {
         base.Awake();
         Camera.main.TryGetComponent(out _cameraManager);
+        var nm = FindObjectOfType<NetworkManager>();
         _tank = SpawnManager.Instance.SpawnUnit(PlayerDataManager.Instance.GetPlayerTankID(), Vector3.zero, Quaternion.identity, GroupType.Player);
         _tank.tag = "Player";
         FindObjectOfType<MinimapCameraManager>().Target = _tank.transform;
