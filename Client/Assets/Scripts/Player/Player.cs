@@ -138,26 +138,17 @@ public class Player : CustomObject
         _tankRotate = _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate);
         _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
 
-        StartCoroutine(UpdateServerTransform());
+        StartCoroutine(PlayerUpdate());
     }
 
-    void Update()
-    {
-        _tankMove.Move(_moveJoystick.Magnitude);
-        _tankRotate.Rotate(_moveJoystick.Direction);
-        _turretRotate.Rotate(_attackJoystick.Direction);
-    }
-
-    private IEnumerator UpdateServerTransform()
+    private IEnumerator PlayerUpdate()
     {
         while (true)
         {
-            if (ServerManager.Instance.IsPlayingGame)
-            {
-                ServerManager.Instance.SendTransform(_tank.transform, _tank.Turret.TurretTransform);
-            }
-
-            yield return new WaitForSecondsRealtime(0.1f);
+            _tankMove.Move(_moveJoystick.Magnitude);
+            _tankRotate.Rotate(_moveJoystick.Direction);
+            _turretRotate.Rotate(_attackJoystick.Direction);
+            yield return null;
         }
     }
 
