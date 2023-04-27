@@ -16,17 +16,17 @@ public class Item_Machingun : Item.Item_Base
 
     protected Transform _parent = null;
 
-    protected override void CreateItem()
-    {
-        _parent = transform.parent;
-        SetPosAndRot();
+    //protected override void CreateItem()
+    //{
+    //    _parent = transform.parent;
+    //    SetPosAndRot();
 
-        _currentMagazine = _maxMagazine;
-        _angle = 80f;
-        _range = 40f;
-        _layerMask = 1 << LayerMask.NameToLayer("Tank");
-        StartCoroutine(Shot());
-    }
+    //    _currentMagazine = _maxMagazine;
+    //    _angle = 80f;
+    //    _range = 40f;
+    //    _layerMask = 1 << LayerMask.NameToLayer("Tank");
+    //    StartCoroutine(Shot());
+    //}
 
     /// <summary> 머신건의 로컬 좌표와 방향을 설정하는 함수 </summary>
     protected virtual void SetPosAndRot()

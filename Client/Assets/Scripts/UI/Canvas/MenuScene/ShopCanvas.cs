@@ -73,6 +73,8 @@ public class ShopCanvas : BaseCanvas
     [Space(10f)]
     [SerializeField]
     private GameObject _productInformation;
+    [SerializeField]
+    private GameObject _productBuy;
 
     private void Awake()
     {
@@ -108,7 +110,14 @@ public class ShopCanvas : BaseCanvas
                 if (_showingItemList.Contains(item) == false) break;
             }
             _showingItemList.Add(item);
+
             product.transform.GetChild(0).GetComponent<Image>().sprite = item.ItemSO.Image;
+            product.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = item.ItemSO.Name;
+
+            product.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() =>
+            {
+                _productBuy.SetActive(true);
+            });
 
             product.SetActive(true);
         }
@@ -206,5 +215,24 @@ public class ShopCanvas : BaseCanvas
         base.OnHomeButton();
         _scrollRect.normalizedPosition = Vector2.zero;
         _productInformation.SetActive(false);
+        _productBuy.SetActive(false);
+    }
+
+    public override void OnBackButton()
+    {
+        base.OnBackButton();
+        _scrollRect.normalizedPosition = Vector2.zero;
+        _productInformation.SetActive(false);
+        _productBuy.SetActive(false);
+    }
+
+    public void OnProductBuy()
+    {
+
+    }
+
+    public void OnDontProductBuy()
+    {
+        _productBuy.SetActive(false);
     }
 }

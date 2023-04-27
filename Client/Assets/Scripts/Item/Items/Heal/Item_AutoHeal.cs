@@ -9,13 +9,14 @@ public class Item_AutoHeal : Item.Item_Base
     private Tank_Damage _tankDamage;
     private WaitForSeconds _healDelay;
 
-    protected override void CreateItem()
-    {
-        transform.parent.TryGetComponent(out _tankDamage);
+    //protected override void CreateItem()
+    //{
+    //    transform.parent.TryGetComponent(out _tankDamage);
 
-        _healDelay = new WaitForSeconds(1f);
-        StartCoroutine(Heal());
-    }
+    //    _healDelay = new WaitForSeconds(1f);
+    //    StartCoroutine(Heal());
+    //}
+
     private IEnumerator Heal()
     {
         while (true)
