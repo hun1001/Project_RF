@@ -94,10 +94,10 @@ public class MenuCanvas : BaseCanvas
         });
     }
 
-    public override void OnOpenAnimation()
+    public override void OnOpenEvents()
     {
         _isHide = true;
-        base.OnOpenAnimation();
+        base.OnOpenEvents();
     }
 
     public void OnStartButton()

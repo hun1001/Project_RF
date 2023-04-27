@@ -11,4 +11,5 @@ public enum CanvasType
     TechTree,
     Shop,
     Gear,
+    GameOver,
 }

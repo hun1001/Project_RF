@@ -59,7 +59,7 @@ public abstract class BaseCanvas : MonoBehaviour
         CanvasManager.ChangeBeforeCanvas();
     }
 
-    public virtual void OnOpenAnimation()
+    public virtual void OnOpenEvents()
     {
         _startSequence?.Restart();
     }

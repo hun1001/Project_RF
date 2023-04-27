@@ -40,7 +40,7 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
         {
             canvas.Value.Canvas.enabled = canvas.Key == canvasType;
             if (canvas.Key == canvasType)
-                canvas.Value.OnOpenAnimation();
+                canvas.Value.OnOpenEvents();
         }
     }
 
@@ -54,7 +54,7 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
         {
             canvas.Value.Canvas.enabled = canvas.Key == canvasType;
             if (canvas.Key == canvasType)
-                canvas.Value.OnOpenAnimation();
+                canvas.Value.OnOpenEvents();
         }
     }
 
