@@ -6,27 +6,10 @@ namespace Server;
 
 internal static class Program
 {
-    private static TcpListener? tcpListener = null;
-
-    private static List<Session> sessions = new();
-
     private static void Main(string[] args)
     {
-        tcpListener = new(IPAddress.Parse("172.31.1.200"), 7777);
-
-        tcpListener.Start();
-
-        Console.WriteLine($"Server Online: {tcpListener.LocalEndpoint}");
-
-        while (true)
-        {
-            TcpClient tcpClient = tcpListener.AcceptTcpClient();
-
-            Console.WriteLine("Client connected");
-
-            Session session = new(tcpClient, tcpClient.GetStream(), new byte[1024]);
-            sessions.Add(session);
-        }
+        Listener tcpListener = new Listener();
+        tcpListener.Init(new IPEndPoint(IPAddress.Parse("172.31.1.200"), 7777));
     }
 
     public static void Broadcast(string d)
@@ -55,14 +38,14 @@ public static class BufferQueue
     public static int Count => _bufferQueue.Count;
 }
 
-public class Session
+public class Session1
 {
     public TcpClient TcpClient { get; set; }
     public NetworkStream NetworkStream { get; set; }
     public byte[] Buffer { get; set; }
     public string Message { get; set; }
 
-    public Session(TcpClient tcpClient, NetworkStream networkStream, byte[] buffer, string message = "")
+    public Session1(TcpClient tcpClient, NetworkStream networkStream, byte[] buffer, string message = "")
     {
         TcpClient = tcpClient;
         NetworkStream = networkStream;
