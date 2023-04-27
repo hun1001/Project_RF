@@ -9,8 +9,11 @@
 
   <ItemGroup>
     <Compile Remove="Proto\**" />
+    <Compile Remove="ServerCore\**" />
     <EmbeddedResource Remove="Proto\**" />
+    <EmbeddedResource Remove="ServerCore\**" />
     <None Remove="Proto\**" />
+    <None Remove="ServerCore\**" />
   </ItemGroup>
 
   <ItemGroup>

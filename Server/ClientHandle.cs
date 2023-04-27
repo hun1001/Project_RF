@@ -1,5 +1,4 @@
 ﻿using System.Net.Sockets;
-using Project_RF_Server.Packet;
 
 namespace Server;
 
@@ -39,58 +38,58 @@ public class ClientHandle
 
         while (!noConnection)
         {
-            //try
-            //{
-            //    int numBytesRead;
-            //    if (!SocketConnected(clientSocket.Client))
-            //    {
-            //        noConnection = true;
-            //    }
-            //    else
-            //    {
-            //        if (networkStream.DataAvailable)
-            //        {
-            //            while (networkStream.DataAvailable)
-            //            {
-            //                numBytesRead = networkStream.Read(bytesFrom, 0, bytesFrom.Length);
-            //                packet = Packet.Deserialize(bytesFrom);
-            //            }
-                        
-            //            if(!PacketUtil.IsPacketRight(packet))
-            //            {
-            //                Console.WriteLine("Wrong Packet");
-            //                continue;
-            //            }
+            try
+            {
+                int numBytesRead;
+                if (!SocketConnected(clientSocket.Client))
+                {
+                    noConnection = true;
+                }
+                else
+                {
+                    if (networkStream.DataAvailable)
+                    {
+                        while (networkStream.DataAvailable)
+                        {
+                            numBytesRead = networkStream.Read(bytesFrom, 0, bytesFrom.Length);
+                            packet = Packet.Deserialize(bytesFrom);
+                        }
 
-            //            Console.WriteLine($"ID: {packet.ID} | Cmd: {packet.Command} | Data: {packet.Data}");
+                        if (!PacketUtil.IsPacketRight(packet))
+                        {
+                            Console.WriteLine("Wrong Packet");
+                            continue;
+                        }
 
-            //            switch (packet.Command)
-            //            {
-            //                case Command.COMMAND_REGISTER:
-            //                    clientID = packet.ID;
-            //                    Program.UserAdd(clientID);
-            //                    break;
-            //                case Command.COMMAND_LEFT:
-            //                    Program.UserLeft(userID, clientID!);
-            //                    break;
-            //                case Command.COMMAND_ATTACK:
-            //                case Command.COMMAND_DAMAGED:
-            //                case Command.COMMAND_MOVE:
-            //                    Program.Broadcast(packet);
-            //                    break;
-            //                default:
-            //                    break;
-            //            }
+                        Console.WriteLine($"ID: {packet.ID} | Cmd: {packet.Command} | Data: {packet.Data}");
 
-            //            packet.Clear();
-            //        }
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    noConnection = true;
-            //    Console.WriteLine(e.ToString());
-            //}
+                        switch (packet.Command)
+                        {
+                            case Command.COMMAND_REGISTER:
+                                clientID = packet.ID;
+                                Program.UserAdd(clientID);
+                                break;
+                            case Command.COMMAND_LEFT:
+                                Program.UserLeft(userID, clientID!);
+                                break;
+                            case Command.COMMAND_ATTACK:
+                            case Command.COMMAND_DAMAGED:
+                            case Command.COMMAND_MOVE:
+                                Program.Broadcast(packet);
+                                break;
+                            default:
+                                break;
+                        }
+
+                        packet.Clear();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                noConnection = true;
+                Console.WriteLine(e.ToString());
+            }
         }
         Program.UserLeft(userID, clientID!);
     }
