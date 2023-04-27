@@ -7,21 +7,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Proto\**" />
-    <Compile Remove="ServerCore\**" />
-    <EmbeddedResource Remove="Proto\**" />
-    <EmbeddedResource Remove="ServerCore\**" />
-    <None Remove="Proto\**" />
-    <None Remove="ServerCore\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove=".gitignore" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.22.3" />
-  </ItemGroup>
-
 </Project>
