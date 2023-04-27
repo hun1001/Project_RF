@@ -61,6 +61,7 @@ public class ShopCanvas : BaseCanvas
     [SerializeField]
     private RectTransform _itemTransform;
 
+    private Item_Base _selectItem;
     private List<Item_Base> _showingItemList = new List<Item_Base>();
     private WeightedRandomPicker<Item_Base> _itemPicker = new WeightedRandomPicker<Item_Base>();
 
@@ -98,9 +99,9 @@ public class ShopCanvas : BaseCanvas
             product.SetActive(true);
         }
 
+        _showingItemList.Clear();
         for (int i = 0; i < 3; i++)
         {
-            _showingItemList.Clear();
             var product = Instantiate(_itemTemplate, _itemTransform);
 
             Item_Base item;
@@ -116,6 +117,7 @@ public class ShopCanvas : BaseCanvas
 
             product.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() =>
             {
+                _selectItem = item;
                 _productBuy.SetActive(true);
             });
 
@@ -216,6 +218,7 @@ public class ShopCanvas : BaseCanvas
         _scrollRect.normalizedPosition = Vector2.zero;
         _productInformation.SetActive(false);
         _productBuy.SetActive(false);
+        _selectItem = null;
     }
 
     public override void OnBackButton()
@@ -224,15 +227,18 @@ public class ShopCanvas : BaseCanvas
         _scrollRect.normalizedPosition = Vector2.zero;
         _productInformation.SetActive(false);
         _productBuy.SetActive(false);
+        _selectItem = null;
     }
 
     public void OnProductBuy()
     {
-
+        ItemSaveManager.BuyItem(_selectItem.ItemSO.ItemType, _selectItem.ID);
+        OnDontProductBuy();
     }
 
     public void OnDontProductBuy()
     {
         _productBuy.SetActive(false);
+        _selectItem = null;
     }
 }
