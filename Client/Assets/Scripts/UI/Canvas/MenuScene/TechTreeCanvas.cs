@@ -234,7 +234,7 @@ public class TechTreeCanvas : BaseCanvas
             countryToggle.gameObject.SetActive(true);
         }
 
-        _countryToggleGroupManager.transform.GetChild(1).GetComponent<Toggle>().onValueChanged.Invoke(true);
+        //_countryToggleGroupManager.transform.GetChild(1).GetComponent<Toggle>().onValueChanged.Invoke(true);
         _countryToggleGroupManager.transform.GetChild(1).GetComponent<Toggle>().isOn = true;
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Item
 {
-    public abstract class Item_Base : MonoBehaviour
+    public abstract class Item_Base : CustomObject
     {
         /// <summary>  해당 아이템의 정보 SO </summary>
         [SerializeField]
@@ -13,8 +13,9 @@ namespace Item
 
         private ItemType _itemType;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _itemType = _itemSO.ItemType;
         }
 
