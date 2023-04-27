@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Item;
+using Util;
+using System.Collections.Generic;
 
 public enum ShopToggle
 {
@@ -52,9 +55,14 @@ public class ShopCanvas : BaseCanvas
 
     [Space(10f)]
     [SerializeField]
+    private ItemListSO _itemListSO;
+    [SerializeField]
     private GameObject _itemTemplate;
     [SerializeField]
     private RectTransform _itemTransform;
+
+    private List<Item_Base> _showingItemList = new List<Item_Base>();
+    private WeightedRandomPicker<Item_Base> _itemPicker = new WeightedRandomPicker<Item_Base>();
 
     [Space(10f)]
     [SerializeField]
@@ -68,6 +76,12 @@ public class ShopCanvas : BaseCanvas
 
     private void Awake()
     {
+        _itemPicker.Clear();
+        foreach(Item_Base item in _itemListSO.ItemList)
+        {
+            _itemPicker.Add(item, 1.0);
+        }
+
         _scrollRect.onValueChanged.AddListener(OnScroll);
         _premiumTankButton.onClick.AddListener(delegate { OnToggle(ShopToggle.PremiumTank); });
         _itemButton.onClick.AddListener(delegate { OnToggle(ShopToggle.Item); });
@@ -84,7 +98,18 @@ public class ShopCanvas : BaseCanvas
 
         for (int i = 0; i < 3; i++)
         {
+            _showingItemList.Clear();
             var product = Instantiate(_itemTemplate, _itemTransform);
+
+            Item_Base item;
+            while (true)
+            {
+                item = _itemPicker.GetRandomPick();
+                if (_showingItemList.Contains(item) == false) break;
+            }
+            _showingItemList.Add(item);
+            product.transform.GetChild(0).GetComponent<Image>().sprite = item.ItemSO.Image;
+
             product.SetActive(true);
         }
 
@@ -159,12 +184,12 @@ public class ShopCanvas : BaseCanvas
                 break;
             case ShopToggle.Item:
                 {
-                    _scrollRect.normalizedPosition = new Vector2(0.3f, 0f);
+                    _scrollRect.normalizedPosition = new Vector2(0.42f, 0f);
                 }
                 break;
             case ShopToggle.RandomGacha:
                 {
-                    _scrollRect.normalizedPosition = new Vector2(0.7f, 0f);
+                    _scrollRect.normalizedPosition = new Vector2(0.71f, 0f);
                 }
                 break;
             case ShopToggle.PaidGoods:

@@ -16,9 +16,6 @@ namespace Item
         /// <summary> 해당 아이템의 설명 </summary>
         public string Description;
 
-        /// <summary> 해당 아이템의 희귀도 </summary>
-        public int Rarity;
-
         /// <summary> 해당 아이템을 사기 위해 필요한 재화량 </summary>
         public int NecessaryGoods;
 

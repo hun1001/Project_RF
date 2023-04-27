@@ -25,10 +25,6 @@ namespace Item
             {
                 CreateItem();
             }
-            else
-            {
-                // UpgradeItem();
-            }
         }
 
         /// <summary> 아이템을 처음 얻었을 때 실행하는 함수 </summary>
