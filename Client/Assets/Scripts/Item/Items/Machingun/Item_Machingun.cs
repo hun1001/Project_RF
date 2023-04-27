@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Item_Machingun : Item.Item_Base
 {
-    [SerializeField]
-    protected float[] _upgradeDamages;
     protected float _currentDamage;
 
     protected int _maxMagazine = 50;
@@ -23,7 +21,6 @@ public class Item_Machingun : Item.Item_Base
         _parent = transform.parent;
         SetPosAndRot();
 
-        _currentDamage = _upgradeDamages[0];
         _currentMagazine = _maxMagazine;
         _angle = 80f;
         _range = 40f;
@@ -35,11 +32,6 @@ public class Item_Machingun : Item.Item_Base
     protected virtual void SetPosAndRot()
     {
         transform.forward = transform.position - _parent.position;
-    }
-
-    protected override void UpgradeItem()
-    {
-        //_currentDamage = _upgradeDamages[Item.ItemManager.Instance.HaveItemList[this]];
     }
 
     /// <summary> 머신건 발사 시작 코루틴 </summary>

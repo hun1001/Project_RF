@@ -30,10 +30,4 @@ public class Item_Machingun_Side : Item_Machingun
         }
         base.SetPosAndRot();
     }
-
-    protected override void UpgradeItem()
-    {
-        base.UpgradeItem();
-        _otherSideMachingun?.SendMessage("UpgradeItem");
-    }
 }
