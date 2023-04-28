@@ -79,6 +79,9 @@ public class ShopCanvas : BaseCanvas
 
     private void Awake()
     {
+        ItemSaveManager.GetItemInventory(ItemType.Passive);
+        ItemSaveManager.GetItemInventory(ItemType.Active);
+
         _itemPicker.Clear();
         foreach(Item_Base item in _itemListSO.ItemList)
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class ItemSaveManager
 {
-    public static Dictionary<ItemType, ItemInventoryData> _itemInventoryDict = new Dictionary<ItemType, ItemInventoryData>();
+    private static Dictionary<ItemType, ItemInventoryData> _itemInventoryDict = new Dictionary<ItemType, ItemInventoryData>();
 
     public static ItemInventoryData GetItemInventory(ItemType itemType)
     {
@@ -29,14 +29,17 @@ public static class ItemSaveManager
 
     public static void BuyItem(ItemType itemType, string itemName)
     {
-        if(_itemInventoryDict.ContainsKey(itemType) == false)
+        if(!_itemInventoryDict.ContainsKey(itemType))
         {
             _itemInventoryDict.Add(itemType, new ItemInventoryData());
         }
-        if (_itemInventoryDict[itemType]._itemInventoryList.Contains(itemName) == false)
+
+        if (!_itemInventoryDict[itemType]._itemInventoryList.Contains(itemName))
         {
             _itemInventoryDict[itemType]._itemInventoryList.Add(itemName);
         }
+
+        SaveItemInventory(itemType);
     }
 
     public static void SaveItemInventory(ItemType itemType)
