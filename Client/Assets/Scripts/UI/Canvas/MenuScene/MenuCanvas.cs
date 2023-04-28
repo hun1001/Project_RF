@@ -79,7 +79,7 @@ public class MenuCanvas : BaseCanvas
                 _topFrame.DOAnchorPosY(32f, 0.25f);
                 _bottomFrame.DOAnchorPosY(-55f, 0.25f);
                 _leftFrame.DOAnchorPosX(-52f, 0.25f);
-                if(_isCameraMove == false)
+                if (_isCameraMove == false)
                 {
                     _showButton.DOAnchorPosY(-_showButton.sizeDelta.y, 0.25f);
                 }
@@ -110,7 +110,7 @@ public class MenuCanvas : BaseCanvas
     public void OnServerGameStart()
     {
         OnStartButton();
-        ServerManager.Instance.ConnectToServer();
+        NetworkManager.Instance.ConnectToServer();
     }
 
     public void OnModeButton()
