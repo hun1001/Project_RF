@@ -1,3 +1,4 @@
+using Addressable;
 using DG.Tweening;
 using Item;
 using System.Collections;
@@ -9,8 +10,6 @@ using UnityEngine.UI;
 public class GearCanvas : BaseCanvas
 {
     [Header("ItemList")]
-    [SerializeField]
-    private ItemListSO _itemList;
     [SerializeField]
     private GameObject _itemTemplate;
     [SerializeField]
@@ -58,43 +57,55 @@ public class GearCanvas : BaseCanvas
 
     private void Awake()
     {
-        foreach (Item_Base itemInfo in _itemList.ItemList)
+        ItemInventoryData passiveInventoryData = ItemSaveManager.GetItemInventory(ItemType.Passive);
+        ItemInventoryData activeInventoryData = ItemSaveManager.GetItemInventory(ItemType.Active);
+
+        foreach (var itemName in passiveInventoryData._itemInventoryList)
         {
+            Item_Base itemInfo = AddressablesManager.Instance.GetResource<GameObject>(itemName).GetComponent<Item_Base>();
             var item = Instantiate(_itemTemplate, _itemContent);
             item.SetActive(true);
             item.GetComponent<Image>().sprite = itemInfo.ItemSO.Image;
             _itemDictionary.Add(itemInfo, item);
             item.GetComponent<Button>().onClick.AddListener(() =>
             {
-                if (itemInfo.ItemSO.ItemType == ItemType.Passive)
+                if (_passiveEquipItemDictionary.ContainsKey(_passiveSlotIdx) == false)
                 {
-                    if(_passiveEquipItemDictionary.ContainsKey(_passiveSlotIdx) == false)
-                    {
-                        _passiveEquipItemDictionary.Add(_passiveSlotIdx, item);
-                        _passiveItemImages[_passiveSlotIdx].gameObject.SetActive(true);
-                    }
-                    else
-                    {
-                        _passiveEquipItemDictionary[_passiveSlotIdx].SetActive(true);
-                        _passiveEquipItemDictionary[_passiveSlotIdx] = item;
-                    }
-                    _passiveItemImages[_passiveSlotIdx].sprite = itemInfo.ItemSO.Image;
+                    _passiveEquipItemDictionary.Add(_passiveSlotIdx, item);
+                    _passiveItemImages[_passiveSlotIdx].gameObject.SetActive(true);
                 }
+                else
+                {
+                    _passiveEquipItemDictionary[_passiveSlotIdx].SetActive(true);
+                    _passiveEquipItemDictionary[_passiveSlotIdx] = item;
+                }
+                _passiveItemImages[_passiveSlotIdx].sprite = itemInfo.ItemSO.Image;
 
-                else if (itemInfo.ItemSO.ItemType == ItemType.Active)
+                item.SetActive(false);
+                CloseInvetory();
+            });
+        }
+
+        foreach (var itemName in activeInventoryData._itemInventoryList)
+        {
+            Item_Base itemInfo = AddressablesManager.Instance.GetResource<GameObject>(itemName).GetComponent<Item_Base>();
+            var item = Instantiate(_itemTemplate, _itemContent);
+            item.SetActive(true);
+            item.GetComponent<Image>().sprite = itemInfo.ItemSO.Image;
+            _itemDictionary.Add(itemInfo, item);
+            item.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                if (_activeEquipItemDictionary.ContainsKey(_activeSlotIdx) == false)
                 {
-                    if (_activeEquipItemDictionary.ContainsKey(_activeSlotIdx) == false)
-                    {
-                        _activeEquipItemDictionary.Add(_activeSlotIdx, item);
-                        _activeItemImages[_activeSlotIdx].gameObject.SetActive(true);
-                    }
-                    else
-                    {
-                        _activeEquipItemDictionary[_activeSlotIdx].SetActive(true);
-                        _activeEquipItemDictionary[_activeSlotIdx] = item;
-                    }
-                    _activeItemImages[_activeSlotIdx].sprite = itemInfo.ItemSO.Image;
+                    _activeEquipItemDictionary.Add(_activeSlotIdx, item);
+                    _activeItemImages[_activeSlotIdx].gameObject.SetActive(true);
                 }
+                else
+                {
+                    _activeEquipItemDictionary[_activeSlotIdx].SetActive(true);
+                    _activeEquipItemDictionary[_activeSlotIdx] = item;
+                }
+                _activeItemImages[_activeSlotIdx].sprite = itemInfo.ItemSO.Image;
 
                 item.SetActive(false);
                 CloseInvetory();
