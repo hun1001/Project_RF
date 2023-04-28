@@ -120,6 +120,11 @@ namespace Util
             _randomInstance = new System.Random(seed);
         }
 
+        public int GetLength()
+        {
+            return _itemWeightDict.Count;
+        }
+
         #endregion
         /***********************************************************************
         *                               Getter Methods

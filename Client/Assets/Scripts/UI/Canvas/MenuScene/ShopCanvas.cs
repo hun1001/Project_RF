@@ -62,7 +62,7 @@ public class ShopCanvas : BaseCanvas
     private RectTransform _itemTransform;
 
     private Item_Base _selectItem;
-    private List<Item_Base> _showingItemList = new List<Item_Base>();
+    private Dictionary<Item_Base, GameObject> _showingItemList = new Dictionary<Item_Base, GameObject>();
     private WeightedRandomPicker<Item_Base> _itemPicker = new WeightedRandomPicker<Item_Base>();
 
     [Space(10f)]
@@ -79,10 +79,16 @@ public class ShopCanvas : BaseCanvas
 
     private void Awake()
     {
+        ItemInventoryData passiveInventoryData = ItemSaveManager.GetItemInventory(ItemType.Passive);
+        ItemInventoryData activeInventoryData = ItemSaveManager.GetItemInventory(ItemType.Active);
+
         _itemPicker.Clear();
         foreach(Item_Base item in _itemListSO.ItemList)
         {
-            _itemPicker.Add(item, 1.0);
+            if(passiveInventoryData._itemInventoryList.Contains(item.ID) == false && activeInventoryData._itemInventoryList.Contains(item.ID) == false)
+            {
+                _itemPicker.Add(item, 1.0);
+            }
         }
 
         _scrollRect.onValueChanged.AddListener(OnScroll);
@@ -100,28 +106,57 @@ public class ShopCanvas : BaseCanvas
         }
 
         _showingItemList.Clear();
-        for (int i = 0; i < 3; i++)
+        if(_itemPicker.GetLength() >= 3)
         {
-            var product = Instantiate(_itemTemplate, _itemTransform);
-
-            Item_Base item;
-            while (true)
+            for (int i = 0; i < 3; i++)
             {
-                item = _itemPicker.GetRandomPick();
-                if (_showingItemList.Contains(item) == false) break;
+                var product = Instantiate(_itemTemplate, _itemTransform);
+
+                Item_Base item;
+                while (true)
+                {
+                    item = _itemPicker.GetRandomPick();
+                    if (_showingItemList.ContainsKey(item) == false) break;
+                }
+                _showingItemList.Add(item, product);
+
+                product.transform.GetChild(0).GetComponent<Image>().sprite = item.ItemSO.Image;
+                product.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = item.ItemSO.Name;
+
+                product.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() =>
+                {
+                    _selectItem = item;
+                    _productBuy.SetActive(true);
+                });
+
+                product.SetActive(true);
             }
-            _showingItemList.Add(item);
-
-            product.transform.GetChild(0).GetComponent<Image>().sprite = item.ItemSO.Image;
-            product.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = item.ItemSO.Name;
-
-            product.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() =>
+        }
+        else
+        {
+            for (int i = 0; i < _itemPicker.GetLength(); i++)
             {
-                _selectItem = item;
-                _productBuy.SetActive(true);
-            });
+                var product = Instantiate(_itemTemplate, _itemTransform);
 
-            product.SetActive(true);
+                Item_Base item;
+                while (true)
+                {
+                    item = _itemPicker.GetRandomPick();
+                    if (_showingItemList.ContainsKey(item) == false) break;
+                }
+                _showingItemList.Add(item, product);
+
+                product.transform.GetChild(0).GetComponent<Image>().sprite = item.ItemSO.Image;
+                product.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = item.ItemSO.Name;
+
+                product.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() =>
+                {
+                    _selectItem = item;
+                    _productBuy.SetActive(true);
+                });
+
+                product.SetActive(true);
+            }
         }
 
         for (int i = 0; i < 6; i++)
@@ -233,6 +268,9 @@ public class ShopCanvas : BaseCanvas
     public void OnProductBuy()
     {
         ItemSaveManager.BuyItem(_selectItem.ItemSO.ItemType, _selectItem.ID);
+        var product = _showingItemList[_selectItem];
+        _showingItemList.Remove(_selectItem);
+        Destroy(product);
         OnDontProductBuy();
     }
 
