@@ -11,18 +11,15 @@ public class NetworkManager : MonoSingleton<NetworkManager>
     private TcpClient client = null;
     private NetworkStream stream = null;
 
-    private int _id = 0;
-
     private Dictionary<int, OtherPlayer> otherPlayers = new Dictionary<int, OtherPlayer>();
 
     public void ConnectToServer()
     {
-        _id = Random.Range(1, 10000);
         client = new TcpClient();
         client.Connect(IPAddress.Parse("172.31.1.200"), 7777);
         stream = client.GetStream();
 
-        string d = "Enter|" + _id;
+        string d = "Enter";
         byte[] outStream = Encoding.UTF8.GetBytes(d);
 
         stream.Write(outStream, 0, outStream.Length);

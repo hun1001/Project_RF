@@ -21,12 +21,8 @@ public class Listener
         while (true)
         {
             TcpClient tcpClient = await tcpListener!.AcceptTcpClientAsync();
-            NetworkStream networkStream = tcpClient.GetStream();
-            byte[] buffer = new byte[1024];
-
-            int length = await networkStream.ReadAsync(buffer, 0, buffer.Length);
-            string message = Encoding.UTF8.GetString(buffer, 0, length);
-            Console.WriteLine(message);
+            
+            SessionManager.Instance.GenerateSession(tcpClient);
         }
     }
 }
