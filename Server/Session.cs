@@ -27,14 +27,15 @@ namespace Server
 
         private async Task Receive()
         {
-            while (true)
+            while (_tcpClient!.Connected)
             {
                 byte[] buffer = new byte[1024];
                 int length = await _networkStream!.ReadAsync(buffer, 0, buffer.Length);
                 string message = Encoding.UTF8.GetString(buffer, 0, length);
                 Console.WriteLine(message);
-                Program.Broadcast(message);
+                //Program.Broadcast(message);
             }
+
         }
     }
 

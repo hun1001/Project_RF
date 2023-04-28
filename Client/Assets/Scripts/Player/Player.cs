@@ -98,20 +98,11 @@ public class Player : CustomObject
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction((a) =>
         {
             if (a < 0) _cameraManager.CameraShake(cameraDamageShakeAmplitudeGain, cameraDamageShakeFrequencyGain, cameraDamageShakeDuration);
-
-            if (ServerManager.Instance.IsPlayingGame)
-            {
-                for (int i = 0; i < 25; ++i)
-                {
-                    ServerManager.Instance.SendHP(_tank.GetComponent<Tank_Damage>(ComponentType.Damage).CurrentHealth);
-                }
-            }
         });
 
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDeathAction(() =>
         {
             Time.timeScale = 0;
-            ServerManager.Instance.Disconnect();
             StartCoroutine(Change());
         });
 
@@ -123,20 +114,11 @@ public class Player : CustomObject
         _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() =>
         {
             _cameraManager.CameraShake(cameraAttackShakeAmplitudeGain, cameraAttackShakeFrequencyGain, cameraAttackShakeDuration);
-            if (ServerManager.Instance.IsPlayingGame)
-            {
-                for (int i = 0; i < 25; ++i)
-                {
-                    ServerManager.Instance.AttackPlayer();
-                }
-            }
         });
 
         _tankMove = _tank.GetComponent<Tank_Move>(ComponentType.Move);
         _tankRotate = _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate);
         _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
-
-        StartCoroutine(UpdateServerTransform());
     }
 
     void Update()
@@ -144,19 +126,6 @@ public class Player : CustomObject
         _tankMove.Move(_moveJoystick.Magnitude);
         _tankRotate.Rotate(_moveJoystick.Direction);
         _turretRotate.Rotate(_attackJoystick.Direction);
-    }
-
-    private IEnumerator UpdateServerTransform()
-    {
-        while (true)
-        {
-            if (ServerManager.Instance.IsPlayingGame)
-            {
-                ServerManager.Instance.SendTransform(_tank.transform, _tank.Turret.TurretTransform);
-            }
-
-            yield return new WaitForSecondsRealtime(0.1f);
-        }
     }
 
     private IEnumerator Change()
