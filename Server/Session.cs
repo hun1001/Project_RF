@@ -9,13 +9,16 @@ namespace Server
 {
     public class Session
     {
+        private int _sessionId = 0;
+
         private TcpClient? _tcpClient = null;
         private NetworkStream? _networkStream = null;
 
         private TankInfo _tankInfo;
 
-        public Session(TcpClient tcpClient)
+        public Session(TcpClient tcpClient, int sessionId)
         {
+            _sessionId = sessionId;
             _tcpClient = tcpClient;
             _networkStream = tcpClient.GetStream();
             _tankInfo = new TankInfo();
