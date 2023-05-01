@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Addressable;
+using Pool;
 using System.Linq;
 
 public class TrainingTankManager : MonoBehaviour
@@ -14,10 +15,27 @@ public class TrainingTankManager : MonoBehaviour
 
     private List<GameObject> _tankList = new List<GameObject>();
 
-    private string groupName = "Tank";
+    private Tank _tank = null;
 
     private void Awake()
     {
+        _tankList = AddressablesManager.Instance.GetLabelResources<GameObject>("Tank").ToList();
 
+        _tankDropdown.ClearOptions();
+
+        _tankDropdown.AddOptions(_tankList.Select(t => t.name).ToList());
+
+        _tankDropdown.onValueChanged.AddListener(OnDropboxValueChanged);
+        OnDropboxValueChanged(0);
+    }
+
+    private void OnDropboxValueChanged(int index)
+    {
+        if (_tank != null)
+        {
+            PoolManager.Pool(_tank.ID, _tank.gameObject);
+        }
+
+        _tank = SpawnManager.Instance.SpawnUnit(_tankList[index].name, _tankTransform.position, _tankTransform.rotation, GroupType.Enemy);
     }
 }

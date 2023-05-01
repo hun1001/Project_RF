@@ -6,13 +6,12 @@ using FoW;
 
 public class SpawnManager : MonoSingleton<SpawnManager>
 {
-    // private Dictionary<GroupType, List<CustomObject>> _spawnedUnits = new Dictionary<GroupType, List<CustomObject>>();
-
     public Tank SpawnUnit(string unitID, Vector3 position, Quaternion rotation, GroupType groupType)
     {
         var spawnedUnit = PoolManager.Get<Tank>(unitID, position, rotation).SetTank(groupType);
 
         var minimapIcon = PoolManager.Get<MinimapIcon>("Assets/Prefabs/MinimapIcon.prefab", spawnedUnit.transform);
+        minimapIcon.transform.localPosition = new Vector3(0, 0, -15);
         minimapIcon.SetIconColor(GroupManager.Instance.GroupColorList[(int)groupType]);
 
         return spawnedUnit;
