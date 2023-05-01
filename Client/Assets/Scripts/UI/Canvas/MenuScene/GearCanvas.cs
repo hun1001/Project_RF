@@ -42,8 +42,10 @@ public class GearCanvas : BaseCanvas
     [SerializeField]
     private Toggle _shellToggle;
 
-    private Dictionary<int, GameObject> _passiveEquipItemDictionary = new Dictionary<int, GameObject>();
-    private Dictionary<int, GameObject> _activeEquipItemDictionary = new Dictionary<int, GameObject>();
+    private ItemEquipmentData _passiveItemEquipmentDataDict;
+    private ItemEquipmentData _activeItemEquipmentDataDict;
+    private Dictionary<int, GameObject> _passiveItemDict = new Dictionary<int, GameObject>();
+    private Dictionary<int, GameObject> _activeItemDict = new Dictionary<int, GameObject>();
     private int _passiveSlotIdx = 0;
     private int _activeSlotIdx = 0;
 
@@ -57,6 +59,9 @@ public class GearCanvas : BaseCanvas
 
     private void Awake()
     {
+        _passiveItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Passive);
+        _activeItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Active);
+
         ItemInventoryData passiveInventoryData = ItemSaveManager.GetItemInventory(ItemType.Passive);
         ItemInventoryData activeInventoryData = ItemSaveManager.GetItemInventory(ItemType.Active);
 
@@ -67,17 +72,30 @@ public class GearCanvas : BaseCanvas
             item.SetActive(true);
             item.GetComponent<Image>().sprite = itemInfo.ItemSO.Image;
             _itemDictionary.Add(itemInfo, item);
+
+            if (_passiveItemEquipmentDataDict._itemEquipmentList.Contains(itemInfo.ID))
+            {
+                int idx = _passiveItemEquipmentDataDict._itemEquipmentList.IndexOf(itemInfo.ID);
+                _passiveItemDict.Add(idx, item);
+                item.SetActive(false);
+
+                _passiveItemImages[idx].gameObject.SetActive(true);
+                _passiveItemImages[idx].sprite = itemInfo.ItemSO.Image;
+            }
+
             item.GetComponent<Button>().onClick.AddListener(() =>
             {
-                if (_passiveEquipItemDictionary.ContainsKey(_passiveSlotIdx) == false)
+                if (_passiveItemEquipmentDataDict._itemEquipmentList[_passiveSlotIdx] == null)
                 {
-                    _passiveEquipItemDictionary.Add(_passiveSlotIdx, item);
+                    ItemSaveManager.ItemEquip(ItemType.Passive, _passiveSlotIdx, itemInfo.ID);
+                    _passiveItemDict.Add(_passiveSlotIdx, item);
                     _passiveItemImages[_passiveSlotIdx].gameObject.SetActive(true);
                 }
                 else
                 {
-                    _passiveEquipItemDictionary[_passiveSlotIdx].SetActive(true);
-                    _passiveEquipItemDictionary[_passiveSlotIdx] = item;
+                    _passiveItemDict[_passiveSlotIdx].SetActive(true);
+                    ItemSaveManager.ItemEquip(ItemType.Passive, _passiveSlotIdx, itemInfo.ID);
+                    _passiveItemDict[_passiveSlotIdx] = item;
                 }
                 _passiveItemImages[_passiveSlotIdx].sprite = itemInfo.ItemSO.Image;
 
@@ -93,17 +111,30 @@ public class GearCanvas : BaseCanvas
             item.SetActive(true);
             item.GetComponent<Image>().sprite = itemInfo.ItemSO.Image;
             _itemDictionary.Add(itemInfo, item);
+
+            if (_activeItemEquipmentDataDict._itemEquipmentList.Contains(itemInfo.ID))
+            {
+                int idx = _activeItemEquipmentDataDict._itemEquipmentList.IndexOf(itemInfo.ID);
+                _activeItemDict.Add(idx, item);
+                item.SetActive(false);
+
+                _activeItemImages[idx].gameObject.SetActive(true);
+                _activeItemImages[idx].sprite = itemInfo.ItemSO.Image;
+            }
+
             item.GetComponent<Button>().onClick.AddListener(() =>
             {
-                if (_activeEquipItemDictionary.ContainsKey(_activeSlotIdx) == false)
+                if (_activeItemEquipmentDataDict._itemEquipmentList[_activeSlotIdx] == null)
                 {
-                    _activeEquipItemDictionary.Add(_activeSlotIdx, item);
+                    ItemSaveManager.ItemEquip(ItemType.Active, _activeSlotIdx, itemInfo.ID);
+                    _activeItemDict.Add(_activeSlotIdx, item);
                     _activeItemImages[_activeSlotIdx].gameObject.SetActive(true);
                 }
                 else
                 {
-                    _activeEquipItemDictionary[_activeSlotIdx].SetActive(true);
-                    _activeEquipItemDictionary[_activeSlotIdx] = item;
+                    _activeItemDict[_activeSlotIdx].SetActive(true);
+                    ItemSaveManager.ItemEquip(ItemType.Active, _activeSlotIdx, itemInfo.ID);
+                    _activeItemDict[_activeSlotIdx] = item;
                 }
                 _activeItemImages[_activeSlotIdx].sprite = itemInfo.ItemSO.Image;
 
@@ -131,7 +162,7 @@ public class GearCanvas : BaseCanvas
         {
             if(item.Key.ItemSO.ItemType == ItemType.Passive)
             {
-                if (_passiveEquipItemDictionary.ContainsValue(item.Value)) continue;
+                if (_passiveItemEquipmentDataDict._itemEquipmentList.Contains(item.Key.ID)) continue;
                 item.Value.SetActive(true);
             }
             else if (item.Key.ItemSO.ItemType != ItemType.Passive)
@@ -150,7 +181,7 @@ public class GearCanvas : BaseCanvas
         {
             if (item.Key.ItemSO.ItemType == ItemType.Active)
             {
-                if (_passiveEquipItemDictionary.ContainsValue(item.Value)) continue;
+                if (_passiveItemEquipmentDataDict._itemEquipmentList.Contains(item.Key.ID)) continue;
                 item.Value.SetActive(true);
             }
             else if (item.Key.ItemSO.ItemType != ItemType.Active)
