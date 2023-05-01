@@ -252,6 +252,7 @@ namespace CustomEditorWindow.TankGenerator
 
             entry.SetAddress(Path.GetFileNameWithoutExtension(path.ToString()));
             entry.SetAddress(tankTemplate.name);
+            entry.SetLabel("Tank", true);
 
             settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entry, true);
 
