@@ -79,26 +79,33 @@ public static class ItemSaveManager
             _itemEquipmentDataDict.Add(itemType, new ItemEquipmentData());
         }
 
-        if (_itemEquipmentDataDict[itemType]._itemEquipmentList[idx] == null)
+        while (_itemEquipmentDataDict[itemType]._itemEquipmentList.Count < 3)
         {
-            _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;
-        }
-        else
-        {
-            _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;
+            _itemEquipmentDataDict[itemType]._itemEquipmentList.Add("");
         }
 
-        if (!_itemEquipmentDataDict[itemType]._itemEquipmentList.Contains(itemName))
-        {
-            if (_itemEquipmentDataDict[itemType]._itemEquipmentList[idx] == null)
-            {
-                _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;
-            }
-            else
-            {
-                _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;
-            }
-        }
+        _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;
+
+        //if (_itemEquipmentDataDict[itemType]._itemEquipmentList[idx] == "")
+        //{
+        //    _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;
+        //}
+        //else
+        //{
+        //    _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;
+        //}
+
+        //if (!_itemEquipmentDataDict[itemType]._itemEquipmentList.Contains(itemName))
+        //{
+        //    if (_itemEquipmentDataDict[itemType]._itemEquipmentList[idx] == "")
+        //    {
+        //        _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;
+        //    }
+        //    else
+        //    {
+        //        _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;
+        //    }
+        //}
 
         SaveItemEquipment(itemType);
     }

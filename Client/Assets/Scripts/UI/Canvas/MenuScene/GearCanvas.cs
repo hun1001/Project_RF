@@ -85,7 +85,7 @@ public class GearCanvas : BaseCanvas
 
             item.GetComponent<Button>().onClick.AddListener(() =>
             {
-                if (_passiveItemEquipmentDataDict._itemEquipmentList[_passiveSlotIdx] == null)
+                if (_passiveItemEquipmentDataDict._itemEquipmentList[_passiveSlotIdx] == "")
                 {
                     ItemSaveManager.ItemEquip(ItemType.Passive, _passiveSlotIdx, itemInfo.ID);
                     _passiveItemDict.Add(_passiveSlotIdx, item);
@@ -124,7 +124,7 @@ public class GearCanvas : BaseCanvas
 
             item.GetComponent<Button>().onClick.AddListener(() =>
             {
-                if (_activeItemEquipmentDataDict._itemEquipmentList[_activeSlotIdx] == null)
+                if (_activeItemEquipmentDataDict._itemEquipmentList[_activeSlotIdx] == "")
                 {
                     ItemSaveManager.ItemEquip(ItemType.Active, _activeSlotIdx, itemInfo.ID);
                     _activeItemDict.Add(_activeSlotIdx, item);
