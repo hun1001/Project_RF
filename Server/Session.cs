@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 public class Session
 {
@@ -30,8 +28,21 @@ public class Session
             byte[] buffer = new byte[1024];
             int length = await _networkStream!.ReadAsync(buffer, 0, buffer.Length);
             string message = Encoding.UTF8.GetString(buffer, 0, length);
-            SessionManager.Instance.Broadcast(message);
+            
             Console.WriteLine(message);
+
+            TankInfo tankInfo = new TankInfo();
+            tankInfo = JsonSerializer.Deserialize<TankInfo>(message);
+
+            if(_tankInfo.Equals(tankInfo))
+            {
+
+            }
+            else
+            {
+                _tankInfo = tankInfo;
+                SessionManager.Instance.Broadcast(message);
+            }
         }
     }
 
@@ -43,20 +54,17 @@ public class Session
     }
 }
 
+[Serializable]
 public struct TankInfo 
 {
     public float HP;
 
     public float tankPositionX;
     public float tankPositionY;
-    public float tankPositionZ;
 
-    public float tankRotationX;
-    public float tankRotationY;
     public float tankRotationZ;
 
-    public float turretRotationX;
-    public float turretRotationY;
     public float turretRotationZ;
-}
 
+    public bool Equals(TankInfo other) => this.HP == other.HP && this.tankPositionX == other.tankPositionX && this.tankPositionY == other.tankPositionY && this.tankRotationZ == other.tankRotationZ && this.turretRotationZ == other.turretRotationZ;
+}

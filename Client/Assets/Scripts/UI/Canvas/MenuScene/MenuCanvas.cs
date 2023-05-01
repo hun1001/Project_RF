@@ -110,7 +110,7 @@ public class MenuCanvas : BaseCanvas
     public void OnServerGameStart()
     {
         OnStartButton();
-        NetworkManager.Instance.ConnectToServer();
+        ServerManager.Instance.ConnectToServer();
     }
 
     public void OnModeButton()

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Util;
 
-public class NetworkManager : MonoSingleton<NetworkManager>
+public class ServerManager : MonoSingleton<ServerManager>
 {
     private TcpClient client = null;
     private NetworkStream stream = null;
@@ -44,4 +44,18 @@ public class NetworkManager : MonoSingleton<NetworkManager>
             yield return null;
         }
     }
+}
+
+[SerializeField]
+public struct TankInfo
+{
+    public float HP;
+
+    public float tankPositionX;
+    public float tankPositionY;
+
+    public float tankRotationZ;
+    public float turretRotationZ;
+
+    public bool Equals(TankInfo other) => this.HP == other.HP && this.tankPositionX == other.tankPositionX && this.tankPositionY == other.tankPositionY && this.tankRotationZ == other.tankRotationZ && this.turretRotationZ == other.turretRotationZ;
 }
