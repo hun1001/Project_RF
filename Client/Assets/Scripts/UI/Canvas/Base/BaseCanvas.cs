@@ -46,7 +46,7 @@ public abstract class BaseCanvas : MonoBehaviour
         {
             CanvasManager.ChangeCanvas(CanvasType.Menu, _canvasType);
         }
-        else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
+        else
         {
             Time.timeScale = 1;
             UnityEngine.SceneManagement.SceneManager.LoadScene("MenuScene");

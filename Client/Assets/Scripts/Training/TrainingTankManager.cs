@@ -62,4 +62,3 @@ public class TrainingTankManager : MonoBehaviour
         _debugText.text = _debugTextString.ToString();
     }
 }
-

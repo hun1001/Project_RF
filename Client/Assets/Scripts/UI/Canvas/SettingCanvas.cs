@@ -22,7 +22,7 @@ public class SettingCanvas : BaseCanvas
     [Header("Audio")]
     [SerializeField]
     private AudioMixer _audioMixer;
-    
+
     [Serializable]
     private struct Bgm
     {
@@ -89,7 +89,7 @@ public class SettingCanvas : BaseCanvas
 
     private void Update()
     {
-        if(_bgm._isBgmMinusDown)
+        if (_bgm._isBgmMinusDown)
         {
             _bgm._bgmSlider.value -= 0.2f;
         }
@@ -110,9 +110,9 @@ public class SettingCanvas : BaseCanvas
     /// <summary> 설정창을 열려고 할때 실행하는 함수 </summary>
     private void OpenSettingCanvas()
     {
-        if(_isOpen == false)
+        if (_isOpen == false)
         {
-            if(Time.timeScale == 1f)
+            if (Time.timeScale == 1f)
             {
                 if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
                 {
@@ -142,7 +142,7 @@ public class SettingCanvas : BaseCanvas
         {
             base.OnBackButton();
         }
-        else if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
+        else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
         {
             Time.timeScale = 1f;
             CanvasManager.ChangeCanvas(CanvasType.Controller, CanvasType);
@@ -157,7 +157,7 @@ public class SettingCanvas : BaseCanvas
     public void OnChangeFrame(int idx)
     {
         if (_toggles[idx].isOn == true) return;
-        switch(idx)
+        switch (idx)
         {
             case 0:
                 {
@@ -189,7 +189,7 @@ public class SettingCanvas : BaseCanvas
                 {
                     _toggles[idx].isOn = true;
                     _frameTexts[idx].color = Color.black;
-                    if(_changeFrameSequence[1] == null)
+                    if (_changeFrameSequence[1] == null)
                     {
                         _changeFrameSequence[1] = DOTween.Sequence()
                         .SetAutoKill(false)
@@ -222,7 +222,7 @@ public class SettingCanvas : BaseCanvas
     /// <summary> BGM을 ON/OFF하는 함수 </summary>
     public void OnBgmMute(bool isOn)
     {
-        if(isOn)
+        if (isOn)
         {
             _bgm._bgmSwitch.DOLocalMoveX(-25f, 0.2f);
             if (SoundManager.Instance.BgmVolume == -20f)
@@ -243,11 +243,11 @@ public class SettingCanvas : BaseCanvas
     {
         SoundManager.Instance.BgmVolume = value;
         _audioMixer.SetFloat("BGM", value);
-        if(value <= -20f)
+        if (value <= -20f)
         {
             _bgm._bgmMuteToggle.isOn = false;
         }
-        else if(Bgm._isBgmOn == false)
+        else if (Bgm._isBgmOn == false)
         {
             _bgm._bgmMuteToggle.isOn = true;
         }
@@ -281,7 +281,7 @@ public class SettingCanvas : BaseCanvas
         if (isOn)
         {
             _sfx._sfxSwitch.DOLocalMoveX(-25f, 0.2f);
-            if(SoundManager.Instance.SfxVolume == -20f)
+            if (SoundManager.Instance.SfxVolume == -20f)
             {
                 _sfx._sfxSlider.value = 0f;
             }
