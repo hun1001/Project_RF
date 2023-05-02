@@ -5,10 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Tank/Turret/TurretSO")]
 public class TurretSO : ScriptableObject
 {
-    public float AtkPower;
     public float RotationSpeed;
     public float ReloadTime;
     public float FOV;
+    public float AtkPower;
     public float PenetrationPower;
 
     public List<Shell> Shells;

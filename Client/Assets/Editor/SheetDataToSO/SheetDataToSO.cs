@@ -47,7 +47,7 @@ namespace CustomEditorWindow.SheetDataToSO
 
         private void LoadData()
         {
-            ResetFolder();
+            //ResetFolder();
 
             UnityWebRequest www = UnityWebRequest.Get("https://docs.google.com/spreadsheets/d/" + _dataUrlKey[_dataTypeIndex] + SheetAPI);
             www.SendWebRequest();
@@ -88,15 +88,6 @@ namespace CustomEditorWindow.SheetDataToSO
 
                         for (int j = 0; j < data.Length; j++)
                         {
-                            // 0: Name
-                            // 1: Country
-                            // 2: Reload
-                            // 3: Turn
-                            // 4: FOV
-                            // 5: UseBullet
-                            // 6: ATKPW
-                            // 7: PENPW
-
                             TurretSO asset = ScriptableObject.CreateInstance<TurretSO>();
 
                             asset.ReloadTime = float.Parse(data[2]);
