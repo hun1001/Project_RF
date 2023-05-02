@@ -47,12 +47,13 @@ public class Bar : MonoBehaviour, IPoolReset
     public void PoolObjectReset()
     {
         _isSetting = false;
+        _valueImage.fillAmount = 1f;
     }
 
     public void ChangeValue(float value)
     {
         _currentValue += value;
-        if(_currentValue > _maxValue) _currentValue = _maxValue;
+        if (_currentValue > _maxValue) _currentValue = _maxValue;
         _valueImage.fillAmount = _currentValue / _maxValue;
 
         UpdateValueText();

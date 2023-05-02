@@ -22,6 +22,7 @@ public class TrainingTankManager : MonoBehaviour
     private List<GameObject> _tankList = new List<GameObject>();
 
     private Tank _tank = null;
+    private Bar _hpBar = null;
 
     private Tank _playerTank = null;
 
@@ -42,11 +43,16 @@ public class TrainingTankManager : MonoBehaviour
         if (_tank != null)
         {
             PoolManager.Pool(_tank.ID, _tank.gameObject);
+            PoolManager.Pool("EnemyBar", _hpBar.gameObject);
         }
 
         _tank = SpawnManager.Instance.SpawnUnit(_tankList[index].name, _tankTransform.position, _tankTransform.rotation, GroupType.Enemy);
+        _hpBar = PoolManager.Get<Bar>("EnemyBar", _tank.transform.position, Quaternion.identity, _tank.transform);
+        _hpBar.Setting(_tank.TankData.HP);
 
         _tank.GetComponent<Tank_Damage>().AddOnDamageAction(SetDebugText);
+        _tank.GetComponent<Tank_Damage>().AddOnDamageAction(_hpBar.ChangeValue);
+
         SetDebugText(0);
     }
 
