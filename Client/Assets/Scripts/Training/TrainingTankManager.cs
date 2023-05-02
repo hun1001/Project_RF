@@ -55,6 +55,7 @@ public class TrainingTankManager : MonoBehaviour
         _playerTank ??= FindObjectOfType<Player>().Tank;
         _debugTextString.Clear();
         _debugTextString.Append($"Attack Damage: {Mathf.Round(_playerTank.Turret.CurrentShell.ShellSO.Damage * Mathf.Pow(_playerTank.Turret.TurretData.AtkPower, 2) * 0.001f)}\n");
+        _debugTextString.Append($"Penetration: {Mathf.Round(_playerTank.Turret.TurretData.AtkPower * _playerTank.Turret.TurretData.PenetrationPower * _playerTank.Turret.CurrentShell.ShellSO.Penetration / 3000f)}\n");
         _debugTextString.Append($"Target Amour: {_tank.TankData.Armour}\n");
         _debugTextString.Append($"Result Damage: {-d}\n");
 
