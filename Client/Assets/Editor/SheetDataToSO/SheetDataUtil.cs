@@ -12,4 +12,11 @@ public static class SheetDataUtil
         "Destroyer" => TankType.Destroyer,
         _ => TankType.Medium,
     };
+
+    public static List<Shell> GetUseShell(string useShells)
+    {
+        List<Shell> shells = new List<Shell>();
+
+        return shells;
+    }
 }

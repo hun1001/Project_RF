@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Bullet/ShellSO")]
 public class ShellSO : ScriptableObject
 {
+    public string Code;
     public float Damage;
     public float Speed;
     public float Penetration;

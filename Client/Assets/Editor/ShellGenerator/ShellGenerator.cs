@@ -49,7 +49,7 @@ public class ShellGenerator : EditorWindow
     private void OnSelectionChange()
     {
         _selectedShellSOs = Selection.objects.OfType<ShellSO>().ToArray();
-        _selectedShellSprites = Selection.objects.OfType<Sprite>().ToArray();
+        _selectedShellSprites = Selection.objects.OfType<Texture2D>().Select(x => AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GetAssetPath(x))).ToArray();
     }
 
     private void OnGUI()
@@ -131,6 +131,7 @@ public class ShellGenerator : EditorWindow
             {
                 GenerateShell(i);
             }
+            ResetAllSettingData();
             AssetDatabase.SaveAssets();
         }
 
@@ -141,11 +142,10 @@ public class ShellGenerator : EditorWindow
     {
         GameObject shellTemplate = Instantiate(ShellTemplate, Vector3.zero, Quaternion.identity);
 
-        shellTemplate.name = _shellSOs[index].name;
-        // 만약 ShellSO의 이름에 포탄 이름 외 다른 추가적인 텍스트가 들어가 있으면 추가 작업 필요
+        shellTemplate.name = _shellSOs[index].name.Replace("_ShellSO", "");
 
         var shell = shellTemplate.GetComponent<Shell>();
-        shell.SetShellPrefabs(shellTemplate.name, _shellSOs[index], _shellSprites[index]);
+        shell.SetShellPrefabs(_shellSOs[index].Code, _shellSOs[index], _shellSprites[index]);
 
         _path.Clear();
         _path.Append("Assets/Prefabs/Shell/" + shellTemplate.name + ".prefab");
@@ -163,11 +163,17 @@ public class ShellGenerator : EditorWindow
 
         AddressableAssetEntry entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID(_path.ToString()), group);
 
-        entry.address = shellTemplate.name;
+        entry.address = shell.ShellSO.Code;
         entry.SetLabel("Shell", true);
 
         settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entry, true);
 
         DestroyImmediate(shellTemplate);
+    }
+
+    private void ResetAllSettingData()
+    {
+        _shellSOs = new ShellSO[0];
+        _shellSprites = new Sprite[0];
     }
 }
