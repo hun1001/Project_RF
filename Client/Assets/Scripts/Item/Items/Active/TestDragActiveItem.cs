@@ -13,6 +13,6 @@ public class TestDragActiveItem : Active_Item
 
     protected override void DragEvent()
     {
-        Debug.Log("Drag!" + GearManager.Instance.ControllerCanvas.ButtonGroup.Joysticks[0].Direction);
+        Debug.Log("Drag!" + GearManager.Instance.ControllerCanvas.ButtonGroup.Joysticks[_idx].Direction);
     }
 }

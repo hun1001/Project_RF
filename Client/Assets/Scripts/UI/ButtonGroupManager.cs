@@ -15,10 +15,11 @@ public class ButtonGroupManager : MonoBehaviour
 
     public void SetButton(int index, UnityAction action, bool interactable = true)
     {
-        //_joysticks[0].enabled = false;
+        _joysticks[index].enabled = false;
         _buttons[index].interactable = interactable;
 
         _buttons[index].onClick.RemoveAllListeners();
+        _joysticks[index].ClearOnPointerUpAction();
 
         _buttons[index].onClick.AddListener(action);
     }
@@ -26,10 +27,11 @@ public class ButtonGroupManager : MonoBehaviour
     public void SetDragButton(int index, Action action, bool interactable = true)
     {
         _buttons[index].enabled = false;
-        _joysticks[0].enabled = true;
+        _joysticks[index].enabled = true;
 
         _buttons[index].onClick.RemoveAllListeners();
+        _joysticks[index].ClearOnPointerUpAction();
 
-        _joysticks[0].AddOnPointerUpAction(action);
+        _joysticks[index].AddOnPointerUpAction(action);
     }
 }
