@@ -1,4 +1,5 @@
-﻿using Pool;
+﻿using Item;
+using Pool;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,11 +15,8 @@ public class Item_Machingun : Passive_Item
     private float _range = 40f;
     private int _layerMask = 0;
 
-    protected Transform _parent = null;
-
     public override void ItemEquip()
     {
-        _parent = transform.parent;
         SetPosAndRot();
 
         _currentMagazine = _maxMagazine;
@@ -31,7 +29,7 @@ public class Item_Machingun : Passive_Item
     /// <summary> 머신건의 로컬 좌표와 방향을 설정하는 함수 </summary>
     protected virtual void SetPosAndRot()
     {
-        transform.forward = transform.position - _parent.position;
+        transform.forward = transform.position - GearManager.Instance.Player.transform.position;
     }
 
     /// <summary> 머신건 발사 시작 코루틴 </summary>

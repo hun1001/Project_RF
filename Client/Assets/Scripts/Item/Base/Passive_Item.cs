@@ -13,9 +13,6 @@ public abstract class Passive_Item : Item.Item_Base
 
     protected virtual IEnumerator PersistentItem()
     {
-        while (true)
-        {
-            yield return null;
-        }
+        yield return null;
     }
 }
