@@ -2,22 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item_AutoHeal : Item.Item_Base
+public class Item_AutoHeal : Passive_Item
 {
     private float _currentHeal;
 
     private Tank_Damage _tankDamage;
     private WaitForSeconds _healDelay;
 
-    //protected override void CreateItem()
-    //{
-    //    transform.parent.TryGetComponent(out _tankDamage);
+    public override void ItemEquip()
+    {
+        transform.parent.TryGetComponent(out _tankDamage);
 
-    //    _healDelay = new WaitForSeconds(1f);
-    //    StartCoroutine(Heal());
-    //}
+        _healDelay = new WaitForSeconds(1f);
+        StartCoroutine(PersistentItem());
+    }
 
-    private IEnumerator Heal()
+    protected override IEnumerator PersistentItem()
     {
         while (true)
         {

@@ -23,7 +23,19 @@ namespace Item
         {
             foreach(var itemID in _passiveItemEquipmentData._itemEquipmentList)
             {
-                var item = PoolManager.Get<Item_Base>(itemID);
+                if(itemID != "")
+                {
+                    var item = PoolManager.Get<Passive_Item>(itemID);
+                    item.ItemEquip();
+                }
+            }
+
+            foreach(var itemID in _activeItemEquipmentData._itemEquipmentList)
+            {
+                if(itemID != "")
+                {
+
+                }
             }
         }
     }

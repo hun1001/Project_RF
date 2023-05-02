@@ -10,13 +10,5 @@ namespace Item
         [SerializeField]
         private ItemSO _itemSO;
         public ItemSO ItemSO { get { return _itemSO; } }
-
-        protected ItemType _itemType;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            _itemType = _itemSO.ItemType;
-        }
     }
 }

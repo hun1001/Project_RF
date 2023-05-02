@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item_Machingun : Item.Item_Base
+public class Item_Machingun : Passive_Item
 {
     protected float _currentDamage;
 
@@ -16,17 +16,17 @@ public class Item_Machingun : Item.Item_Base
 
     protected Transform _parent = null;
 
-    //protected override void CreateItem()
-    //{
-    //    _parent = transform.parent;
-    //    SetPosAndRot();
+    public override void ItemEquip()
+    {
+        _parent = transform.parent;
+        SetPosAndRot();
 
-    //    _currentMagazine = _maxMagazine;
-    //    _angle = 80f;
-    //    _range = 40f;
-    //    _layerMask = 1 << LayerMask.NameToLayer("Tank");
-    //    StartCoroutine(Shot());
-    //}
+        _currentMagazine = _maxMagazine;
+        _angle = 80f;
+        _range = 40f;
+        _layerMask = 1 << LayerMask.NameToLayer("Tank");
+        StartCoroutine(PersistentItem());
+    }
 
     /// <summary> 머신건의 로컬 좌표와 방향을 설정하는 함수 </summary>
     protected virtual void SetPosAndRot()
@@ -35,7 +35,7 @@ public class Item_Machingun : Item.Item_Base
     }
 
     /// <summary> 머신건 발사 시작 코루틴 </summary>
-    private IEnumerator Shot()
+    protected override IEnumerator PersistentItem()
     {
         WaitForSeconds reloadTime = new WaitForSeconds(4f);
         WaitForSeconds shotDelay = new WaitForSeconds(0.2f);
