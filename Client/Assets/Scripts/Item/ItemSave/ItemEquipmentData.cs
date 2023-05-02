@@ -6,8 +6,16 @@ public class ItemEquipmentData
 {
     public List<string> _itemEquipmentList;
 
-    public ItemEquipmentData()
+    public ItemEquipmentData(ItemType type)
     {
-        _itemEquipmentList = new List<string>(new string[3]);
+        switch (type)
+        {
+            case ItemType.Passive:
+                _itemEquipmentList = new List<string>(new string[3]);
+                break;
+            case ItemType.Active:
+                _itemEquipmentList = new List<string>(new string[2]);
+                break;
+        }
     }
 }

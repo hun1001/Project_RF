@@ -56,7 +56,7 @@ public static class ItemSaveManager
         ItemEquipmentData itemEquipmentData = null;
         if (_itemEquipmentDataDict.TryGetValue(itemType, out itemEquipmentData) == false)
         {
-            itemEquipmentData = new ItemEquipmentData();
+            itemEquipmentData = new ItemEquipmentData(itemType);
             _itemEquipmentDataDict.Add(itemType, itemEquipmentData);
         }
 
@@ -76,12 +76,7 @@ public static class ItemSaveManager
     {
         if (!_itemEquipmentDataDict.ContainsKey(itemType))
         {
-            _itemEquipmentDataDict.Add(itemType, new ItemEquipmentData());
-        }
-
-        while (_itemEquipmentDataDict[itemType]._itemEquipmentList.Count < 3)
-        {
-            _itemEquipmentDataDict[itemType]._itemEquipmentList.Add("");
+            _itemEquipmentDataDict.Add(itemType, new ItemEquipmentData(itemType));
         }
 
         _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;

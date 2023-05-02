@@ -15,4 +15,11 @@ public class ButtonGroupManager : MonoBehaviour
         _buttons[index].onClick.RemoveAllListeners();
         _buttons[index].onClick.AddListener(action);
     }
+
+    public void SetDragButton(int index, UnityAction<Vector2> action, bool interactable = true)
+    {
+        _buttons[index].interactable = interactable;
+        _buttons[index].onClick.RemoveAllListeners();
+        _buttons[index].onClick.AddListener(() => action(Vector2.zero));
+    }
 }

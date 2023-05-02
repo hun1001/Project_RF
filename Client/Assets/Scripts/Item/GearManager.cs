@@ -10,6 +10,10 @@ namespace Item
 {
     public class GearManager : MonoSingleton<GearManager>
     {
+        [SerializeField]
+        private ControllerCanvas _controllerCanvas;
+        public ControllerCanvas ControllerCanvas => _controllerCanvas;
+
         private ItemEquipmentData _passiveItemEquipmentData;
         private ItemEquipmentData _activeItemEquipmentData;
 
@@ -26,6 +30,7 @@ namespace Item
         {
             _player = GameObject.FindWithTag("Player");
 
+            // Passive
             foreach(var itemID in _passiveItemEquipmentData._itemEquipmentList)
             {
                 if(itemID != "")
@@ -35,11 +40,18 @@ namespace Item
                 }
             }
 
-            foreach(var itemID in _activeItemEquipmentData._itemEquipmentList)
+            // Active
+            foreach (var itemID in _activeItemEquipmentData._itemEquipmentList)
             {
-                if(itemID != "")
+                int idx = _activeItemEquipmentData._itemEquipmentList.IndexOf(itemID) + 1;
+                if (itemID != "")
                 {
-
+                    var item = PoolManager.Get<Active_Item>(itemID, _player.transform);
+                    item.ItemEquip(idx);
+                }
+                else
+                {
+                    _controllerCanvas.ButtonGroup.SetButton(idx, null, false);
                 }
             }
         }

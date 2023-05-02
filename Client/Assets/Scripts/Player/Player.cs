@@ -64,9 +64,6 @@ public class Player : CustomObject
             _controllerCanvas.ButtonGroup.SetButton(0, null, false);
         }
 
-        _controllerCanvas.ButtonGroup.SetButton(1, null, false);
-        _controllerCanvas.ButtonGroup.SetButton(2, null, false);
-
         int shellCnt = _tank.Turret.TurretData.Shells.Count;
 
         string[] shellName = new string[shellCnt];
