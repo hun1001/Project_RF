@@ -105,7 +105,7 @@ public class Player : CustomObject
 
         _tank.GetComponent<Tank_Move>(ComponentType.Move).AddOnCrashAction((a) =>
         {
-            _cameraManager.CameraShake(a * 0.4f, cameraCrashShakeFrequencyGain, cameraCrashShakeDuration);
+            _cameraManager.CameraShake(a * 0.3f, cameraCrashShakeFrequencyGain, cameraCrashShakeDuration);
         });
 
         _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() =>

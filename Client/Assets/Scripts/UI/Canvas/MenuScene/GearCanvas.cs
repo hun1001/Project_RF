@@ -38,9 +38,9 @@ public class GearCanvas : BaseCanvas
 
     [Space(20f)]
     [SerializeField]
-    private Image _shellImage;
+    private Image[] _shellImages;
     [SerializeField]
-    private Toggle _shellToggle;
+    private Toggle[] _shellToggles;
 
     private ItemEquipmentData _passiveItemEquipmentDataDict;
     private ItemEquipmentData _activeItemEquipmentDataDict;
@@ -115,15 +115,15 @@ public class GearCanvas : BaseCanvas
         _activeSlotIdx = idx;
     }
 
-    public void OnShellInventory()
+    public void OnShellInventory(int idx)
     {
         _inventoryTransform.DOAnchorPosY(0f, 0.7f);
-        _shellToggle.isOn = true;
+        _shellToggles[idx].isOn = true;
     }
 
     public void CloseInvetory()
     {
-        foreach(var toggle in _passiveItemToggles)
+        foreach (var toggle in _passiveItemToggles)
         {
             toggle.isOn = false;
         }
@@ -131,7 +131,10 @@ public class GearCanvas : BaseCanvas
         {
             toggle.isOn = false;
         }
-        _shellToggle.isOn = false;
+        foreach (var toggle in _shellToggles)
+        {
+            toggle.isOn = false;
+        }
 
         _inventoryTransform.DOAnchorPosY(-_inventoryTransform.sizeDelta.y, 0.7f);
     }
