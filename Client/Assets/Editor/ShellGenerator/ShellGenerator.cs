@@ -42,7 +42,7 @@ public class ShellGenerator : EditorWindow
         GUILayout.BeginVertical();
 
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Tank Model");
+        GUILayout.Label("Shell SO");
         GUILayout.FlexibleSpace();
         GUILayout.Label(_shellSOs.Length.ToString());
         GUILayout.EndHorizontal();
@@ -72,7 +72,7 @@ public class ShellGenerator : EditorWindow
         GUILayout.BeginVertical();
 
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Tank SO");
+        GUILayout.Label("Shell Sprite");
         GUILayout.FlexibleSpace();
         GUILayout.Label(_shellSprites.Length.ToString());
         GUILayout.EndHorizontal();
