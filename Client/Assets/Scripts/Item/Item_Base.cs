@@ -11,7 +11,7 @@ namespace Item
         private ItemSO _itemSO;
         public ItemSO ItemSO { get { return _itemSO; } }
 
-        private ItemType _itemType;
+        protected ItemType _itemType;
 
         protected override void Awake()
         {

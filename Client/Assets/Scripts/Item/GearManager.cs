@@ -18,5 +18,13 @@ namespace Item
             _passiveItemEquipmentData = ItemSaveManager.GetItemEquipment(ItemType.Passive);
             _activeItemEquipmentData = ItemSaveManager.GetItemEquipment(ItemType.Active);
         }
+
+        private void Start()
+        {
+            foreach(var itemID in _passiveItemEquipmentData._itemEquipmentList)
+            {
+                var item = PoolManager.Get<Item_Base>(itemID);
+            }
+        }
     }
 }
