@@ -82,33 +82,42 @@ namespace CustomEditorWindow.SheetDataToSO
                     }
                     break;
                 case "Turret":
-                    for (int i = 1; i < lines.Length; i++)
+                    Debug.Log(result);
+                    // for (int i = 1; i < lines.Length; i++)
+                    // {
+                    //     string[] data = lines[i].Split('\t');
+
+                    //     for (int j = 0; j < data.Length; j++)
+                    //     {
+                    //         TurretSO asset = ScriptableObject.CreateInstance<TurretSO>();
+
+                    //         asset.ReloadTime = float.Parse(data[2]);
+                    //         asset.RotationSpeed = float.Parse(data[3]);
+                    //         asset.FOV = float.Parse(data[4]);
+                    //         asset.Shells = new List<Shell>();
+                    //         asset.Shells.Add(Pool.PoolManager.Load<Shell>("APHE"));
+                    //         asset.AtkPower = float.Parse(data[6]);
+                    //         asset.PenetrationPower = float.Parse(data[7]);
+
+                    //         if (AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Turret/" + data[1].ToString()) == false)
+                    //         {
+                    //             AssetDatabase.CreateFolder("Assets/ScriptableObjects/Turret", data[1].ToString());
+                    //         }
+
+                    //         AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Turret/" + data[1].ToString() + "/" + data[0].ToString() + "_TurretSO.asset");
+                    //     }
+                    // }
+                    break;
+                case "Shell":
+                    for (int i = 1; i < lines.Length; ++i)
                     {
                         string[] data = lines[i].Split('\t');
 
-                        for (int j = 0; j < data.Length; j++)
+                        for (int j = 0; j < data.Length; ++j)
                         {
-                            TurretSO asset = ScriptableObject.CreateInstance<TurretSO>();
-
-                            asset.ReloadTime = float.Parse(data[2]);
-                            asset.RotationSpeed = float.Parse(data[3]);
-                            asset.FOV = float.Parse(data[4]);
-                            asset.Shells = new List<Shell>();
-                            asset.Shells.Add(Pool.PoolManager.Load<Shell>("APHE"));
-                            asset.AtkPower = float.Parse(data[6]);
-                            asset.PenetrationPower = float.Parse(data[7]);
-
-                            if (AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Turret/" + data[1].ToString()) == false)
-                            {
-                                AssetDatabase.CreateFolder("Assets/ScriptableObjects/Turret", data[1].ToString());
-                            }
-
-                            AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Turret/" + data[1].ToString() + "/" + data[0].ToString() + "_TurretSO.asset");
+                            ShellSO asset = ScriptableObject.CreateInstance<ShellSO>();
                         }
                     }
-                    break;
-                case "Shell":
-                    Debug.Log(result);
                     break;
                 default:
                     break;
