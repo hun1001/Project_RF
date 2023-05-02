@@ -21,11 +21,13 @@ namespace Item
 
         private void Start()
         {
+            GameObject parent = GameObject.FindWithTag("Player");
+
             foreach(var itemID in _passiveItemEquipmentData._itemEquipmentList)
             {
                 if(itemID != "")
                 {
-                    var item = PoolManager.Get<Passive_Item>(itemID);
+                    var item = PoolManager.Get<Passive_Item>(itemID, parent.transform);
                     item.ItemEquip();
                 }
             }
