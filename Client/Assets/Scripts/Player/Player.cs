@@ -74,7 +74,7 @@ public class Player : CustomObject
         {
             int index = i;
             shellName[index] = _tank.Turret.TurretData.Shells[index].ID;
-            shellSprite[index] = _tank.Turret.TurretData.Shells[index].ShellSO.ShellSprite;
+            shellSprite[index] = _tank.Turret.TurretData.Shells[index].ShellSprite;
             shellAction[index] = (_isOn) =>
             {
                 if (_isOn)

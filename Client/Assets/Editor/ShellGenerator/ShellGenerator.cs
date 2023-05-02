@@ -1,6 +1,12 @@
+using System.IO;
+using System.Text;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Settings;
 
 public class ShellGenerator : EditorWindow
 {
@@ -14,6 +20,8 @@ public class ShellGenerator : EditorWindow
 
     private static GameObject ShellTemplate = null;
 
+    private StringBuilder _path = null;
+
     [MenuItem("Tools/ShellGenerator")]
     static void Init()
     {
@@ -25,6 +33,17 @@ public class ShellGenerator : EditorWindow
     {
         _shellSOs = new ShellSO[0];
         _shellSprites = new Sprite[0];
+        _path = new StringBuilder();
+
+        if (ShellTemplate == null)
+        {
+            var handle = Addressables.LoadAssetAsync<GameObject>("ShellTemplate");
+
+            handle.Completed += (AsyncOperationHandle<GameObject> obj) =>
+            {
+                ShellTemplate = obj.Result;
+            };
+        }
     }
 
     private void OnSelectionChange()
@@ -108,9 +127,47 @@ public class ShellGenerator : EditorWindow
         GUI.enabled = _shellSOs != null && _shellSprites != null && ShellTemplate != null && _shellSOs.Length == _shellSprites.Length;
         if (GUILayout.Button("Generate"))
         {
-
+            for (int i = 0; i < _shellSOs.Length; i++)
+            {
+                GenerateShell(i);
+            }
+            AssetDatabase.SaveAssets();
         }
 
         GUI.enabled = true;
+    }
+
+    private void GenerateShell(int index)
+    {
+        GameObject shellTemplate = Instantiate(ShellTemplate, Vector3.zero, Quaternion.identity);
+
+        shellTemplate.name = _shellSOs[index].name;
+        // 만약 ShellSO의 이름에 포탄 이름 외 다른 추가적인 텍스트가 들어가 있으면 추가 작업 필요
+
+        var shell = shellTemplate.GetComponent<Shell>();
+        shell.SetShellPrefabs(shellTemplate.name, _shellSOs[index], _shellSprites[index]);
+
+        _path.Clear();
+        _path.Append("Assets/Prefabs/Shell/" + shellTemplate.name + ".prefab");
+
+        if (File.Exists(_path.ToString()))
+        {
+            File.Delete(_path.ToString());
+        }
+
+        PrefabUtility.SaveAsPrefabAsset(shellTemplate, _path.ToString());
+
+        AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+
+        var group = settings.FindGroup("ShellGroup");
+
+        AddressableAssetEntry entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID(_path.ToString()), group);
+
+        entry.address = shellTemplate.name;
+        entry.SetLabel("Shell", true);
+
+        settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entry, true);
+
+        DestroyImmediate(shellTemplate);
     }
 }

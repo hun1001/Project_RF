@@ -8,6 +8,10 @@ public class Shell : CustomObject, IPoolReset
     private ShellSO _shellSO = null;
     public ShellSO ShellSO => _shellSO;
 
+    [SerializeField]
+    private Sprite _shellSprite = null;
+    public Sprite ShellSprite => _shellSprite;
+
     private CustomObject _owner = null;
     public CustomObject Owner => _owner;
 
@@ -22,6 +26,13 @@ public class Shell : CustomObject, IPoolReset
 
     private float _penetration = 0;
     public float Penetration => _penetration;
+
+    public void SetShellPrefabs(string id, ShellSO shellSO, Sprite shellSprite)
+    {
+        ID = id;
+        _shellSO = shellSO;
+        _shellSprite = shellSprite;
+    }
 
     public void SetShell(CustomObject owner)
     {
