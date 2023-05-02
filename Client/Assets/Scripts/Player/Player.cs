@@ -75,14 +75,13 @@ public class Player : CustomObject
 
         for (int i = 0; i < shellCnt; i++)
         {
-            int index = i;
-            shellName[index] = _tank.Turret.TurretData.Shells[index].ID;
-            shellSprite[index] = _tank.Turret.TurretData.Shells[index].ShellSO.ShellSprite;
-            shellAction[index] = (_isOn) =>
+            shellName[i] = _tank.Turret.TurretData.Shells[i].ID;
+            shellSprite[i] = _tank.Turret.TurretData.Shells[i].ShellSO.ShellSprite;
+            shellAction[i] = (_isOn) =>
             {
                 if (_isOn)
                 {
-                    _tank.Turret.CurrentShell = _tank.Turret.TurretData.Shells[index];
+                    _tank.Turret.CurrentShell = _tank.Turret.TurretData.Shells[i];
                 }
                 else
                 {
