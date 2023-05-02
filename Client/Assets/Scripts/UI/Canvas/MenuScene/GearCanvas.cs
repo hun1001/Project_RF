@@ -181,7 +181,7 @@ public class GearCanvas : BaseCanvas
         {
             if (item.Key.ItemSO.ItemType == ItemType.Active)
             {
-                if (_passiveItemEquipmentDataDict._itemEquipmentList.Contains(item.Key.ID)) continue;
+                if (_activeItemEquipmentDataDict._itemEquipmentList.Contains(item.Key.ID)) continue;
                 item.Value.SetActive(true);
             }
             else if (item.Key.ItemSO.ItemType != ItemType.Active)
