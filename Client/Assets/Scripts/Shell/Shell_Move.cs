@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class Shell_Move : Shell_Component
 {
+    private Rigidbody2D _rigidbody = null;
+
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
     void Update()
     {
-        transform.Translate(Vector3.up * Time.deltaTime * (Instance as Shell).Speed);
+        _rigidbody.velocity = transform.up * (Instance as Shell).Speed;
     }
 }
