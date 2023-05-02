@@ -44,8 +44,10 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     private Action _onPointerDownAction = null;
     public void AddOnPointerDownAction(Action action) => _onPointerDownAction += action;
+    public void ClearOnPointerDownAction() => _onPointerDownAction = null;
     private Action _onPointerUpAction = null;
     public void AddOnPointerUpAction(Action action) => _onPointerUpAction += action;
+    public void ClearOnPointerUpAction() => _onPointerUpAction = null;
 
     protected virtual void Start()
     {

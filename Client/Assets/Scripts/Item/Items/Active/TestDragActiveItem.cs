@@ -12,6 +12,6 @@ public class TestDragActiveItem : Active_Item
 
     protected override void DragEvent(Vector2 pos)
     {
-        Debug.Log("Drag!");
+        Debug.Log("Drag!" + pos.ToString());
     }
 }
