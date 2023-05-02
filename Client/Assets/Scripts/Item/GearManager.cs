@@ -13,6 +13,9 @@ namespace Item
         private ItemEquipmentData _passiveItemEquipmentData;
         private ItemEquipmentData _activeItemEquipmentData;
 
+        private GameObject _player;
+        public GameObject Player => _player;
+
         private void Awake()
         {
             _passiveItemEquipmentData = ItemSaveManager.GetItemEquipment(ItemType.Passive);
@@ -21,13 +24,13 @@ namespace Item
 
         private void Start()
         {
-            GameObject parent = GameObject.FindWithTag("Player");
+            _player = GameObject.FindWithTag("Player");
 
             foreach(var itemID in _passiveItemEquipmentData._itemEquipmentList)
             {
                 if(itemID != "")
                 {
-                    var item = PoolManager.Get<Passive_Item>(itemID, parent.transform);
+                    var item = PoolManager.Get<Passive_Item>(itemID, _player.transform);
                     item.ItemEquip();
                 }
             }

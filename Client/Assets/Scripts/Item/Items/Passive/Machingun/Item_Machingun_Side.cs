@@ -8,7 +8,7 @@ public class Item_Machingun_Side : Item_Machingun
 {
     private static int _sideMachingun = 1;
 
-    //private Item_Base _otherSideMachingun = null;
+    private Passive_Item _otherSideMachingun = null;
 
     protected override void SetPosAndRot()
     {
@@ -18,10 +18,9 @@ public class Item_Machingun_Side : Item_Machingun
             _sideMachingun++;
             transform.localPosition = new Vector3(3f, 0f, -2f);
 
-            //_otherSideMachingun = PoolManager.Get<Item_Base>("Side_Machingun", ItemManager.Instance.PlayerTank);
-            //ItemManager.Instance.HaveItemList.Add(_otherSideMachingun, 0);
+            _otherSideMachingun = PoolManager.Get<Passive_Item>("Side_Machingun", GearManager.Instance.Player);
 
-            //_otherSideMachingun.AddItem();
+            _otherSideMachingun.ItemEquip();
         }
         // Left
         else
