@@ -31,12 +31,26 @@ public class Tank_Damage : Tank_Component
 
     public void Damaged(float damage, float penetration, Vector3 hitPos)
     {
-        damage = damage - ((1 - (_amour / penetration)) * damage);
+        float decreaseDamage = (penetration * UnityEngine.Random.Range(0.9f, 1.1f)) / _amour;
 
-        if (damage < 1)
+        float sumDamage;
+
+        if (decreaseDamage < 1)
+        {
+            sumDamage = (damage * UnityEngine.Random.Range(0.9f, 1.1f)) * decreaseDamage;
+
+            if (sumDamage < damage)
+            {
+                damage = sumDamage;
+            }
+        }
+
+        if (damage <= 0)
         {
             damage = 1;
         }
+
+        damage = Mathf.Round(damage);
 
         PopupText text = PoolManager.Get<PopupText>("PopupDamage", hitPos + Vector3.back * 5, Quaternion.identity);
 
