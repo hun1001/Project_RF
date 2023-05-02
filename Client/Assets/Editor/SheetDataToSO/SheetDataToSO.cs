@@ -82,7 +82,6 @@ namespace CustomEditorWindow.SheetDataToSO
                     }
                     break;
                 case "Turret":
-                    Debug.Log(result);
                     for (int i = 1; i < lines.Length; i++)
                     {
                         string[] data = lines[i].Split('\t');

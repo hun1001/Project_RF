@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using Addressable;
 using UnityEngine;
 
 public static class SheetDataUtil
@@ -16,6 +16,14 @@ public static class SheetDataUtil
     public static List<Shell> GetUseShell(string useShells)
     {
         List<Shell> shells = new List<Shell>();
+
+        string[] shellIds = useShells.Split('/');
+
+        for (int i = 0; i < shellIds.Length; ++i)
+        {
+            Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellIds[i]).GetComponent<Shell>();
+            shells.Add(shell);
+        }
 
         return shells;
     }
