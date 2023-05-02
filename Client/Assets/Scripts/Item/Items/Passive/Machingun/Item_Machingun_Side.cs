@@ -18,7 +18,7 @@ public class Item_Machingun_Side : Item_Machingun
             _sideMachingun++;
             transform.localPosition = new Vector3(3f, 0f, -2f);
 
-            _otherSideMachingun = PoolManager.Get<Passive_Item>("Side_Machingun", GearManager.Instance.Player);
+            _otherSideMachingun = PoolManager.Get<Passive_Item>(ID, GearManager.Instance.Player);
 
             _otherSideMachingun.ItemEquip();
         }
