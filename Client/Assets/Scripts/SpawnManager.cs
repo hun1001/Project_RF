@@ -12,7 +12,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
 
         var minimapIcon = PoolManager.Get<MinimapIcon>("Assets/Prefabs/MinimapIcon.prefab", spawnedUnit.transform);
         minimapIcon.transform.localPosition = new Vector3(0, 0, -15);
-        minimapIcon.SetIconColor(GroupManager.Instance.GroupColorList[(int)groupType]);
+        minimapIcon.SetIconColor(groupType);
 
         return spawnedUnit;
     }

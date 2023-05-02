@@ -16,7 +16,7 @@ public class TankAI : MonoBehaviour
 
     private void Start()
     {
-        _tank = PoolManager.Get<Tank>("T-44", transform.position, transform.rotation).SetTank(GroupType.Enemy);
+        _tank = SpawnManager.Instance.SpawnUnit("T-44", transform.position, transform.rotation, GroupType.Enemy);
         _hpBar = PoolManager.Get<Bar>("EnemyBar", _tank.transform.position, Quaternion.identity, _tank.transform);
         _hpBar.Setting(_tank.TankData.HP);
 

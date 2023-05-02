@@ -1,3 +1,4 @@
+using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,11 @@ public class TrainingTankManager : MonoBehaviour
 
     [SerializeField]
     private Dropdown _tankDropdown = null;
+
+    [SerializeField]
+    private Text _debugText = null;
+
+    private StringBuilder _debugTextString = new StringBuilder();
 
     private List<GameObject> _tankList = new List<GameObject>();
 
@@ -37,5 +43,19 @@ public class TrainingTankManager : MonoBehaviour
         }
 
         _tank = SpawnManager.Instance.SpawnUnit(_tankList[index].name, _tankTransform.position, _tankTransform.rotation, GroupType.Enemy);
+
+        _tank.GetComponent<Tank_Damage>().AddOnDamageAction(SetDebugText);
+        SetDebugText(0);
+    }
+
+    private void SetDebugText(float d)
+    {
+        _debugTextString.Clear();
+        _debugTextString.Append($"Attack Damage: {FindObjectOfType<Player>().Tank.Turret.TurretData.AtkPower}\n");
+        _debugTextString.Append($"Target Amour: {_tank.TankData.Armour}\n");
+        _debugTextString.Append($"Result Damage: {-d}\n");
+
+        _debugText.text = _debugTextString.ToString();
     }
 }
+
