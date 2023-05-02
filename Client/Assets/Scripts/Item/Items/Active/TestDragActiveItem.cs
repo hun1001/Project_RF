@@ -7,11 +7,12 @@ public class TestDragActiveItem : Active_Item
 {
     public override void ItemEquip(int idx)
     {
-        GearManager.Instance.ControllerCanvas.ButtonGroup.SetDragButton(idx, DragEvent, true);
+        _idx = idx;
+        GearManager.Instance.ControllerCanvas.ButtonGroup.SetDragButton(idx, () => DragEvent(), true);
     }
 
-    protected override void DragEvent(Vector2 pos)
+    protected override void DragEvent()
     {
-        Debug.Log("Drag!" + pos.ToString());
+        Debug.Log("Drag!" + GearManager.Instance.ControllerCanvas.ButtonGroup.Joysticks[0].Direction);
     }
 }

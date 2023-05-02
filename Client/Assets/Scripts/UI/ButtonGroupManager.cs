@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,26 +11,25 @@ public class ButtonGroupManager : MonoBehaviour
     private List<Button> _buttons = null;
     [SerializeField]
     private List<FloatingJoystick> _joysticks = null;
+    public List<FloatingJoystick> Joysticks => _joysticks;
 
     public void SetButton(int index, UnityAction action, bool interactable = true)
     {
-        _joysticks[0].enabled = false;
+        //_joysticks[0].enabled = false;
         _buttons[index].interactable = interactable;
 
         _buttons[index].onClick.RemoveAllListeners();
-        _joysticks[0].ClearOnPointerUpAction();
 
         _buttons[index].onClick.AddListener(action);
     }
 
-    public void SetDragButton(int index, UnityAction<Vector2> action, bool interactable = true)
+    public void SetDragButton(int index, Action action, bool interactable = true)
     {
         _buttons[index].enabled = false;
         _joysticks[0].enabled = true;
 
         _buttons[index].onClick.RemoveAllListeners();
-        _joysticks[0].ClearOnPointerUpAction();
 
-        _joysticks[0].AddOnPointerUpAction(() => action(_joysticks[0].Direction));
+        _joysticks[0].AddOnPointerUpAction(action);
     }
 }
