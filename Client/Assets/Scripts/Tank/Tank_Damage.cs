@@ -48,7 +48,7 @@ public class Tank_Damage : Tank_Component
 
         text.DoMoveText();
 
-        damage *= -1;
+        sumDamage *= -1;
 
         _currentHealth += sumDamage;
         _onDamageAction?.Invoke(sumDamage);
