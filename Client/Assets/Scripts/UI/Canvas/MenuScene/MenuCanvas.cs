@@ -109,8 +109,12 @@ public class MenuCanvas : BaseCanvas
 
     public void OnServerGameStart()
     {
-        OnStartButton();
-        ServerManager.Instance.ConnectToServer();
+        // OnStartButton();
+        // ServerManager.Instance.ConnectToServer();
+
+        Time.timeScale = 1;
+        SceneManager.LoadScene("TrainingScene");
+        Pool.PoolManager.DeleteAllPool();
     }
 
     public void OnModeButton()
