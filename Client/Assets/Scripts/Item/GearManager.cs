@@ -40,10 +40,10 @@ namespace Item
                 }
             }
 
+            int idx = 1;
             // Active
             foreach (var itemID in _activeItemEquipmentData._itemEquipmentList)
             {
-                int idx = _activeItemEquipmentData._itemEquipmentList.IndexOf(itemID) + 1;
                 if (itemID != "")
                 {
                     var item = PoolManager.Get<Active_Item>(itemID, _player.transform);
@@ -53,6 +53,7 @@ namespace Item
                 {
                     _controllerCanvas.ButtonGroup.SetButton(idx, null, false);
                 }
+                idx++;
             }
         }
     }
