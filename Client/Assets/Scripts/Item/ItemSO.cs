@@ -7,9 +7,6 @@ namespace Item
     [CreateAssetMenu(menuName = "SO/Item/ItemSO")]
     public class ItemSO : ScriptableObject
     {
-        /// <summary> 해당 아이템의 ID </summary>
-        public string ID;
-
         /// <summary> 해당 아이템의 이름 </summary>
         public string Name;
 
@@ -18,9 +15,6 @@ namespace Item
 
         /// <summary> 해당 아이템을 사기 위해 필요한 재화량 </summary>
         public int NecessaryGoods;
-
-        /// <summary> 강화 최대치 </summary>
-        public int UpgradeMax;
 
         /// <summary> 아이템 타입 </summary>
         public ItemType ItemType;

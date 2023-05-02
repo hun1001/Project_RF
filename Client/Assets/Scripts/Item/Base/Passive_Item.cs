@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Passive_Item : Item.Item_Base
+public class Passive_Item : Item.Item_Base
 {
-    public abstract void ItemEquip();
+    public override void ItemEquip()
+    {
+    }
 
     protected virtual void AddEvent()
     {
