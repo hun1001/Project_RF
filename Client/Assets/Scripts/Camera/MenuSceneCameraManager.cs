@@ -47,35 +47,22 @@ public class MenuSceneCameraManager : MonoBehaviour
             _menuCanvas.CameraUIHide(true);
         }
 
-#if UNITY_EDITOR
-        if (Input.mouseScrollDelta.y > 0 && _isOnUI == false)
-        {
-            _cam.m_Lens.FieldOfView -= 1f;
-            _cam.m_Lens.FieldOfView = Mathf.Clamp(_cam.m_Lens.FieldOfView, 20f, 60f);
-        }
-        if (Input.mouseScrollDelta.y < 0 && _isOnUI == false)
-        {
-            _cam.m_Lens.FieldOfView += 1f;
-            _cam.m_Lens.FieldOfView = Mathf.Clamp(_cam.m_Lens.FieldOfView, 20f, 60f);
-        }
-#else
-        if (Input.touchCount == 2 && _isOnUI == false)
+        if (Input.touchCount == 2)
         {
             Touch touchZero = Input.GetTouch(0);
             Touch touchOne = Input.GetTouch(1);
 
+            // 터치 이동 거리 계산
             Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
             Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+            float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+            float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+            float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
-            float prevMagnitude = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-            float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
-
-            float difference = prevMagnitude - currentMagnitude;
-
-            Camera.main.fieldOfView += difference * 0.1f;
-
-            Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView, 20f, 60f);
+            // FOV 값 조정
+            _cam.m_Lens.FieldOfView += deltaMagnitudeDiff * 1 * Time.deltaTime;
+            _cam.m_Lens.FieldOfView = Mathf.Clamp(_cam.m_Lens.FieldOfView, 15, 40);
         }
-#endif
+
     }
 }
