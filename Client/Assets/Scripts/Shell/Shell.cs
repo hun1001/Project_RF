@@ -21,10 +21,10 @@ public class Shell : CustomObject, IPoolReset
     public float Damage => _damage;
     public float Penetration => _shellSO.Penetration;
 
-    public void SetShell(CustomObject owner, float turretDamage)
+    public void SetShell(CustomObject owner)
     {
         _owner = owner;
-        _damage = _shellSO.Damage;
+        _damage = Mathf.Round(_shellSO.Damage * (Mathf.Pow((owner as Tank).Turret.TurretData.AtkPower, 2) * 0.001f));
     }
 
     public void PoolObjectReset()

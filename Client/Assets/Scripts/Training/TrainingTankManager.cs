@@ -23,6 +23,8 @@ public class TrainingTankManager : MonoBehaviour
 
     private Tank _tank = null;
 
+    private Tank _playerTank = null;
+
     private void Awake()
     {
         _tankList = AddressablesManager.Instance.GetLabelResources<GameObject>("Tank").ToList();
@@ -50,8 +52,9 @@ public class TrainingTankManager : MonoBehaviour
 
     private void SetDebugText(float d)
     {
+        _playerTank ??= FindObjectOfType<Player>().Tank;
         _debugTextString.Clear();
-        _debugTextString.Append($"Attack Damage: {FindObjectOfType<Player>().Tank.Turret.TurretData.AtkPower}\n");
+        _debugTextString.Append($"Attack Damage: {Mathf.Round(_playerTank.Turret.CurrentShell.ShellSO.Damage * Mathf.Pow(_playerTank.Turret.TurretData.AtkPower, 2) * 0.001f)}\n");
         _debugTextString.Append($"Target Amour: {_tank.TankData.Armour}\n");
         _debugTextString.Append($"Result Damage: {-d}\n");
 
