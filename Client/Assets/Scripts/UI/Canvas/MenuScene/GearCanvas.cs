@@ -65,18 +65,6 @@ public class GearCanvas : BaseCanvas
         AddItems();
     }
 
-    private void Start()
-    {
-        _startSequence = DOTween.Sequence()
-        .SetAutoKill(false)
-        .Prepend(_topPanel.DOAnchorPosY(_topPanel.sizeDelta.y, 0f))
-        .Join(_leftPanel.DOAnchorPosX(-_leftPanel.sizeDelta.x, 0f))
-        .Join(_rightPanel.DOAnchorPosX(_rightPanel.sizeDelta.x, 0f))
-        .Append(_topPanel.DOAnchorPosY(0f, 0.7f))
-        .Insert(0.3f, _leftPanel.DOAnchorPosX(0f, 0.5f))
-        .Join(_rightPanel.DOAnchorPosX(0f, 0.5f));
-    }
-
     public void OnPassiveInventory(int idx)
     {
         foreach(var item in _itemDictionary)
@@ -141,7 +129,14 @@ public class GearCanvas : BaseCanvas
 
     public override void OnOpenEvents()
     {
-        base.OnOpenEvents();
+        _startSequence = DOTween.Sequence()
+        .Prepend(_topPanel.DOAnchorPosY(_topPanel.sizeDelta.y, 0f))
+        .Join(_leftPanel.DOAnchorPosX(-_leftPanel.sizeDelta.x, 0f))
+        .Join(_rightPanel.DOAnchorPosX(_rightPanel.sizeDelta.x, 0f))
+        .Append(_topPanel.DOAnchorPosY(0f, 0.7f))
+        .Insert(0.3f, _leftPanel.DOAnchorPosX(0f, 0.5f))
+        .Join(_rightPanel.DOAnchorPosX(0f, 0.5f));
+
         AddItems();
     }
 

@@ -238,11 +238,10 @@ public class TechTreeCanvas : BaseCanvas
         _countryToggleGroupManager.transform.GetChild(1).GetComponent<Toggle>().isOn = true;
     }
 
-    private void Start()
+    public override void OnOpenEvents()
     {
         int idx = 1;
         _startSequence = DOTween.Sequence()
-        .SetAutoKill(false)
         .PrependCallback(() =>
         {
             _techTreeScrollView.anchoredPosition = Vector2.right * 1000f;

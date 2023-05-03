@@ -169,9 +169,11 @@ public class ShopCanvas : BaseCanvas
     private void Start()
     {
         _scrollRect.normalizedPosition = Vector2.zero;
+    }
 
+    public override void OnOpenEvents()
+    {
         _startSequence = DOTween.Sequence()
-        .SetAutoKill(false)
         .PrependCallback(() =>
         {
             _scrollRect.onValueChanged.RemoveAllListeners();

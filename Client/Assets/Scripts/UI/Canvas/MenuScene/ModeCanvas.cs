@@ -25,13 +25,12 @@ public class ModeCanvas : BaseCanvas
         _modeImages = _modesFrame.GetComponentsInChildren<Image>();
     }
 
-    private void Start()
+    public override void OnOpenEvents()
     {
         _startSequence = DOTween.Sequence()
-        .SetAutoKill(false)
         .PrependCallback(() =>
         {
-            foreach(Image image in _modeImages)
+            foreach (Image image in _modeImages)
             {
                 image.DOFade(0f, 0f);
             }
@@ -39,8 +38,8 @@ public class ModeCanvas : BaseCanvas
         .Prepend(_modesFrame.DOAnchorPosX(-200f, 0f))
         .Append(_modesFrame.DOAnchorPosX(48f, 0.5f))
         .InsertCallback(0.25f, () =>
-        { 
-            foreach(Image image in _modeImages)
+        {
+            foreach (Image image in _modeImages)
             {
                 image.DOFade(1f, 0.5f);
             }

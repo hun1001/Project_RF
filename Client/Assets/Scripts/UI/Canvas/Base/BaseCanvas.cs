@@ -61,11 +61,5 @@ public abstract class BaseCanvas : MonoBehaviour
 
     public virtual void OnOpenEvents()
     {
-        _startSequence?.Restart();
-    }
-
-    private void OnDisable()
-    {
-        _startSequence.Kill();
     }
 }

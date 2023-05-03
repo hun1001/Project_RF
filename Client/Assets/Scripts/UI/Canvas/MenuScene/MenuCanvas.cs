@@ -69,9 +69,13 @@ public class MenuCanvas : BaseCanvas
     private void Start()
     {
         _isHide = true;
+    }
+
+    public override void OnOpenEvents()
+    {
+        _isHide = true;
 
         _startSequence = DOTween.Sequence()
-        .SetAutoKill(false)
         .AppendCallback(() =>
         {
             if (_isHide == false)
@@ -92,12 +96,6 @@ public class MenuCanvas : BaseCanvas
                 _showButton.DOAnchorPosY(0f, 0.25f);
             }
         });
-    }
-
-    public override void OnOpenEvents()
-    {
-        _isHide = true;
-        base.OnOpenEvents();
     }
 
     public void OnStartButton()
@@ -156,13 +154,55 @@ public class MenuCanvas : BaseCanvas
     {
         _isCameraMove = false;
         _isHide = isHide;
-        _startSequence.Restart();
+
+        _startSequence = DOTween.Sequence()
+        .AppendCallback(() =>
+        {
+            if (_isHide == false)
+            {
+                _topFrame.DOAnchorPosY(32f, 0.25f);
+                _bottomFrame.DOAnchorPosY(-55f, 0.25f);
+                _leftFrame.DOAnchorPosX(-52f, 0.25f);
+                if (_isCameraMove == false)
+                {
+                    _showButton.DOAnchorPosY(-_showButton.sizeDelta.y, 0.25f);
+                }
+            }
+            else
+            {
+                _topFrame.DOAnchorPosY(0f, 0.25f);
+                _bottomFrame.DOAnchorPosY(0f, 0.25f);
+                _leftFrame.DOAnchorPosX(0f, 0.25f);
+                _showButton.DOAnchorPosY(0f, 0.25f);
+            }
+        });
     }
 
     public void CameraUIHide(bool isHide)
     {
         _isCameraMove = true;
         _isHide = isHide;
-        _startSequence.Restart();
+
+        _startSequence = DOTween.Sequence()
+        .AppendCallback(() =>
+        {
+            if (_isHide == false)
+            {
+                _topFrame.DOAnchorPosY(32f, 0.25f);
+                _bottomFrame.DOAnchorPosY(-55f, 0.25f);
+                _leftFrame.DOAnchorPosX(-52f, 0.25f);
+                if (_isCameraMove == false)
+                {
+                    _showButton.DOAnchorPosY(-_showButton.sizeDelta.y, 0.25f);
+                }
+            }
+            else
+            {
+                _topFrame.DOAnchorPosY(0f, 0.25f);
+                _bottomFrame.DOAnchorPosY(0f, 0.25f);
+                _leftFrame.DOAnchorPosX(0f, 0.25f);
+                _showButton.DOAnchorPosY(0f, 0.25f);
+            }
+        });
     }
 }

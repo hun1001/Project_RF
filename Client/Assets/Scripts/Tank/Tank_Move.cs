@@ -12,6 +12,7 @@ public class Tank_Move : Tank_Component
     private float _targetSpeed = 0f;
 
     private Tank_Sound _tankSound = null;
+    private float _loadSoundDelay;
     private bool _isDepart = false;
 
     private bool _isStop = false;
@@ -40,8 +41,12 @@ public class Tank_Move : Tank_Component
         {
             if (_isDepart == false)
             {
-                _isDepart = true;
-                _tankSound?.PlaySound(SoundType.Load, AudioMixerType.Sfx, 0.3f);
+                if(_loadSoundDelay <= 0f)
+                {
+                    _isDepart = true;
+                    _loadSoundDelay = 3f;
+                    _tankSound?.PlaySound(SoundType.Load, AudioMixerType.Sfx, 0.3f);
+                }
             }
             _targetSpeed = magnitude * _maxSpeed;
 
@@ -49,9 +54,9 @@ public class Tank_Move : Tank_Component
             {
                 _currentSpeed += _acceleration * Time.deltaTime;
             }
-            else
+            else if (_currentSpeed > _targetSpeed)
             {
-                _currentSpeed = _targetSpeed;
+                SpeedDeceleration();
             }
             _tankSound?.MoveSoundUpdate(_currentSpeed / _maxSpeed);
         }
@@ -86,13 +91,17 @@ public class Tank_Move : Tank_Component
         }
 
         transform.Translate(Vector3.up * Time.deltaTime * _currentSpeed);
+        if(_loadSoundDelay > 0f)
+        {
+            _loadSoundDelay -= Time.deltaTime;
+        }
     }
 
     private void SpeedDeceleration()
     {
-        if (_currentSpeed > 0f)
+        if (_currentSpeed > _targetSpeed)
         {
-            _currentSpeed -= _acceleration * Time.deltaTime * 5f;
+            _currentSpeed -= _acceleration * Time.deltaTime;
         }
         else if (_currentSpeed < 0f) _currentSpeed = 0f;
     }

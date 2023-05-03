@@ -68,14 +68,6 @@ public class SettingCanvas : BaseCanvas
 
         _bgm._bgmMuteToggle.isOn = Bgm._isBgmOn;
         _sfx._sfxMuteToggle.isOn = Sfx._isSfxOn;
-
-        _startSequence = DOTween.Sequence()
-        .SetAutoKill(false)
-        .PrependCallback(() =>
-        {
-            _backGround.anchoredPosition += Vector2.down * 500f;
-        })
-        .Append(_backGround.DOAnchorPosY(0f, 0.5f));
     }
 
     /// <summary> ESC 체크 </summary>
@@ -85,6 +77,16 @@ public class SettingCanvas : BaseCanvas
         {
             OpenSettingCanvas();
         }
+    }
+
+    public override void OnOpenEvents()
+    {
+        _startSequence = DOTween.Sequence()
+        .PrependCallback(() =>
+        {
+            _backGround.anchoredPosition += Vector2.down * 500f;
+        })
+        .Append(_backGround.DOAnchorPosY(0f, 0.5f));
     }
 
     private void Update()
@@ -163,24 +165,21 @@ public class SettingCanvas : BaseCanvas
                 {
                     _toggles[idx].isOn = true;
                     _frameTexts[idx].color = Color.black;
-                    if (_changeFrameSequence[0] == null)
+
+                    _changeFrameSequence[0] = DOTween.Sequence()
+                    .PrependCallback(() =>
                     {
-                        _changeFrameSequence[0] = DOTween.Sequence()
-                        .SetAutoKill(false)
-                        .PrependCallback(() =>
-                        {
-                            _frames[0].anchoredPosition += Vector2.up * 500f;
-                            _frames[0].gameObject.SetActive(true);
-                        })
-                        .Append(_frames[1].DOAnchorPosY(-500f, 0.7f))
-                        .Join(_frames[0].DOAnchorPosY(20f, 0.7f))
-                        .AppendCallback(() =>
-                        {
-                            _frames[1].gameObject.SetActive(false);
-                            _frames[1].anchoredPosition = _frameOriginPos;
-                        });
-                    }
-                    else _changeFrameSequence[idx].Restart();
+                        _frames[0].anchoredPosition += Vector2.up * 500f;
+                        _frames[0].gameObject.SetActive(true);
+                    })
+                    .Append(_frames[1].DOAnchorPosY(-500f, 0.7f))
+                    .Join(_frames[0].DOAnchorPosY(20f, 0.7f))
+                    .AppendCallback(() =>
+                    {
+                        _frames[1].gameObject.SetActive(false);
+                        _frames[1].anchoredPosition = _frameOriginPos;
+                    });
+
                     _toggles[1].isOn = false;
                     _frameTexts[1].color = Color.white;
                 }
@@ -189,38 +188,27 @@ public class SettingCanvas : BaseCanvas
                 {
                     _toggles[idx].isOn = true;
                     _frameTexts[idx].color = Color.black;
-                    if (_changeFrameSequence[1] == null)
+
+                    _changeFrameSequence[1] = DOTween.Sequence()
+                    .PrependCallback(() =>
                     {
-                        _changeFrameSequence[1] = DOTween.Sequence()
-                        .SetAutoKill(false)
-                        .PrependCallback(() =>
-                        {
-                            _frames[1].anchoredPosition += Vector2.down * 500f;
-                            _frames[1].gameObject.SetActive(true);
-                        })
-                        .Append(_frames[0].DOAnchorPosY(500f, 0.7f))
-                        .Join(_frames[1].DOAnchorPosY(20f, 0.7f))
-                        .AppendCallback(() =>
-                        {
-                            _frames[0].gameObject.SetActive(false);
-                            _frames[0].anchoredPosition = _frameOriginPos;
-                        });
-                    }
-                    else _changeFrameSequence[idx].Restart();
+                        _frames[1].anchoredPosition += Vector2.down * 500f;
+                        _frames[1].gameObject.SetActive(true);
+                    })
+                    .Append(_frames[0].DOAnchorPosY(500f, 0.7f))
+                    .Join(_frames[1].DOAnchorPosY(20f, 0.7f))
+                    .AppendCallback(() =>
+                    {
+                        _frames[0].gameObject.SetActive(false);
+                        _frames[0].anchoredPosition = _frameOriginPos;
+                    });
+
                     _toggles[0].isOn = false;
                     _frameTexts[0].color = Color.white;
                 }
                 break;
             default:
                 break;
-        }
-    }
-
-    private void OnDisable()
-    {
-        for(int i = 0; i < _changeFrameSequence.Length; i++)
-        {
-            _changeFrameSequence[i].Kill();
         }
     }
 
