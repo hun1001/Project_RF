@@ -58,6 +58,7 @@ public class SettingCanvas : BaseCanvas
     private Sfx _sfx;
 
     private bool _isOpen = false;
+    private bool _isPause = false;
 
     private Sequence[] _changeFrameSequence = new Sequence[2];
 
@@ -79,14 +80,26 @@ public class SettingCanvas : BaseCanvas
         }
     }
 
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            _isPause = pause;
+            OpenSettingCanvas();
+        }
+    }
+
     public override void OnOpenEvents()
     {
-        _startSequence = DOTween.Sequence()
-        .PrependCallback(() =>
+        if (_isPause == false)
         {
-            _backGround.anchoredPosition += Vector2.down * 500f;
-        })
-        .Append(_backGround.DOAnchorPosY(0f, 0.5f));
+            _startSequence = DOTween.Sequence()
+            .PrependCallback(() =>
+            {
+                _backGround.anchoredPosition += Vector2.down * 500f;
+            })
+            .Append(_backGround.DOAnchorPosY(0f, 0.5f));
+        }
     }
 
     private void Update()
@@ -133,6 +146,8 @@ public class SettingCanvas : BaseCanvas
     public override void OnHomeButton()
     {
         _isOpen = false;
+        _isPause = false;
+
         base.OnHomeButton();
     }
 
@@ -140,6 +155,8 @@ public class SettingCanvas : BaseCanvas
     public override void OnBackButton()
     {
         _isOpen = false;
+        _isPause = false;
+
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
         {
             base.OnBackButton();
