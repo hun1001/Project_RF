@@ -63,4 +63,9 @@ public abstract class BaseCanvas : MonoBehaviour
     {
         _startSequence?.Restart();
     }
+
+    private void OnDisable()
+    {
+        _startSequence.Kill();
+    }
 }

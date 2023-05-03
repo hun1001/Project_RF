@@ -216,6 +216,14 @@ public class SettingCanvas : BaseCanvas
         }
     }
 
+    private void OnDisable()
+    {
+        for(int i = 0; i < _changeFrameSequence.Length; i++)
+        {
+            _changeFrameSequence[i].Kill();
+        }
+    }
+
     #region Normal
     #region Audio
     #region BGM
