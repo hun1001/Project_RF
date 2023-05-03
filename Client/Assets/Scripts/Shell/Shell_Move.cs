@@ -8,10 +8,10 @@ public class Shell_Move : Shell_Component
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
+        TryGetComponent(out _rigidbody);
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         _rigidbody.velocity = transform.up * (Instance as Shell).Speed;
     }

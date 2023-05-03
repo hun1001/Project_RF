@@ -10,7 +10,7 @@ public class Shell_Collision : Shell_Component
     private Vector2 normalVector;
     private Vector2 incidentVector;
     private Vector2 reflectionDir;
-    int angle;
+    private int angle;
 
     private Shell_Sound _shellSound;
     private void Awake()
