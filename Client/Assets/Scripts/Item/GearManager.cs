@@ -31,9 +31,9 @@ namespace Item
             _player = GameObject.FindWithTag("Player");
 
             // Passive
-            foreach(var itemID in _passiveItemEquipmentData._itemEquipmentList)
+            foreach (var itemID in _passiveItemEquipmentData._itemEquipmentList)
             {
-                if(itemID != "")
+                if (itemID != "")
                 {
                     var item = PoolManager.Get<Passive_Item>(itemID, _player.transform);
                     item.ItemEquip();
