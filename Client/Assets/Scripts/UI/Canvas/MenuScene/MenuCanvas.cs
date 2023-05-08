@@ -37,6 +37,12 @@ public class MenuCanvas : BaseCanvas
     private bool _isHide = false;
     private bool _isCameraMove = false;
 
+    [SerializeField]
+    private Button _startButton = null;
+
+    [SerializeField]
+    private Button _trainingButton = null;
+
     private void Awake()
     {
         //foreach (var tankInfo in 보유한탱크리스트)
@@ -64,6 +70,12 @@ public class MenuCanvas : BaseCanvas
         });
 
         _goodsTexts.SetGoodsTexts(GoodsManager.FreeGoods, GoodsManager.PaidGoods);
+
+        _startButton.interactable = true;
+        _trainingButton.interactable = true;
+
+        _startButton.onClick.AddListener(OnStartButton);
+        _trainingButton.onClick.AddListener(OnServerGameStart);
     }
 
     private void Start()
@@ -100,6 +112,7 @@ public class MenuCanvas : BaseCanvas
 
     public void OnStartButton()
     {
+        _startButton.interactable = false;
         Time.timeScale = 1;
         SceneManager.LoadScene("GameScene");
         Pool.PoolManager.DeleteAllPool();
@@ -109,6 +122,7 @@ public class MenuCanvas : BaseCanvas
     {
         // OnStartButton();
         // ServerManager.Instance.ConnectToServer();
+        _trainingButton.interactable = false;
 
         Time.timeScale = 1;
         SceneManager.LoadScene("TrainingScene");
