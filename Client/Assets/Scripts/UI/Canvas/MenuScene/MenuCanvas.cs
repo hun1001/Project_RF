@@ -43,6 +43,9 @@ public class MenuCanvas : BaseCanvas
     [SerializeField]
     private Button _trainingButton = null;
 
+    [SerializeField]
+    private Button _serverButton = null;
+
     private void Awake()
     {
         //foreach (var tankInfo in 보유한탱크리스트)
@@ -75,7 +78,8 @@ public class MenuCanvas : BaseCanvas
         _trainingButton.interactable = true;
 
         _startButton.onClick.AddListener(OnStartButton);
-        _trainingButton.onClick.AddListener(OnServerGameStart);
+        _trainingButton.onClick.AddListener(OnTrainingStart);
+        _serverButton.onClick.AddListener(OnServerButton);
     }
 
     private void Start()
@@ -118,15 +122,19 @@ public class MenuCanvas : BaseCanvas
         Pool.PoolManager.DeleteAllPool();
     }
 
-    public void OnServerGameStart()
+    public void OnTrainingStart()
     {
-        // OnStartButton();
-        // ServerManager.Instance.ConnectToServer();
         _trainingButton.interactable = false;
 
         Time.timeScale = 1;
         SceneManager.LoadScene("TrainingScene");
         Pool.PoolManager.DeleteAllPool();
+    }
+
+    public void OnServerButton()
+    {
+        _serverButton.interactable = false;
+        ServerManager.Instance.ConnectToServer();
     }
 
     public void OnModeButton()
