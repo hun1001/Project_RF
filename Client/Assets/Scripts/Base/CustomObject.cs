@@ -9,18 +9,7 @@ public abstract class CustomObject : MonoBehaviour
     private string _id = null;
     public string ID
     {
-        set
-        {
-            if (string.IsNullOrEmpty(_id))
-            {
-                _id = value;
-            }
-            else
-            {
-                Debug.LogError("ID is already set");
-            }
-        }
-
+        set => _id = value;
         get => _id;
     }
 

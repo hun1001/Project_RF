@@ -140,35 +140,48 @@ public class ShellGenerator : EditorWindow
 
     private void GenerateShell(int index)
     {
-        GameObject shellTemplate = Instantiate(ShellTemplate, Vector3.zero, Quaternion.identity);
+        bool isExist = File.Exists("Assets/Prefabs/Shell/" + _shellSOs[index].name.Replace("_ShellSO", "") + ".prefab");
+        GameObject shellTemplate = null;
 
-        shellTemplate.name = _shellSOs[index].name.Replace("_ShellSO", "");
-
-        var shell = shellTemplate.GetComponent<Shell>();
-        shell.SetShellPrefabs(_shellSOs[index].Code, _shellSOs[index], _shellSprites[index]);
-
-        _path.Clear();
-        _path.Append("Assets/Prefabs/Shell/" + shellTemplate.name + ".prefab");
-
-        if (File.Exists(_path.ToString()))
+        if (isExist)
         {
-            File.Delete(_path.ToString());
+            shellTemplate = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Shell/" + _shellSOs[index].name.Replace("_ShellSO", "") + ".prefab");
+
+            var shell = shellTemplate.GetComponent<Shell>();
+            shell.SetShellPrefabs(_shellSOs[index].Code, _shellSOs[index], _shellSprites[index]);
         }
+        else
+        {
+            shellTemplate = Instantiate(ShellTemplate, Vector3.zero, Quaternion.identity);
 
-        PrefabUtility.SaveAsPrefabAsset(shellTemplate, _path.ToString());
+            shellTemplate.name = _shellSOs[index].name.Replace("_ShellSO", "");
 
-        AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+            var shell = shellTemplate.GetComponent<Shell>();
+            shell.SetShellPrefabs(_shellSOs[index].Code, _shellSOs[index], _shellSprites[index]);
 
-        var group = settings.FindGroup("ShellGroup");
+            _path.Clear();
+            _path.Append("Assets/Prefabs/Shell/" + shellTemplate.name + ".prefab");
 
-        AddressableAssetEntry entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID(_path.ToString()), group);
+            if (File.Exists(_path.ToString()))
+            {
+                File.Delete(_path.ToString());
+            }
 
-        entry.address = shell.ShellSO.Code;
-        entry.SetLabel("Shell", true);
+            PrefabUtility.SaveAsPrefabAsset(shellTemplate, _path.ToString());
 
-        settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entry, true);
+            AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
 
-        DestroyImmediate(shellTemplate);
+            var group = settings.FindGroup("ShellGroup");
+
+            AddressableAssetEntry entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID(_path.ToString()), group);
+
+            entry.address = shell.ShellSO.Code;
+            entry.SetLabel("Shell", true);
+
+            settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entry, true);
+
+            DestroyImmediate(shellTemplate);
+        }
     }
 
     private void ResetAllSettingData()
