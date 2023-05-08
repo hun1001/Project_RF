@@ -19,8 +19,11 @@ public class TankNode : MonoBehaviour
     [SerializeField]
     private Image _tankLockImage = null;
 
+    //[SerializeField]
+    //private EventTrigger _eventTrigger = null;
+
     [SerializeField]
-    private EventTrigger _eventTrigger = null;
+    private Button _button = null;
 
     private bool _isTankLocked = false;
     public bool IsTankLocked
@@ -33,7 +36,7 @@ public class TankNode : MonoBehaviour
         }
     }
 
-    public void SetTankNode(Sprite tankTypeIcon, string tankTier, string tankName, bool isTankLocked, UnityAction<BaseEventData> onClick)
+    public void SetTankNode(Sprite tankTypeIcon, string tankTier, string tankName, bool isTankLocked, UnityAction onClick)
     {
         _tankTypeIcon.sprite = tankTypeIcon;
         _tankTierText.text = tankTier;
@@ -42,15 +45,21 @@ public class TankNode : MonoBehaviour
 
         _tankLockImage.enabled = _isTankLocked;
 
-        var entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerClick;
+        //var entry = new EventTrigger.Entry();
+        //entry.eventID = EventTriggerType.PointerClick;
 
-        entry.callback.AddListener((d) =>
+        //entry.callback.AddListener((d) =>
+        //{
+        //    //if (!_isTankLocked)
+        //    onClick(d);
+        //});
+
+        //_eventTrigger.triggers.Add(entry);
+
+        _button.onClick.RemoveAllListeners();
+        _button.onClick.AddListener(() =>
         {
-            //if (!_isTankLocked)
-            onClick(d);
+            onClick();
         });
-
-        _eventTrigger.triggers.Add(entry);
     }
 }

@@ -122,7 +122,7 @@ public class TechTreeCanvas : BaseCanvas
 
                                 bool isLock = !TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex, lIndex].ID);
 
-                                tNC.SetTankNode(_techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType), _techTree.TankTierNumber[lIndex], _techTree.TechTreeSO[index][jIndex, lIndex].ID, isLock, (eventData) =>
+                                tNC.SetTankNode(_techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType), _techTree.TankTierNumber[lIndex], _techTree.TechTreeSO[index][jIndex, lIndex].ID, isLock, () =>
                                 {
                                     bool canUnlock;
                                     if (lIndex != 0)
@@ -176,6 +176,12 @@ public class TechTreeCanvas : BaseCanvas
                                     {
                                         TechTreeDataManager.AddTank(_techTree.TechTreeSO[index].CountryType, _techTree.TechTreeSO[index][jIndex, lIndex].ID);
                                         tNC.IsTankLocked = false;
+                                        _tankInformationPanel.SetActive(false);
+                                    });
+
+                                    _tankInformationPanel.transform.GetChild(5).GetComponent<Button>().onClick.RemoveAllListeners();
+                                    _tankInformationPanel.transform.GetChild(5).GetComponent<Button>().onClick.AddListener(() =>
+                                    {
                                         _tankInformationPanel.SetActive(false);
                                     });
                                 });
@@ -262,6 +268,8 @@ public class TechTreeCanvas : BaseCanvas
             }
         })
         .AppendCallback(() => _scrollRect.normalizedPosition = Vector2.zero);
+
+        _tankInformationPanel.SetActive(false);
     }
 
     public override void OnBackButton()

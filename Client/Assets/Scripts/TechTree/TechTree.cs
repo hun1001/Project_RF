@@ -12,7 +12,7 @@ public class TechTree : MonoBehaviour
     [SerializeField]
     private Sprite[] _tankTypeSprites = null;
 
-    public readonly string[] TankTierNumber = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX" };
+    public readonly string[] TankTierNumber = { "グ", "ケ", "ゲ", "コ", "ゴ", "サ", "ザ", "シ", "ジ", "ス", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX" };
 
     public Sprite GetTankTypeSprite(TankType tankType)
     {
