@@ -12,16 +12,17 @@ namespace FoW
 
         Transform _transform;
         Renderer[] _renderer;
+        FogOfWarTeam fow;
 
         void Start()
         {
             _transform = transform;
             _renderer = GetComponentsInChildren<Renderer>();
+            fow = FogOfWarTeam.GetTeam(team);
         }
 
         void Update()
         {
-            FogOfWarTeam fow = FogOfWarTeam.GetTeam(team);
             if (fow == null)
             {
                 Debug.LogWarning("There is no Fog Of War team for team #" + team.ToString());
