@@ -21,6 +21,8 @@ public class TechTreeCanvas : BaseCanvas
     private ScrollRect _scrollRect = null;
 
     [SerializeField]
+    private GameObject _tankInformation = null;
+    [SerializeField]
     private GameObject _tankInformationPanel = null;
 
     private GameObject _countryToggleTemplate = null;
@@ -40,7 +42,11 @@ public class TechTreeCanvas : BaseCanvas
 
     private void Awake()
     {
-        _tankInformationPanel.SetActive(false);
+        _tankInformation.SetActive(false);
+        _tankInformation.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(() =>
+        {
+            _tankInformation.SetActive(false);
+        });
 
         _countryToggleTemplate = _countryToggleGroupManager.transform.GetChild(0).gameObject;
 
@@ -154,7 +160,7 @@ public class TechTreeCanvas : BaseCanvas
 
                                     canUnlock = true;
 
-                                    _tankInformationPanel.SetActive(canUnlock);
+                                    _tankInformation.SetActive(canUnlock);
                                     var topUI = _tankInformationPanel.transform.GetChild(0);
                                     topUI.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
                                     topUI.GetChild(1).GetComponent<Text>().text = _techTree.TankTierNumber[lIndex];
@@ -168,7 +174,7 @@ public class TechTreeCanvas : BaseCanvas
                                     _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
                                     {
                                         FindObjectOfType<TankModelManager>().ChangeTankModel(_techTree.TechTreeSO[index][jIndex, lIndex]);
-                                        _tankInformationPanel.SetActive(false);
+                                        _tankInformation.SetActive(false);
                                     });
 
                                     _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
@@ -176,13 +182,13 @@ public class TechTreeCanvas : BaseCanvas
                                     {
                                         TechTreeDataManager.AddTank(_techTree.TechTreeSO[index].CountryType, _techTree.TechTreeSO[index][jIndex, lIndex].ID);
                                         tNC.IsTankLocked = false;
-                                        _tankInformationPanel.SetActive(false);
+                                        _tankInformation.SetActive(false);
                                     });
 
                                     _tankInformationPanel.transform.GetChild(5).GetComponent<Button>().onClick.RemoveAllListeners();
                                     _tankInformationPanel.transform.GetChild(5).GetComponent<Button>().onClick.AddListener(() =>
                                     {
-                                        _tankInformationPanel.SetActive(false);
+                                        _tankInformation.SetActive(false);
                                     });
                                 });
 
@@ -269,18 +275,18 @@ public class TechTreeCanvas : BaseCanvas
         })
         .AppendCallback(() => _scrollRect.normalizedPosition = Vector2.zero);
 
-        _tankInformationPanel.SetActive(false);
+        _tankInformation.SetActive(false);
     }
 
     public override void OnBackButton()
     {
-        _tankInformationPanel.SetActive(false);
+        _tankInformation.SetActive(false);
         base.OnBackButton();
     }
 
     public void OnItemButton()
     {
-        _tankInformationPanel.SetActive(false);
+        _tankInformation.SetActive(false);
         CanvasManager.ChangeCanvas(CanvasType.Gear, CanvasType);
     }
 }
