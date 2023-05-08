@@ -200,67 +200,74 @@ namespace CustomEditorWindow.TankGenerator
 
         private void GenerateTank(int index)
         {
-            GameObject tankTemplate = Instantiate(TankTemplate);
-            GameObject tankModel = Instantiate(_tankModels[index]);
-
-            tankModel.name = _tankModels[index].name.Replace("(Clone)", "");
-
-            tankTemplate.name = tankModel.name;
-            tankModel.transform.SetParent(tankTemplate.transform);
-
-            tankModel.transform.position = Vector3.zero;
-            tankModel.transform.rotation = Quaternion.identity;
-            tankModel.transform.localScale = Vector3.one;
-
-            Tank tank = tankTemplate.GetComponent<Tank>();
-            Turret turret = tankTemplate.GetComponent<Turret>();
-
-            tank.ID = tankTemplate.name;
-            tank.TankSO = _tankSOs[index];
-
-            turret.TurretSO = _turretSOs[index];
-            turret.TurretTransform = tankModel.transform.GetChild(0);
-            turret.FirePoint = turret.TurretTransform.GetChild(0);
-
-            LayerUtil.SetGameObjectLayer(tankTemplate, LayerMask.NameToLayer("Tank"));
-
-            path.Append("Assets/Prefabs/Tank/" + _countryType.ToString());
-
-            if (!AssetDatabase.IsValidFolder(path.ToString()))
+            if (File.Exists("Assets/Prefabs/Tank/" + _countryType.ToString() + "/" + _tankModels[index].name + ".prefab"))
             {
-                AssetDatabase.CreateFolder("Assets/Prefabs/Tank", _countryType.ToString());
+
             }
-
-            path.Append("/" + tankTemplate.name + ".prefab");
-
-            if (File.Exists(path.ToString()))
+            else
             {
-                File.Delete(path.ToString());
+                GameObject tankTemplate = Instantiate(TankTemplate);
+                GameObject tankModel = Instantiate(_tankModels[index]);
+
+                tankModel.name = _tankModels[index].name.Replace("(Clone)", "");
+
+                tankTemplate.name = tankModel.name;
+                tankModel.transform.SetParent(tankTemplate.transform);
+
+                tankModel.transform.position = Vector3.zero;
+                tankModel.transform.rotation = Quaternion.identity;
+                tankModel.transform.localScale = Vector3.one;
+
+                Tank tank = tankTemplate.GetComponent<Tank>();
+                Turret turret = tankTemplate.GetComponent<Turret>();
+
+                tank.ID = tankTemplate.name;
+                tank.TankSO = _tankSOs[index];
+
+                turret.TurretSO = _turretSOs[index];
+                turret.TurretTransform = tankModel.transform.GetChild(0);
+                turret.FirePoint = turret.TurretTransform.GetChild(0);
+
+                LayerUtil.SetGameObjectLayer(tankTemplate, LayerMask.NameToLayer("Tank"));
+
+                path.Append("Assets/Prefabs/Tank/" + _countryType.ToString());
+
+                if (!AssetDatabase.IsValidFolder(path.ToString()))
+                {
+                    AssetDatabase.CreateFolder("Assets/Prefabs/Tank", _countryType.ToString());
+                }
+
+                path.Append("/" + tankTemplate.name + ".prefab");
+
+                if (File.Exists(path.ToString()))
+                {
+                    File.Delete(path.ToString());
+                }
+
+                PrefabUtility.SaveAsPrefabAsset(tankTemplate, path.ToString());
+
+                AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+
+                AddressableAssetGroup group = settings.FindGroup("TankGroup");
+                if (group == null)
+                {
+                    group = settings.CreateGroup("TankGroup", false, false, false, null);
+                }
+
+                AddressableAssetEntry entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID(path.ToString()), group);
+
+                entry.SetAddress(Path.GetFileNameWithoutExtension(path.ToString()));
+                entry.SetAddress(tankTemplate.name);
+                entry.SetLabel("Tank", true);
+
+                settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entry, true);
+
+                AssetDatabase.SaveAssets();
+
+                path.Clear();
+                DestroyImmediate(tankTemplate);
+                DestroyImmediate(tankModel);
             }
-
-            PrefabUtility.SaveAsPrefabAsset(tankTemplate, path.ToString());
-
-            AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
-
-            AddressableAssetGroup group = settings.FindGroup("TankGroup");
-            if (group == null)
-            {
-                group = settings.CreateGroup("TankGroup", false, false, false, null);
-            }
-
-            AddressableAssetEntry entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID(path.ToString()), group);
-
-            entry.SetAddress(Path.GetFileNameWithoutExtension(path.ToString()));
-            entry.SetAddress(tankTemplate.name);
-            entry.SetLabel("Tank", true);
-
-            settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entry, true);
-
-            AssetDatabase.SaveAssets();
-
-            path.Clear();
-            DestroyImmediate(tankTemplate);
-            DestroyImmediate(tankModel);
         }
 
         private void ResetAllSettingData()
