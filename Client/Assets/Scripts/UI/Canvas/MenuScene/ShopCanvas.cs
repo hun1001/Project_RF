@@ -19,6 +19,10 @@ public class ShopCanvas : BaseCanvas
     [Header("Scroll Rect")]
     [SerializeField]
     private ScrollRect _scrollRect;
+    private float _scrollRectLength = 0f;
+    private float _contentLength = 0f;
+    private float _itemLocation = 0f;
+    private float _randomGachaLocation = 0f;
 
     [Header("Toggle")]
     [SerializeField]
@@ -52,6 +56,7 @@ public class ShopCanvas : BaseCanvas
     private GameObject _premiumTankTemplate;
     [SerializeField]
     private RectTransform _premiumTankTransform;
+    private float _premiumTankLength;
 
     [Space(10f)]
     [SerializeField]
@@ -60,10 +65,16 @@ public class ShopCanvas : BaseCanvas
     private GameObject _itemTemplate;
     [SerializeField]
     private RectTransform _itemTransform;
+    private float _itemLength = 0f;
 
     private Item_Base _selectItem;
     private Dictionary<Item_Base, GameObject> _showingItemList = new Dictionary<Item_Base, GameObject>();
     private WeightedRandomPicker<Item_Base> _itemPicker = new WeightedRandomPicker<Item_Base>();
+
+    [Space(10f)]
+    [SerializeField]
+    private RectTransform _randomGachaTransform;
+    private float _randomGachaLength;
 
     [Space(10f)]
     [SerializeField]
@@ -189,6 +200,15 @@ public class ShopCanvas : BaseCanvas
         .Insert(0.5f, _toggleImages[6].DOFade(1f, 1f))
         .Insert(0.75f, _toggleImages[9].DOFade(1f, 1f))
         .AppendCallback(() => _scrollRect.onValueChanged.AddListener(OnScroll));
+
+        _scrollRectLength = _scrollRect.GetComponent<RectTransform>().rect.width;
+        _contentLength = _content.sizeDelta.x;
+        _premiumTankLength = _premiumTankTransform.sizeDelta.x;
+        _itemLength = _itemTransform.sizeDelta.x;
+        _randomGachaLength = _randomGachaTransform.sizeDelta.x;
+
+        _itemLocation = (33f + _premiumTankLength + (_itemLength * 0.5f) - (_scrollRectLength * 0.5f)) / _contentLength;
+        _randomGachaLocation = (56f + _premiumTankLength + _itemLength + (_randomGachaLength * 0.5f) - (_scrollRectLength * 0.5f)) / _contentLength;
     }
 
     // 0 ~ 1 값이 전달된다.
@@ -196,28 +216,21 @@ public class ShopCanvas : BaseCanvas
     {
         float x = (float)Math.Round(vector2.x, 1);
         
-        switch (x)
+        if(x < (10f + _premiumTankLength * 0.75f) / _contentLength)
         {
-            case 0f:
-                {
-                    _premiumTankToggle.isOn = true;
-                }
-                break;
-            case 0.3f:
-                {
-                    _itemToggle.isOn = true;
-                }
-                break;
-            case 0.7f:
-                {
-                    _randomGachaToggle.isOn = true;
-                }
-                break;
-            case 1f:
-                {
-                    _paidGoodsToggle.isOn = true;
-                }
-                break;
+            _premiumTankToggle.isOn = true;
+        }
+        else if (x < (33f + _premiumTankLength + (_itemLength * 0.5f)) / _contentLength)
+        {
+            _itemToggle.isOn = true;
+        }
+        else if (x < (56f + _premiumTankLength + _itemLength + (_randomGachaLength * 0.5f)) / _contentLength)
+        {
+            _randomGachaToggle.isOn = true;
+        }
+        else
+        {
+            _paidGoodsToggle.isOn = true;
         }
     }
 
@@ -232,12 +245,12 @@ public class ShopCanvas : BaseCanvas
                 break;
             case ShopToggle.Item:
                 {
-                    _scrollRect.normalizedPosition = new Vector2(0.42f, 0f);
+                    _scrollRect.normalizedPosition = new Vector2(_itemLocation, 0f);
                 }
                 break;
             case ShopToggle.RandomGacha:
                 {
-                    _scrollRect.normalizedPosition = new Vector2(0.71f, 0f);
+                    _scrollRect.normalizedPosition = new Vector2(_randomGachaLocation, 0f);
                 }
                 break;
             case ShopToggle.PaidGoods:
