@@ -47,8 +47,6 @@ namespace CustomEditorWindow.SheetDataToSO
 
         private void LoadData()
         {
-            ResetFolder();
-
             UnityWebRequest www = UnityWebRequest.Get("https://docs.google.com/spreadsheets/d/" + _dataUrlKey[_dataTypeIndex] + SheetAPI);
             www.SendWebRequest();
 
@@ -59,6 +57,8 @@ namespace CustomEditorWindow.SheetDataToSO
 
             string[] lines = result2.Split('\n');
 
+            bool isExist;
+
             switch (_dataType[_dataTypeIndex])
             {
                 case "Tank":
@@ -66,19 +66,31 @@ namespace CustomEditorWindow.SheetDataToSO
                     {
                         string[] data = lines[i].Split('\t');
 
-                        for (int j = 0; j < data.Length; j++)
+                        TankSO asset = null;
+
+                        isExist = File.Exists("Assets/ScriptableObjects/Tank/" + data[1].ToString() + "/" + data[0].ToString() + "_TankSO.asset");
+
+                        if (isExist)
                         {
-                            TankSO asset = ScriptableObject.CreateInstance<TankSO>();
+                            asset = AssetDatabase.LoadAssetAtPath<TankSO>("Assets/ScriptableObjects/Tank/" + data[1].ToString() + "/" + data[0].ToString() + "_TankSO.asset");
+                        }
+                        else
+                        {
+                            asset = ScriptableObject.CreateInstance<TankSO>();
+                        }
 
-                            asset.SetData(float.Parse(data[6]), float.Parse(data[7]), float.Parse(data[3]), float.Parse(data[4]), float.Parse(data[5]), SheetDataUtil.GetTankType(data[2]), bool.Parse(data[8]), uint.Parse(data[9].ToString()), uint.Parse(data[10].ToString()));
+                        asset.SetData(float.Parse(data[6]), float.Parse(data[7]), float.Parse(data[3]), float.Parse(data[4]), float.Parse(data[5]), SheetDataUtil.GetTankType(data[2]), bool.Parse(data[8]), uint.Parse(data[9].ToString()), uint.Parse(data[10].ToString()));
 
-                            if (AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Tank/" + data[1].ToString()) == false)
-                            {
-                                AssetDatabase.CreateFolder("Assets/ScriptableObjects/Tank", data[1].ToString());
-                            }
+                        if (AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Tank/" + data[1].ToString()) == false)
+                        {
+                            AssetDatabase.CreateFolder("Assets/ScriptableObjects/Tank", data[1].ToString());
+                        }
 
+                        if (isExist == false)
+                        {
                             AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Tank/" + data[1].ToString() + "/" + data[0].ToString() + "_TankSO.asset");
                         }
+                        EditorUtility.SetDirty(asset);
                     }
                     break;
                 case "Turret":
@@ -86,24 +98,35 @@ namespace CustomEditorWindow.SheetDataToSO
                     {
                         string[] data = lines[i].Split('\t');
 
-                        for (int j = 0; j < data.Length; j++)
+                        TurretSO asset = null;
+                        isExist = File.Exists("Assets/ScriptableObjects/Turret/" + data[1].ToString() + "/" + data[0].ToString() + "_TurretSO.asset");
+
+                        if (isExist)
                         {
-                            TurretSO asset = ScriptableObject.CreateInstance<TurretSO>();
+                            asset = AssetDatabase.LoadAssetAtPath<TurretSO>("Assets/ScriptableObjects/Turret/" + data[1].ToString() + "/" + data[0].ToString() + "_TurretSO.asset");
+                        }
+                        else
+                        {
+                            asset = ScriptableObject.CreateInstance<TurretSO>();
+                        }
 
-                            asset.ReloadTime = float.Parse(data[2]);
-                            asset.RotationSpeed = float.Parse(data[3]);
-                            asset.FOV = float.Parse(data[4]);
-                            asset.Shells = SheetDataUtil.GetUseShell(data[5]);
-                            asset.AtkPower = float.Parse(data[6]);
-                            asset.PenetrationPower = float.Parse(data[7]);
+                        asset.ReloadTime = float.Parse(data[2]);
+                        asset.RotationSpeed = float.Parse(data[3]);
+                        asset.FOV = float.Parse(data[4]);
+                        asset.Shells = SheetDataUtil.GetUseShell(data[5]);
+                        asset.AtkPower = float.Parse(data[6]);
+                        asset.PenetrationPower = float.Parse(data[7]);
 
-                            if (AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Turret/" + data[1].ToString()) == false)
-                            {
-                                AssetDatabase.CreateFolder("Assets/ScriptableObjects/Turret", data[1].ToString());
-                            }
+                        if (AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Turret/" + data[1].ToString()) == false)
+                        {
+                            AssetDatabase.CreateFolder("Assets/ScriptableObjects/Turret", data[1].ToString());
+                        }
 
+                        if (isExist == false)
+                        {
                             AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Turret/" + data[1].ToString() + "/" + data[0].ToString() + "_TurretSO.asset");
                         }
+                        EditorUtility.SetDirty(asset);
                     }
                     break;
                 case "Shell":
@@ -111,25 +134,36 @@ namespace CustomEditorWindow.SheetDataToSO
                     {
                         string[] data = lines[i].Split('\t');
 
-                        for (int j = 0; j < data.Length; ++j)
+                        ShellSO asset;
+                        isExist = File.Exists("Assets/ScriptableObjects/Shell/" + data[0].ToString() + "_ShellSO.asset");
+
+                        if (isExist)
                         {
-                            ShellSO asset = ScriptableObject.CreateInstance<ShellSO>();
+                            asset = AssetDatabase.LoadAssetAtPath<ShellSO>("Assets/ScriptableObjects/Shell/" + data[0].ToString() + "_ShellSO.asset");
+                        }
+                        else
+                        {
+                            asset = ScriptableObject.CreateInstance<ShellSO>();
+                        }
 
-                            asset.Code = data[1];
-                            asset.Damage = float.Parse(data[2]);
-                            asset.Penetration = float.Parse(data[3]);
-                            asset.Speed = float.Parse(data[4]);
-                            asset.RicochetAngle = float.Parse(data[5]);
+                        asset.Code = data[1];
+                        asset.Damage = float.Parse(data[2]);
+                        asset.Penetration = float.Parse(data[3]);
+                        asset.Speed = float.Parse(data[4]);
+                        asset.RicochetAngle = float.Parse(data[5]);
 
+                        if (isExist == false)
+                        {
                             AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Shell/" + data[0].ToString() + "_ShellSO.asset");
                         }
+                        EditorUtility.SetDirty(asset);
                     }
                     break;
                 default:
                     break;
             }
+
             AssetDatabase.SaveAssets();
-            EditorUtility.FocusProjectWindow();
         }
 
         private void ResetFolder()
