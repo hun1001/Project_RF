@@ -83,49 +83,10 @@ public class TechTreeCanvas : BaseCanvas
 
                         var tankNodeRowTemplate = Instantiate(_tankNodeRowTemplate, _tankNodeContentTransform);
 
-                        TankTechTreeNode tankNodeUI = null;
-                        GameObject tankNodeConnectHorizontalLineUI = null;
-
                         while (tankNode != null)
                         {
-                            tankNodeUI = Instantiate(_tankNodeTemplate, tankNodeRowTemplate.transform).GetComponent<TankTechTreeNode>();
-                            tankNodeConnectHorizontalLineUI = Instantiate(_tankNodeConnectHorizontalLineTemplate, tankNodeRowTemplate.transform);
-
-                            Tank tankInfo = tankNode.Tank;
-
-                            tankNodeUI.SetTankNode(_techTree.GetTankTypeSprite(tankNode.Tank.TankSO.TankType), _techTree.TankTierNumber[0], tankNode.Tank.ID, false, () =>
-                            {
-                                _tankInformation.SetActive(true);
-                                var topUI = _tankInformationPanel.transform.GetChild(0);
-                                topUI.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(tankInfo.TankSO.TankType);
-                                topUI.GetChild(1).GetComponent<Text>().text = _techTree.TankTierNumber[0];
-                                topUI.GetChild(2).GetComponent<Text>().text = tankInfo.ID;
-
-                                // 탱크 이미지 없으니까 일단  null
-                                _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
-
-                                _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.RemoveAllListeners();
-                                _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
-                                {
-                                    FindObjectOfType<TankModelManager>().ChangeTankModel(tankInfo);
-                                    _tankInformation.SetActive(false);
-                                });
-
-                                _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
-                                _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.AddListener(() =>
-                                {
-                                    TechTreeDataManager.AddTank(_techTree.TechTreeSO[index].CountryType, tankInfo.ID);
-                                    _tankInformation.SetActive(false);
-                                });
-
-                                _tankInformationPanel.transform.GetChild(5).GetComponent<Button>().onClick.RemoveAllListeners();
-                                _tankInformationPanel.transform.GetChild(5).GetComponent<Button>().onClick.AddListener(() =>
-                                {
-                                    _tankInformation.SetActive(false);
-                                });
-                            });
-                            tankNodeConnectHorizontalLineUI.SetActive(true);
-
+                            var tankNodeUI = Instantiate(_tankNodeTemplate, tankNodeRowTemplate.transform);
+                            var tankNodeConnectHorizontalLineUI = Instantiate(_tankNodeConnectHorizontalLineTemplate, tankNodeRowTemplate.transform);
                             if (tankNode.ChildTankNode.Length > 0)
                             {
                                 tankNode = tankNode.ChildTankNode[0];
@@ -134,9 +95,11 @@ public class TechTreeCanvas : BaseCanvas
                             {
                                 tankNode = null;
                             }
+
+                            tankNodeUI.SetActive(true);
+                            tankNodeConnectHorizontalLineUI.SetActive(true);
                         }
 
-                        Destroy(tankNodeConnectHorizontalLineUI);
                         tankNodeRowTemplate.SetActive(true);
                     }
                 }
