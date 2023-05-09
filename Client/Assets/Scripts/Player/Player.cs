@@ -75,6 +75,7 @@ public class Player : CustomObject
         for (int i = 0; i < shellCnt; i++)
         {
             int index = i;
+            if (shellEquipmentData._shellEquipmentData[index] == "") continue;
             Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentData[index]).GetComponent<Shell>();
             shellName[index] = shell.ID;
             shellSprite[index] = shell.ShellSprite;

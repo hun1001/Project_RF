@@ -34,7 +34,14 @@ public static class ShellSaveManager
             _shellEquipmentDataDict.Add(tankID, new ShellEquipmentData());
         }
 
-        _shellEquipmentDataDict[tankID]._shellEquipmentData[idx] = shellName;
+        if (_shellEquipmentDataDict[tankID]._shellEquipmentData.Count < idx + 1)
+        {
+            _shellEquipmentDataDict[tankID]._shellEquipmentData.Add(shellName);
+        }
+        else
+        {
+            _shellEquipmentDataDict[tankID]._shellEquipmentData[idx] = shellName;
+        }
 
         SaveShellEquipment(tankID);
     }

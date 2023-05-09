@@ -321,17 +321,27 @@ public class GearCanvas : BaseCanvas
 
             shell.GetComponent<Button>().onClick.AddListener(() =>
             {
-                if (_shellEquipmentDataDict._shellEquipmentData[_shellSlotIdx] == "")
+                if(_shellEquipmentDataDict._shellEquipmentData.Count <= _shellSlotIdx)
                 {
                     ShellSaveManager.ShellEquip(_currentTankID, _shellSlotIdx, shellInfo.ID);
+                    _shellSlotIdx = _shellEquipmentDataDict._shellEquipmentData.Count - 1;
                     _shellEquipSlotDict.Add(_shellSlotIdx, shell);
                     _shellImages[_shellSlotIdx].gameObject.SetActive(true);
                 }
                 else
                 {
-                    _shellEquipSlotDict[_shellSlotIdx].SetActive(true);
-                    ShellSaveManager.ShellEquip(_currentTankID, _shellSlotIdx, shellInfo.ID);
-                    _shellEquipSlotDict[_shellSlotIdx] = shell;
+                    if (_shellEquipmentDataDict._shellEquipmentData[_shellSlotIdx] == "")
+                    {
+                        ShellSaveManager.ShellEquip(_currentTankID, _shellSlotIdx, shellInfo.ID);
+                        _shellEquipSlotDict.Add(_shellSlotIdx, shell);
+                        _shellImages[_shellSlotIdx].gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        _shellEquipSlotDict[_shellSlotIdx].SetActive(true);
+                        ShellSaveManager.ShellEquip(_currentTankID, _shellSlotIdx, shellInfo.ID);
+                        _shellEquipSlotDict[_shellSlotIdx] = shell;
+                    }
                 }
                 _shellImages[_shellSlotIdx].sprite = shellInfo.ShellSprite;
 
