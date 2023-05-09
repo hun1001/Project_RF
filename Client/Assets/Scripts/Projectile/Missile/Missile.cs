@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Missile : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Vector3 _targetPosition = Vector3.zero;
+
+    private void SetMissile(Vector3 targetPosition)
     {
-        
+        _targetPosition = targetPosition;
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator MissileCoroutine()
     {
-        
+        yield return null;
+        // 대충 실행끝나면 알아서 풀
     }
 }

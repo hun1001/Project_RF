@@ -1,18 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pool;
 
-public class LaserBeam : MonoBehaviour
+public class LaserBeam : CustomObject
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private LineRenderer _lineRenderer = null;
+
+    public void SetLaserBeam(Vector3 startPosition, Vector3 endPosition)
     {
-        
+        _lineRenderer.SetPosition(0, startPosition);
+        _lineRenderer.SetPosition(1, endPosition);
+
+        StartCoroutine(LaserBeamCoroutine());
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator LaserBeamCoroutine()
     {
-        
+        yield return null;
+        // 대충 실행끝나면 알아서 풀
     }
 }
