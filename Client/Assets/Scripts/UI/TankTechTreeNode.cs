@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 
-public class TankNode : MonoBehaviour
+public class TankTechTreeNode : MonoBehaviour
 {
     [SerializeField]
     private Image _tankTypeIcon = null;
@@ -18,9 +18,6 @@ public class TankNode : MonoBehaviour
 
     [SerializeField]
     private Image _tankLockImage = null;
-
-    //[SerializeField]
-    //private EventTrigger _eventTrigger = null;
 
     [SerializeField]
     private Button _button = null;
@@ -44,17 +41,6 @@ public class TankNode : MonoBehaviour
         _isTankLocked = isTankLocked;
 
         _tankLockImage.enabled = _isTankLocked;
-
-        //var entry = new EventTrigger.Entry();
-        //entry.eventID = EventTriggerType.PointerClick;
-
-        //entry.callback.AddListener((d) =>
-        //{
-        //    //if (!_isTankLocked)
-        //    onClick(d);
-        //});
-
-        //_eventTrigger.triggers.Add(entry);
 
         _button.onClick.RemoveAllListeners();
         _button.onClick.AddListener(() =>

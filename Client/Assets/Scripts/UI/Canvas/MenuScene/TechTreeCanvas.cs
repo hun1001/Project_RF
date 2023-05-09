@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -11,7 +12,7 @@ public class TechTreeCanvas : BaseCanvas
     private TechTree _techTree = null;
 
     [SerializeField]
-    private ToggleGroupManager _countryToggleGroupManager = null;
+    private ToggleGroup _countryToggleGroupManager = null;
 
     [SerializeField]
     private RectTransform _tankNodeContentTransform = null;
@@ -33,11 +34,6 @@ public class TechTreeCanvas : BaseCanvas
     private GameObject _tankNodeNullTemplate = null;
     private GameObject _tankNodeConnectHorizontalNullLineTemplate = null;
 
-    private GameObject _verticalLineRowTemplate = null;
-    private GameObject _noneLineTemplate = null;
-    private GameObject _verticalUpLineTemplate = null;
-    private GameObject _verticalDownLineTemplate = null;
-
     private List<RectTransform> _toggleList = new List<RectTransform>();
 
     private void Awake()
@@ -56,11 +52,6 @@ public class TechTreeCanvas : BaseCanvas
         _tankNodeNullTemplate = _tankNodeRowTemplate.transform.GetChild(2).gameObject;
         _tankNodeConnectHorizontalNullLineTemplate = _tankNodeRowTemplate.transform.GetChild(3).gameObject;
 
-        _verticalLineRowTemplate = _tankNodeContentTransform.GetChild(1).gameObject;
-        _noneLineTemplate = _verticalLineRowTemplate.transform.GetChild(0).gameObject;
-        _verticalUpLineTemplate = _verticalLineRowTemplate.transform.GetChild(1).gameObject;
-        _verticalDownLineTemplate = _verticalLineRowTemplate.transform.GetChild(2).gameObject;
-
         _countryToggleTemplate.SetActive(false);
         _tankNodeRowTemplate.SetActive(false);
         _tankNodeTemplate.SetActive(false);
@@ -68,186 +59,55 @@ public class TechTreeCanvas : BaseCanvas
         _tankNodeNullTemplate.SetActive(false);
         _tankNodeConnectHorizontalNullLineTemplate.SetActive(false);
 
-        _verticalLineRowTemplate.SetActive(false);
-        _noneLineTemplate.SetActive(false);
-        _verticalUpLineTemplate.SetActive(false);
-        _verticalDownLineTemplate.SetActive(false);
-
-        _techTreeScrollView.TryGetComponent(out _scrollRect);
+        _scrollRect = _techTreeScrollView.GetComponent<ScrollRect>();
 
         for (int i = 0; i < _techTree.TechTreeSO.Length; ++i)
         {
             int index = i;
-
             var countryToggle = Instantiate(_countryToggleTemplate, _countryToggleGroupManager.transform).GetComponent<Toggle>();
             countryToggle.transform.GetChild(0).GetComponent<Image>().sprite = _techTree.TechTreeSO[index].FlagSprite;
-            _toggleList.Add(countryToggle.transform as RectTransform);
 
             countryToggle.onValueChanged.AddListener((isOn) =>
             {
+                for (int j = 1; j < _tankNodeContentTransform.childCount; ++j)
+                {
+                    Destroy(_tankNodeContentTransform.GetChild(j).gameObject);
+                }
+
                 if (isOn)
                 {
-                    for (int k = 2; k < _tankNodeContentTransform.transform.childCount; ++k)
+                    for (int r = 0; r < _techTree.TechTreeSO[index].RootTankNodes.Length; ++r)
                     {
-                        Destroy(_tankNodeContentTransform.transform.GetChild(k).gameObject);
-                    }
+                        int rIndex = r;
+                        TankNode tankNode = _techTree.TechTreeSO[index].RootTankNodes[r];
 
-                    for (int j = 0; j < _techTree.TechTreeSO[index].Length; ++j)
-                    {
-                        int jIndex = j;
-                        var rowTransform = Instantiate(_tankNodeRowTemplate, _tankNodeContentTransform).transform;
+                        var tankNodeRowTemplate = Instantiate(_tankNodeRowTemplate, _tankNodeContentTransform);
 
-                        for (int l = 0; l < _techTree.TechTreeSO[index].GetTankArrayLength(jIndex); ++l)
+                        while (tankNode != null)
                         {
-                            int lIndex = l;
-
-                            GameObject node;
-
-                            if (_techTree.TechTreeSO[index][jIndex, lIndex] == null)
+                            var tankNodeUI = Instantiate(_tankNodeTemplate, tankNodeRowTemplate.transform);
+                            var tankNodeConnectHorizontalLineUI = Instantiate(_tankNodeConnectHorizontalLineTemplate, tankNodeRowTemplate.transform);
+                            if (tankNode.ChildTankNode.Length > 0)
                             {
-                                node = Instantiate(_tankNodeNullTemplate, rowTransform);
-                                if (lIndex != _techTree.TechTreeSO[index].GetTankArrayLength(jIndex) - 1)
-                                {
-                                    if (_techTree.TechTreeSO[index][jIndex, lIndex + 1] == null)
-                                    {
-                                        var tankNodeConnectLine = Instantiate(_tankNodeConnectHorizontalNullLineTemplate, rowTransform);
-                                        tankNodeConnectLine.SetActive(true);
-                                    }
-                                    else
-                                    {
-                                        var tankNodeConnectLine = Instantiate(_tankNodeConnectHorizontalLineTemplate, rowTransform);
-                                        tankNodeConnectLine.SetActive(true);
-                                    }
-                                }
+                                tankNode = tankNode.ChildTankNode[0];
                             }
                             else
                             {
-                                node = Instantiate(_tankNodeTemplate, rowTransform);
-
-                                var tNC = node.GetComponent<TankNode>();
-
-                                bool isLock = !TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex, lIndex].ID);
-
-                                tNC.SetTankNode(_techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType), _techTree.TankTierNumber[lIndex], _techTree.TechTreeSO[index][jIndex, lIndex].ID, isLock, () =>
-                                {
-                                    bool canUnlock;
-                                    if (lIndex != 0)
-                                    {
-                                        if (_techTree.TechTreeSO[index][jIndex, lIndex - 1] != null)
-                                        {
-                                            canUnlock = TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex, lIndex - 1].ID);
-                                        }
-                                        else
-                                        {
-                                            if (jIndex == 0)
-                                            {
-                                                canUnlock = _techTree.TechTreeSO[index].IsLink(jIndex + 1, lIndex - 1) == TechTreeLinkStateType.UpLink && TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex + 1, lIndex - 1].ID);
-                                            }
-                                            else if (jIndex == _techTree.TechTreeSO[index].Length - 1)
-                                            {
-                                                canUnlock = TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex - 1, _techTree.TechTreeSO[index].GetTankArrayLength(jIndex - 1) - 1].ID);
-                                            }
-                                            else
-                                            {
-                                                canUnlock = _techTree.TechTreeSO[index].IsLink(jIndex + 1, lIndex - 1) == TechTreeLinkStateType.UpLink && TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex + 1, lIndex - 1].ID) || _techTree.TechTreeSO[index].IsLink(jIndex - 1, lIndex - 1) == TechTreeLinkStateType.DownLink && TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex - 1, lIndex - 1].ID);
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        canUnlock = true;
-                                    }
-
-                                    canUnlock = true;
-
-                                    _tankInformation.SetActive(canUnlock);
-                                    var topUI = _tankInformationPanel.transform.GetChild(0);
-                                    topUI.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
-                                    topUI.GetChild(1).GetComponent<Text>().text = _techTree.TankTierNumber[lIndex];
-                                    topUI.GetChild(2).GetComponent<Text>().text = _techTree.TechTreeSO[index][jIndex, lIndex].ID;
-
-                                    // 탱크 이미지 없으니까 일단  null
-                                    _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
-                                    //_tankInformationPanel.transform.GetChild(2).GetComponent<Text>().text = $"SPEED: {_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.MaxSpeed}km/h\nReload: {_techTree.TechTreeSO[index][jIndex, lIndex].Turret.TurretStatSO}";
-
-                                    _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.RemoveAllListeners();
-                                    _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
-                                    {
-                                        FindObjectOfType<TankModelManager>().ChangeTankModel(_techTree.TechTreeSO[index][jIndex, lIndex]);
-                                        _tankInformation.SetActive(false);
-                                    });
-
-                                    _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
-                                    _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.AddListener(() =>
-                                    {
-                                        TechTreeDataManager.AddTank(_techTree.TechTreeSO[index].CountryType, _techTree.TechTreeSO[index][jIndex, lIndex].ID);
-                                        tNC.IsTankLocked = false;
-                                        _tankInformation.SetActive(false);
-                                    });
-
-                                    _tankInformationPanel.transform.GetChild(5).GetComponent<Button>().onClick.RemoveAllListeners();
-                                    _tankInformationPanel.transform.GetChild(5).GetComponent<Button>().onClick.AddListener(() =>
-                                    {
-                                        _tankInformation.SetActive(false);
-                                    });
-                                });
-
-                                node.GetComponent<Image>().enabled = true;
-
-                                if (lIndex != _techTree.TechTreeSO[index].GetTankArrayLength(jIndex) - 1)
-                                {
-                                    var tankNodeConnectLine = Instantiate(_tankNodeConnectHorizontalLineTemplate, rowTransform);
-                                    tankNodeConnectLine.SetActive(true);
-                                }
+                                tankNode = null;
                             }
 
-                            node.SetActive(true);
+                            tankNodeUI.SetActive(true);
+                            tankNodeConnectHorizontalLineUI.SetActive(true);
                         }
 
-                        if (jIndex < _techTree.TechTreeSO[index].Length - 1)
-                        {
-                            var verticalLineRow = Instantiate(_verticalLineRowTemplate, _tankNodeContentTransform).transform;
-
-                            for (int m = 0; m < _techTree.TechTreeSO[index].GetIsLinkLength(jIndex); ++m)
-                            {
-                                int mIndex = m;
-                                GameObject line = null;
-
-                                switch (_techTree.TechTreeSO[index].IsLink(jIndex, mIndex))
-                                {
-                                    case TechTreeLinkStateType.None:
-                                        line = Instantiate(_noneLineTemplate, verticalLineRow);
-                                        break;
-                                    case TechTreeLinkStateType.UpLink:
-                                        line = Instantiate(_verticalUpLineTemplate, verticalLineRow);
-
-                                        break;
-                                    case TechTreeLinkStateType.DownLink:
-                                        line = Instantiate(_verticalDownLineTemplate, verticalLineRow);
-                                        break;
-                                    default:
-                                        Debug.LogError("TechTreeLinkStateType Error");
-                                        break;
-                                }
-                                line.SetActive(true);
-                            }
-                            verticalLineRow.gameObject.SetActive(true);
-                        }
-
-                        rowTransform.GetComponent<HorizontalLayoutGroup>().enabled = true;
-                        rowTransform.GetComponent<ContentSizeFitter>().enabled = true;
-                        rowTransform.gameObject.SetActive(true);
-
-                        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)rowTransform.transform);
+                        tankNodeRowTemplate.SetActive(true);
                     }
                 }
             });
 
             countryToggle.gameObject.SetActive(true);
+            countryToggle.isOn = index == 0;
         }
-
-        //_countryToggleGroupManager.transform.GetChild(1).GetComponent<Toggle>().onValueChanged.Invoke(true);
-        _countryToggleGroupManager.transform.GetChild(1).GetComponent<Toggle>().isOn = true;
     }
 
     public override void OnOpenEvents()

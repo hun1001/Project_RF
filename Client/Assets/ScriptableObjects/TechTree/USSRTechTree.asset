@@ -14,16 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _countryType: 1
   _flagSprite: {fileID: 21300000, guid: 15246ff0ad9ffb64791ef66f7b94b184, type: 3}
-  _tankArrays:
-  - _tanks:
-    - {fileID: 4036395416888458358, guid: ff173b403f5a31a4e8dfe33d8458b4b5, type: 3}
-    - {fileID: 3739495685422247030, guid: e86200a263e03ec4db63cc265e7941f3, type: 3}
-    - {fileID: 8832471439104495293, guid: 5552280374679c34d942226a0bfefdc9, type: 3}
-    - {fileID: 9134808941809204664, guid: e4217afbfb9549845a23b804743b5fc4, type: 3}
-    - {fileID: 4658155690680655769, guid: f5c368c75ce215548afac9c069be83ee, type: 3}
-    - {fileID: 6425634780614225440, guid: 4c75b37b73be4674a88b74ba3d03a187, type: 3}
-    - {fileID: 1527639326457412734, guid: 7b54c8505c093f140a34d6644a774cfe, type: 3}
-    - {fileID: 4127684376363362197, guid: ff5a76aa4b525b145b12b69dfbce2872, type: 3}
-    - {fileID: 1696953199330159198, guid: 91e2d03ea7f0b1d458c46b6acaaf06e0, type: 3}
-    - {fileID: 106528444581211259, guid: 9e22ca705223b6d4485aa518e5cd9da5, type: 3}
-  _isLink: []
+  _tankRootNodes:
+  - _tank: {fileID: 4036395416888458358, guid: ff173b403f5a31a4e8dfe33d8458b4b5, type: 3}
+    _childTankNode:
+    - _tank: {fileID: 3739495685422247030, guid: e86200a263e03ec4db63cc265e7941f3, type: 3}
+      _childTankNode:
+      - _tank: {fileID: 8832471439104495293, guid: 5552280374679c34d942226a0bfefdc9, type: 3}
+        _childTankNode:
+        - _tank: {fileID: 9134808941809204664, guid: e4217afbfb9549845a23b804743b5fc4, type: 3}
+          _childTankNode:
+          - _tank: {fileID: 4658155690680655769, guid: f5c368c75ce215548afac9c069be83ee, type: 3}
+            _childTankNode:
+            - _tank: {fileID: 6425634780614225440, guid: 4c75b37b73be4674a88b74ba3d03a187, type: 3}
+              _childTankNode:
+              - _tank: {fileID: 1527639326457412734, guid: 7b54c8505c093f140a34d6644a774cfe, type: 3}
+                _childTankNode:
+                - _tank: {fileID: 4127684376363362197, guid: ff5a76aa4b525b145b12b69dfbce2872, type: 3}
+                  _childTankNode:
+                  - _tank: {fileID: 1696953199330159198, guid: 91e2d03ea7f0b1d458c46b6acaaf06e0, type: 3}
+                    _childTankNode:
+                    - _tank: {fileID: 106528444581211259, guid: 9e22ca705223b6d4485aa518e5cd9da5, type: 3}
+                      _childTankNode: []
