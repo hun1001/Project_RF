@@ -35,6 +35,8 @@ public class TankTechTreeNode : MonoBehaviour
 
     public void SetTankNode(Sprite tankTypeIcon, string tankTier, string tankName, bool isTankLocked, UnityAction onClick)
     {
+        gameObject.SetActive(true);
+
         _tankTypeIcon.sprite = tankTypeIcon;
         _tankTierText.text = tankTier;
         _tankNameText.text = tankName;
@@ -43,9 +45,6 @@ public class TankTechTreeNode : MonoBehaviour
         _tankLockImage.enabled = _isTankLocked;
 
         _button.onClick.RemoveAllListeners();
-        _button.onClick.AddListener(() =>
-        {
-            onClick();
-        });
+        _button.onClick.AddListener(onClick);
     }
 }
