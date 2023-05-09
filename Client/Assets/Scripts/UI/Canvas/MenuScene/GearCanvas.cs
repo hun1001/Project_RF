@@ -129,6 +129,8 @@ public class GearCanvas : BaseCanvas
 
     public override void OnOpenEvents()
     {
+        base.OnOpenEvents();
+
         _startSequence = DOTween.Sequence()
         .Prepend(_topPanel.DOAnchorPosY(_topPanel.sizeDelta.y, 0f))
         .Join(_leftPanel.DOAnchorPosX(-_leftPanel.sizeDelta.x, 0f))

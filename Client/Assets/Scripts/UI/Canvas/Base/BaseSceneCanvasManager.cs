@@ -18,12 +18,55 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
     protected CanvasType _activeCanvas;
     public CanvasType ActiveCanvas => _activeCanvas;
 
+    private float _openDelay = 0f;
+    public float OpenDelay => _openDelay;
+
     protected virtual void Awake()
     {
         BaseCanvas[] canvasArray = GetComponentsInChildren<BaseCanvas>(true);
         foreach (BaseCanvas canvas in canvasArray)
         {
             _canvasDictionary.Add(canvas.CanvasType, canvas);
+        }
+    }
+
+    private void Update()
+    {
+        if(_openDelay > 0f)
+        {
+            _openDelay -= Time.deltaTime;
+        }
+    }
+
+    private void OnGUI()
+    {
+        if (UnityEngine.Event.current.type == EventType.KeyDown && UnityEngine.Event.current.keyCode == KeyCode.Escape)
+        {
+            if (_openDelay <= 0f)
+            {
+                if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
+                {
+                    if(_activeCanvas == CanvasType.Menu)
+                    {
+                        ChangeCanvas(CanvasType.Setting, _activeCanvas);
+                    }
+                    else
+                    {
+                        ChangeBeforeCanvas();
+                    }
+                }
+                else if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene)
+                {
+                    if(_activeCanvas == CanvasType.Setting)
+                    {
+                        ChangeCanvas(CanvasType.Information, _activeCanvas);
+                    }
+                    else if(_activeCanvas != CanvasType.GameOver)
+                    {
+                        ChangeCanvas(CanvasType.Setting, _activeCanvas);
+                    }
+                }
+            }
         }
     }
 
@@ -34,28 +77,36 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
             _beforeCanvasStack.Push(beforeCanvas);
         }
 
-        _activeCanvas = canvasType;
-
         foreach (var canvas in _canvasDictionary)
         {
             canvas.Value.Canvas.enabled = canvas.Key == canvasType;
             if (canvas.Key == canvasType)
                 canvas.Value.OnOpenEvents();
+            else if (canvas.Key == beforeCanvas)
+                canvas.Value.OnCloseEvents();
         }
+
+        _openDelay = 0.1f;
+        _activeCanvas = canvasType;
     }
 
     public void ChangeBeforeCanvas()
     {
+        if (_beforeCanvasStack.Count == 0)
+            return;
         CanvasType canvasType = _beforeCanvasStack.Pop();
-
-        _activeCanvas = canvasType;
 
         foreach (var canvas in _canvasDictionary)
         {
             canvas.Value.Canvas.enabled = canvas.Key == canvasType;
             if (canvas.Key == canvasType)
                 canvas.Value.OnOpenEvents();
+            else if (canvas.Key == _activeCanvas)
+                canvas.Value.OnCloseEvents();
         }
+        
+        _openDelay = 0.1f;
+        _activeCanvas = canvasType;
     }
 
     public BaseCanvas GetCanvas(CanvasType canvasType)
