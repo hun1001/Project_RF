@@ -27,6 +27,8 @@ public class ModeCanvas : BaseCanvas
 
     public override void OnOpenEvents()
     {
+        base.OnOpenEvents();
+
         _startSequence = DOTween.Sequence()
         .PrependCallback(() =>
         {

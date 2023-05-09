@@ -36,6 +36,7 @@ public abstract class BaseCanvas : MonoBehaviour
         }
     }
 
+    protected bool _isOpen = false;
     protected Sequence _startSequence;
 
     /// <summary> 메뉴씬으로 돌아가는 함수 </summary>
@@ -61,5 +62,11 @@ public abstract class BaseCanvas : MonoBehaviour
 
     public virtual void OnOpenEvents()
     {
+        _isOpen = true;
+    }
+
+    public virtual void OnCloseEvents()
+    {
+        _isOpen = false;
     }
 }

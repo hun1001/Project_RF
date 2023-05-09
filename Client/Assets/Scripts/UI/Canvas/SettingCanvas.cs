@@ -57,7 +57,6 @@ public class SettingCanvas : BaseCanvas
     [SerializeField]
     private Sfx _sfx;
 
-    private bool _isOpen = false;
     private bool _isPause = false;
 
     private Sequence[] _changeFrameSequence = new Sequence[2];
@@ -71,26 +70,25 @@ public class SettingCanvas : BaseCanvas
         _sfx._sfxMuteToggle.isOn = Sfx._isSfxOn;
     }
 
-    /// <summary> ESC 체크 </summary>
-    private void OnGUI()
-    {
-        if (UnityEngine.Event.current.type == EventType.KeyDown && UnityEngine.Event.current.keyCode == KeyCode.Escape)
-        {
-            OpenSettingCanvas();
-        }
-    }
-
     private void OnApplicationPause(bool pause)
     {
         if (pause)
         {
             _isPause = pause;
-            OpenSettingCanvas();
+            if (_isOpen == false)
+            {
+                if (CanvasManager.ActiveCanvas == CanvasType.GameOver)
+                    return;
+
+                CanvasManager.ChangeCanvas(CanvasType.Setting, CanvasManager.ActiveCanvas);
+            }
         }
     }
 
     public override void OnOpenEvents()
     {
+        base.OnOpenEvents();
+
         if (_isPause == false)
         {
             _startSequence = DOTween.Sequence()
@@ -100,6 +98,12 @@ public class SettingCanvas : BaseCanvas
             })
             .Append(_backGround.DOAnchorPosY(0f, 0.5f));
         }
+    }
+
+    public override void OnCloseEvents()
+    {
+        base.OnCloseEvents();
+        _isPause = false;
     }
 
     private void Update()
@@ -122,27 +126,6 @@ public class SettingCanvas : BaseCanvas
         }
     }
 
-    /// <summary> 설정창을 열려고 할때 실행하는 함수 </summary>
-    private void OpenSettingCanvas()
-    {
-        if (_isOpen == false)
-        {
-            if (Time.timeScale == 1f)
-            {
-                if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
-                {
-                    Time.timeScale = 0f;
-                }
-                _isOpen = true;
-                CanvasManager.ChangeCanvas(CanvasType.Setting, CanvasManager.ActiveCanvas);
-            }
-        }
-        else
-        {
-            OnBackButton();
-        }
-    }
-
     public override void OnHomeButton()
     {
         _isOpen = false;
@@ -161,9 +144,8 @@ public class SettingCanvas : BaseCanvas
         {
             base.OnBackButton();
         }
-        else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
+        else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene)
         {
-            Time.timeScale = 1f;
             CanvasManager.ChangeCanvas(CanvasType.Controller, CanvasType);
         }
         if (_toggles[1].isOn == true)

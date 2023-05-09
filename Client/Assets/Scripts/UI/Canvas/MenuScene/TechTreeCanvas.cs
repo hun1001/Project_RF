@@ -112,6 +112,8 @@ public class TechTreeCanvas : BaseCanvas
 
     public override void OnOpenEvents()
     {
+        base.OnOpenEvents();
+
         int idx = 1;
         _startSequence = DOTween.Sequence()
         .PrependCallback(() =>

@@ -8,18 +8,6 @@ using UnityEngine.UI;
 
 public class MenuCanvas : BaseCanvas
 {
-    [Header("Hanger")]
-    // [SerializeField]
-    // private RectTransform _smallHangerContent;
-    // [SerializeField]
-    // private GameObject _smallHangerTemplate;
-    [SerializeField]
-    private GameObject _bigHanger;
-    [SerializeField]
-    private RectTransform _bigHangerContent;
-    [SerializeField]
-    private GameObject _bigHangerTemplate;
-
     [Header("Goods")]
     [SerializeField]
     private GoodsTexts _goodsTexts = null;
@@ -85,10 +73,12 @@ public class MenuCanvas : BaseCanvas
     private void Start()
     {
         _isHide = true;
+        _isOpen = true;
     }
 
     public override void OnOpenEvents()
     {
+        base.OnOpenEvents();
         _isHide = true;
 
         _startSequence = DOTween.Sequence()
@@ -155,16 +145,6 @@ public class MenuCanvas : BaseCanvas
     public void OnTechTreeButton()
     {
         CanvasManager.ChangeCanvas(CanvasType.TechTree, CanvasType);
-    }
-
-    public void OnOpenHanger()
-    {
-        _bigHanger.SetActive(true);
-    }
-
-    public void OnCloseHanger()
-    {
-        _bigHanger.SetActive(false);
     }
 
     public void OnOpenItem()
