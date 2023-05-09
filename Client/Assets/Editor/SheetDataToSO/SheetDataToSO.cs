@@ -110,7 +110,18 @@ namespace CustomEditorWindow.SheetDataToSO
                             asset = ScriptableObject.CreateInstance<TurretSO>();
                         }
 
-                        asset.ReloadTime = float.Parse(data[2]);
+                        if (data[2].Contains("/"))
+                        {
+                            asset.IsBurst = true;
+                            string[] datas = data[2].Split('/');
+                            asset.BurstData.BurstReloadTime = float.Parse(datas[0]);
+                            asset.BurstData.MagazineSize = int.Parse(datas[1]);
+                            asset.ReloadTime = float.Parse(datas[2]);
+                        }
+                        else
+                        {
+                            asset.ReloadTime = float.Parse(data[2]);
+                        }
                         asset.RotationSpeed = float.Parse(data[3]);
                         asset.FOV = float.Parse(data[4]);
                         asset.Shells = SheetDataUtil.GetUseShell(data[5]);

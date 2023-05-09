@@ -7,7 +7,14 @@ public class Turret_Attack : Turret_Component
     private float _reloadingTime = 0;
     public float ReloadingTime => _reloadingTime;
 
+    private float _burstReloadTime = 0f;
+    public float BurstReloadTime => _burstReloadTime;
+
+    private int _magazineSize = 0;
+    public int MagazineSize => _magazineSize;
+
     private bool _isReload = false;
+    private bool _isBurst = false;
 
     private Turret_Sound _turretSound = null;
 
@@ -17,22 +24,58 @@ public class Turret_Attack : Turret_Component
     private void Awake()
     {
         Turret.TryGetComponent(out _turretSound);
+
+        if (Turret.TurretData.IsBurst)
+        {
+            _magazineSize = Turret.TurretData.BurstData.MagazineSize;
+            _isBurst = Turret.TurretData.IsBurst;
+        }
     }
 
     public void Fire()
     {
-        if (_reloadingTime <= 0)
+        if (_isBurst)
         {
-            _reloadingTime = Turret.TurretData.ReloadTime;
-            if (_turretSound != null)
+            if (_reloadingTime <= 0)
             {
-                _isReload = true;
-                _turretSound.PlaySound(SoundType.Fire, AudioMixerType.Sfx);
-                _turretSound.PlaySound(SoundType.ShellDrop, AudioMixerType.Sfx, 0.5f);
+                if (_magazineSize > 0)
+                {
+                    if (_burstReloadTime <= 0)
+                    {
+                        _magazineSize--;
+                        _burstReloadTime = Turret.TurretData.BurstData.BurstReloadTime;
+                        if (_turretSound != null)
+                        {
+                            _turretSound.PlaySound(SoundType.Fire, AudioMixerType.Sfx);
+                            _turretSound.PlaySound(SoundType.ShellDrop, AudioMixerType.Sfx, 0.5f);
+                        }
+                        _onFire?.Invoke();
+                        PoolManager.Get<Shell>(Turret.CurrentShell.ID, Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(GetComponent<Tank>());
+                        PoolManager.Get("FireEffect_01", Turret.FirePoint.position, Turret.FirePoint.rotation);
+                    }
+                }
+                else
+                {
+                    _isReload = true;
+                    _reloadingTime = Turret.TurretData.ReloadTime;
+                }
             }
-            _onFire?.Invoke();
-            PoolManager.Get<Shell>(Turret.CurrentShell.ID, Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(GetComponent<Tank>());
-            PoolManager.Get("FireEffect_01", Turret.FirePoint.position, Turret.FirePoint.rotation);
+        }
+        else
+        {
+            if (_reloadingTime <= 0)
+            {
+                _reloadingTime = Turret.TurretData.ReloadTime;
+                if (_turretSound != null)
+                {
+                    _isReload = true;
+                    _turretSound.PlaySound(SoundType.Fire, AudioMixerType.Sfx);
+                    _turretSound.PlaySound(SoundType.ShellDrop, AudioMixerType.Sfx, 0.5f);
+                }
+                _onFire?.Invoke();
+                PoolManager.Get<Shell>(Turret.CurrentShell.ID, Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(GetComponent<Tank>());
+                PoolManager.Get("FireEffect_01", Turret.FirePoint.position, Turret.FirePoint.rotation);
+            }
         }
     }
 
@@ -45,6 +88,15 @@ public class Turret_Attack : Turret_Component
             {
                 _isReload = false;
                 _turretSound?.PlaySound(SoundType.Reload, AudioMixerType.Sfx);
+                if(_isBurst)
+                    _magazineSize = Turret.TurretData.BurstData.MagazineSize;
+            }
+        }
+        if (_isBurst)
+        {
+            if (_burstReloadTime > 0)
+            {
+                _burstReloadTime -= Time.deltaTime;
             }
         }
     }
