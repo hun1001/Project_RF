@@ -5,6 +5,7 @@ using Pool;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Addressable;
 
 public class Player : CustomObject
 {
@@ -64,7 +65,8 @@ public class Player : CustomObject
             _controllerCanvas.ButtonGroup.SetButton(0, null, false);
         }
 
-        int shellCnt = _tank.Turret.TurretData.Shells.Count;
+        ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
+        int shellCnt = shellEquipmentData._shellEquipmentData.Count;
 
         string[] shellName = new string[shellCnt];
         Sprite[] shellSprite = new Sprite[shellCnt];
@@ -73,13 +75,14 @@ public class Player : CustomObject
         for (int i = 0; i < shellCnt; i++)
         {
             int index = i;
-            shellName[index] = _tank.Turret.TurretData.Shells[index].ID;
-            shellSprite[index] = _tank.Turret.TurretData.Shells[index].ShellSprite;
+            Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentData[index]).GetComponent<Shell>();
+            shellName[index] = shell.ID;
+            shellSprite[index] = shell.ShellSprite;
             shellAction[index] = (_isOn) =>
             {
                 if (_isOn)
                 {
-                    _tank.Turret.CurrentShell = _tank.Turret.TurretData.Shells[index];
+                    _tank.Turret.CurrentShell = shell;
                 }
                 else
                 {
