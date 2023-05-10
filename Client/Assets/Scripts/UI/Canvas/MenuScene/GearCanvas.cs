@@ -27,7 +27,7 @@ public class GearCanvas : BaseCanvas
     [SerializeField]
     private Toggle[] _passiveItemToggles;
     [SerializeField]
-    private Image[] _passiveLockImages;
+    private GameObject[] _passiveLock;
 
     [Space(20f)]
     [SerializeField]
@@ -35,7 +35,7 @@ public class GearCanvas : BaseCanvas
     [SerializeField]
     private Toggle[] _activeItemToggles;
     [SerializeField]
-    private Image[] _activeLockImages;
+    private GameObject[] _activeLock;
 
     [Space(20f)]
     [SerializeField]
@@ -178,11 +178,16 @@ public class GearCanvas : BaseCanvas
 
         PassiveAddItem();
         ActiveAddItem();
+        LockItem();
+
         AddShell();
     }
 
     private void ResetItem()
     {
+        _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
+        _shellEquipmentDataDict = ShellSaveManager.GetShellEquipment(_currentTankID);
+
         // √ ±‚»≠
         foreach (var item in _itemInventoryDictionary)
         {
@@ -296,13 +301,42 @@ public class GearCanvas : BaseCanvas
         }
     }
 
+    private void LockItem()
+    {
+        Tank tank = AddressablesManager.Instance.GetResource<GameObject>(_currentTankID).GetComponent<Tank>();
+
+        uint passiveItemSlotSize = tank.TankSO.PassiveItemInventorySize;
+        uint activeItemSlotSize = tank.TankSO.ActiveItemInventorySize;
+
+        for(int i = _passiveLock.Length - 1; i >= passiveItemSlotSize; i--)
+        {
+            _passiveLock[i].SetActive(true);
+            if (_passiveItemEquipSlotDict.ContainsKey(i))
+            {
+                _passiveItemEquipSlotDict.Remove(i);
+                _passiveItemImages[i].sprite = null;
+                _passiveItemImages[i].gameObject.SetActive(false);
+                ItemSaveManager.ItemEquip(ItemType.Passive, i, "");
+            }
+        }
+
+        for (int i = _activeLock.Length - 1; i >= activeItemSlotSize; i--)
+        {
+            _activeLock[i].SetActive(true);
+            if (_activeItemEquipSlotDict.ContainsKey(i))
+            {
+                _activeItemEquipSlotDict.Remove(i);
+                _activeItemImages[i].sprite = null;
+                _activeItemImages[i].gameObject.SetActive(false);
+                ItemSaveManager.ItemEquip(ItemType.Active, i, "");
+            }
+        }
+    }
+
     private void AddShell()
     {
-        _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
-        _shellEquipmentDataDict = ShellSaveManager.GetShellEquipment(_currentTankID);
-
-        Turret _turret = AddressablesManager.Instance.GetResource<GameObject>(_currentTankID).GetComponent<Turret>();
-        foreach (Shell shellInfo in _turret.TurretSO.Shells)
+        Turret turret = AddressablesManager.Instance.GetResource<GameObject>(_currentTankID).GetComponent<Turret>();
+        foreach (Shell shellInfo in turret.TurretSO.Shells)
         {
             var shell = Instantiate(_itemTemplate, _itemContent);
             shell.SetActive(true);
