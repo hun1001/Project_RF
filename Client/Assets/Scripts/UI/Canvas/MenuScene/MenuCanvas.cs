@@ -1,7 +1,6 @@
 ﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -25,6 +24,7 @@ public class MenuCanvas : BaseCanvas
     private bool _isHide = false;
     private bool _isCameraMove = false;
 
+    [Header("Buttons")]
     [SerializeField]
     private Button _startButton = null;
 
@@ -33,6 +33,13 @@ public class MenuCanvas : BaseCanvas
 
     [SerializeField]
     private Button _serverButton = null;
+
+    [Header("Warning")]
+    [SerializeField]
+    private RectTransform _warningPanel;
+    [SerializeField]
+    private TextController _warningText;
+    private Sequence _warningSequence;
 
     private void Awake()
     {
@@ -68,6 +75,8 @@ public class MenuCanvas : BaseCanvas
         _startButton.onClick.AddListener(OnStartButton);
         _trainingButton.onClick.AddListener(OnTrainingStart);
         _serverButton.onClick.AddListener(OnServerButton);
+
+        _warningPanel.gameObject.SetActive(false);
     }
 
     private void Start()
@@ -106,6 +115,12 @@ public class MenuCanvas : BaseCanvas
 
     public void OnStartButton()
     {
+        if (ShellEmptyCheck())
+        {
+            WarningShellEmpty();
+            return;
+        }
+
         _startButton.interactable = false;
         Time.timeScale = 1;
         SceneManager.LoadScene("GameScene");
@@ -114,6 +129,12 @@ public class MenuCanvas : BaseCanvas
 
     public void OnTrainingStart()
     {
+        if (ShellEmptyCheck())
+        {
+            WarningShellEmpty();
+            return;
+        }
+
         _trainingButton.interactable = false;
 
         Time.timeScale = 1;
@@ -123,8 +144,40 @@ public class MenuCanvas : BaseCanvas
 
     public void OnServerButton()
     {
+        if (ShellEmptyCheck())
+        {
+            WarningShellEmpty();
+            return;
+        }
+
         _serverButton.interactable = false;
         ServerManager.Instance.ConnectToServer();
+    }
+
+    private bool ShellEmptyCheck()
+    {
+        ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
+
+        return shellEquipmentData._shellEquipmentData.Count <= 0;
+    }
+
+    private void WarningShellEmpty()
+    {
+        _warningSequence.Kill();
+        _warningSequence = DOTween.Sequence()
+        .AppendCallback(() =>
+        {
+            _warningPanel.GetComponent<CanvasGroup>().DOFade(1, 0f);
+            _warningPanel.gameObject.SetActive(true);
+            _warningText.SetText("총알이 장착되어 있지 않습니다!\n총알을 장착해주세요.");
+        })
+        .AppendInterval(1.2f)
+        .Append(_warningPanel.GetComponent<CanvasGroup>().DOFade(0, 1f))
+        .AppendCallback(() =>
+        {
+            _warningPanel.gameObject.SetActive(false);
+            _warningPanel.GetComponent<CanvasGroup>().DOFade(1, 0f);
+        });
     }
 
     public void OnModeButton()
