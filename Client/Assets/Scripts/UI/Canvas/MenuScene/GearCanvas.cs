@@ -7,6 +7,13 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum GearType
+{
+    PassiveItem,
+    ActiveItem,
+    Shell,
+}
+
 public class GearCanvas : BaseCanvas
 {
     [Header("ItemList")]
@@ -43,7 +50,9 @@ public class GearCanvas : BaseCanvas
     [SerializeField]
     private Toggle[] _shellToggles;
 
+    private GearType _activateGearType;
     private string _currentTankID;
+    private Tank _curentTank;
     private ItemEquipmentData _passiveItemEquipmentDataDict;
     private ItemEquipmentData _activeItemEquipmentDataDict;
     private ShellEquipmentData _shellEquipmentDataDict;
@@ -53,6 +62,8 @@ public class GearCanvas : BaseCanvas
     private int _passiveSlotIdx = 0;
     private int _activeSlotIdx = 0;
     private int _shellSlotIdx = 0;
+    private uint _passiveItemSlotSize;
+    private uint _activeItemSlotSize;
 
     [Header("Animation")]
     [SerializeField]
@@ -93,6 +104,7 @@ public class GearCanvas : BaseCanvas
         _inventoryTransform.DOAnchorPosY(0f, 0.7f);
         _passiveItemToggles[idx].isOn = true;
         _passiveSlotIdx = idx;
+        _activateGearType = GearType.PassiveItem;
     }
 
     public void OnActiveInventory(int idx)
@@ -118,6 +130,7 @@ public class GearCanvas : BaseCanvas
         _inventoryTransform.DOAnchorPosY(0f, 0.7f);
         _activeItemToggles[idx].isOn = true;
         _activeSlotIdx = idx;
+        _activateGearType = GearType.ActiveItem;
     }
 
     public void OnShellInventory(int idx)
@@ -137,9 +150,78 @@ public class GearCanvas : BaseCanvas
         _inventoryTransform.DOAnchorPosY(0f, 0.7f);
         _shellToggles[idx].isOn = true;
         _shellSlotIdx = idx;
+        _activateGearType = GearType.Shell;
     }
 
-    public void CloseInvetory()
+    public void OnUnmountGear()
+    {
+        switch (_activateGearType)
+        {
+            case GearType.PassiveItem:
+                {
+                    if (_passiveItemEquipSlotDict.ContainsKey(_passiveSlotIdx))
+                    {
+                        _passiveItemEquipSlotDict[_passiveSlotIdx].SetActive(true);
+                        _passiveItemEquipSlotDict.Remove(_passiveSlotIdx);
+                        _passiveItemImages[_passiveSlotIdx].sprite = null;
+                        _passiveItemImages[_passiveSlotIdx].gameObject.SetActive(false);
+                        ItemSaveManager.ItemEquip(ItemType.Passive, _passiveSlotIdx, "");
+                        //_passiveItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Passive);
+                    }
+                }
+                break;
+            case GearType.ActiveItem:
+                {
+                    if (_activeItemEquipSlotDict.ContainsKey(_activeSlotIdx))
+                    {
+                        _activeItemEquipSlotDict[_activeSlotIdx].SetActive(true);
+                        _activeItemEquipSlotDict.Remove(_activeSlotIdx);
+                        _activeItemImages[_activeSlotIdx].sprite = null;
+                        _activeItemImages[_activeSlotIdx].gameObject.SetActive(false);
+                        ItemSaveManager.ItemEquip(ItemType.Active, _activeSlotIdx, "");
+                        //_activeItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Active);
+                    }
+                }
+                break;
+            case GearType.Shell:
+                {
+                    if (_shellEquipSlotDict.ContainsKey(_shellSlotIdx))
+                    {
+                        if(_shellSlotIdx == 0)
+                        {
+                            if(_shellEquipSlotDict.Count == 2)
+                            {
+                                _shellEquipSlotDict[0].SetActive(true);
+                                _shellEquipSlotDict[0] = _shellEquipSlotDict[1];
+                                _shellEquipSlotDict.Remove(1);
+                                _shellImages[0].sprite = _shellImages[1].sprite;
+                                _shellImages[1].sprite = null;
+                                _shellImages[1].gameObject.SetActive(false);
+                                ShellSaveManager.ShellEquip(_currentTankID, 0, _shellEquipmentDataDict._shellEquipmentData[1]);
+                            }
+                            else
+                            {
+                                _shellEquipSlotDict[_shellSlotIdx].SetActive(true);
+                                _shellEquipSlotDict.Remove(_shellSlotIdx);
+                                _shellImages[_shellSlotIdx].sprite = null;
+                                _shellImages[_shellSlotIdx].gameObject.SetActive(false);
+                            }
+                        }
+                        else
+                        {
+                            _shellEquipSlotDict[_shellSlotIdx].SetActive(true);
+                            _shellEquipSlotDict.Remove(_shellSlotIdx);
+                            _shellImages[_shellSlotIdx].sprite = null;
+                            _shellImages[_shellSlotIdx].gameObject.SetActive(false);
+                        }
+                        ShellSaveManager.ShellUnmount(_currentTankID);
+                    }
+                }
+                break;
+        }
+    }
+
+    public void CloseInvetory(bool isInstant)
     {
         foreach (var toggle in _passiveItemToggles)
         {
@@ -153,8 +235,14 @@ public class GearCanvas : BaseCanvas
         {
             toggle.isOn = false;
         }
-
-        _inventoryTransform.DOAnchorPosY(-_inventoryTransform.sizeDelta.y, 0.7f);
+        if (isInstant)
+        {
+            _inventoryTransform.DOAnchorPosY(-_inventoryTransform.sizeDelta.y, 0f);
+        }
+        else
+        {
+            _inventoryTransform.DOAnchorPosY(-_inventoryTransform.sizeDelta.y, 0.7f);
+        }
     }
 
     public override void OnOpenEvents()
@@ -170,6 +258,7 @@ public class GearCanvas : BaseCanvas
         .Join(_rightPanel.DOAnchorPosX(0f, 0.5f));
 
         AddItems();
+        CloseInvetory(true);
     }
 
     private void AddItems()
@@ -186,7 +275,10 @@ public class GearCanvas : BaseCanvas
     private void ResetItem()
     {
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
+        _curentTank = AddressablesManager.Instance.GetResource<GameObject>(_currentTankID).GetComponent<Tank>();
         _shellEquipmentDataDict = ShellSaveManager.GetShellEquipment(_currentTankID);
+        _passiveItemSlotSize = _curentTank.TankSO.PassiveItemInventorySize;
+        _activeItemSlotSize = _curentTank.TankSO.ActiveItemInventorySize;
 
         // ÃÊ±âÈ­
         foreach (var item in _itemInventoryDictionary)
@@ -227,11 +319,14 @@ public class GearCanvas : BaseCanvas
             if (_passiveItemEquipmentDataDict._itemEquipmentList.Contains(itemInfo.ID))
             {
                 int idx = _passiveItemEquipmentDataDict._itemEquipmentList.IndexOf(itemInfo.ID);
-                _passiveItemEquipSlotDict.Add(idx, item);
-                item.SetActive(false);
+                if(_passiveItemSlotSize >= idx + 1)
+                {
+                    _passiveItemEquipSlotDict.Add(idx, item);
+                    item.SetActive(false);
 
-                _passiveItemImages[idx].gameObject.SetActive(true);
-                _passiveItemImages[idx].sprite = itemInfo.ItemSO.Image;
+                    _passiveItemImages[idx].gameObject.SetActive(true);
+                    _passiveItemImages[idx].sprite = itemInfo.ItemSO.Image;
+                }
             }
 
             item.GetComponent<Button>().onClick.AddListener(() =>
@@ -251,7 +346,7 @@ public class GearCanvas : BaseCanvas
                 _passiveItemImages[_passiveSlotIdx].sprite = itemInfo.ItemSO.Image;
 
                 item.SetActive(false);
-                CloseInvetory();
+                CloseInvetory(false);
             });
         }
     }
@@ -272,11 +367,14 @@ public class GearCanvas : BaseCanvas
             if (_activeItemEquipmentDataDict._itemEquipmentList.Contains(itemInfo.ID))
             {
                 int idx = _activeItemEquipmentDataDict._itemEquipmentList.IndexOf(itemInfo.ID);
-                _activeItemEquipSlotDict.Add(idx, item);
-                item.SetActive(false);
+                if (_passiveItemSlotSize >= idx + 1)
+                {
+                    _activeItemEquipSlotDict.Add(idx, item);
+                    item.SetActive(false);
 
-                _activeItemImages[idx].gameObject.SetActive(true);
-                _activeItemImages[idx].sprite = itemInfo.ItemSO.Image;
+                    _activeItemImages[idx].gameObject.SetActive(true);
+                    _activeItemImages[idx].sprite = itemInfo.ItemSO.Image;
+                }
             }
 
             item.GetComponent<Button>().onClick.AddListener(() =>
@@ -296,19 +394,14 @@ public class GearCanvas : BaseCanvas
                 _activeItemImages[_activeSlotIdx].sprite = itemInfo.ItemSO.Image;
 
                 item.SetActive(false);
-                CloseInvetory();
+                CloseInvetory(false);
             });
         }
     }
 
     private void LockItem()
     {
-        Tank tank = AddressablesManager.Instance.GetResource<GameObject>(_currentTankID).GetComponent<Tank>();
-
-        uint passiveItemSlotSize = tank.TankSO.PassiveItemInventorySize;
-        uint activeItemSlotSize = tank.TankSO.ActiveItemInventorySize;
-
-        for(int i = _passiveLock.Length - 1; i >= passiveItemSlotSize; i--)
+        for(int i = _passiveLock.Length - 1; i >= _passiveItemSlotSize; i--)
         {
             _passiveLock[i].SetActive(true);
             if (_passiveItemEquipSlotDict.ContainsKey(i))
@@ -316,11 +409,10 @@ public class GearCanvas : BaseCanvas
                 _passiveItemEquipSlotDict.Remove(i);
                 _passiveItemImages[i].sprite = null;
                 _passiveItemImages[i].gameObject.SetActive(false);
-                ItemSaveManager.ItemEquip(ItemType.Passive, i, "");
             }
         }
 
-        for (int i = _activeLock.Length - 1; i >= activeItemSlotSize; i--)
+        for (int i = _activeLock.Length - 1; i >= _activeItemSlotSize; i--)
         {
             _activeLock[i].SetActive(true);
             if (_activeItemEquipSlotDict.ContainsKey(i))
@@ -328,7 +420,6 @@ public class GearCanvas : BaseCanvas
                 _activeItemEquipSlotDict.Remove(i);
                 _activeItemImages[i].sprite = null;
                 _activeItemImages[i].gameObject.SetActive(false);
-                ItemSaveManager.ItemEquip(ItemType.Active, i, "");
             }
         }
     }
@@ -380,7 +471,7 @@ public class GearCanvas : BaseCanvas
                 _shellImages[_shellSlotIdx].sprite = shellInfo.ShellSprite;
 
                 shell.SetActive(false);
-                CloseInvetory();
+                CloseInvetory(false);
             });
         }
     }

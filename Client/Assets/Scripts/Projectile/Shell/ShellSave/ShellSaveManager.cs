@@ -46,6 +46,15 @@ public static class ShellSaveManager
         SaveShellEquipment(tankID);
     }
 
+    public static void ShellUnmount(string tankID)
+    {
+        if (_shellEquipmentDataDict[tankID]._shellEquipmentData.Count != 0)
+        {
+            _shellEquipmentDataDict[tankID]._shellEquipmentData.RemoveAt(_shellEquipmentDataDict[tankID]._shellEquipmentData.Count - 1);
+            SaveShellEquipment(tankID);
+        }
+    }
+
     public static void SaveShellEquipment(string tankID)
     {
         SaveManager.Save(SaveKey.GetShellEquipment(tankID), _shellEquipmentDataDict[tankID]);
