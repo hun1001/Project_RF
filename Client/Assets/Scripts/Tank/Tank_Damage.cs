@@ -37,8 +37,6 @@ public class Tank_Damage : Tank_Component
 
         sumDamage = Mathf.Clamp(sumDamage, 1, damage);
 
-        Debug.Log($"Before Truncate : {sumDamage}");
-
         sumDamage = (float)Math.Truncate(sumDamage);
 
         PopupText text = PoolManager.Get<PopupText>("PopupDamage", hitPos + Vector3.back * 5, Quaternion.identity);

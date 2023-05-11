@@ -37,8 +37,8 @@ public class Shell : CustomObject, IPoolReset
     public void SetShell(CustomObject owner)
     {
         _owner = owner;
-        _damage = Mathf.Ceil(_shellSO.Damage * (Mathf.Pow((owner as Tank).Turret.TurretData.AtkPower, 2) * 0.001f));
-        _penetration = Mathf.Ceil((owner as Tank).Turret.TurretData.AtkPower * (owner as Tank).Turret.TurretData.PenetrationPower * _shellSO.Penetration / 3000f);
+        _damage = Mathf.Round(_shellSO.Damage * (Mathf.Pow((owner as Tank).Turret.TurretData.AtkPower, 2) * 0.001f));
+        _penetration = Mathf.Round((owner as Tank).Turret.TurretData.AtkPower * (owner as Tank).Turret.TurretData.PenetrationPower * _shellSO.Penetration / 3000f);
     }
 
     public void PoolObjectReset()
