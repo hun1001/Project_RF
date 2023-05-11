@@ -143,7 +143,7 @@ public class GearCanvas : BaseCanvas
 
         foreach (var shell in _shellInventoryDictionary)
         {
-            if (_shellEquipmentDataDict._shellEquipmentData.Contains(shell.Key.ID)) continue;
+            if (_shellEquipmentDataDict._shellEquipmentList.Contains(shell.Key.ID)) continue;
             shell.Value.SetActive(true);
         }
 
@@ -409,9 +409,9 @@ public class GearCanvas : BaseCanvas
             shell.GetComponent<Image>().sprite = shellInfo.ShellSprite;
             _shellInventoryDictionary.Add(shellInfo, shell);
 
-            if (_shellEquipmentDataDict._shellEquipmentData.Contains(shellInfo.ID))
+            if (_shellEquipmentDataDict._shellEquipmentList.Contains(shellInfo.ID))
             {
-                int idx = _shellEquipmentDataDict._shellEquipmentData.IndexOf(shellInfo.ID);
+                int idx = _shellEquipmentDataDict._shellEquipmentList.IndexOf(shellInfo.ID);
                 _shellEquipSlotDict.Add(idx, shell);
                 shell.SetActive(false);
 
@@ -421,7 +421,7 @@ public class GearCanvas : BaseCanvas
 
             shell.GetComponent<Button>().onClick.AddListener(() =>
             {
-                if (_shellEquipmentDataDict._shellEquipmentData[_shellSlotIdx] == "")
+                if (_shellEquipmentDataDict._shellEquipmentList[_shellSlotIdx] == "")
                 {
                     ShellSaveManager.ShellEquip(_currentTankID, _shellSlotIdx, shellInfo.ID);
                     _shellEquipSlotDict.Add(_shellSlotIdx, shell);
@@ -437,10 +437,10 @@ public class GearCanvas : BaseCanvas
 
                 shell.SetActive(false);
 
-                if (_shellEquipmentDataDict._shellEquipmentData.Contains(""))
+                if (_shellEquipmentDataDict._shellEquipmentList.Contains(""))
                 {
                     _shellToggles[_shellSlotIdx].isOn = false;
-                    _shellSlotIdx = _shellEquipmentDataDict._shellEquipmentData.IndexOf("");
+                    _shellSlotIdx = _shellEquipmentDataDict._shellEquipmentList.IndexOf("");
                     _shellToggles[_shellSlotIdx].isOn = true;
                 }
                 else

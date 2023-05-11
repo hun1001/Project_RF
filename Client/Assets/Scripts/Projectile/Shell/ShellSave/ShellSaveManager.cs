@@ -34,7 +34,7 @@ public static class ShellSaveManager
             _shellEquipmentDataDict.Add(tankID, new ShellEquipmentData());
         }
         
-        _shellEquipmentDataDict[tankID]._shellEquipmentData[idx] = shellName;
+        _shellEquipmentDataDict[tankID]._shellEquipmentList[idx] = shellName;
 
         SaveShellEquipment(tankID);
     }

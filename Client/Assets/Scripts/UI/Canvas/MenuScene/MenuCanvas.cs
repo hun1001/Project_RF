@@ -11,6 +11,16 @@ public class MenuCanvas : BaseCanvas
     [SerializeField]
     private GoodsTexts _goodsTexts = null;
 
+    [Header("Gear")]
+    // 0 ~ 2 Passive / 3 ~ 4 Active / 5 ~ 6 Shell
+    [SerializeField]
+    private Image[] _gearImages = null;
+
+    private string _currentTankID;
+    private ItemEquipmentData _passiveItemEquipmentDataDict;
+    private ItemEquipmentData _activeItemEquipmentDataDict;
+    private ShellEquipmentData _shellEquipmentDataDict;
+
     [Header("Animation")]
     [SerializeField]
     private RectTransform _topFrame;
@@ -43,25 +53,6 @@ public class MenuCanvas : BaseCanvas
 
     private void Awake()
     {
-        //foreach (var tankInfo in 보유한탱크리스트)
-        // for(int i = 0; i < 5; i++)
-        // {
-        //     var smallTank = Instantiate(_smallHangerTemplate, _smallHangerContent);
-        //     smallTank.SetActive(true);
-
-        //     var bigTank = Instantiate(_bigHangerTemplate, _bigHangerContent);
-        //     bigTank.SetActive(true);
-
-        //     smallTank.GetComponent<Button>().onClick.AddListener(() =>
-        //     {
-        //         OnOpenItem();
-        //     });
-        //     bigTank.GetComponent<Button>().onClick.AddListener(() =>
-        //     {
-        //         OnOpenItem();
-        //     });
-        // }
-
         GoodsManager.AddOnGoodsChanged((f, p) =>
         {
             _goodsTexts.SetGoodsTexts(f, p);
@@ -111,6 +102,47 @@ public class MenuCanvas : BaseCanvas
                 _showButton.DOAnchorPosY(0f, 0.25f);
             }
         });
+
+        GearCheck();
+    }
+
+    public void GearCheck()
+    {
+        _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
+
+        _passiveItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Passive);
+        _activeItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Active);
+        _shellEquipmentDataDict = ShellSaveManager.GetShellEquipment(_currentTankID);
+
+        int idx = 0;
+        foreach (var passive in _passiveItemEquipmentDataDict._itemEquipmentList)
+        {
+            if (passive == "")
+            {
+                idx++;
+                continue;
+            }
+
+
+        }
+
+        foreach(var active in _activeItemEquipmentDataDict._itemEquipmentList)
+        {
+            if (active == "")
+            {
+                idx++;
+                continue;
+            }
+        }
+
+        foreach(var shell in _shellEquipmentDataDict._shellEquipmentList)
+        {
+            if (shell == "")
+            {
+                idx++;
+                continue;
+            }
+        }
     }
 
     public void OnStartButton()
@@ -158,7 +190,7 @@ public class MenuCanvas : BaseCanvas
     {
         ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
 
-        return shellEquipmentData._shellEquipmentData.Count <= 0;
+        return shellEquipmentData._shellEquipmentList[0] == "" && shellEquipmentData._shellEquipmentList[1] == "";
     }
 
     private void WarningShellEmpty()

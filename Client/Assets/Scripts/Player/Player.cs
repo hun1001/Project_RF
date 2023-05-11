@@ -66,8 +66,8 @@ public class Player : CustomObject
         }
 
         ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
-        int shellCnt = shellEquipmentData._shellEquipmentData.Count;
-        if (shellEquipmentData._shellEquipmentData.Contains(""))
+        int shellCnt = shellEquipmentData._shellEquipmentList.Count;
+        if (shellEquipmentData._shellEquipmentList.Contains(""))
         {
             shellCnt--;
         }
@@ -76,11 +76,11 @@ public class Player : CustomObject
         Sprite[] shellSprite = new Sprite[shellCnt];
         UnityAction<bool>[] shellAction = new UnityAction<bool>[shellCnt];
 
-        for (int i = 0; i < shellEquipmentData._shellEquipmentData.Count; i++)
+        for (int i = 0; i < shellEquipmentData._shellEquipmentList.Count; i++)
         {
             int index = i;
-            if (shellEquipmentData._shellEquipmentData[index] == "") continue;
-            Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentData[index]).GetComponent<Shell>();
+            if (shellEquipmentData._shellEquipmentList[index] == "") continue;
+            Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[index]).GetComponent<Shell>();
             shellName[index] = shell.ID;
             shellSprite[index] = shell.ShellSprite;
             shellAction[index] = (_isOn) =>
