@@ -101,7 +101,7 @@ public class Tank_Move : Tank_Component
     {
         if (_currentSpeed > _targetSpeed)
         {
-            _currentSpeed -= _acceleration * Time.deltaTime;
+            _currentSpeed -= _acceleration * Time.deltaTime * 2;
         }
         else if (_currentSpeed < 0f) _currentSpeed = 0f;
     }
