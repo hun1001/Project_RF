@@ -1,4 +1,6 @@
-﻿using DG.Tweening;
+﻿using Addressable;
+using DG.Tweening;
+using Item;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -74,6 +76,8 @@ public class MenuCanvas : BaseCanvas
     {
         _isHide = true;
         _isOpen = true;
+
+        GearCheck();
     }
 
     public override void OnOpenEvents()
@@ -119,27 +123,36 @@ public class MenuCanvas : BaseCanvas
         {
             if (passive == "")
             {
-                idx++;
+                _gearImages[idx].sprite = null;
+                _gearImages[idx++].gameObject.SetActive(false);
                 continue;
             }
 
-
+            Item_Base itemInfo = AddressablesManager.Instance.GetResource<GameObject>(passive).GetComponent<Item_Base>();
+            _gearImages[idx].sprite = itemInfo.ItemSO.Image;
+            _gearImages[idx++].gameObject.SetActive(true);
         }
 
         foreach(var active in _activeItemEquipmentDataDict._itemEquipmentList)
         {
             if (active == "")
             {
-                idx++;
+                _gearImages[idx].sprite = null;
+                _gearImages[idx++].gameObject.SetActive(false);
                 continue;
             }
+
+            Item_Base itemInfo = AddressablesManager.Instance.GetResource<GameObject>(active).GetComponent<Item_Base>();
+            _gearImages[idx].sprite = itemInfo.ItemSO.Image;
+            _gearImages[idx++].gameObject.SetActive(true);
         }
 
         foreach(var shell in _shellEquipmentDataDict._shellEquipmentList)
         {
             if (shell == "")
             {
-                idx++;
+                _gearImages[idx].sprite = null;
+                _gearImages[idx++].gameObject.SetActive(false);
                 continue;
             }
         }
