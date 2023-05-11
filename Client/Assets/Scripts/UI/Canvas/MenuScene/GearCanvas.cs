@@ -83,9 +83,9 @@ public class GearCanvas : BaseCanvas
 
     public void OnPassiveInventory(int idx)
     {
-        foreach(var item in _itemInventoryDictionary)
+        foreach (var item in _itemInventoryDictionary)
         {
-            if(item.Key.ItemSO.ItemType == ItemType.Passive)
+            if (item.Key.ItemSO.ItemType == ItemType.Passive)
             {
                 if (_passiveItemEquipmentDataDict._itemEquipmentList.Contains(item.Key.ID)) continue;
                 item.Value.SetActive(true);
@@ -96,7 +96,7 @@ public class GearCanvas : BaseCanvas
             }
         }
 
-        foreach (var shell in  _shellInventoryDictionary)
+        foreach (var shell in _shellInventoryDictionary)
         {
             shell.Value.SetActive(false);
         }
@@ -250,7 +250,7 @@ public class GearCanvas : BaseCanvas
     private void ResetItem()
     {
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
-        _curentTank = AddressablesManager.Instance.GetResource<GameObject>(_currentTankID).GetComponent<Tank>();
+        _curentTank = FindObjectOfType<TankModelManager>().TankModel;
         _shellEquipmentDataDict = ShellSaveManager.GetShellEquipment(_currentTankID);
         _passiveItemSlotSize = _curentTank.TankSO.PassiveItemInventorySize;
         _activeItemSlotSize = _curentTank.TankSO.ActiveItemInventorySize;
@@ -294,7 +294,7 @@ public class GearCanvas : BaseCanvas
             if (_passiveItemEquipmentDataDict._itemEquipmentList.Contains(itemInfo.ID))
             {
                 int idx = _passiveItemEquipmentDataDict._itemEquipmentList.IndexOf(itemInfo.ID);
-                if(_passiveItemSlotSize >= idx + 1)
+                if (_passiveItemSlotSize >= idx + 1)
                 {
                     _passiveItemEquipSlotDict.Add(idx, item);
                     item.SetActive(false);
@@ -376,7 +376,7 @@ public class GearCanvas : BaseCanvas
 
     private void LockItem()
     {
-        for(int i = _passiveLock.Length - 1; i >= _passiveItemSlotSize; i--)
+        for (int i = _passiveLock.Length - 1; i >= _passiveItemSlotSize; i--)
         {
             _passiveLock[i].SetActive(true);
             if (_passiveItemEquipSlotDict.ContainsKey(i))

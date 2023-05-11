@@ -31,6 +31,7 @@ public class MenuSceneCameraManager : MonoBehaviour
         {
             _cam.m_XAxis.m_InputAxisName = "Mouse X";
             _cam.m_YAxis.m_InputAxisName = "Mouse Y";
+
             _cam.m_YAxis.m_InvertInput = true;
 
             _menuCanvas.CameraUIHide(false);
@@ -52,15 +53,13 @@ public class MenuSceneCameraManager : MonoBehaviour
             Touch touchZero = Input.GetTouch(0);
             Touch touchOne = Input.GetTouch(1);
 
-            // 터치 이동 거리 계산
             Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
             Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
             float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
             float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
-            // FOV 값 조정
-            _cam.m_Lens.FieldOfView += deltaMagnitudeDiff * 1 * Time.deltaTime;
+            _cam.m_Lens.FieldOfView += deltaMagnitudeDiff * 3 * Time.deltaTime;
             _cam.m_Lens.FieldOfView = Mathf.Clamp(_cam.m_Lens.FieldOfView, 15, 40);
         }
 

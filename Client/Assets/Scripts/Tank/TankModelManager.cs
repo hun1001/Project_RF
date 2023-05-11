@@ -6,11 +6,18 @@ using UnityEngine;
 public class TankModelManager : MonoBehaviour
 {
     private GameObject _tankModel = null;
+    public Tank TankModel => _tankModel.GetComponent<Tank>();
 
     private void Awake()
     {
-        _tankModel = transform.GetChild(0).gameObject;
-        PlayerDataManager.Instance.SetPlayerTankID("T-44");
+        if (string.IsNullOrEmpty(PlayerDataManager.Instance.GetPlayerTankID()))
+        {
+            ChangeTankModel(Addressable.AddressablesManager.Instance.GetResource<GameObject>("T-44").GetComponent<Tank>());
+        }
+        else
+        {
+            ChangeTankModel(Addressable.AddressablesManager.Instance.GetResource<GameObject>(PlayerDataManager.Instance.GetPlayerTankID()).GetComponent<Tank>());
+        }
     }
 
     public void ChangeTankModel(Tank tank)
