@@ -166,7 +166,6 @@ public class GearCanvas : BaseCanvas
                         _passiveItemImages[_passiveSlotIdx].sprite = null;
                         _passiveItemImages[_passiveSlotIdx].gameObject.SetActive(false);
                         ItemSaveManager.ItemEquip(ItemType.Passive, _passiveSlotIdx, "");
-                        //_passiveItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Passive);
                     }
                 }
                 break;
@@ -179,7 +178,6 @@ public class GearCanvas : BaseCanvas
                         _activeItemImages[_activeSlotIdx].sprite = null;
                         _activeItemImages[_activeSlotIdx].gameObject.SetActive(false);
                         ItemSaveManager.ItemEquip(ItemType.Active, _activeSlotIdx, "");
-                        //_activeItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Active);
                     }
                 }
                 break;
@@ -187,34 +185,11 @@ public class GearCanvas : BaseCanvas
                 {
                     if (_shellEquipSlotDict.ContainsKey(_shellSlotIdx))
                     {
-                        if(_shellSlotIdx == 0)
-                        {
-                            if(_shellEquipSlotDict.Count == 2)
-                            {
-                                _shellEquipSlotDict[0].SetActive(true);
-                                _shellEquipSlotDict[0] = _shellEquipSlotDict[1];
-                                _shellEquipSlotDict.Remove(1);
-                                _shellImages[0].sprite = _shellImages[1].sprite;
-                                _shellImages[1].sprite = null;
-                                _shellImages[1].gameObject.SetActive(false);
-                                ShellSaveManager.ShellEquip(_currentTankID, 0, _shellEquipmentDataDict._shellEquipmentData[1]);
-                            }
-                            else
-                            {
-                                _shellEquipSlotDict[_shellSlotIdx].SetActive(true);
-                                _shellEquipSlotDict.Remove(_shellSlotIdx);
-                                _shellImages[_shellSlotIdx].sprite = null;
-                                _shellImages[_shellSlotIdx].gameObject.SetActive(false);
-                            }
-                        }
-                        else
-                        {
-                            _shellEquipSlotDict[_shellSlotIdx].SetActive(true);
-                            _shellEquipSlotDict.Remove(_shellSlotIdx);
-                            _shellImages[_shellSlotIdx].sprite = null;
-                            _shellImages[_shellSlotIdx].gameObject.SetActive(false);
-                        }
-                        ShellSaveManager.ShellUnmount(_currentTankID);
+                        _shellEquipSlotDict[_shellSlotIdx].SetActive(true);
+                        _shellEquipSlotDict.Remove(_shellSlotIdx);
+                        _shellImages[_shellSlotIdx].sprite = null;
+                        _shellImages[_shellSlotIdx].gameObject.SetActive(false);
+                        ShellSaveManager.ShellEquip(_currentTankID, _shellSlotIdx, "");
                     }
                 }
                 break;
@@ -446,32 +421,32 @@ public class GearCanvas : BaseCanvas
 
             shell.GetComponent<Button>().onClick.AddListener(() =>
             {
-                if(_shellEquipmentDataDict._shellEquipmentData.Count <= _shellSlotIdx)
+                if (_shellEquipmentDataDict._shellEquipmentData[_shellSlotIdx] == "")
                 {
                     ShellSaveManager.ShellEquip(_currentTankID, _shellSlotIdx, shellInfo.ID);
-                    _shellSlotIdx = _shellEquipmentDataDict._shellEquipmentData.Count - 1;
                     _shellEquipSlotDict.Add(_shellSlotIdx, shell);
                     _shellImages[_shellSlotIdx].gameObject.SetActive(true);
                 }
                 else
                 {
-                    if (_shellEquipmentDataDict._shellEquipmentData[_shellSlotIdx] == "")
-                    {
-                        ShellSaveManager.ShellEquip(_currentTankID, _shellSlotIdx, shellInfo.ID);
-                        _shellEquipSlotDict.Add(_shellSlotIdx, shell);
-                        _shellImages[_shellSlotIdx].gameObject.SetActive(true);
-                    }
-                    else
-                    {
-                        _shellEquipSlotDict[_shellSlotIdx].SetActive(true);
-                        ShellSaveManager.ShellEquip(_currentTankID, _shellSlotIdx, shellInfo.ID);
-                        _shellEquipSlotDict[_shellSlotIdx] = shell;
-                    }
+                    _shellEquipSlotDict[_shellSlotIdx].SetActive(true);
+                    ShellSaveManager.ShellEquip(_currentTankID, _shellSlotIdx, shellInfo.ID);
+                    _shellEquipSlotDict[_shellSlotIdx] = shell;
                 }
                 _shellImages[_shellSlotIdx].sprite = shellInfo.ShellSprite;
 
                 shell.SetActive(false);
-                CloseInvetory(false);
+
+                if (_shellEquipmentDataDict._shellEquipmentData.Contains(""))
+                {
+                    _shellToggles[_shellSlotIdx].isOn = false;
+                    _shellSlotIdx = _shellEquipmentDataDict._shellEquipmentData.IndexOf("");
+                    _shellToggles[_shellSlotIdx].isOn = true;
+                }
+                else
+                {
+                    CloseInvetory(false);
+                }
             });
         }
     }

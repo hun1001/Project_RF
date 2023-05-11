@@ -33,26 +33,10 @@ public static class ShellSaveManager
         {
             _shellEquipmentDataDict.Add(tankID, new ShellEquipmentData());
         }
-
-        if (_shellEquipmentDataDict[tankID]._shellEquipmentData.Count < idx + 1)
-        {
-            _shellEquipmentDataDict[tankID]._shellEquipmentData.Add(shellName);
-        }
-        else
-        {
-            _shellEquipmentDataDict[tankID]._shellEquipmentData[idx] = shellName;
-        }
+        
+        _shellEquipmentDataDict[tankID]._shellEquipmentData[idx] = shellName;
 
         SaveShellEquipment(tankID);
-    }
-
-    public static void ShellUnmount(string tankID)
-    {
-        if (_shellEquipmentDataDict[tankID]._shellEquipmentData.Count != 0)
-        {
-            _shellEquipmentDataDict[tankID]._shellEquipmentData.RemoveAt(_shellEquipmentDataDict[tankID]._shellEquipmentData.Count - 1);
-            SaveShellEquipment(tankID);
-        }
     }
 
     public static void SaveShellEquipment(string tankID)

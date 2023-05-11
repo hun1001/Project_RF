@@ -79,28 +79,16 @@ public static class ItemSaveManager
             _itemEquipmentDataDict.Add(itemType, new ItemEquipmentData(itemType));
         }
 
-        _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;
-
-        //if (_itemEquipmentDataDict[itemType]._itemEquipmentList[idx] == "")
-        //{
-        //    _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;
-        //}
-        //else
-        //{
-        //    _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;
-        //}
-
-        //if (!_itemEquipmentDataDict[itemType]._itemEquipmentList.Contains(itemName))
-        //{
-        //    if (_itemEquipmentDataDict[itemType]._itemEquipmentList[idx] == "")
-        //    {
-        //        _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;
-        //    }
-        //    else
-        //    {
-        //        _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;
-        //    }
-        //}
+        if (!_itemEquipmentDataDict[itemType]._itemEquipmentList.Contains(itemName))
+        {
+            _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;
+        }
+        else
+        {
+            int index = _itemEquipmentDataDict[itemType]._itemEquipmentList.IndexOf(itemName);
+            _itemEquipmentDataDict[itemType]._itemEquipmentList[index] = "";
+            _itemEquipmentDataDict[itemType]._itemEquipmentList[idx] = itemName;
+        }
 
         SaveItemEquipment(itemType);
     }

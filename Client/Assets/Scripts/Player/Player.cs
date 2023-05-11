@@ -67,12 +67,16 @@ public class Player : CustomObject
 
         ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
         int shellCnt = shellEquipmentData._shellEquipmentData.Count;
+        if (shellEquipmentData._shellEquipmentData.Contains(""))
+        {
+            shellCnt--;
+        }
 
         string[] shellName = new string[shellCnt];
         Sprite[] shellSprite = new Sprite[shellCnt];
         UnityAction<bool>[] shellAction = new UnityAction<bool>[shellCnt];
 
-        for (int i = 0; i < shellCnt; i++)
+        for (int i = 0; i < shellEquipmentData._shellEquipmentData.Count; i++)
         {
             int index = i;
             if (shellEquipmentData._shellEquipmentData[index] == "") continue;
