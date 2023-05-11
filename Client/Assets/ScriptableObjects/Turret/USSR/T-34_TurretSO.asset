@@ -13,10 +13,14 @@ MonoBehaviour:
   m_Name: T-34_TurretSO
   m_EditorClassIdentifier: 
   RotationSpeed: 230
-  ReloadTime: 9
+  ReloadTime: 4.5
   FOV: 100
   AtkPower: 76
   PenetrationPower: 42.5
+  IsBurst: 0
+  BurstData:
+    BurstReloadTime: 0
+    MagazineSize: 0
   Shells:
   - {fileID: 6048802538869606771, guid: ae93bc32116c8b84499197a8143bf85b, type: 3}
   - {fileID: 2883189733259157399, guid: 655961e7a7a17764883fe8e639735284, type: 3}

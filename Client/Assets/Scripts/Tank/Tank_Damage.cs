@@ -36,7 +36,10 @@ public class Tank_Damage : Tank_Component
         float sumDamage = damage * UnityEngine.Random.Range(0.9f, 1.1f) + decreaseDamage;
 
         sumDamage = Mathf.Clamp(sumDamage, 1, damage);
-        sumDamage = Mathf.Round(sumDamage);
+
+        Debug.Log($"Before Truncate : {sumDamage}");
+
+        sumDamage = (float)Math.Truncate(sumDamage);
 
         PopupText text = PoolManager.Get<PopupText>("PopupDamage", hitPos + Vector3.back * 5, Quaternion.identity);
 
