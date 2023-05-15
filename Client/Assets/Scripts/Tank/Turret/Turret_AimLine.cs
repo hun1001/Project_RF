@@ -63,6 +63,7 @@ public class Turret_AimLine : Turret_Component
 
         if (a.ReloadingTime <= 0f)
         {
+            //_lineRenderer.enabled = true;
             var rayData = Physics2D.Raycast(Turret.FirePoint.position, Turret.FirePoint.up, Turret.CurrentShell.Speed * 2f);
 
             if (rayData.collider != null && rayData.collider != Turret.GetComponent<Tank>().GetComponent<Collider2D>())
@@ -97,6 +98,7 @@ public class Turret_AimLine : Turret_Component
             }
 
             _lineRenderer.colorGradient = _gradients[0];
+            //_lineRenderer.enabled = false;
         }
     }
 }
