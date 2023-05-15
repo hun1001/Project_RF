@@ -59,7 +59,7 @@ public class SettingCanvas : BaseCanvas
 
     private bool _isPause = false;
 
-    private Sequence[] _changeFrameSequence = new Sequence[2];
+    private Sequence _changeFrameSequence;
 
     private void Start()
     {
@@ -165,7 +165,8 @@ public class SettingCanvas : BaseCanvas
                     _toggles[idx].isOn = true;
                     _frameTexts[idx].color = Color.black;
 
-                    _changeFrameSequence[0] = DOTween.Sequence()
+                    _changeFrameSequence.Kill();
+                    _changeFrameSequence = DOTween.Sequence()
                     .PrependCallback(() =>
                     {
                         _frames[0].anchoredPosition += Vector2.up * 500f;
@@ -188,7 +189,8 @@ public class SettingCanvas : BaseCanvas
                     _toggles[idx].isOn = true;
                     _frameTexts[idx].color = Color.black;
 
-                    _changeFrameSequence[1] = DOTween.Sequence()
+                    _changeFrameSequence.Kill();
+                    _changeFrameSequence = DOTween.Sequence()
                     .PrependCallback(() =>
                     {
                         _frames[1].anchoredPosition += Vector2.down * 500f;
