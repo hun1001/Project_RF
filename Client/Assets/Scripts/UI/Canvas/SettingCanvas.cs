@@ -11,7 +11,7 @@ public class SettingCanvas : BaseCanvas
     [SerializeField]
     private RectTransform _backGround;
     [SerializeField]
-    private RectTransform[] _frames;
+    private RectTransform _frame;
     [SerializeField]
     private Text[] _frameTexts;
     [SerializeField]
@@ -167,18 +167,7 @@ public class SettingCanvas : BaseCanvas
 
                     _changeFrameSequence.Kill();
                     _changeFrameSequence = DOTween.Sequence()
-                    .PrependCallback(() =>
-                    {
-                        _frames[0].anchoredPosition += Vector2.up * 500f;
-                        _frames[0].gameObject.SetActive(true);
-                    })
-                    .Append(_frames[1].DOAnchorPosY(-500f, 0.7f))
-                    .Join(_frames[0].DOAnchorPosY(20f, 0.7f))
-                    .AppendCallback(() =>
-                    {
-                        _frames[1].gameObject.SetActive(false);
-                        _frames[1].anchoredPosition = _frameOriginPos;
-                    });
+                    .Append(_frame.DOAnchorPosY(250f, 0.7f));
 
                     _toggles[1].isOn = false;
                     _frameTexts[1].color = Color.white;
@@ -191,18 +180,7 @@ public class SettingCanvas : BaseCanvas
 
                     _changeFrameSequence.Kill();
                     _changeFrameSequence = DOTween.Sequence()
-                    .PrependCallback(() =>
-                    {
-                        _frames[1].anchoredPosition += Vector2.down * 500f;
-                        _frames[1].gameObject.SetActive(true);
-                    })
-                    .Append(_frames[0].DOAnchorPosY(500f, 0.7f))
-                    .Join(_frames[1].DOAnchorPosY(20f, 0.7f))
-                    .AppendCallback(() =>
-                    {
-                        _frames[0].gameObject.SetActive(false);
-                        _frames[0].anchoredPosition = _frameOriginPos;
-                    });
+                    .Append(_frame.DOAnchorPosY(770f, 0.7f));
 
                     _toggles[0].isOn = false;
                     _frameTexts[0].color = Color.white;
