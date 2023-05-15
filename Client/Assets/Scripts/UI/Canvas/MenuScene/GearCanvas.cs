@@ -77,7 +77,10 @@ public class GearCanvas : BaseCanvas
     {
         _passiveItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Passive);
         _activeItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Active);
+    }
 
+    private void Start()
+    {
         AddItems();
     }
 

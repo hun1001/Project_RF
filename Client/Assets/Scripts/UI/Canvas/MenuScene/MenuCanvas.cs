@@ -17,6 +17,8 @@ public class MenuCanvas : BaseCanvas
     // 0 ~ 2 Passive / 3 ~ 4 Active / 5 ~ 6 Shell
     [SerializeField]
     private Image[] _gearImages = null;
+    [SerializeField]
+    private GameObject[] _lockImages = null;
 
     private string _currentTankID;
     private ItemEquipmentData _passiveItemEquipmentDataDict;
@@ -113,14 +115,24 @@ public class MenuCanvas : BaseCanvas
     public void GearCheck()
     {
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
-
+        Tank currentTank = FindObjectOfType<TankModelManager>().TankModel;
         _passiveItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Passive);
         _activeItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Active);
         _shellEquipmentDataDict = ShellSaveManager.GetShellEquipment(_currentTankID);
 
-        int idx = 0;
+        uint passiveSlotSize = currentTank.TankSO.PassiveItemInventorySize;
+        uint idx = 0;
         foreach (var passive in _passiveItemEquipmentDataDict._itemEquipmentList)
         {
+            if (idx + 1 > passiveSlotSize)
+            {
+                _gearImages[idx].sprite = null;
+                _gearImages[idx].gameObject.SetActive(false);
+                _lockImages[idx++].SetActive(true);
+                continue;
+            }
+
+            _lockImages[idx].SetActive(false);
             if (passive == "")
             {
                 _gearImages[idx].sprite = null;
@@ -133,8 +145,18 @@ public class MenuCanvas : BaseCanvas
             _gearImages[idx++].gameObject.SetActive(true);
         }
 
+        uint activeSlotSize = currentTank.TankSO.ActiveItemInventorySize;
         foreach(var active in _activeItemEquipmentDataDict._itemEquipmentList)
         {
+            if (idx - 2 > activeSlotSize)
+            {
+                _gearImages[idx].sprite = null;
+                _gearImages[idx].gameObject.SetActive(false);
+                _lockImages[idx++].SetActive(true);
+                continue;
+            }
+
+            _lockImages[idx].SetActive(false);
             if (active == "")
             {
                 _gearImages[idx].sprite = null;

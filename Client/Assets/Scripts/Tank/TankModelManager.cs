@@ -6,7 +6,8 @@ using UnityEngine;
 public class TankModelManager : MonoBehaviour
 {
     private GameObject _tankModel = null;
-    public Tank TankModel => _tankModel.GetComponent<Tank>();
+    [HideInInspector]
+    public Tank TankModel;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class TankModelManager : MonoBehaviour
             Destroy(_tankModel);
         }
         _tankModel = Instantiate(tank.transform.GetChild(0).gameObject, transform);
+        TankModel = tank;
         PlayerDataManager.Instance.SetPlayerTankID(tank.ID);
     }
 }
