@@ -177,6 +177,10 @@ public class MenuCanvas : BaseCanvas
                 _gearImages[idx++].gameObject.SetActive(false);
                 continue;
             }
+
+            Shell shellData = AddressablesManager.Instance.GetResource<GameObject>(shell).GetComponent<Shell>();
+            _gearImages[idx].sprite = shellData.ShellSprite;
+            _gearImages[idx++].gameObject.SetActive(true);
         }
     }
 
