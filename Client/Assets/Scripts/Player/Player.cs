@@ -53,6 +53,8 @@ public class Player : CustomObject
         FindObjectOfType<MinimapCameraManager>().Target = _tank.transform;
         _cameraManager.SetPlayer(_tank.transform);
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);
+        _attackJoystick.AddOnPointerUpAction(() => _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine).SetEnableLineLenderer(false));
+        _attackJoystick.AddOnPointerDownAction(() => _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine).SetEnableLineLenderer(true));
         _hpBar.Setting(_tank.TankData.HP);
 
         if (_tank.TankData.HasSkill == true)

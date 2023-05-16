@@ -56,8 +56,6 @@ public class Turret_AimLine : Turret_Component
 
         _attackJoystick = FindObjectOfType<ControllerCanvas>().AttackJoystick;
 
-        _attackJoystick.AddOnPointerDownAction(() => _lineRenderer.enabled = true);
-        _attackJoystick.AddOnPointerUpAction(() => _lineRenderer.enabled = false);
         _lineRenderer.enabled = false;
     }
 
@@ -107,5 +105,10 @@ public class Turret_AimLine : Turret_Component
             _lineRenderer.colorGradient = _gradients[0];
             //_lineRenderer.enabled = false;
         }
+    }
+
+    public void SetEnableLineLenderer(bool isActive)
+    {
+        _lineRenderer.enabled = isActive;
     }
 }
