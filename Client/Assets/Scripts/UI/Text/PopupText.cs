@@ -5,7 +5,7 @@ using DG.Tweening;
 using TMPro;
 using Pool;
 
-public class PopupText : MonoBehaviour, IPoolReset
+public class PopupText : MonoBehaviour, IPoolReset, IText
 {
     [SerializeField]
     private TextMeshProUGUI _text;

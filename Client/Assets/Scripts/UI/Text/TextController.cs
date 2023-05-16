@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TextController : MonoBehaviour
+public class TextController : MonoBehaviour, IText
 {
     private Text _text;
 
@@ -12,9 +12,9 @@ public class TextController : MonoBehaviour
         _text = GetComponent<Text>();
     }
 
-    public void SetText(string value)
+    public void SetText(string text)
     {
-        _text.text = value;
+        _text.text = text;
     }
 
     public void SetText(int value) => SetText(value.ToString());

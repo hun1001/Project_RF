@@ -19,14 +19,9 @@ public class Tank_Move : Tank_Component
     private Action<float> _onCrash = null;
     public void AddOnCrashAction(Action<float> action) => _onCrash += action;
 
-    private BoxCollider2D _boxCollider2D = null;
-    private Rigidbody2D _rigid = null;
-
     private void Awake()
     {
         (Instance as Tank).TryGetComponent(out _tankSound);
-        TryGetComponent(out _boxCollider2D);
-        TryGetComponent(out _rigid);
     }
 
     private void Start()
