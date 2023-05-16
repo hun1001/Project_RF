@@ -123,6 +123,11 @@ public class BossAI : MonoBehaviour
         {
             StopAllCoroutines();
             StartCoroutine(MoveTarget(0, _navMeshPath.corners.Length));
+
+            for (int i = 0; i < _navMeshPath.corners.Length - 1; i++)
+            {
+                Debug.DrawLine(_navMeshPath.corners[i], _navMeshPath.corners[i + 1], Color.red, 60f);
+            }
         }
         else
         {
@@ -134,10 +139,24 @@ public class BossAI : MonoBehaviour
     {
         if (index < pathLength)
         {
-            while (Vector3.Distance(_tank.transform.position, _navMeshPath.corners[index]) > 1f)
+            float dis = Vector3.Distance(_tank.transform.position, _navMeshPath.corners[index]);
+            while (dis > 1f)
             {
-                _tankMove.Move(0.9f);
+                if (dis < 20f)
+                {
+                    _tankMove.Move(0.4f);
+                }
+                else if (dis < 10f)
+                {
+                    _tankMove.Move(0.2f);
+                }
+                else
+                {
+                    _tankMove.Move(0.9f);
+                }
+
                 _tankRotate.Rotate((_navMeshPath.corners[index] - _tank.transform.position).normalized);
+                dis = Vector3.Distance(_tank.transform.position, _navMeshPath.corners[index]);
                 yield return null;
             }
 
