@@ -19,6 +19,8 @@ public class BossAI : MonoBehaviour
 
     private Tank _target = null;
 
+    private Vector3 _moveTargetPosition = Vector3.zero;
+
     private void Awake()
     {
         _tank = SpawnManager.Instance.SpawnUnit("BMP-130-2", transform.position, transform.rotation, GroupType.Enemy);
@@ -55,10 +57,13 @@ public class BossAI : MonoBehaviour
 
         move2Target = new ExecutionNode(() =>
         {
-            Vector3 movePosition = _tank.transform.position + Random.insideUnitSphere * 10f;
-            movePosition.z = 0f;
-
-            Move(movePosition);
+            Debug.Log("move2Target " + _moveTargetPosition);
+            if (_moveTargetPosition == Vector3.zero)
+            {
+                _moveTargetPosition = _target.transform.position + Random.insideUnitSphere * 10f;
+                _moveTargetPosition.z = 0f;
+                Move(_moveTargetPosition);
+            }
         });
 
         atk2Target = new ExecutionNode(() =>
@@ -73,6 +78,7 @@ public class BossAI : MonoBehaviour
 
         checkAroundTarget = new ConditionalNode(() =>
         {
+            Debug.Log("checkAroundTarget");
             if (_target == null)
             {
                 _target = FindObjectOfType<Player>().Tank;
@@ -87,6 +93,7 @@ public class BossAI : MonoBehaviour
 
         checkTargetInAim = new ConditionalNode(() =>
         {
+            Debug.Log("checkTargetInAim");
             _turretRotate.Rotate((_target.transform.position - _tank.transform.position).normalized);
 
             return _turretAimLine.IsAim;
@@ -94,6 +101,7 @@ public class BossAI : MonoBehaviour
 
         checkTankHP = new ConditionalNode(() =>
         {
+            Debug.Log("checkTankHP");
             return _tankDamage.CurrentHealth < _tank.TankData.HP * 0.3f;
         }, shield);
 
@@ -110,19 +118,7 @@ public class BossAI : MonoBehaviour
 
     private void Update()
     {
-        // _behaviorTree.Tick();
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("click");
-            Ray2D ray = new Ray2D(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-
-            if (hit.collider != null)
-            {
-                Move(hit.point);
-            }
-        }
+        _behaviorTree.Tick();
     }
 
     private void Attack()
@@ -136,6 +132,10 @@ public class BossAI : MonoBehaviour
         {
             StopAllCoroutines();
             StartCoroutine(MoveTarget(0, _navMeshPath.corners.Length));
+        }
+        else
+        {
+            _moveTargetPosition = Vector3.zero;
         }
     }
 
@@ -151,6 +151,11 @@ public class BossAI : MonoBehaviour
             }
 
             StartCoroutine(MoveTarget(index + 1, pathLength));
+        }
+
+        if (Vector3.Distance(_tank.transform.position, _moveTargetPosition) < 1f)
+        {
+            _moveTargetPosition = Vector3.zero;
         }
     }
 }
