@@ -54,7 +54,7 @@ public class Turret_AimLine : Turret_Component
             }
         };
 
-        _attackJoystick = FindObjectOfType<ControllerCanvas>().AttackJoystick;
+        //_attackJoystick = FindObjectOfType<ControllerCanvas>().AttackJoystick;
 
         _lineRenderer.enabled = false;
     }
