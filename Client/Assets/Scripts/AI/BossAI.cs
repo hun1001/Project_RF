@@ -11,9 +11,13 @@ public class BossAI : MonoBehaviour
 
     private Tank_Move _tankMove = null;
     private Tank_Rotate _tankRotate = null;
+    private Tank_Damage _tankDamage = null;
 
     private Turret_Rotate _turretRotate = null;
     private Turret_Attack _turretAttack = null;
+    private Turret_AimLine _turretAimLine = null;
+
+    private Tank _target = null;
 
     private void Awake()
     {
@@ -22,9 +26,13 @@ public class BossAI : MonoBehaviour
 
         _tankMove = _tank.GetComponent<Tank_Move>(ComponentType.Move);
         _tankRotate = _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate);
+        _tankDamage = _tank.GetComponent<Tank_Damage>(ComponentType.Damage);
 
         _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
         _turretAttack = _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack);
+        _turretAimLine = _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine);
+
+        _target = FindObjectOfType<Player>().Tank;
     }
 
     private void Start()
@@ -65,18 +73,28 @@ public class BossAI : MonoBehaviour
 
         checkAroundTarget = new ConditionalNode(() =>
         {
-            return true;
+            if (_target == null)
+            {
+                _target = FindObjectOfType<Player>().Tank;
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }, move2Target);
 
 
         checkTargetInAim = new ConditionalNode(() =>
         {
-            return true;
+            _turretRotate.Rotate((_target.transform.position - _tank.transform.position).normalized);
+
+            return _turretAimLine.IsAim;
         }, atk2Target);
 
         checkTankHP = new ConditionalNode(() =>
         {
-            return true;
+            return _tankDamage.CurrentHealth < _tank.TankData.HP * 0.3f;
         }, shield);
 
         tankMoveSequenceNode = new SequenceNode(checkAroundTarget);

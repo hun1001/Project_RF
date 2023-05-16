@@ -4,7 +4,10 @@ using UnityEngine;
 public class Turret_AimLine : Turret_Component
 {
     private LineRenderer _lineRenderer = null;
-    private Joystick _attackJoystick = null;
+    //private Joystick _attackJoystick = null;
+
+    private bool _isAim = false;
+    public bool IsAim => _isAim;
 
     private Gradient[] _gradients = new Gradient[3];
 
@@ -73,6 +76,7 @@ public class Turret_AimLine : Turret_Component
 
             if (rayData.collider != null && rayData.collider != Turret.GetComponent<Tank>().GetComponent<Collider2D>())
             {
+                _isAim = true;
                 _lineRenderer.SetPosition(1, rayData.point + (Vector2)Turret.FirePoint.up);
                 if (rayData.collider.gameObject.layer == LayerMask.NameToLayer("Tank"))
                 {
@@ -85,6 +89,7 @@ public class Turret_AimLine : Turret_Component
             }
             else
             {
+                _isAim = false;
                 _lineRenderer.SetPosition(1, Turret.FirePoint.position + Turret.FirePoint.up * Turret.CurrentShell.Speed * 2f);
                 _lineRenderer.colorGradient = _gradients[1];
             }
@@ -95,10 +100,12 @@ public class Turret_AimLine : Turret_Component
 
             if (rayData.collider != null && rayData.collider != Turret.GetComponent<Tank>().GetComponent<Collider2D>())
             {
+                _isAim = true;
                 _lineRenderer.SetPosition(1, rayData.point + (Vector2)Turret.FirePoint.up);
             }
             else
             {
+                _isAim = false;
                 _lineRenderer.SetPosition(1, Turret.FirePoint.position + Turret.FirePoint.up * Turret.CurrentShell.Speed * 2f);
             }
 
