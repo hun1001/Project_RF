@@ -7,40 +7,39 @@ public class BossAI : MonoBehaviour
 {
     private Tank _tank = null;
     private NavMeshPath _navMeshPath = null;
+    private BehaviorTree _behaviorTree = null;
 
-    private void Start()
+    private Tank_Move _tankMove = null;
+    private Tank_Rotate _tankRotate = null;
+
+    private Turret_Rotate _turretRotate = null;
+    private Turret_Attack _turretAttack = null;
+
+    private void Awake()
     {
         _tank = PoolManager.Get("BMP-130-2").GetComponent<Tank>();
         _navMeshPath = new NavMeshPath();
+
+        _tankMove = _tank.GetComponent<Tank_Move>(ComponentType.Move);
+        _tankRotate = _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate);
+
+        _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
+        _turretAttack = _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack);
+    }
+
+    private void Start()
+    {
+
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hitInfo))
-            {
-                Move(hitInfo.point);
-            }
-        }
+    }
 
-        if (Input.GetMouseButton(1))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hitInfo))
-            {
-                Vector2 direction = (_tank.Turret.FirePoint.position - hitInfo.point).normalized;
-                _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate).Rotate((_tank.Turret.FirePoint.position - hitInfo.point).normalized);
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire();
-        }
+    private void Attack()
+    {
+        _turretAttack.Fire();
     }
 
     private void Move(Vector3 position)
@@ -57,8 +56,8 @@ public class BossAI : MonoBehaviour
         {
             while (Vector3.Distance(_tank.transform.position, _navMeshPath.corners[index]) > 1f)
             {
-                _tank.GetComponent<Tank_Move>(ComponentType.Move).Move(0.9f);
-                _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate((_navMeshPath.corners[index] - _tank.transform.position).normalized);
+                _tankMove.Move(0.9f);
+                _tankRotate.Rotate((_navMeshPath.corners[index] - _tank.transform.position).normalized);
                 yield return null;
             }
 
