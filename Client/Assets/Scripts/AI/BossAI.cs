@@ -21,7 +21,7 @@ public class BossAI : MonoBehaviour
 
     private void Awake()
     {
-        _tank = PoolManager.Get("BMP-130-2").GetComponent<Tank>();
+        _tank = SpawnManager.Instance.SpawnUnit("BMP-130-2", transform.position, transform.rotation, GroupType.Enemy);
         _navMeshPath = new NavMeshPath();
 
         _tankMove = _tank.GetComponent<Tank_Move>(ComponentType.Move);
@@ -110,7 +110,19 @@ public class BossAI : MonoBehaviour
 
     private void Update()
     {
-        _behaviorTree.Tick();
+        // _behaviorTree.Tick();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("click");
+            Ray2D ray = new Ray2D(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+            if (hit.collider != null)
+            {
+                Move(hit.point);
+            }
+        }
     }
 
     private void Attack()
@@ -122,6 +134,7 @@ public class BossAI : MonoBehaviour
     {
         if (NavMesh.CalculatePath(_tank.transform.position, position, NavMesh.AllAreas, _navMeshPath))
         {
+            StopAllCoroutines();
             StartCoroutine(MoveTarget(0, _navMeshPath.corners.Length));
         }
     }
