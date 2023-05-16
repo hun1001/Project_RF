@@ -29,12 +29,70 @@ public class BossAI : MonoBehaviour
 
     private void Start()
     {
+        RootNode rootNode = null;
 
+        SelectorNode selectorNode = null;
+
+        SequenceNode tankMoveSequenceNode = null;
+        ConditionalNode checkAroundTarget = null;
+        ExecutionNode move2Target = null;
+
+        SequenceNode tankAttackSequenceNode = null;
+        ConditionalNode checkTargetInAim = null;
+        ExecutionNode atk2Target = null;
+
+        SequenceNode tankDefenseSequenceNode = null;
+        ConditionalNode checkTankHP = null;
+        ExecutionNode shield = null;
+
+        move2Target = new ExecutionNode(() =>
+        {
+            Vector3 movePosition = _tank.transform.position + Random.insideUnitSphere * 10f;
+            movePosition.z = 0f;
+
+            Move(movePosition);
+        });
+
+        atk2Target = new ExecutionNode(() =>
+        {
+            Attack();
+        });
+
+        shield = new ExecutionNode(() =>
+        {
+            Debug.Log("to become stronger");
+        });
+
+        checkAroundTarget = new ConditionalNode(() =>
+        {
+            return true;
+        }, move2Target);
+
+
+        checkTargetInAim = new ConditionalNode(() =>
+        {
+            return true;
+        }, atk2Target);
+
+        checkTankHP = new ConditionalNode(() =>
+        {
+            return true;
+        }, shield);
+
+        tankMoveSequenceNode = new SequenceNode(checkAroundTarget);
+        tankAttackSequenceNode = new SequenceNode(checkTargetInAim);
+        tankDefenseSequenceNode = new SequenceNode(checkTankHP);
+
+        selectorNode = new SelectorNode(tankMoveSequenceNode, tankAttackSequenceNode, tankDefenseSequenceNode);
+
+        rootNode = new RootNode(selectorNode);
+
+        _behaviorTree = new BehaviorTree(rootNode);
     }
 
     private void Update()
     {
-
+        _behaviorTree.Tick();
     }
 
     private void Attack()
