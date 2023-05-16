@@ -21,6 +21,7 @@ public class BossAI : MonoBehaviour
 
     private Vector3 _moveTargetPosition = Vector3.zero;
 
+
     private void Awake()
     {
         _tank = SpawnManager.Instance.SpawnUnit("BMP-130-2", transform.position, transform.rotation, GroupType.Enemy);
@@ -57,12 +58,9 @@ public class BossAI : MonoBehaviour
 
         move2Target = new ExecutionNode(() =>
         {
-            if (_moveTargetPosition == Vector3.zero)
-            {
-                _moveTargetPosition = _target.transform.position + Random.insideUnitSphere * 10f;
-                _moveTargetPosition.z = 0f;
-                Move(_moveTargetPosition);
-            }
+            _moveTargetPosition = _target.transform.position + Random.insideUnitSphere * 10f;
+            _moveTargetPosition.z = 0f;
+            Move(_moveTargetPosition);
         });
 
         atk2Target = new ExecutionNode(() =>
@@ -79,9 +77,14 @@ public class BossAI : MonoBehaviour
         {
             _target ??= FindObjectOfType<Player>().Tank;
 
+            Debug.Log(Vector3.Distance(_tank.transform.position, _moveTargetPosition));
 
+            if (_moveTargetPosition == Vector3.zero || Vector3.Distance(_tank.transform.position, _moveTargetPosition) < 5f)
+            {
+                return true;
+            }
 
-            return Vector3.Distance(_tank.transform.position, _target.transform.position) > 40f;
+            return false;
         }, move2Target);
 
 
@@ -110,7 +113,6 @@ public class BossAI : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(_moveTargetPosition);
         _behaviorTree.Tick();
     }
 
@@ -121,9 +123,9 @@ public class BossAI : MonoBehaviour
 
     private void Move(Vector3 position)
     {
+        _navMeshPath.ClearCorners();
         if (NavMesh.CalculatePath(_tank.transform.position, position, NavMesh.AllAreas, _navMeshPath))
         {
-            StopAllCoroutines();
             StartCoroutine(MoveTarget(0, _navMeshPath.corners.Length));
 
             for (int i = 0; i < _navMeshPath.corners.Length - 1; i++)
@@ -146,11 +148,11 @@ public class BossAI : MonoBehaviour
             {
                 if (dis < 20f)
                 {
-                    _tankMove.Move(0.4f);
+                    _tankMove.Move(0.6f);
                 }
                 else if (dis < 10f)
                 {
-                    _tankMove.Move(0.2f);
+                    _tankMove.Move(0.4f);
                 }
                 else
                 {
@@ -163,11 +165,6 @@ public class BossAI : MonoBehaviour
             }
 
             StartCoroutine(MoveTarget(index + 1, pathLength));
-        }
-
-        if (Vector3.Distance(_tank.transform.position, _moveTargetPosition) < 1f)
-        {
-            _moveTargetPosition = Vector3.zero;
         }
     }
 }
