@@ -15,8 +15,6 @@ public class LaserBeam : CustomObject
     [SerializeField]
     private BoxCollider2D _collider = null;
 
-    private void Start() => SetLaserBeam(Vector3.zero, new Vector3(0, 5, 0));
-
     public void SetLaserBeam(Vector3 startPosition, Vector3 endPosition)
     {
         _meshRenderer.enabled = false;

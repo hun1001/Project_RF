@@ -32,7 +32,7 @@ public class Turret_Attack : Turret_Component
         }
     }
 
-    public void Fire()
+    public virtual void Fire()
     {
         if (_isBurst)
         {
@@ -88,7 +88,7 @@ public class Turret_Attack : Turret_Component
             {
                 _isReload = false;
                 _turretSound?.PlaySound(SoundType.Reload, AudioMixerType.Sfx);
-                if(_isBurst)
+                if (_isBurst)
                     _magazineSize = Turret.TurretData.BurstData.MagazineSize;
             }
         }
@@ -99,5 +99,10 @@ public class Turret_Attack : Turret_Component
                 _burstReloadTime -= Time.deltaTime;
             }
         }
+    }
+
+    protected void ResetReloadTime()
+    {
+        _reloadingTime = Turret.TurretData.ReloadTime;
     }
 }

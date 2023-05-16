@@ -19,19 +19,35 @@ public class BossAI : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitInfo;
 
-            if (Physics.Raycast(ray, out hitInfo))
+            if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hitInfo))
             {
-                if (NavMesh.CalculatePath(_tank.transform.position, hitInfo.point, NavMesh.AllAreas, _navMeshPath))
-                {
-                    StartCoroutine(MoveTarget(0, _navMeshPath.corners.Length));
-                    for (int i = 0; i < _navMeshPath.corners.Length - 1; i++)
-                    {
-                        Debug.DrawLine(_navMeshPath.corners[i], _navMeshPath.corners[i + 1], Color.red, 10f);
-                    }
-                }
+                Move(hitInfo.point);
             }
+        }
+
+        if (Input.GetMouseButton(1))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hitInfo))
+            {
+                Vector2 direction = (_tank.Turret.FirePoint.position - hitInfo.point).normalized;
+                _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate).Rotate((_tank.Turret.FirePoint.position - hitInfo.point).normalized);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire();
+        }
+    }
+
+    private void Move(Vector3 position)
+    {
+        if (NavMesh.CalculatePath(_tank.transform.position, position, NavMesh.AllAreas, _navMeshPath))
+        {
+            StartCoroutine(MoveTarget(0, _navMeshPath.corners.Length));
         }
     }
 
