@@ -40,9 +40,9 @@ public class Shell_Collision : Shell_Component
         incidentVector = -transform.up;
 
         angle = (int)Vector2.Angle(incidentVector, normalVector);
-        angle %= 90;
+        angle %= 180;
 
-        if (angle >= 60)
+        if (angle < 90 && angle >= 60)
         {
             reflectionDir = Vector2.Reflect(-incidentVector, normalVector);
 
