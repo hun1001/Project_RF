@@ -138,7 +138,6 @@ public class GearCanvas : BaseCanvas
 
     public void OnShellInventory(int idx)
     {
-
         foreach (var item in _itemInventoryDictionary)
         {
             item.Value.SetActive(false);
