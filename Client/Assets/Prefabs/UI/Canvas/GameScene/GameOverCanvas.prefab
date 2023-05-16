@@ -1735,6 +1735,7 @@ GameObject:
   - component: {fileID: 5633333942323445959}
   - component: {fileID: 2120065189468122849}
   - component: {fileID: 332855172420264808}
+  - component: {fileID: 2102913506094213225}
   m_Layer: 0
   m_Name: RewardValueText
   m_TagString: Untagged
@@ -1803,6 +1804,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: +2023
+--- !u!114 &2102913506094213225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2927364623208987192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a862a80a82d47674ba79deb8d01fbd0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3121317328359561087
 GameObject:
   m_ObjectHideFlags: 0
@@ -2744,6 +2757,7 @@ GameObject:
   - component: {fileID: 7750148135195968295}
   - component: {fileID: 2504306663384322104}
   - component: {fileID: 5533304608093571004}
+  - component: {fileID: 7832308341416385432}
   m_Layer: 0
   m_Name: GameResultText
   m_TagString: Untagged
@@ -2812,6 +2826,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Victory
+--- !u!114 &7832308341416385432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5281053553213855691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a862a80a82d47674ba79deb8d01fbd0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5341087572693021289
 GameObject:
   m_ObjectHideFlags: 0
@@ -2901,6 +2927,7 @@ GameObject:
   - component: {fileID: 4715646014940177688}
   - component: {fileID: 6204686842753480143}
   - component: {fileID: 1143460841062498645}
+  - component: {fileID: 3412601456528931849}
   m_Layer: 0
   m_Name: GameModeText
   m_TagString: Untagged
@@ -2969,6 +2996,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: '3 : 3 DeathMatch'
+--- !u!114 &3412601456528931849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5566375875211510656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a862a80a82d47674ba79deb8d01fbd0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5893062085835113340
 GameObject:
   m_ObjectHideFlags: 0
@@ -3391,6 +3430,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvasType: 10
+  _gameModeTextController: {fileID: 3412601456528931849}
+  _gameResultTextController: {fileID: 7832308341416385432}
+  _rewardValueTextController: {fileID: 2102913506094213225}
 --- !u!1 &6325986312789810023
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ using UnityEngine;
 public class Turret_AimLine : Turret_Component
 {
     private LineRenderer _lineRenderer = null;
+    private Joystick _attackJoystick = null;
 
     private Gradient[] _gradients = new Gradient[3];
 
@@ -52,6 +53,12 @@ public class Turret_AimLine : Turret_Component
                 new GradientAlphaKey(1f, 1f)
             }
         };
+
+        _attackJoystick = FindObjectOfType<ControllerCanvas>().AttackJoystick;
+
+        _attackJoystick.AddOnPointerDownAction(() => _lineRenderer.enabled = true);
+        _attackJoystick.AddOnPointerUpAction(() => _lineRenderer.enabled = false);
+        _lineRenderer.enabled = false;
     }
 
     private void Update()

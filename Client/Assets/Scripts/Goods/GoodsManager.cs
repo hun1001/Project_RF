@@ -45,7 +45,7 @@ public static class GoodsManager
     }
 
     /// <summary>
-    /// Free Goods Increase
+    /// Free Goods Decrease
     /// </summary>
     /// <param name="value">Decrease value</param>
     /// <returns>FreeGoods < value</returns>
