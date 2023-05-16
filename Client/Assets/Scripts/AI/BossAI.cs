@@ -78,13 +78,15 @@ public class BossAI : MonoBehaviour
         checkAroundTarget = new ConditionalNode(() =>
         {
             _target ??= FindObjectOfType<Player>().Tank;
-            return Vector3.Distance(_tank.transform.position, _target.transform.position) > 20f;
+
+
+
+            return Vector3.Distance(_tank.transform.position, _target.transform.position) > 40f;
         }, move2Target);
 
 
         checkTargetInAim = new ConditionalNode(() =>
         {
-            Debug.Log("checkTargetInAim");
             _turretRotate.Rotate((_target.transform.position - _tank.transform.position).normalized);
 
             return _turretAimLine.IsAim;
@@ -92,7 +94,6 @@ public class BossAI : MonoBehaviour
 
         checkTankHP = new ConditionalNode(() =>
         {
-            Debug.Log("checkTankHP");
             return _tankDamage.CurrentHealth < _tank.TankData.HP * 0.3f;
         }, shield);
 
@@ -109,6 +110,7 @@ public class BossAI : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(_moveTargetPosition);
         _behaviorTree.Tick();
     }
 
