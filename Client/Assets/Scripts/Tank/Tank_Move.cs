@@ -92,7 +92,7 @@ public class Tank_Move : Tank_Component
             _onCrash?.Invoke(_currentSpeed);
 
             _currentSpeed = 0;
-            StartCoroutine(CrashRebound(collision.contacts[0].normal * 3f));
+            StartCoroutine(CrashRebound(collision.contacts[0].normal * 2.5f));
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Tank"))
         {
@@ -103,7 +103,11 @@ public class Tank_Move : Tank_Component
             if(otherTank.TankSO.HP >= (Instance as Tank).TankSO.HP)
             {
                 _currentSpeed = 0;
-                StartCoroutine(CrashRebound(collision.contacts[0].normal * 3f));
+                StartCoroutine(CrashRebound(collision.contacts[0].normal * 2.5f));
+            }
+            else
+            {
+                _currentSpeed = Mathf.Clamp(_currentSpeed - _maxSpeed * 0.5f, 0f, _maxSpeed);
             }
         }
     }
