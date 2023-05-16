@@ -15,17 +15,17 @@ public class Tank_Move : Tank_Component
     private float _loadSoundDelay;
     private bool _isDepart = false;
 
-    private bool _isStop = false;
-    private bool _isCrash = false;
     private Action<float> _onCrash = null;
     public void AddOnCrashAction(Action<float> action) => _onCrash += action;
 
     private BoxCollider2D _boxCollider2D = null;
+    private Rigidbody2D _rigid = null;
 
     private void Awake()
     {
         (Instance as Tank).TryGetComponent(out _tankSound);
         TryGetComponent(out _boxCollider2D);
+        TryGetComponent(out _rigid);
     }
 
     private void Start()
@@ -68,28 +68,6 @@ public class Tank_Move : Tank_Component
             _tankSound?.MoveSoundUpdate(0f);
         }
 
-        _isStop = false;
-        var rayData = Physics2D.RaycastAll(transform.position, transform.up, _boxCollider2D.offset.y + _boxCollider2D.size.y * 0.5f);
-
-        foreach (var ray in rayData)
-        {
-            if (ray.collider.gameObject.layer == LayerMask.NameToLayer("Wall") || (ray.collider.gameObject.layer == LayerMask.NameToLayer("Tank") && ray.collider.gameObject != gameObject))
-            {
-                if (_isCrash == false)
-                {
-                    _onCrash?.Invoke(_currentSpeed);
-                    _isCrash = true;
-                }
-                _currentSpeed = 0;
-                _isStop = true;
-                break;
-            }
-        }
-        if (_isCrash == true && _isStop == false)
-        {
-            _isCrash = false;
-        }
-
         transform.Translate(Vector3.up * Time.deltaTime * _currentSpeed);
         if(_loadSoundDelay > 0f)
         {
@@ -104,5 +82,33 @@ public class Tank_Move : Tank_Component
             _currentSpeed -= _acceleration * Time.deltaTime * 2;
         }
         else if (_currentSpeed < 0f) _currentSpeed = 0f;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            _onCrash?.Invoke(_currentSpeed);
+
+            _currentSpeed = 0;
+            StartCoroutine(CrashRebound(collision.contacts[0].normal));
+        }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Tank"))
+        {
+            _onCrash?.Invoke(_currentSpeed);
+
+            _currentSpeed = 0;
+            StartCoroutine(CrashRebound(collision.contacts[0].normal));
+        }
+    }
+
+    private IEnumerator CrashRebound(Vector2 dir)
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            transform.Translate(Vector3.Lerp(Vector3.zero, dir * 10f, Time.deltaTime));
+            yield return new WaitForEndOfFrame();
+        }
+        yield break;
     }
 }
