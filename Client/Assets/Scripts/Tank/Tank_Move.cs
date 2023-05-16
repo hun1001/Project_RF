@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using TMPro;
 using UnityEngine;
 
 public class Tank_Move : Tank_Component
@@ -91,24 +92,32 @@ public class Tank_Move : Tank_Component
             _onCrash?.Invoke(_currentSpeed);
 
             _currentSpeed = 0;
-            StartCoroutine(CrashRebound(collision.contacts[0].normal));
+            StartCoroutine(CrashRebound(collision.contacts[0].normal * 3f));
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Tank"))
         {
             _onCrash?.Invoke(_currentSpeed);
 
-            _currentSpeed = 0;
-            StartCoroutine(CrashRebound(collision.contacts[0].normal));
+            Tank otherTank = collision.gameObject.GetComponent<Tank>();
+
+            if(otherTank.TankSO.HP >= (Instance as Tank).TankSO.HP)
+            {
+                _currentSpeed = 0;
+                StartCoroutine(CrashRebound(collision.contacts[0].normal * 3f));
+            }
         }
     }
 
-    private IEnumerator CrashRebound(Vector2 dir)
+    private IEnumerator CrashRebound(Vector3 dir)
     {
-        for (int i = 0; i < 10; i++)
+        Vector3 targetPos = transform.position + dir;
+
+        float elapsedTime = 0f;
+        while (elapsedTime < 0.3f)
         {
-            transform.Translate(Vector3.Lerp(Vector3.zero, dir * 10f, Time.deltaTime));
-            yield return new WaitForEndOfFrame();
+            transform.position = Vector3.Lerp(transform.position, targetPos, elapsedTime / 0.3f);
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
-        yield break;
     }
 }
