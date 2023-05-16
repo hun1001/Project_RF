@@ -57,7 +57,6 @@ public class BossAI : MonoBehaviour
 
         move2Target = new ExecutionNode(() =>
         {
-            Debug.Log("move2Target " + _moveTargetPosition);
             if (_moveTargetPosition == Vector3.zero)
             {
                 _moveTargetPosition = _target.transform.position + Random.insideUnitSphere * 10f;
@@ -78,16 +77,8 @@ public class BossAI : MonoBehaviour
 
         checkAroundTarget = new ConditionalNode(() =>
         {
-            Debug.Log("checkAroundTarget");
-            if (_target == null)
-            {
-                _target = FindObjectOfType<Player>().Tank;
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            _target ??= FindObjectOfType<Player>().Tank;
+            return Vector3.Distance(_tank.transform.position, _target.transform.position) > 20f;
         }, move2Target);
 
 
