@@ -15,8 +15,12 @@ public class LaserBeam : CustomObject
     [SerializeField]
     private BoxCollider2D _collider = null;
 
-    public void SetLaserBeam(Vector3 startPosition, Vector3 endPosition)
+    private CustomObject _owner = null;
+
+    public void SetLaserBeam(CustomObject owner, Vector3 startPosition, Vector3 endPosition)
     {
+        _owner = owner;
+
         _meshRenderer.enabled = false;
         _collider.enabled = false;
 
@@ -41,7 +45,14 @@ public class LaserBeam : CustomObject
 
         _collider.enabled = false;
 
-        transform.DOScaleX(0, 0.5f).SetEase(Ease.InOutSine).OnComplete(() => Destroy(gameObject));
-        //PoolManager.Pool(ID, gameObject);
+        transform.DOScaleX(0, 0.5f).SetEase(Ease.InOutSine).OnComplete(() => PoolManager.Pool(ID, gameObject));
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player") && other.GetComponent<CustomObject>() != _owner)
+        {
+            other.GetComponent<Tank_Damage>().Damaged(127, 99999, other.ClosestPoint(transform.position));
+        }
     }
 }

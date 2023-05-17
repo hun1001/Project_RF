@@ -58,7 +58,7 @@ public class BossAI : MonoBehaviour
 
         move2Target = new ExecutionNode(() =>
         {
-            _moveTargetPosition = _target.transform.position + Random.insideUnitSphere * 10f;
+            _moveTargetPosition = _target.transform.position + (Random.insideUnitSphere * 20f);
             _moveTargetPosition.z = 0f;
             Move(_moveTargetPosition);
         });
@@ -123,7 +123,6 @@ public class BossAI : MonoBehaviour
 
     private void Move(Vector3 position)
     {
-        _navMeshPath.ClearCorners();
         if (NavMesh.CalculatePath(_tank.transform.position, position, NavMesh.AllAreas, _navMeshPath))
         {
             StartCoroutine(MoveTarget(0, _navMeshPath.corners.Length));
