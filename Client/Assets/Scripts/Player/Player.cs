@@ -109,8 +109,7 @@ public class Player : CustomObject
 
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDeathAction(() =>
         {
-            Time.timeScale = 0;
-            StartCoroutine(Change());
+            Event.EventManager.TriggerEvent(EventKeyword.PlayerDead);
         });
 
         _tank.GetComponent<Tank_Move>(ComponentType.Move).AddOnCrashAction((a) =>
@@ -133,12 +132,5 @@ public class Player : CustomObject
         _tankMove.Move(_moveJoystick.Magnitude);
         _tankRotate.Rotate(_moveJoystick.Direction);
         _turretRotate.Rotate(_attackJoystick.Direction);
-    }
-
-    private IEnumerator Change()
-    {
-        yield return new WaitForSecondsRealtime(3f);
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MenuScene");
-        Time.timeScale = 1;
     }
 }
