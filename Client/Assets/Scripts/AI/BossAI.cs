@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Pool;
 using UnityEngine.AI;
+using Event;
 
 public class BossAI : MonoBehaviour
 {
@@ -40,6 +41,12 @@ public class BossAI : MonoBehaviour
 
     private void Start()
     {
+        _tankDamage.AddOnDeathAction(() =>
+        {
+            Destroy(this.gameObject);
+            FindObjectOfType<GameSceneCanvasManager>().ChangeCanvas(CanvasType.GameOver, CanvasType.Information);
+        });
+
         RootNode rootNode = null;
 
         SelectorNode selectorNode = null;
