@@ -75,7 +75,7 @@ public class MenuCanvas : BaseCanvas
 
         _warningPanel.gameObject.SetActive(false);
 
-        EventManager.StartListening(EventKeyword.CameraMove, CameraUIHide);
+        EventManager.StartListening(EventKeyword.MenuCameraMove, CameraUIHide);
     }
 
     private void Start()

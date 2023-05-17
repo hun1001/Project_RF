@@ -33,7 +33,7 @@ public class MenuSceneCameraManager : MonoBehaviour
 
             _cam.m_YAxis.m_InvertInput = true;
 
-            EventManager.TriggerEvent(EventKeyword.CameraMove, false);
+            EventManager.TriggerEvent(EventKeyword.MenuCameraMove, false);
         }
         if (Input.GetMouseButtonUp(0) && _isOnUI == false)
         {
@@ -45,7 +45,7 @@ public class MenuSceneCameraManager : MonoBehaviour
             _cam.m_XAxis.m_InputAxisValue = 0f;
             _cam.m_YAxis.m_InputAxisValue = 0f;
 
-            EventManager.TriggerEvent(EventKeyword.CameraMove, true);
+            EventManager.TriggerEvent(EventKeyword.MenuCameraMove, true);
         }
 
         if (Input.touchCount == 2)
