@@ -200,6 +200,7 @@ public class MenuCanvas : BaseCanvas
         Time.timeScale = 1;
         SceneManager.LoadScene("GameScene");
         Pool.PoolManager.DeleteAllPool();
+        EventManager.ClearEvent();
     }
 
     public void OnTrainingStart()
@@ -214,6 +215,7 @@ public class MenuCanvas : BaseCanvas
         Time.timeScale = 1;
         SceneManager.LoadScene("TrainingScene");
         Pool.PoolManager.DeleteAllPool();
+        EventManager.ClearEvent();
     }
 
     public void OnServerButton()
@@ -226,6 +228,7 @@ public class MenuCanvas : BaseCanvas
 
         _serverButton.interactable = false;
         ServerManager.Instance.ConnectToServer();
+        EventManager.ClearEvent();
     }
 
     private bool ShellEmptyCheck()

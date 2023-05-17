@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Event;
 
 [DisallowMultipleComponent]
 public abstract class BaseCanvas : MonoBehaviour
@@ -51,6 +52,7 @@ public abstract class BaseCanvas : MonoBehaviour
         {
             Time.timeScale = 1;
             UnityEngine.SceneManagement.SceneManager.LoadScene("MenuScene");
+            EventManager.ClearEvent();
             Pool.PoolManager.DeleteAllPool();
         }
     }
