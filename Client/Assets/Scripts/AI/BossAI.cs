@@ -77,10 +77,10 @@ public class BossAI : MonoBehaviour
         {
             _target ??= FindObjectOfType<Player>().Tank;
 
-            Debug.Log(Vector3.Distance(_tank.transform.position, _moveTargetPosition));
-
-            if (_moveTargetPosition == Vector3.zero || Vector3.Distance(_tank.transform.position, _moveTargetPosition) < 5f)
+            if (_moveTargetPosition == Vector3.zero || Vector3.Distance(_tank.transform.position, _moveTargetPosition) < 15f)
             {
+                StopAllCoroutines();
+                _navMeshPath.ClearCorners();
                 return true;
             }
 
