@@ -4,5 +4,6 @@ using UnityEngine;
 
 public static class EventKeyword
 {
-
+    public const string BossClear = "BossClear";
+    public const string PlayerDead = "PlayerDead";
 }
