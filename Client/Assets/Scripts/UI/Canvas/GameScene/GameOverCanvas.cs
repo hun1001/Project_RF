@@ -38,13 +38,11 @@ public class GameOverCanvas : BaseCanvas
         {
             _gameResultTextController.SetText("Victory");
             _rewardValueTextController.SetText(100);
-            GoodsManager.IncreaseFreeGoods(100);
         }
         else
         {
             _gameResultTextController.SetText("Defeat");
             _rewardValueTextController.SetText(10);
-            GoodsManager.IncreaseFreeGoods(10);
         }
     }
 }
