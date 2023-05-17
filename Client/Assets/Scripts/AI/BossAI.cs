@@ -44,7 +44,7 @@ public class BossAI : MonoBehaviour
         _tankDamage.AddOnDeathAction(() =>
         {
             Destroy(this.gameObject);
-            FindObjectOfType<GameSceneCanvasManager>().ChangeCanvas(CanvasType.GameOver, CanvasType.Information);
+            EventManager.TriggerEvent(EventKeyword.BossClear);
         });
 
         RootNode rootNode = null;
