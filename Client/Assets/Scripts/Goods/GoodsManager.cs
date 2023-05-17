@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine.SceneManagement;
 
 public static class GoodsManager
 {
@@ -19,7 +20,12 @@ public static class GoodsManager
     private static void SetGoodsInformation(GoodsInformation goodsInformation)
     {
         _goodsInformation = goodsInformation;
-        _onGoodsChanged?.Invoke(_goodsInformation.freeGoods, _goodsInformation.paidGoods);
+
+        if (SceneManager.GetActiveScene().name == "MenuScene")
+        {
+            _onGoodsChanged?.Invoke(_goodsInformation.freeGoods, _goodsInformation.paidGoods);
+        }
+
         SaveManager.Save(SaveKey.GoodsInformation, _goodsInformation);
     }
 

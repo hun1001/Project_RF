@@ -1,6 +1,4 @@
 using Event;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Util;
 
@@ -20,7 +18,6 @@ public class RewardManager : MonoBehaviour
             rewardValue = 100;
             GoodsManager.IncreaseFreeGoods(rewardValue);
         }
-
         else
         {
             rewardValue = 10;
