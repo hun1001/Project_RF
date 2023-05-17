@@ -70,9 +70,9 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
         }
     }
 
-    public virtual void ChangeCanvas(CanvasType canvasType, CanvasType beforeCanvas)
+    public virtual void ChangeCanvas(CanvasType canvasType, CanvasType beforeCanvas = CanvasType.Base)
     {
-        if(canvasType != CanvasType.Menu && UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
+        if(canvasType != CanvasType.Menu && beforeCanvas != CanvasType.Base)
         {
             _beforeCanvasStack.Push(beforeCanvas);
         }
@@ -90,7 +90,7 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
         _activeCanvas = canvasType;
     }
 
-    public void ChangeBeforeCanvas()
+    public virtual void ChangeBeforeCanvas()
     {
         if (_beforeCanvasStack.Count == 0)
             return;

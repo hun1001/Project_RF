@@ -1,6 +1,8 @@
 ﻿using Addressable;
 using DG.Tweening;
+using Event;
 using Item;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -72,6 +74,8 @@ public class MenuCanvas : BaseCanvas
         _serverButton.onClick.AddListener(OnServerButton);
 
         _warningPanel.gameObject.SetActive(false);
+
+        EventManager.StartListening(EventKeyword.CameraMove, CameraUIHide);
     }
 
     private void Start()
@@ -207,7 +211,6 @@ public class MenuCanvas : BaseCanvas
         }
 
         _trainingButton.interactable = false;
-
         Time.timeScale = 1;
         SceneManager.LoadScene("TrainingScene");
         Pool.PoolManager.DeleteAllPool();
@@ -304,10 +307,10 @@ public class MenuCanvas : BaseCanvas
         });
     }
 
-    public void CameraUIHide(bool isHide)
+    public void CameraUIHide(object[] isHide)
     {
         _isCameraMove = true;
-        _isHide = isHide;
+        _isHide = (bool)isHide[0];
 
         _startSequence = DOTween.Sequence()
         .AppendCallback(() =>

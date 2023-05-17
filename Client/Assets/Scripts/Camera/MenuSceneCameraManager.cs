@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.EventSystems;
+using Event;
 
 public class MenuSceneCameraManager : MonoBehaviour
 {
-    [SerializeField]
-    private MenuCanvas _menuCanvas = null;
     private CinemachineFreeLook _cam;
 
     private bool _isOnUI;
@@ -34,18 +33,19 @@ public class MenuSceneCameraManager : MonoBehaviour
 
             _cam.m_YAxis.m_InvertInput = true;
 
-            _menuCanvas.CameraUIHide(false);
+            EventManager.TriggerEvent(EventKeyword.CameraMove, false);
         }
         if (Input.GetMouseButtonUp(0) && _isOnUI == false)
         {
             _cam.m_XAxis.m_InputAxisName = "";
             _cam.m_YAxis.m_InputAxisName = "";
+
             _cam.m_YAxis.m_InvertInput = false;
 
             _cam.m_XAxis.m_InputAxisValue = 0f;
             _cam.m_YAxis.m_InputAxisValue = 0f;
 
-            _menuCanvas.CameraUIHide(true);
+            EventManager.TriggerEvent(EventKeyword.CameraMove, true);
         }
 
         if (Input.touchCount == 2)

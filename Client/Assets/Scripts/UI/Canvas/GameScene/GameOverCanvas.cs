@@ -33,7 +33,7 @@ public class GameOverCanvas : BaseCanvas
 
     private void BossModeGameOver(bool isClear)
     {
-        CanvasManager.ChangeCanvas(CanvasType, CanvasManager.ActiveCanvas);
+        CanvasManager.ChangeCanvas(CanvasType);
         if (isClear)
         {
             _gameResultTextController.SetText("Victory");
