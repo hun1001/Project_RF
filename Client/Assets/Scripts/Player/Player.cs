@@ -78,14 +78,19 @@ public class Player : CustomObject
         Sprite[] shellSprite = new Sprite[shellCnt];
         UnityAction<bool>[] shellAction = new UnityAction<bool>[shellCnt];
 
+        int slotIndex = 0;
         for (int i = 0; i < shellEquipmentData._shellEquipmentList.Count; i++)
         {
-            int index = i;
-            if (shellEquipmentData._shellEquipmentList[index] == "") continue;
-            Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[index]).GetComponent<Shell>();
-            shellName[index] = shell.ID;
-            shellSprite[index] = shell.ShellSprite;
-            shellAction[index] = (_isOn) =>
+            int dataIndex = i;
+            if (shellEquipmentData._shellEquipmentList[dataIndex] == "")
+            {
+                continue;
+            }
+
+            Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[dataIndex]).GetComponent<Shell>();
+            shellName[slotIndex] = shell.ID;
+            shellSprite[slotIndex] = shell.ShellSprite;
+            shellAction[slotIndex] = (_isOn) =>
             {
                 if (_isOn)
                 {
@@ -96,6 +101,7 @@ public class Player : CustomObject
 
                 }
             };
+            slotIndex++;
         }
 
         _controllerCanvas.ToggleGroup.SetToggleGroup(shellName, shellSprite, shellAction);
