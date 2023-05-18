@@ -12,4 +12,10 @@ public enum SoundType
     Reload,
     ShellDrop,
     Ricochet,
+    TankHitBig,
+    TankHitMed,
+    TankHitSmall,
+    TankHitVerySmall,
+    TankDestroy,
+    TankImpact,
 }
