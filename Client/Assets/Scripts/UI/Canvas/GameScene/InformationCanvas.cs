@@ -17,7 +17,6 @@ public class InformationCanvas : BaseCanvas
 
     private void Awake()
     {
-        _reloadImage.gameObject.SetActive(false);
         _player = FindObjectOfType<Player>();
         Tank pt = _player.Tank;
         _playerTurret = pt.Turret;
@@ -28,7 +27,6 @@ public class InformationCanvas : BaseCanvas
     {
         float reloadTime = _playerTurret.TurretSO.ReloadTime;
         float currentTime = 0;
-        _reloadImage.gameObject.SetActive(true);
 
         while (currentTime < reloadTime)
         {
@@ -36,7 +34,5 @@ public class InformationCanvas : BaseCanvas
             currentTime += Time.deltaTime;
             yield return null;
         }
-
-        _reloadImage.gameObject.SetActive(false);
     }
 }
