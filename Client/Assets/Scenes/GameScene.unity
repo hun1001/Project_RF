@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 23856117}
   - component: {fileID: 23856118}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,7 @@ GameObject:
   m_Component:
   - component: {fileID: 275924814}
   - component: {fileID: 275924815}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -396,7 +396,7 @@ GameObject:
   m_Component:
   - component: {fileID: 387516386}
   - component: {fileID: 387516387}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -736,7 +736,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 654177079}
-  m_Layer: 0
+  - component: {fileID: 654177081}
+  - component: {fileID: 654177080}
+  m_Layer: 3
   m_Name: Wall_Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -773,6 +775,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!66 &654177080
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654177078}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 1
+  m_GenerationType: 0
+  m_EdgeRadius: 0
+  m_ColliderPaths: []
+  m_CompositePaths:
+    m_Paths: []
+  m_VertexDistance: 0.0005
+  m_OffsetDistance: 0
+--- !u!50 &654177081
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654177078}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -876,7 +921,7 @@ GameObject:
   m_Component:
   - component: {fileID: 755427544}
   - component: {fileID: 755427545}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -976,7 +1021,7 @@ GameObject:
   m_Component:
   - component: {fileID: 868203595}
   - component: {fileID: 868203596}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1260,7 +1305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 988856842}
   - component: {fileID: 988856843}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1317,7 +1362,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1009898241}
   - component: {fileID: 1009898242}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1422,7 +1467,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1074914793}
   - component: {fileID: 1074914794}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1479,7 +1524,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1127782109}
   - component: {fileID: 1127782110}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1749,7 +1794,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1611888843}
   - component: {fileID: 1611888844}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1900,7 +1945,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1717403459}
   - component: {fileID: 1717403460}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1957,7 +2002,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1747940296}
   - component: {fileID: 1747940297}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2099,7 +2144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1845399572}
   - component: {fileID: 1845399573}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2156,7 +2201,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1850047600}
   - component: {fileID: 1850047601}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2257,7 +2302,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2074372695}
   - component: {fileID: 2074372696}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2314,7 +2359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2131884050}
   - component: {fileID: 2131884051}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2348,7 +2393,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 64.7, y: -66.5}
+  m_Offset: {x: 65.23909, y: -65.42182}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2359,7 +2404,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 74.3, y: 11}
+  m_Size: {x: 71.065445, y: 6.1481934}
   m_EdgeRadius: 0
 --- !u!33 &1414296484489165087
 MeshFilter:

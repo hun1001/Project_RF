@@ -127,7 +127,6 @@ public class BossAI : MonoBehaviour
     private void Update()
     {
         _behaviorTree.Tick();
-        Debug.Log(_moveTargetPosition);
     }
 
     private void Attack()
