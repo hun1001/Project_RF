@@ -110,7 +110,7 @@ public class BossAI : MonoBehaviour
 
         checkTankHP = new ConditionalNode(() =>
         {
-            return _tankDamage.CurrentHealth < _tank.TankData.HP * 0.5f;
+            return _tankDamage.CurrentHealth < _tank.TankData.HP * 0.25f;
         }, shield);
 
         tankMoveSequenceNode = new SequenceNode(checkAroundTarget);
