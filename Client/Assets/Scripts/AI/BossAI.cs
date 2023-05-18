@@ -82,7 +82,6 @@ public class BossAI : MonoBehaviour
 
         shield = new ExecutionNode(() =>
         {
-            Debug.Log("more harder");
             _tankDamage.SetHP(_tankDamage.CurrentHealth + 50f);
             _tank.TankData.Armour += 10f;
         });
