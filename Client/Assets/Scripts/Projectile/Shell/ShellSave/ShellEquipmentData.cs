@@ -9,5 +9,7 @@ public class ShellEquipmentData
     public ShellEquipmentData()
     {
         _shellEquipmentList = new List<string>(new string[2]);
+        _shellEquipmentList[0] = "";
+        _shellEquipmentList[1] = "";
     }
 }

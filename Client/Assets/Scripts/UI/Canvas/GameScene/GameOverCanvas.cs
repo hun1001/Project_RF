@@ -29,6 +29,7 @@ public class GameOverCanvas : BaseCanvas
 
     private void BossModeGameOver(bool isClear)
     {
+        _gameModeTextController.SetText("BOSS");
         CanvasManager.ChangeCanvas(CanvasType);
         if (isClear)
         {
