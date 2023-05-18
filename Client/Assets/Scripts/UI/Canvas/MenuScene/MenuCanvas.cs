@@ -59,12 +59,15 @@ public class MenuCanvas : BaseCanvas
 
     private void Awake()
     {
-        GoodsManager.AddOnGoodsChanged((f, p) =>
-        {
-            _goodsTexts.SetGoodsTexts(f, p);
-        });
+        GoodsManager.IncreaseFreeGoods(1);
+        GoodsManager.IncreaseFreeGoods(-1);
 
         _goodsTexts.SetGoodsTexts(GoodsManager.FreeGoods, GoodsManager.PaidGoods);
+
+        // GoodsManager.AddOnGoodsChanged((f, p) =>
+        // {
+        //     _goodsTexts.SetGoodsTexts(f, p);
+        // });
 
         _startButton.interactable = true;
         _trainingButton.interactable = true;
@@ -150,7 +153,7 @@ public class MenuCanvas : BaseCanvas
         }
 
         uint activeSlotSize = currentTank.TankSO.ActiveItemInventorySize;
-        foreach(var active in _activeItemEquipmentDataDict._itemEquipmentList)
+        foreach (var active in _activeItemEquipmentDataDict._itemEquipmentList)
         {
             if (idx - 2 > activeSlotSize)
             {
@@ -173,7 +176,7 @@ public class MenuCanvas : BaseCanvas
             _gearImages[idx++].gameObject.SetActive(true);
         }
 
-        foreach(var shell in _shellEquipmentDataDict._shellEquipmentList)
+        foreach (var shell in _shellEquipmentDataDict._shellEquipmentList)
         {
             if (shell == "")
             {

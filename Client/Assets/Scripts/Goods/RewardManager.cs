@@ -20,6 +20,7 @@ public class RewardManager : MonoBehaviour
         }
         else
         {
+            Debug.Log("Clear");
             rewardValue = 10;
             GoodsManager.IncreaseFreeGoods(rewardValue);
         }
