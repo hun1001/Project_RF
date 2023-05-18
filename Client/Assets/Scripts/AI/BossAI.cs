@@ -70,7 +70,6 @@ public class BossAI : MonoBehaviour
 
         move2Target = new ExecutionNode(() =>
         {
-            Debug.Log("Move2Target");
             _moveTargetPosition = _target.transform.position + (Random.insideUnitSphere * 20f);
             _moveTargetPosition.z = 0f;
             Move(_moveTargetPosition);
@@ -78,20 +77,17 @@ public class BossAI : MonoBehaviour
 
         atk2Target = new ExecutionNode(() =>
         {
-            Debug.Log("Atk2Target");
             Attack();
         });
 
         shield = new ExecutionNode(() =>
         {
-            Debug.Log("Shield");
             _tankDamage.SetHP(_tankDamage.CurrentHealth + 50f);
             _tank.TankData.Armour += 10f;
         });
 
         checkAroundTarget = new ConditionalNode(() =>
         {
-            Debug.Log("CheckAroundTarget");
             _target ??= FindObjectOfType<Player>().Tank;
 
             if (_moveTargetPosition == Vector3.zero || Vector3.Distance(_tank.transform.position, _moveTargetPosition) < 15f)
@@ -107,7 +103,6 @@ public class BossAI : MonoBehaviour
 
         checkTargetInAim = new ConditionalNode(() =>
         {
-            Debug.Log("CheckTargetInAim");
             _turretRotate.Rotate((_target.transform.position - _tank.transform.position).normalized);
 
             return _turretAimLine.IsAim;
@@ -115,7 +110,6 @@ public class BossAI : MonoBehaviour
 
         checkTankHP = new ConditionalNode(() =>
         {
-            Debug.Log("CheckTankHP");
             return _tankDamage.CurrentHealth < _tank.TankData.HP * 0.5f;
         }, shield);
 
@@ -133,6 +127,7 @@ public class BossAI : MonoBehaviour
     private void Update()
     {
         _behaviorTree.Tick();
+        Debug.Log(_moveTargetPosition);
     }
 
     private void Attack()
