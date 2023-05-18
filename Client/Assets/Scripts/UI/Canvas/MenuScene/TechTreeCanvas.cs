@@ -173,8 +173,11 @@ public class TechTreeCanvas : BaseCanvas
                                     _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.RemoveAllListeners();
                                     _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
                                     {
-                                        FindObjectOfType<TankModelManager>().ChangeTankModel(_techTree.TechTreeSO[index][jIndex, lIndex]);
-                                        _tankInformation.SetActive(false);
+                                        if (TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex, lIndex].ID))
+                                        {
+                                            FindObjectOfType<TankModelManager>().ChangeTankModel(_techTree.TechTreeSO[index][jIndex, lIndex]);
+                                            _tankInformation.SetActive(false);
+                                        }
                                     });
 
                                     _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
@@ -182,7 +185,6 @@ public class TechTreeCanvas : BaseCanvas
                                     {
                                         TechTreeDataManager.AddTank(_techTree.TechTreeSO[index].CountryType, _techTree.TechTreeSO[index][jIndex, lIndex].ID);
                                         tNC.IsTankLocked = false;
-                                        _tankInformation.SetActive(false);
                                     });
 
                                     _tankInformationPanel.transform.GetChild(5).GetComponent<Button>().onClick.RemoveAllListeners();
