@@ -20,40 +20,65 @@ public class Shell_Collision : Shell_Component
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((Instance as Shell).Owner == collision.gameObject.GetComponent<CustomObject>())
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Tank"))
         {
-            return;
-        }
-
-        pt = (Instance as Shell).Owner as Tank;
-        et = collision.gameObject.GetComponent<Tank>();
-
-        if (pt != null && et != null)
-        {
-            if (pt.GroupType == et.GroupType)
+            if ((Instance as Shell).Owner == collision.gameObject.GetComponent<CustomObject>())
             {
                 return;
             }
+
+            pt = (Instance as Shell).Owner as Tank;
+            et = collision.gameObject.GetComponent<Tank>();
+
+            if (pt != null && et != null)
+            {
+                if (pt.GroupType == et.GroupType)
+                {
+                    return;
+                }
+            }
+
+            normalVector = collision.contacts[0].normal;
+            incidentVector = -transform.up;
+
+            angle = (int)Vector2.Angle(incidentVector, normalVector);
+            angle %= 180;
+
+            if (angle < 90 && angle >= 60)
+            {
+                reflectionDir = Vector2.Reflect(-incidentVector, normalVector);
+
+                transform.up = reflectionDir;
+                _shellSound.PlaySound(SoundType.Ricochet, AudioMixerType.Sfx);
+            }
+            else
+            {
+                collision.gameObject.GetComponent<Tank_Damage>()?.Damaged((Instance as Shell).Damage, (Instance as Shell).Penetration, collision.contacts[0].point);
+                PoolManager.Get("Explosion_APHE_01", transform.position, transform.rotation);
+                PoolManager.Pool(Instance.ID, gameObject);
+            }
         }
-
-        normalVector = collision.contacts[0].normal;
-        incidentVector = -transform.up;
-
-        angle = (int)Vector2.Angle(incidentVector, normalVector);
-        angle %= 180;
-
-        if (angle < 90 && angle >= 60)
+        
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            reflectionDir = Vector2.Reflect(-incidentVector, normalVector);
+            normalVector = collision.contacts[0].normal;
+            incidentVector = -transform.up;
 
-            transform.up = reflectionDir;
-            _shellSound.PlaySound(SoundType.Ricochet, AudioMixerType.Sfx);
-        }
-        else
-        {
-            collision.gameObject.GetComponent<Tank_Damage>()?.Damaged((Instance as Shell).Damage, (Instance as Shell).Penetration, collision.contacts[0].point);
-            PoolManager.Get("Explosion_APHE_01", transform.position, transform.rotation);
-            PoolManager.Pool(Instance.ID, gameObject);
+            angle = (int)Vector2.Angle(incidentVector, normalVector);
+            angle %= 180;
+
+            if (angle < 90 && angle >= 60)
+            {
+                reflectionDir = Vector2.Reflect(-incidentVector, normalVector);
+
+                transform.up = reflectionDir;
+                _shellSound.PlaySound(SoundType.Ricochet, AudioMixerType.Sfx);
+            }
+            else
+            {
+                PoolManager.Get("Explosion_APHE_01", transform.position, transform.rotation);
+                PoolManager.Pool(Instance.ID, gameObject);
+            }
         }
     }
 }
