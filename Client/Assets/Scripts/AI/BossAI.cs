@@ -22,7 +22,6 @@ public class BossAI : MonoBehaviour
 
     private Vector3 _moveTargetPosition = Vector3.zero;
 
-
     private void Awake()
     {
         _tank = SpawnManager.Instance.SpawnUnit("BMP-130-2", transform.position, transform.rotation, GroupType.Enemy);
@@ -83,6 +82,7 @@ public class BossAI : MonoBehaviour
         shield = new ExecutionNode(() =>
         {
             _tankDamage.SetHP(_tankDamage.CurrentHealth + 50f);
+            hpBar.ChangeValue(50f);
             _tank.TankData.Armour += 10f;
         });
 
