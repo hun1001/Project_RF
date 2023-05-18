@@ -47,6 +47,11 @@ public class BossAI : MonoBehaviour
             EventManager.TriggerEvent(EventKeyword.BossClear);
         });
 
+        Bar hpBar = PoolManager.Get<Bar>("EnemyBar", _tank.transform.position, Quaternion.identity, _tank.transform);
+        hpBar.Setting(_tank.TankData.HP);
+
+        _tankDamage.AddOnDamageAction(hpBar.ChangeValue);
+
         RootNode rootNode = null;
 
         SelectorNode selectorNode = null;
@@ -77,7 +82,9 @@ public class BossAI : MonoBehaviour
 
         shield = new ExecutionNode(() =>
         {
-            Debug.Log("to become stronger");
+            Debug.Log("more harder");
+            _tankDamage.SetHP(_tankDamage.CurrentHealth + 50f);
+            _tank.TankData.Armour += 10f;
         });
 
         checkAroundTarget = new ConditionalNode(() =>
@@ -104,7 +111,7 @@ public class BossAI : MonoBehaviour
 
         checkTankHP = new ConditionalNode(() =>
         {
-            return _tankDamage.CurrentHealth < _tank.TankData.HP * 0.3f;
+            return _tankDamage.CurrentHealth < _tank.TankData.HP * 0.5f;
         }, shield);
 
         tankMoveSequenceNode = new SequenceNode(checkAroundTarget);
