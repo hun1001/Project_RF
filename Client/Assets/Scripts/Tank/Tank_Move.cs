@@ -93,6 +93,7 @@ public class Tank_Move : Tank_Component
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             _onCrash?.Invoke(_currentSpeed);
+            _tankSound.PlaySound(SoundType.TankImpact, AudioMixerType.Sfx, 0.7f);
 
             _currentSpeed = 0;
             StartCoroutine(CrashRebound(collision.contacts[0].normal * 2.5f));
@@ -105,12 +106,13 @@ public class Tank_Move : Tank_Component
 
             if (otherTank.TankSO.HP >= (Instance as Tank).TankSO.HP)
             {
-                _currentSpeed = 0;
+                _currentSpeed = Mathf.Clamp(_currentSpeed * 0.5f, 0f, _maxSpeed);
+                _tankSound.PlaySound(SoundType.TankImpact, AudioMixerType.Sfx, 0.7f);
                 StartCoroutine(CrashRebound(collision.contacts[0].normal * 2.5f));
             }
             else
             {
-                _currentSpeed = Mathf.Clamp(_currentSpeed - _maxSpeed * 0.5f, 0f, _maxSpeed);
+                _currentSpeed = Mathf.Clamp(_currentSpeed * 0.5f, 0f, _maxSpeed);
             }
         }
     }

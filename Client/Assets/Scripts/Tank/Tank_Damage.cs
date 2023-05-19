@@ -82,6 +82,7 @@ public class Tank_Damage : Tank_Component
     private void Death()
     {
         _currentHealth = 0;
+        _tankSound.PlaySound(SoundType.TankDestroy, AudioMixerType.Sfx);
         Pool.PoolManager.Pool(Instance.ID, gameObject);
         EventManager.TriggerEvent(gameObject.GetInstanceID().ToString());
         _onDeathAction?.Invoke();
