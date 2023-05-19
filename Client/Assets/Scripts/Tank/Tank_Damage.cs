@@ -36,7 +36,7 @@ public class Tank_Damage : Tank_Component
 
     public void SetHP(float hp) => _currentHealth = hp > _maxHealth ? _maxHealth : hp < 0 ? 0 : hp;
 
-    public void Damaged(float damage, float penetration, Vector3 hitPos)
+    public void Damaged(float damage, float penetration, Vector3 hitPos, Vector2 hitDir)
     {
         float decreaseDamage = (1 - _amour / penetration) * 2 * damage;
 
