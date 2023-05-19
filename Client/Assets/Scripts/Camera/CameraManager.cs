@@ -6,6 +6,7 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     private CinemachineVirtualCamera _virtualCamera = null;
+    public CinemachineVirtualCamera VirtualCamera => _virtualCamera;
 
     private Transform _parent;
 
@@ -73,5 +74,38 @@ public class CameraManager : MonoBehaviour
         }
 
         _virtualCamera.m_Lens.FieldOfView = origin;
+    }
+
+    private bool _isZooming = false;
+
+    public void CameraZoom(float fov, float duration)
+    {
+        StartCoroutine(CameraZoomCoroutine(fov, duration));
+    }
+
+    private IEnumerator CameraZoomCoroutine(float offsetZ, float duration)
+    {
+        if (_isZooming)
+        {
+            yield break;
+        }
+
+        _isZooming = true;
+
+        var transposer = _virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+        var origin = transposer.m_FollowOffset.z;
+        var target = offsetZ;
+
+        var timer = 0f;
+        while (timer < duration)
+        {
+            transposer.m_FollowOffset.z = Mathf.Lerp(origin, target, timer / duration);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        transposer.m_FollowOffset.z = target;
+
+        _isZooming = false;
     }
 }

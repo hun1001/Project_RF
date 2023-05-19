@@ -5,6 +5,7 @@ using Pool;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Cinemachine;
 using Addressable;
 
 public class Player : CustomObject
@@ -138,5 +139,14 @@ public class Player : CustomObject
         _tankMove.Move(_moveJoystick.Magnitude);
         _tankRotate.Rotate(_moveJoystick.Direction);
         _turretRotate.Rotate(_attackJoystick.Direction);
+
+        if (_attackJoystick.DragTime > 1.5f)
+        {
+            _cameraManager.CameraZoom(-50, 1);
+        }
+        else
+        {
+            _cameraManager.CameraZoom(-30f, 0.3f);
+        }
     }
 }
