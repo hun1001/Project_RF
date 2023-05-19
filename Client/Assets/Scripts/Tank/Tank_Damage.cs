@@ -12,11 +12,18 @@ public class Tank_Damage : Tank_Component
     private float _maxHealth = 0f;
     private float _amour = 0f;
 
+    private Tank_Sound _tankSound = null;
+
     private Action<float> _onDamageAction = null;
     public void AddOnDamageAction(Action<float> action) => _onDamageAction += action;
 
     private Action _onDeathAction = null;
     public void AddOnDeathAction(Action action) => _onDeathAction += action;
+
+    private void Awake()
+    {
+        TryGetComponent(out  _tankSound);
+    }
 
     private void Start() => ResetData();
 
@@ -40,10 +47,26 @@ public class Tank_Damage : Tank_Component
         sumDamage = (float)Math.Truncate(sumDamage);
 
         PopupText text = PoolManager.Get<PopupText>("PopupDamage", hitPos + Vector3.back * 5, Quaternion.identity);
-
         text.SetText(sumDamage);
-
         text.DoMoveText();
+
+        float percent = sumDamage / _maxHealth;
+        if (sumDamage == 1)
+        {
+            _tankSound.PlaySound(SoundType.TankHitVerySmall, AudioMixerType.Sfx);
+        }
+        else if (percent >= 0.4)
+        {
+            _tankSound.PlaySound(SoundType.TankHitBig, AudioMixerType.Sfx);
+        }
+        else if (percent >= 0.2)
+        {
+            _tankSound.PlaySound(SoundType.TankHitMed, AudioMixerType.Sfx);
+        }
+        else
+        {
+            _tankSound.PlaySound(SoundType.TankHitSmall, AudioMixerType.Sfx);
+        }
 
         sumDamage *= -1;
 

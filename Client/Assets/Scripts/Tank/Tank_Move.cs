@@ -22,7 +22,7 @@ public class Tank_Move : Tank_Component
 
     private void Awake()
     {
-        (Instance as Tank).TryGetComponent(out _tankSound);
+        TryGetComponent(out _tankSound);
 
         GetComponent<Turret_Attack>().AddOnFireAction(() =>
         {
