@@ -21,9 +21,12 @@ public class Turret_Attack : Turret_Component
     private Action _onFire = null;
     public void AddOnFireAction(Action action) => _onFire += action;
 
+    private Tank_Move _tankMove = null;
+
     private void Awake()
     {
         Turret.TryGetComponent(out _turretSound);
+        _tankMove = GetComponent<Tank_Move>();
 
         if (Turret.TurretData.IsBurst)
         {
@@ -49,9 +52,7 @@ public class Turret_Attack : Turret_Component
                             _turretSound.PlaySound(SoundType.Fire, AudioMixerType.Sfx);
                             _turretSound.PlaySound(SoundType.ShellDrop, AudioMixerType.Sfx, 0.5f);
                         }
-                        _onFire?.Invoke();
-                        PoolManager.Get<Shell>(Turret.CurrentShell.ID, Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(GetComponent<Tank>());
-                        PoolManager.Get("FireEffect_01", Turret.FirePoint.position, Turret.FirePoint.rotation);
+                        Firing();
                     }
                 }
                 else
@@ -72,9 +73,7 @@ public class Turret_Attack : Turret_Component
                     _turretSound.PlaySound(SoundType.Fire, AudioMixerType.Sfx);
                     _turretSound.PlaySound(SoundType.ShellDrop, AudioMixerType.Sfx, 0.5f);
                 }
-                _onFire?.Invoke();
-                PoolManager.Get<Shell>(Turret.CurrentShell.ID, Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(GetComponent<Tank>());
-                PoolManager.Get("FireEffect_01", Turret.FirePoint.position, Turret.FirePoint.rotation);
+                Firing();
             }
         }
     }
@@ -99,6 +98,22 @@ public class Turret_Attack : Turret_Component
                 _burstReloadTime -= Time.deltaTime;
             }
         }
+    }
+
+    private void Firing()
+    {
+        float atk = Turret.TurretData.AtkPower;
+        float pen = Turret.TurretData.PenetrationPower;
+
+        if (_tankMove.CurrentSpeed <= 0)
+        {
+            atk *= 1.2f;
+            pen *= 1.2f;
+        }
+
+        _onFire?.Invoke();
+        PoolManager.Get<Shell>(Turret.CurrentShell.ID, Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(GetComponent<Tank>(), atk, pen);
+        PoolManager.Get("FireEffect_01", Turret.FirePoint.position, Turret.FirePoint.rotation);
     }
 
     protected void ResetReloadTime()

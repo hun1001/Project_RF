@@ -9,6 +9,7 @@ public class Tank_Move : Tank_Component
 {
     private float _maxSpeed = 0f;
     private float _currentSpeed = 0f;
+    public float CurrentSpeed => _currentSpeed;
     private float _acceleration = 0f;
     private float _targetSpeed = 0f;
 
@@ -22,7 +23,7 @@ public class Tank_Move : Tank_Component
     private void Awake()
     {
         (Instance as Tank).TryGetComponent(out _tankSound);
-        
+
         GetComponent<Turret_Attack>().AddOnFireAction(() =>
         {
             Vector3 dir = (Instance as Tank).Turret.FirePoint.position - transform.position;
@@ -44,7 +45,7 @@ public class Tank_Move : Tank_Component
         {
             if (_isDepart == false)
             {
-                if(_loadSoundDelay <= 0f)
+                if (_loadSoundDelay <= 0f)
                 {
                     _isDepart = true;
                     _loadSoundDelay = 3f;
@@ -72,7 +73,7 @@ public class Tank_Move : Tank_Component
         }
 
         transform.Translate(Vector3.up * Time.deltaTime * _currentSpeed);
-        if(_loadSoundDelay > 0f)
+        if (_loadSoundDelay > 0f)
         {
             _loadSoundDelay -= Time.deltaTime;
         }
@@ -102,7 +103,7 @@ public class Tank_Move : Tank_Component
 
             Tank otherTank = collision.gameObject.GetComponent<Tank>();
 
-            if(otherTank.TankSO.HP >= (Instance as Tank).TankSO.HP)
+            if (otherTank.TankSO.HP >= (Instance as Tank).TankSO.HP)
             {
                 _currentSpeed = 0;
                 StartCoroutine(CrashRebound(collision.contacts[0].normal * 2.5f));
