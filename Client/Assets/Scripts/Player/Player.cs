@@ -140,7 +140,7 @@ public class Player : CustomObject
         _tankRotate.Rotate(_moveJoystick.Direction);
         _turretRotate.Rotate(_attackJoystick.Direction);
 
-        if (_attackJoystick.DragTime > 1.5f)
+        if (_attackJoystick.DragTime > 1.5f && _tankMove.CurrentSpeed == 0)
         {
             _cameraManager.CameraZoom(-50, 1);
         }
