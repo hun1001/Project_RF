@@ -38,8 +38,26 @@ public class ControllerCanvas : BaseCanvas
 
     private IEnumerator ReloadCheck()
     {
-        float reloadTime = _playerTurret.TurretSO.ReloadTime;
+        float reloadTime = 0;
         float currentTime = 0;
+
+        if (_playerTurret.TurretSO.IsBurst)
+        {
+            int currentMagazine = _playerTurret.GetComponent<Turret_Attack>().MagazineSize;
+
+            if (currentMagazine > 0)
+            {
+                reloadTime = _playerTurret.TurretSO.BurstData.BurstReloadTime;
+            }
+            else
+            {
+                reloadTime = _playerTurret.TurretSO.ReloadTime;
+            }
+        }
+        else
+        {
+            reloadTime = _playerTurret.TurretSO.ReloadTime;
+        }
 
         while (currentTime < reloadTime)
         {
