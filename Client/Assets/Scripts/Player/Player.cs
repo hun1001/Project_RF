@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Addressable;
 using System.Linq;
+using Event;
 
 public class Player : CustomObject
 {
@@ -110,15 +111,27 @@ public class Player : CustomObject
         _controllerCanvas.ToggleGroup.SetToggleGroup(shellName, shellSprite, shellAction);
 
         // TODO : 연동이 잘 안되는 경우 존재 해결 필요
-        _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction(_hpBar.ChangeValue);
-        _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction((a) =>
+        Tank_Damage tankDamage = _tank.GetComponent<Tank_Damage>(ComponentType.Damage);
+        tankDamage.AddOnDamageAction(_hpBar.ChangeValue);
+        tankDamage.AddOnDamageAction((a) =>
         {
             if (a < 0) _cameraManager.CameraShake(cameraDamageShakeAmplitudeGain, cameraDamageShakeFrequencyGain, cameraDamageShakeDuration);
         });
-
-        _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDeathAction(() =>
+        tankDamage.AddOnDamageAction((a) =>
         {
-            Event.EventManager.TriggerEvent(EventKeyword.PlayerDead);
+            if (a < 0)
+            {
+                object[] objects = new object[2];
+                objects[0] = tankDamage.LastHitDir.x;
+                objects[1] = tankDamage.LastHitDir.y;
+                EventManager.TriggerEvent(EventKeyword.PlayerHit, objects);
+            }
+        });
+
+
+        tankDamage.AddOnDeathAction(() =>
+        {
+            EventManager.TriggerEvent(EventKeyword.PlayerDead);
         });
 
         _tank.GetComponent<Tank_Move>(ComponentType.Move).AddOnCrashAction((a) =>

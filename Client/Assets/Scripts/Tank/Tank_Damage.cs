@@ -12,6 +12,9 @@ public class Tank_Damage : Tank_Component
     private float _maxHealth = 0f;
     private float _amour = 0f;
 
+    private Vector2 _lastHitDir = Vector2.zero;
+    public Vector2 LastHitDir => _lastHitDir;
+
     private Tank_Sound _tankSound = null;
 
     private Action<float> _onDamageAction = null;
@@ -49,6 +52,8 @@ public class Tank_Damage : Tank_Component
         PopupText text = PoolManager.Get<PopupText>("PopupDamage", hitPos + Vector3.back * 5, Quaternion.identity);
         text.SetText(sumDamage);
         text.DoMoveText();
+
+        _lastHitDir = hitDir;
 
         float percent = sumDamage / _maxHealth;
         if (sumDamage == 1)
