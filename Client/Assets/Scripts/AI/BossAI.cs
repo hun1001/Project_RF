@@ -77,8 +77,7 @@ public class BossAI : MonoBehaviour
 
         atk2Target = new ExecutionNode(() =>
         {
-            //Attack();
-            Debug.Log("Attack");
+            Attack();
         });
 
         shield = new ExecutionNode(() =>

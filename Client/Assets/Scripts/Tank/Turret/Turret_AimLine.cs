@@ -71,21 +71,14 @@ public class Turret_AimLine : Turret_Component
 
         if (a.ReloadingTime <= 0f)
         {
-            //_lineRenderer.enabled = true;
             var rayData = Physics2D.Raycast(Turret.FirePoint.position, Turret.FirePoint.up, Turret.CurrentShell.Speed * 2f);
+            Debug.DrawLine(Turret.FirePoint.position, Turret.FirePoint.position + Turret.FirePoint.up * Turret.CurrentShell.Speed * 2f, Color.red, 1f);
 
             if (rayData.collider != null && rayData.collider != Turret.GetComponent<Tank>().GetComponent<Collider2D>())
             {
-                _isAim = true;
+                _isAim = rayData.collider.gameObject.layer == LayerMask.NameToLayer("Tank");
                 _lineRenderer.SetPosition(1, rayData.point + (Vector2)Turret.FirePoint.up);
-                if (rayData.collider.gameObject.layer == LayerMask.NameToLayer("Tank"))
-                {
-                    _lineRenderer.colorGradient = _gradients[2];
-                }
-                else
-                {
-                    _lineRenderer.colorGradient = _gradients[1];
-                }
+                _lineRenderer.colorGradient = IsAim ? _gradients[2] : _gradients[1];
             }
             else
             {
@@ -98,19 +91,13 @@ public class Turret_AimLine : Turret_Component
         {
             var rayData = Physics2D.Raycast(Turret.FirePoint.position, Turret.FirePoint.up, Turret.CurrentShell.Speed * 2f);
 
-            if (rayData.collider != null && rayData.collider != Turret.GetComponent<Tank>().GetComponent<Collider2D>())
-            {
-                _isAim = true;
-                _lineRenderer.SetPosition(1, rayData.point + (Vector2)Turret.FirePoint.up);
-            }
-            else
-            {
-                _isAim = false;
-                _lineRenderer.SetPosition(1, Turret.FirePoint.position + Turret.FirePoint.up * Turret.CurrentShell.Speed * 2f);
-            }
+            _isAim = rayData.collider != null && rayData.collider != Turret.GetComponent<Tank>().GetComponent<Collider2D>();
+
+            var pos = _isAim ? (Vector3)(rayData.point + (Vector2)Turret.FirePoint.up) : Turret.FirePoint.position + Turret.FirePoint.up * Turret.CurrentShell.Speed * 2f;
+
+            _lineRenderer.SetPosition(1, pos);
 
             _lineRenderer.colorGradient = _gradients[0];
-            //_lineRenderer.enabled = false;
         }
     }
 
