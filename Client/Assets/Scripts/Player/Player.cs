@@ -5,8 +5,8 @@ using Pool;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using Cinemachine;
 using Addressable;
+using System.Linq;
 
 public class Player : CustomObject
 {
@@ -49,14 +49,16 @@ public class Player : CustomObject
     {
         base.Awake();
         Camera.main.TryGetComponent(out _cameraManager);
-        _tank = SpawnManager.Instance.SpawnUnit(PlayerDataManager.Instance.GetPlayerTankID(), Vector3.zero, Quaternion.identity, GroupType.Player);
+        _tank = SpawnManager.Instance.SpawnUnit(PlayerDataManager.Instance.GetPlayerTankID(), transform.position, Quaternion.identity, GroupType.Player);
         _tank.tag = "Player";
         FindObjectOfType<MinimapCameraManager>().Target = _tank.transform;
-        _cameraManager.SetPlayer(_tank.transform);
+        //_cameraManager.SetPlayer(_tank.transform);
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);
         _attackJoystick.AddOnPointerUpAction(() => _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine).SetEnableLineLenderer(false));
         _attackJoystick.AddOnPointerDownAction(() => _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine).SetEnableLineLenderer(true));
         _hpBar.Setting(_tank.TankData.HP);
+
+        _cameraManager.AddTargetGroup(_tank.transform, 15, 100);
 
         if (_tank.TankData.HasSkill == true)
         {
@@ -132,6 +134,8 @@ public class Player : CustomObject
         _tankMove = _tank.GetComponent<Tank_Move>(ComponentType.Move);
         _tankRotate = _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate);
         _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
+
+        StartCoroutine(CheckAroundTarget());
     }
 
     void Update()
@@ -140,13 +144,34 @@ public class Player : CustomObject
         _tankRotate.Rotate(_moveJoystick.Direction);
         _turretRotate.Rotate(_attackJoystick.Direction);
 
-        if (_attackJoystick.DragTime > 1.5f && _tankMove.CurrentSpeed == 0)
+        if (_attackJoystick.DragTime > 3f && _tankMove.CurrentSpeed == 0)
         {
             _cameraManager.CameraZoom(-50, 1);
         }
         else
         {
             _cameraManager.CameraZoom(-30f, 0.3f);
+        }
+    }
+
+    private IEnumerator CheckAroundTarget()
+    {
+        bool isChanged = false;
+
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+            var findingTank = Physics2D.OverlapCircleAll(_tank.transform.position, 60f, 1 << LayerMask.NameToLayer("Tank"));
+            isChanged = _cameraManager.TargetGroupLength != findingTank.Length;
+            if (isChanged == true)
+            {
+                _cameraManager.ResetTargetGroup(findingTank.ToList());
+            }
+
+            foreach (var enemy in findingTank)
+            {
+                _cameraManager.AddTargetGroup(enemy.transform, 20, 80);
+            }
         }
     }
 }

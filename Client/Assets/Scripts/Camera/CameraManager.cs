@@ -5,17 +5,16 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
+    [SerializeField]
     private CinemachineVirtualCamera _virtualCamera = null;
     public CinemachineVirtualCamera VirtualCamera => _virtualCamera;
 
+    [SerializeField]
+    private CinemachineTargetGroup _targetGroup = null;
+    public CinemachineTargetGroup TargetGroup => _targetGroup;
+
+    [SerializeField]
     private Transform _parent;
-
-    private void Awake()
-    {
-        _virtualCamera = transform.GetChild(0).GetComponent<CinemachineVirtualCamera>();
-
-        _parent = transform.parent;
-    }
 
     public void SetPlayer(Transform target)
     {
@@ -107,5 +106,40 @@ public class CameraManager : MonoBehaviour
         transposer.m_FollowOffset.z = target;
 
         _isZooming = false;
+    }
+
+    public int TargetGroupLength => _targetGroup.m_Targets.Length;
+
+    public void AddTargetGroup(Transform target, float weight, float radius)
+    {
+        if (_targetGroup.FindMember(target) != -1)
+        {
+            return;
+        }
+
+        _targetGroup.AddMember(target, weight, radius);
+    }
+
+    public void RemoveTargetGroup(Transform target)
+    {
+        if (_targetGroup.FindMember(target) != -1)
+        {
+            _targetGroup.RemoveMember(target);
+        }
+    }
+
+    public void ResetTargetGroup(List<Collider2D> targets)
+    {
+        foreach (var t in _targetGroup.m_Targets)
+        {
+            if (targets.Contains(t.target.gameObject.GetComponent<Collider2D>()))
+            {
+                continue;
+            }
+            else
+            {
+                _targetGroup.RemoveMember(t.target);
+            }
+        }
     }
 }

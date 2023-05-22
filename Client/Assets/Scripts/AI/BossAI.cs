@@ -3,6 +3,7 @@ using UnityEngine;
 using Pool;
 using UnityEngine.AI;
 using Event;
+using Cinemachine;
 
 public class BossAI : MonoBehaviour
 {
@@ -76,7 +77,8 @@ public class BossAI : MonoBehaviour
 
         atk2Target = new ExecutionNode(() =>
         {
-            Attack();
+            //Attack();
+            Debug.Log("Attack");
         });
 
         shield = new ExecutionNode(() =>
@@ -110,7 +112,7 @@ public class BossAI : MonoBehaviour
 
         checkTankHP = new ConditionalNode(() =>
         {
-            return _tankDamage.CurrentHealth < _tank.TankData.HP * 0.25f;
+            return _tankDamage.CurrentHealth < _tank.TankData.HP * 0.30f;
         }, shield);
 
         tankMoveSequenceNode = new SequenceNode(checkAroundTarget);
