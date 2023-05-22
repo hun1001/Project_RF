@@ -18,12 +18,16 @@ public class LaserBeam : CustomObject
     private CustomObject _owner = null;
     private Vector3 _startPosition = Vector3.zero;
 
+    private CameraManager _cameraManager = null;
+
     public void SetLaserBeam(CustomObject owner, Vector3 startPosition, Vector3 endPosition)
     {
         _owner = owner;
 
         _meshRenderer.enabled = false;
         _collider.enabled = false;
+
+        _cameraManager ??= Camera.main.GetComponent<CameraManager>();
 
         _lineRenderer.SetPosition(0, startPosition);
         _lineRenderer.SetPosition(1, endPosition);
@@ -43,6 +47,11 @@ public class LaserBeam : CustomObject
 
         _meshRenderer.enabled = true;
         _collider.enabled = true;
+
+        if (_cameraManager.TargetGroup.FindMember(_owner.transform) != -1)
+        {
+            _cameraManager.CameraShake(3, 5, 0.5f);
+        }
 
         yield return new WaitForSeconds(1f);
 
