@@ -149,21 +149,41 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    public void SetVolumeWhiteBalance(float temperature, float tint, float duration)
+    public void SetVolumeVignette(Color color, float intensity, float smoothness, float duration)
     {
-        StartCoroutine(VolumeWhiteBalanceCoroutine(temperature, tint, duration));
+        StartCoroutine(VolumeVignetteCoroutine(color, intensity, smoothness, duration));
     }
 
-    private IEnumerator VolumeWhiteBalanceCoroutine(float temperature, float tint, float duration)
+    private IEnumerator VolumeVignetteCoroutine(Color color, float intensity, float smoothness, float duration)
     {
-        WhiteBalance whiteBalance = null;
-        if (_volume.profile.TryGet<WhiteBalance>(out whiteBalance))
+        Vignette vignette = null;
+        if (_volume.profile.TryGet<Vignette>(out vignette))
         {
-            whiteBalance.temperature.value = temperature;
-            whiteBalance.tint.value = tint;
+            vignette.color.value = color;
+            vignette.intensity.value = intensity;
+            vignette.smoothness.value = smoothness;
             yield return new WaitForSeconds(duration);
-            whiteBalance.temperature.value = 0;
-            whiteBalance.tint.value = 0;
+            vignette.color.value = Color.black;
+            vignette.intensity.value = 0;
+            vignette.smoothness.value = 0.2f;
         }
     }
+
+    // public void SetVolumeWhiteBalance(float temperature, float tint, float duration)
+    // {
+    //     StartCoroutine(VolumeWhiteBalanceCoroutine(temperature, tint, duration));
+    // }
+
+    // private IEnumerator VolumeWhiteBalanceCoroutine(float temperature, float tint, float duration)
+    // {
+    //     WhiteBalance whiteBalance = null;
+    //     if (_volume.profile.TryGet<WhiteBalance>(out whiteBalance))
+    //     {
+    //         whiteBalance.temperature.value = temperature;
+    //         whiteBalance.tint.value = tint;
+    //         yield return new WaitForSeconds(duration);
+    //         whiteBalance.temperature.value = 0;
+    //         whiteBalance.tint.value = 0;
+    //     }
+    // }
 }
