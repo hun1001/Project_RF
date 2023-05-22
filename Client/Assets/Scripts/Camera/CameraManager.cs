@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using UnityEngine.Rendering;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using System.Linq;
 
 public class CameraManager : MonoBehaviour
 {
@@ -15,6 +18,9 @@ public class CameraManager : MonoBehaviour
 
     [SerializeField]
     private Transform _parent;
+
+    [SerializeField]
+    private Volume _volume;
 
     public void SetPlayer(Transform target)
     {
@@ -141,5 +147,18 @@ public class CameraManager : MonoBehaviour
                 _targetGroup.RemoveMember(t.target);
             }
         }
+    }
+
+    public void SetVolumeWhiteBalance(float temperature, float tint, float duration)
+    {
+        StartCoroutine(VolumeWhiteBalanceCoroutine(temperature, tint, duration));
+    }
+
+    private IEnumerator VolumeWhiteBalanceCoroutine(float temperature, float tint, float duration)
+    {
+        var origin = _volume.profile.components.OfType<WhiteBalance>();
+
+
+        yield return new WaitForSeconds(duration);
     }
 }

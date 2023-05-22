@@ -48,10 +48,7 @@ public class LaserBeam : CustomObject
         _meshRenderer.enabled = true;
         _collider.enabled = true;
 
-        if (_cameraManager.TargetGroup.FindMember(_owner.transform) != -1)
-        {
-            _cameraManager.CameraShake(3, 5, 0.5f);
-        }
+        _cameraManager.CameraShake(3, 5, 0.5f);
 
         yield return new WaitForSeconds(1f);
 
