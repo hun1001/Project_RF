@@ -30,11 +30,11 @@ public class InformationCanvas : BaseCanvas
         EventManager.StartListening(EventKeyword.PlayerHit, (objects) =>
         {
             if (_hitCoroutine != null) StopCoroutine(_hitCoroutine);
-            _hitCoroutine = StartCoroutine(HitDirectionCheck(objects));
+            _hitCoroutine = StartCoroutine(HitEffect(objects));
         });
     }
 
-    private IEnumerator HitDirectionCheck(object[] objects)
+    private IEnumerator HitEffect(object[] objects)
     {
         Vector2 dir = new Vector2((float)objects[0], (float)objects[1]);
         dir = Camera.main.WorldToScreenPoint(dir);

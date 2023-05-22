@@ -115,12 +115,10 @@ public class Player : CustomObject
         tankDamage.AddOnDamageAction(_hpBar.ChangeValue);
         tankDamage.AddOnDamageAction((a) =>
         {
-            if (a < 0) _cameraManager.CameraShake(cameraDamageShakeAmplitudeGain, cameraDamageShakeFrequencyGain, cameraDamageShakeDuration);
-        });
-        tankDamage.AddOnDamageAction((a) =>
-        {
             if (a < 0)
             {
+                _cameraManager.CameraShake(cameraDamageShakeAmplitudeGain, cameraDamageShakeFrequencyGain, cameraDamageShakeDuration);
+
                 object[] objects = new object[2];
                 objects[0] = tankDamage.LastHitDir.x;
                 objects[1] = tankDamage.LastHitDir.y;
