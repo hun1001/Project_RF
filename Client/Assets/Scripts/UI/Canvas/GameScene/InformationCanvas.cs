@@ -1,3 +1,4 @@
+using Event;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,9 @@ public class InformationCanvas : BaseCanvas
 
     [SerializeField]
     private Image _reloadImage = null;
+    [SerializeField]
+    private RectTransform _hitImage = null;
+    private Coroutine _hitCoroutine;
 
     private Player _player;
     private Turret _playerTurret;
@@ -18,9 +22,31 @@ public class InformationCanvas : BaseCanvas
     private void Awake()
     {
         _player = FindObjectOfType<Player>();
-        Tank pt = _player.Tank;
-        _playerTurret = pt.Turret;
-        _playerTurret.GetComponent<Turret_Attack>().AddOnFireAction(() => StartCoroutine(ReloadCheck())); 
+        _playerTurret = _player.Tank.Turret;
+        _playerTurret.GetComponent<Turret_Attack>().AddOnFireAction(() => StartCoroutine(ReloadCheck()));
+
+        _hitImage.gameObject.SetActive(false);
+
+        EventManager.StartListening(EventKeyword.PlayerHit, (objects) =>
+        {
+            if (_hitCoroutine != null) StopCoroutine(_hitCoroutine);
+            _hitCoroutine = StartCoroutine(HitDirectionCheck(objects));
+        });
+    }
+
+    private IEnumerator HitDirectionCheck(object[] objects)
+    {
+        Vector2 dir = new Vector2((float)objects[0], (float)objects[1]);
+        dir = Camera.main.WorldToScreenPoint(dir);
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        _hitImage.gameObject.SetActive(true);
+        _hitImage.rotation = Quaternion.AngleAxis(angle - 270, Vector3.forward);
+        _hitImage.anchoredPosition = dir.normalized * 20f;
+
+        yield return new WaitForSeconds(1.5f);
+        _hitImage.gameObject.SetActive(false);
+        _hitImage.anchoredPosition = Vector2.zero;
+        _hitCoroutine = null;
     }
 
     private IEnumerator ReloadCheck()

@@ -16,6 +16,7 @@ public class LaserBeam : CustomObject
     private BoxCollider2D _collider = null;
 
     private CustomObject _owner = null;
+    private Vector3 _startPosition = Vector3.zero;
 
     public void SetLaserBeam(CustomObject owner, Vector3 startPosition, Vector3 endPosition)
     {
@@ -30,6 +31,8 @@ public class LaserBeam : CustomObject
         transform.localScale = new Vector3(1, Vector3.Distance(startPosition, endPosition) / 2, 1);
         transform.position = (startPosition + endPosition) / 2;
         transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(endPosition.y - startPosition.y, endPosition.x - startPosition.x) * Mathf.Rad2Deg + 90);
+
+        _startPosition = startPosition;
 
         StartCoroutine(LaserBeamCoroutine());
     }
@@ -52,7 +55,7 @@ public class LaserBeam : CustomObject
     {
         if (other.CompareTag("Player") && other.GetComponent<CustomObject>() != _owner)
         {
-            other.GetComponent<Tank_Damage>().Damaged(300, 99999, other.ClosestPoint(transform.position), Vector2.zero);
+            other.GetComponent<Tank_Damage>().Damaged(300, 99999, other.ClosestPoint(transform.position), _startPosition);
         }
     }
 }
