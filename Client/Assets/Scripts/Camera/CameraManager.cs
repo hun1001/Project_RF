@@ -156,9 +156,14 @@ public class CameraManager : MonoBehaviour
 
     private IEnumerator VolumeWhiteBalanceCoroutine(float temperature, float tint, float duration)
     {
-        var origin = _volume.profile.components.OfType<WhiteBalance>();
-
-
-        yield return new WaitForSeconds(duration);
+        WhiteBalance whiteBalance = null;
+        if (_volume.profile.TryGet<WhiteBalance>(out whiteBalance))
+        {
+            whiteBalance.temperature.value = temperature;
+            whiteBalance.tint.value = tint;
+            yield return new WaitForSeconds(duration);
+            whiteBalance.temperature.value = 0;
+            whiteBalance.tint.value = 0;
+        }
     }
 }

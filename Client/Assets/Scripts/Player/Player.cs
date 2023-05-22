@@ -118,6 +118,7 @@ public class Player : CustomObject
             if (a < 0)
             {
                 _cameraManager.CameraShake(cameraDamageShakeAmplitudeGain, cameraDamageShakeFrequencyGain, cameraDamageShakeDuration);
+                _cameraManager.SetVolumeWhiteBalance(100f, 100f, 0.5f);
 
                 object[] objects = new object[2];
                 objects[0] = tankDamage.LastHitDir.x;
