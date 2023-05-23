@@ -15,6 +15,9 @@ public class LaserBeam : CustomObject
     [SerializeField]
     private BoxCollider2D _collider = null;
 
+    [SerializeField]
+    private AudioSource _audioSource = null;
+
     private CustomObject _owner = null;
     private Vector3 _startPosition = Vector3.zero;
 
@@ -43,6 +46,7 @@ public class LaserBeam : CustomObject
 
     private IEnumerator LaserBeamCoroutine()
     {
+        _audioSource.Play();
         yield return new WaitForSeconds(1f);
 
         _meshRenderer.enabled = true;
