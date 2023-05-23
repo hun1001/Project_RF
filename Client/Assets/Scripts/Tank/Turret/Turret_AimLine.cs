@@ -72,7 +72,7 @@ public class Turret_AimLine : Turret_Component
         if (a.ReloadingTime <= 0f)
         {
             var rayData = Physics2D.Raycast(Turret.FirePoint.position, Turret.FirePoint.up, Turret.CurrentShell.Speed * 2f);
-            Debug.DrawLine(Turret.FirePoint.position, Turret.FirePoint.position + Turret.FirePoint.up * Turret.CurrentShell.Speed * 2f, Color.red, 1f);
+            Debug.DrawLine(Turret.FirePoint.position, Turret.FirePoint.position + Turret.FirePoint.up * Turret.CurrentShell.Speed * 2f, Color.red, 0.1f);
 
             if (rayData.collider != null && rayData.collider != Turret.GetComponent<Tank>().GetComponent<Collider2D>())
             {
