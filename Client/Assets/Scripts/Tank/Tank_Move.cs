@@ -90,13 +90,17 @@ public class Tank_Move : Tank_Component
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (CheckCrashBack(collision.contacts[0].point) == false)
+        {
+            return;
+        }
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             _onCrash?.Invoke(_currentSpeed);
             _tankSound.PlaySound(SoundType.TankImpact, AudioMixerType.Sfx, 0.7f);
 
             _currentSpeed = 0;
-            StartCoroutine(CrashRebound(collision.contacts[0].normal * 2.5f));
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Tank"))
         {
@@ -115,6 +119,23 @@ public class Tank_Move : Tank_Component
                 _currentSpeed = Mathf.Clamp(_currentSpeed * 0.5f, 0f, _maxSpeed);
             }
         }
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Wall") && CheckCrashBack(other.contacts[0].point))
+        {
+            _currentSpeed = 0;
+        }
+    }
+
+    private bool CheckCrashBack(Vector2 collisionDir)
+    {
+        Vector2 dir = collisionDir - (Vector2)transform.position;
+
+        float dot = Vector2.Dot(dir.normalized, transform.up);
+
+        return dot >= 0f;
     }
 
     private IEnumerator CrashRebound(Vector3 dir)
