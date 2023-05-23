@@ -25,6 +25,9 @@ public class LaserBeam : CustomObject
 
     public void SetLaserBeam(CustomObject owner, Vector3 startPosition, Vector3 endPosition)
     {
+        // StartPosition을 Transform으로 받아와서 Rotation과 길이를 구해서 LineRenderer를 계속해서 받아올 수 있게
+        // LineRenderer의 위치만 업데이트 해주면 됨
+
         _owner = owner;
 
         _meshRenderer.enabled = false;
@@ -41,6 +44,8 @@ public class LaserBeam : CustomObject
 
         _startPosition = startPosition;
 
+        transform.SetParent(_owner.transform);
+
         StartCoroutine(LaserBeamCoroutine());
     }
 
@@ -48,6 +53,8 @@ public class LaserBeam : CustomObject
     {
         _audioSource.Play();
         yield return new WaitForSeconds(1f);
+
+        transform.SetParent(null);
 
         _meshRenderer.enabled = true;
         _collider.enabled = true;
@@ -59,6 +66,16 @@ public class LaserBeam : CustomObject
         _collider.enabled = false;
 
         transform.DOScaleX(0, 0.5f).SetEase(Ease.InOutSine).OnComplete(() => PoolManager.Pool(ID, gameObject));
+    }
+
+    private void Update()
+    {
+
+    }
+
+    private void SetLinePosition(float distance)
+    {
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
