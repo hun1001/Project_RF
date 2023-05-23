@@ -50,6 +50,16 @@ public class CameraManager : MonoBehaviour
         _parent.rotation = Quaternion.identity;
     }
 
+    private void OnDisable()
+    {
+        var cinemachineBasicMultiChannelPerlin = _virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+        // 진폭
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0;
+        // 횟수
+        cinemachineBasicMultiChannelPerlin.m_FrequencyGain = 0;
+    }
+
     public void CameraZoomInEffect(float zoom, float delay, float duration)
     {
         StartCoroutine(CameraZoomInEffectCoroutine(zoom, delay, duration));
