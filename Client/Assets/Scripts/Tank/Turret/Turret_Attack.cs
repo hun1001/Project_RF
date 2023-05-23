@@ -113,7 +113,7 @@ public class Turret_Attack : Turret_Component
 
         _onFire?.Invoke();
         PoolManager.Get<Shell>(Turret.CurrentShell.ID, Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(GetComponent<Tank>(), atk, pen);
-        PoolManager.Get("FireEffect_01", Turret.FirePoint.position, Turret.FirePoint.rotation);
+        PoolManager.Get("MuzzleFlash4", Turret.FirePoint.position, Turret.FirePoint.rotation);
     }
 
     protected void ResetReloadTime()
