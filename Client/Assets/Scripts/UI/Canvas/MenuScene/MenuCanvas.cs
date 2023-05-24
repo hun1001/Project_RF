@@ -38,7 +38,6 @@ public class MenuCanvas : BaseCanvas
     private RectTransform _showButton;
 
     private bool _isHide = false;
-    private bool _isCameraMove = false;
 
     [Header("Buttons")]
     [SerializeField]
@@ -70,11 +69,11 @@ public class MenuCanvas : BaseCanvas
         // });
 
         _startButton.interactable = true;
-        _trainingButton.interactable = true;
+        //_trainingButton.interactable = true;
 
         _startButton.onClick.AddListener(OnStartButton);
-        _trainingButton.onClick.AddListener(OnTrainingStart);
-        _serverButton.onClick.AddListener(OnServerButton);
+        //_trainingButton.onClick.AddListener(OnTrainingStart);
+        //_serverButton.onClick.AddListener(OnServerButton);
 
         _warningPanel.gameObject.SetActive(false);
 
@@ -93,28 +92,6 @@ public class MenuCanvas : BaseCanvas
     {
         base.OnOpenEvents();
         _isHide = true;
-
-        _startSequence = DOTween.Sequence()
-        .AppendCallback(() =>
-        {
-            if (_isHide == false)
-            {
-                _topFrame.DOAnchorPosY(32f, 0.25f);
-                _bottomFrame.DOAnchorPosY(-55f, 0.25f);
-                _leftFrame.DOAnchorPosX(-52f, 0.25f);
-                if (_isCameraMove == false)
-                {
-                    _showButton.DOAnchorPosY(-_showButton.sizeDelta.y, 0.25f);
-                }
-            }
-            else
-            {
-                _topFrame.DOAnchorPosY(0f, 0.25f);
-                _bottomFrame.DOAnchorPosY(0f, 0.25f);
-                _leftFrame.DOAnchorPosX(0f, 0.25f);
-                _showButton.DOAnchorPosY(0f, 0.25f);
-            }
-        });
 
         GearCheck();
     }
@@ -135,11 +112,12 @@ public class MenuCanvas : BaseCanvas
             {
                 _gearImages[idx].sprite = null;
                 _gearImages[idx].gameObject.SetActive(false);
-                _lockImages[idx++].SetActive(true);
+                //_lockImages[idx++].SetActive(true);
+                idx++;
                 continue;
             }
 
-            _lockImages[idx].SetActive(false);
+            //_lockImages[idx].SetActive(false);
             if (passive == "")
             {
                 _gearImages[idx].sprite = null;
@@ -152,29 +130,29 @@ public class MenuCanvas : BaseCanvas
             _gearImages[idx++].gameObject.SetActive(true);
         }
 
-        uint activeSlotSize = currentTank.TankSO.ActiveItemInventorySize;
-        foreach (var active in _activeItemEquipmentDataDict._itemEquipmentList)
-        {
-            if (idx - 2 > activeSlotSize)
-            {
-                _gearImages[idx].sprite = null;
-                _gearImages[idx].gameObject.SetActive(false);
-                _lockImages[idx++].SetActive(true);
-                continue;
-            }
+        //uint activeSlotSize = currentTank.TankSO.ActiveItemInventorySize;
+        //foreach (var active in _activeItemEquipmentDataDict._itemEquipmentList)
+        //{
+        //    if (idx - 2 > activeSlotSize)
+        //    {
+        //        _gearImages[idx].sprite = null;
+        //        _gearImages[idx].gameObject.SetActive(false);
+        //        _lockImages[idx++].SetActive(true);
+        //        continue;
+        //    }
 
-            _lockImages[idx].SetActive(false);
-            if (active == "")
-            {
-                _gearImages[idx].sprite = null;
-                _gearImages[idx++].gameObject.SetActive(false);
-                continue;
-            }
+        //    _lockImages[idx].SetActive(false);
+        //    if (active == "")
+        //    {
+        //        _gearImages[idx].sprite = null;
+        //        _gearImages[idx++].gameObject.SetActive(false);
+        //        continue;
+        //    }
 
-            Item_Base itemInfo = AddressablesManager.Instance.GetResource<GameObject>(active).GetComponent<Item_Base>();
-            _gearImages[idx].sprite = itemInfo.ItemSO.Image;
-            _gearImages[idx++].gameObject.SetActive(true);
-        }
+        //    Item_Base itemInfo = AddressablesManager.Instance.GetResource<GameObject>(active).GetComponent<Item_Base>();
+        //    _gearImages[idx].sprite = itemInfo.ItemSO.Image;
+        //    _gearImages[idx++].gameObject.SetActive(true);
+        //}
 
         foreach (var shell in _shellEquipmentDataDict._shellEquipmentList)
         {
@@ -287,7 +265,6 @@ public class MenuCanvas : BaseCanvas
 
     public void UIHide(bool isHide)
     {
-        _isCameraMove = false;
         _isHide = isHide;
 
         _startSequence = DOTween.Sequence()
@@ -295,27 +272,23 @@ public class MenuCanvas : BaseCanvas
         {
             if (_isHide == false)
             {
-                _topFrame.DOAnchorPosY(32f, 0.25f);
-                _bottomFrame.DOAnchorPosY(-55f, 0.25f);
-                _leftFrame.DOAnchorPosX(-52f, 0.25f);
-                if (_isCameraMove == false)
-                {
-                    _showButton.DOAnchorPosY(-_showButton.sizeDelta.y, 0.25f);
-                }
+                _topFrame.DOAnchorPosY(46f, 0.25f);
+                _bottomFrame.DOAnchorPosY(-102f, 0.25f);
+                _leftFrame.DOAnchorPosX(-55f, 0.25f);
+                //_showButton.DOAnchorPosY(-_showButton.sizeDelta.y, 0.25f);
             }
             else
             {
                 _topFrame.DOAnchorPosY(0f, 0.25f);
                 _bottomFrame.DOAnchorPosY(0f, 0.25f);
                 _leftFrame.DOAnchorPosX(0f, 0.25f);
-                _showButton.DOAnchorPosY(0f, 0.25f);
+                //_showButton.DOAnchorPosY(0f, 0.25f);
             }
         });
     }
 
     public void CameraUIHide(object[] isHide)
     {
-        _isCameraMove = true;
         _isHide = (bool)isHide[0];
 
         _startSequence = DOTween.Sequence()
@@ -323,20 +296,15 @@ public class MenuCanvas : BaseCanvas
         {
             if (_isHide == false)
             {
-                _topFrame.DOAnchorPosY(32f, 0.25f);
-                _bottomFrame.DOAnchorPosY(-55f, 0.25f);
-                _leftFrame.DOAnchorPosX(-52f, 0.25f);
-                if (_isCameraMove == false)
-                {
-                    _showButton.DOAnchorPosY(-_showButton.sizeDelta.y, 0.25f);
-                }
+                _topFrame.DOAnchorPosY(82f, 0.25f);
+                _bottomFrame.DOAnchorPosY(-102f, 0.25f);
+                _leftFrame.DOAnchorPosX(-55f, 0.25f);
             }
             else
             {
                 _topFrame.DOAnchorPosY(0f, 0.25f);
                 _bottomFrame.DOAnchorPosY(0f, 0.25f);
                 _leftFrame.DOAnchorPosX(0f, 0.25f);
-                _showButton.DOAnchorPosY(0f, 0.25f);
             }
         });
     }
