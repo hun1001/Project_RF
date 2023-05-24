@@ -11,19 +11,14 @@ public class InformationCanvas : BaseCanvas
     public Bar HpBar => _hpBar;
 
     [SerializeField]
-    private Image _reloadImage = null;
-    [SerializeField]
     private RectTransform _hitImage = null;
     private Coroutine _hitCoroutine;
 
     private Player _player;
-    private Turret _playerTurret;
 
     private void Awake()
     {
         _player = FindObjectOfType<Player>();
-        _playerTurret = _player.Tank.Turret;
-        _playerTurret.GetComponent<Turret_Attack>().AddOnFireAction(() => StartCoroutine(ReloadCheck()));
 
         _hitImage.gameObject.SetActive(false);
 
@@ -47,36 +42,5 @@ public class InformationCanvas : BaseCanvas
         yield return new WaitForSeconds(1.5f);
         _hitImage.gameObject.SetActive(false);
         _hitCoroutine = null;
-    }
-
-    private IEnumerator ReloadCheck()
-    {
-        float reloadTime = 0;
-        float currentTime = 0;
-
-        if (_playerTurret.TurretSO.IsBurst)
-        {
-            int currentMagazine = _playerTurret.GetComponent<Turret_Attack>().MagazineSize;
-
-            if (currentMagazine > 0)
-            {
-                reloadTime = _playerTurret.TurretSO.BurstData.BurstReloadTime;
-            }
-            else
-            {
-                reloadTime = _playerTurret.TurretSO.ReloadTime;
-            }
-        }
-        else
-        {
-            reloadTime = _playerTurret.TurretSO.ReloadTime;
-        }
-
-        while (currentTime < reloadTime)
-        {
-            _reloadImage.fillAmount = currentTime / reloadTime;
-            currentTime += Time.deltaTime;
-            yield return null;
-        }
     }
 }
