@@ -272,9 +272,9 @@ public class MenuCanvas : BaseCanvas
         {
             if (_isHide == false)
             {
-                _topFrame.DOAnchorPosY(46f, 0.25f);
+                _topFrame.DOAnchorPosY(82f, 0.25f);
                 _bottomFrame.DOAnchorPosY(-102f, 0.25f);
-                _leftFrame.DOAnchorPosX(-55f, 0.25f);
+                _leftFrame.DOAnchorPosX(-60f, 0.25f);
                 //_showButton.DOAnchorPosY(-_showButton.sizeDelta.y, 0.25f);
             }
             else
@@ -298,7 +298,7 @@ public class MenuCanvas : BaseCanvas
             {
                 _topFrame.DOAnchorPosY(82f, 0.25f);
                 _bottomFrame.DOAnchorPosY(-102f, 0.25f);
-                _leftFrame.DOAnchorPosX(-55f, 0.25f);
+                _leftFrame.DOAnchorPosX(-60f, 0.25f);
             }
             else
             {
