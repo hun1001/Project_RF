@@ -1,18 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
-
-public class ECdestroyMe : MonoBehaviour
+using Pool;
+public class ECdestroyMe : MonoBehaviour, IPoolReset
 {
 
     float timer;
     public float deathtimer = 10;
-
-
-    // Use this for initialization
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -21,8 +13,12 @@ public class ECdestroyMe : MonoBehaviour
 
         if (timer >= deathtimer)
         {
-            Destroy(gameObject);
+            PoolManager.Pool("MissileExplosionEffect", gameObject);
         }
+    }
 
+    public void PoolObjectReset()
+    {
+        timer = 0;
     }
 }
