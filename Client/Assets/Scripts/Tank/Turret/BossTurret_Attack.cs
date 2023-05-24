@@ -22,11 +22,29 @@ public class BossTurret_Attack : Turret_Attack
         }
     }
 
-    private void FireMissile(Vector3 _targetPosition)
+    public void FireMissile(Vector3 _targetPosition)
     {
+        if (!(ReloadingTime <= 0 && gameObject.activeSelf))
+        {
+            return;
+        }
+
+        ResetReloadTime();
+
+        Vector3 goalPosition = Vector3.zero;
+
         for (int i = 0; i < _bossTurret.LeftMissileFirePoints.Length; ++i)
         {
-            PoolManager.Get<Missile>("Missile", _bossTurret.LeftMissileFirePoints[i].position, _bossTurret.LeftMissileFirePoints[i].rotation).SetMissile(_tank, _targetPosition);
+            goalPosition = _targetPosition + Random.insideUnitSphere * 5f;
+            goalPosition.z = -0.1f;
+            PoolManager.Get<Missile>("Missile", _bossTurret.LeftMissileFirePoints[i].position, _bossTurret.LeftMissileFirePoints[i].rotation).SetMissile(_tank, goalPosition);
+        }
+
+        for (int i = 0; i < _bossTurret.RightMissileFirePoints.Length; ++i)
+        {
+            goalPosition = _targetPosition + Random.insideUnitSphere * 5f;
+            goalPosition.z = -0.1f;
+            PoolManager.Get<Missile>("Missile", _bossTurret.RightMissileFirePoints[i].position, _bossTurret.RightMissileFirePoints[i].rotation).SetMissile(_tank, goalPosition);
         }
     }
 }

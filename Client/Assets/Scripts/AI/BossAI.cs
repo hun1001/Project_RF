@@ -16,7 +16,7 @@ public class BossAI : MonoBehaviour
     private Tank_Damage _tankDamage = null;
 
     private Turret_Rotate _turretRotate = null;
-    private Turret_Attack _turretAttack = null;
+    private BossTurret_Attack _turretAttack = null;
     private Turret_AimLine _turretAimLine = null;
 
     private Tank _target = null;
@@ -35,7 +35,7 @@ public class BossAI : MonoBehaviour
         _tankDamage = _tank.GetComponent<Tank_Damage>(ComponentType.Damage);
 
         _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
-        _turretAttack = _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack);
+        _turretAttack = _tank.Turret.GetComponent<BossTurret_Attack>(ComponentType.Attack);
         _turretAimLine = _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine);
 
         _target = FindObjectOfType<Player>().Tank;
@@ -135,7 +135,8 @@ public class BossAI : MonoBehaviour
 
     private void Attack()
     {
-        _turretAttack.Fire();
+        //_turretAttack.Fire();
+        _turretAttack.FireMissile(_target.transform.position);
     }
 
     private void Move(Vector3 position)
