@@ -26,25 +26,11 @@ public class Missile : MonoBehaviour
 
         float height = endPos.y - startPos.y;
 
-        // DOTween을 사용하여 포물선 이동 애니메이션 생성
         transform.DOPath(new[] { startPos, midPos, endPos }, _duration, PathType.CatmullRom)
             .SetEase(Ease.Linear)
-            .OnUpdate(() =>
-            {
-                // 현재 위치를 바라보도록 회전
-                LookAtDirection(transform.position - startPos);
-            })
             .OnComplete(() =>
             {
-                // 도달한 후에 실행할 코드
                 Debug.Log("도착!");
             });
     }
-
-    private void LookAtDirection(Vector3 direction)
-    {
-        Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
-        transform.rotation = targetRotation;
-    }
-
 }
