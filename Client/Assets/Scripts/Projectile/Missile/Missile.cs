@@ -6,20 +6,45 @@ using DG.Tweening;
 public class Missile : MonoBehaviour
 {
     private Vector3 _targetPosition = Vector3.zero;
+    private float _duration = 1f;
 
-    private void Start() => SetMissile(new Vector3(0, 5, 0));
+
+    private IEnumerator Start()
+    {
+        yield return new WaitForSeconds(1f);
+        SetMissile(new Vector3(10, 0, 0));
+    }
+
     private void SetMissile(Vector3 targetPosition, bool curveRight = true)
     {
-        _targetPosition = targetPosition;
+        Vector3 startPos = transform.position;
+        Vector3 endPos = targetPosition;
 
-        Sequence sequence = DOTween.Sequence();
+        Vector3 midPos = (startPos + endPos) / 2f + Vector3.back * 5f;
 
-        sequence.Append(transform.DOPath(new Vector3[] { transform.position, targetPosition }, 1f, PathType.CatmullRom, PathMode.Full3D, 10, Color.red).SetEase(Ease.InOutSine));
-        // look move direction
-        sequence.Join(transform.DORotate(new Vector3(0, 0, Mathf.Atan2(targetPosition.y - transform.position.y, targetPosition.x - transform.position.x) * Mathf.Rad2Deg + 90), 0.5f).SetEase(Ease.InOutSine));
+        float distance = Vector3.Distance(startPos, endPos);
 
-        //sequence.OnComplete(() => Destroy(gameObject));
+        float height = endPos.y - startPos.y;
 
-        sequence.Play();
+        // DOTween을 사용하여 포물선 이동 애니메이션 생성
+        transform.DOPath(new[] { startPos, midPos, endPos }, _duration, PathType.CatmullRom)
+            .SetEase(Ease.Linear)
+            .OnUpdate(() =>
+            {
+                // 현재 위치를 바라보도록 회전
+                LookAtDirection(transform.position - startPos);
+            })
+            .OnComplete(() =>
+            {
+                // 도달한 후에 실행할 코드
+                Debug.Log("도착!");
+            });
     }
+
+    private void LookAtDirection(Vector3 direction)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+        transform.rotation = targetRotation;
+    }
+
 }
