@@ -112,10 +112,10 @@ namespace CustomEditorWindow.SheetDataToSO
                                 asset = ScriptableObject.CreateInstance<TurretSO>();
                             }
 
-                            if (data[2].Contains("/"))
+                            if (data[2].Contains(";"))
                             {
                                 asset.IsBurst = true;
-                                string[] datas = data[2].Split('/');
+                                string[] datas = data[2].Split(';');
                                 asset.BurstData.BurstReloadTime = float.Parse(datas[0]);
                                 asset.BurstData.MagazineSize = int.Parse(datas[1]);
                                 asset.ReloadTime = float.Parse(datas[2]);
