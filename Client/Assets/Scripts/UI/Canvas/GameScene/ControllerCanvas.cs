@@ -19,10 +19,6 @@ public class ControllerCanvas : BaseCanvas
     public ButtonGroupManager ButtonGroup => _buttonGroup;
 
     [SerializeField]
-    private ToggleGroupManager _toggleGroup = null;
-    public ToggleGroupManager ToggleGroup => _toggleGroup;
-
-    [SerializeField]
     private Image _reloadImage = null;
 
     private Player _player;

@@ -68,7 +68,7 @@ public class Player : CustomObject
         }
         else
         {
-            _controllerCanvas.ButtonGroup.SetButton(0, null, false);
+            _controllerCanvas.ButtonGroup.SetButton(0, null, null, false);
         }
 
         ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
@@ -80,7 +80,7 @@ public class Player : CustomObject
 
         string[] shellName = new string[shellCnt];
         Sprite[] shellSprite = new Sprite[shellCnt];
-        UnityAction<bool>[] shellAction = new UnityAction<bool>[shellCnt];
+        UnityAction[] shellAction = new UnityAction[shellCnt];
 
         int slotIndex = 0;
         for (int i = 0; i < shellEquipmentData._shellEquipmentList.Count; i++)
@@ -88,27 +88,20 @@ public class Player : CustomObject
             int dataIndex = i;
             if (shellEquipmentData._shellEquipmentList[dataIndex] == "")
             {
+                _controllerCanvas.ButtonGroup.SetButton(slotIndex, null, null, false);
                 continue;
             }
 
             Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[dataIndex]).GetComponent<Shell>();
             shellName[slotIndex] = shell.ID;
             shellSprite[slotIndex] = shell.ShellSprite;
-            shellAction[slotIndex] = (_isOn) =>
+            shellAction[slotIndex] = () =>
             {
-                if (_isOn)
-                {
-                    _tank.Turret.CurrentShell = shell;
-                }
-                else
-                {
-
-                }
+                _tank.Turret.CurrentShell = shell;
             };
+            _controllerCanvas.ButtonGroup.SetButton(slotIndex, shellAction[slotIndex], shellSprite[slotIndex]);
             slotIndex++;
         }
-
-        _controllerCanvas.ToggleGroup.SetToggleGroup(shellName, shellSprite, shellAction);
 
         // TODO : 연동이 잘 안되는 경우 존재 해결 필요
         Tank_Damage tankDamage = _tank.GetComponent<Tank_Damage>(ComponentType.Damage);

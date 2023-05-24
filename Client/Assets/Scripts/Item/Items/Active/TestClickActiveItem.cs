@@ -7,7 +7,7 @@ public class TestClickActiveItem : Active_Item
 {
     public override void ItemEquip(int idx)
     {
-        GearManager.Instance.ControllerCanvas.ButtonGroup.SetButton(idx, ClickEvent, true);
+        //GearManager.Instance.ControllerCanvas.ButtonGroup.SetButton(idx, ClickEvent, true);
     }
 
     protected override void ClickEvent()
