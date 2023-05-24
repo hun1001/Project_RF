@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 168943288199614777}
   - component: {fileID: 168943288199614662}
   - component: {fileID: 168943288199614663}
-  - component: {fileID: 168943288199614660}
   - component: {fileID: 168943288199614661}
   - component: {fileID: 168943288199614776}
   m_Layer: 8
@@ -84,22 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!58 &168943288199614660
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 168943288199614658}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!114 &168943288199614661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,6 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26695695eef6e6f46a3a44ac811df9cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _trailRenderer: {fileID: 0}
 --- !u!96 &168943288199614776
 TrailRenderer:
   serializedVersion: 2

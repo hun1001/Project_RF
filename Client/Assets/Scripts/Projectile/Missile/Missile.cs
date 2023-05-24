@@ -2,50 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using UnityEngine.AI;
 
 public class Missile : MonoBehaviour
 {
-    private NavMeshPath _navMeshPath = null;
+    [SerializeField]
     private TrailRenderer _trailRenderer = null;
+
     private Vector3 _targetPosition = Vector3.zero;
     private CustomObject _owner = null;
     private float _duration = 1f;
 
-    private void Awake()
-    {
-        _navMeshPath = new NavMeshPath();
-        _trailRenderer = GetComponent<TrailRenderer>();
-    }
-
     public void SetMissile(CustomObject owner, Vector3 targetPosition)
     {
-        _navMeshPath.ClearCorners();
         _trailRenderer.Clear();
 
         _owner = owner;
 
-        if (NavMesh.CalculatePath(transform.position, targetPosition, NavMesh.AllAreas, _navMeshPath))
-        {
-            _targetPosition = _navMeshPath.corners[_navMeshPath.corners.Length - 1];
-        }
-        else
-        {
-            _targetPosition = targetPosition;
-        }
+        Vector3 startPosition = transform.position;
 
-        transform.DOPath(_navMeshPath.corners, _duration, PathType.CatmullRom).SetEase(Ease.Linear)
+        transform.DOPath(new[] { transform.position, targetPosition }, _duration, PathType.CatmullRom).SetEase(Ease.Linear)
         .OnComplete(() =>
         {
             Debug.Log("도착!");
-        });
-    }
+            var aroundTank = Physics2D.OverlapCircleAll(targetPosition, 5f, 1 << LayerMask.NameToLayer("Tank"));
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player") && other.GetComponent<CustomObject>() != _owner)
-        {
-            Debug.Log("플레이어에게 데미지!");
-        }
+            foreach (var tank in aroundTank)
+            {
+                if (tank.gameObject != _owner.gameObject)
+                {
+                    tank.GetComponent<Tank_Damage>()?.Damaged(100, 99999, targetPosition, Vector2.zero);
+                }
+            }
+        });
     }
 }
