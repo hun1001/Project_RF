@@ -20,4 +20,9 @@ public class BossTurret_Attack : Turret_Attack
             ResetReloadTime();
         }
     }
+
+    private void FireMissile()
+    {
+
+    }
 }
