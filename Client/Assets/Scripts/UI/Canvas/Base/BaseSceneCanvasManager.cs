@@ -57,13 +57,13 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
                 }
                 else if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene)
                 {
-                    if(_activeCanvas == CanvasType.Setting)
+                    if(_activeCanvas == CanvasType.Pause)
                     {
                         ChangeCanvas(CanvasType.Information, _activeCanvas);
                     }
                     else if(_activeCanvas != CanvasType.GameOver)
                     {
-                        ChangeCanvas(CanvasType.Setting, _activeCanvas);
+                        ChangeCanvas(CanvasType.Pause, _activeCanvas);
                     }
                 }
             }
