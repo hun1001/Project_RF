@@ -5,32 +5,34 @@ using DG.Tweening;
 
 public class Missile : MonoBehaviour
 {
+    [SerializeField]
+    private TrailRenderer _trailRenderer = null;
+
     private Vector3 _targetPosition = Vector3.zero;
+    private CustomObject _owner = null;
     private float _duration = 1f;
 
-
-    private IEnumerator Start()
+    public void SetMissile(CustomObject owner, Vector3 targetPosition)
     {
-        yield return new WaitForSeconds(1f);
-        SetMissile(new Vector3(10, 0, 0));
-    }
+        _trailRenderer.Clear();
 
-    private void SetMissile(Vector3 targetPosition, bool curveRight = true)
-    {
-        Vector3 startPos = transform.position;
-        Vector3 endPos = targetPosition;
+        _owner = owner;
 
-        Vector3 midPos = (startPos + endPos) / 2f + Vector3.back * 5f;
+        Vector3 startPosition = transform.position;
 
-        float distance = Vector3.Distance(startPos, endPos);
+        transform.DOPath(new[] { transform.position, targetPosition }, _duration, PathType.CatmullRom).SetEase(Ease.Linear)
+        .OnComplete(() =>
+        {
+            Debug.Log("도착!");
+            var aroundTank = Physics2D.OverlapCircleAll(targetPosition, 5f, 1 << LayerMask.NameToLayer("Tank"));
 
-        float height = endPos.y - startPos.y;
-
-        transform.DOPath(new[] { startPos, midPos, endPos }, _duration, PathType.CatmullRom)
-            .SetEase(Ease.Linear)
-            .OnComplete(() =>
+            foreach (var tank in aroundTank)
             {
-                Debug.Log("도착!");
-            });
+                if (tank.gameObject != _owner.gameObject)
+                {
+                    tank.GetComponent<Tank_Damage>()?.Damaged(100, 99999, targetPosition, Vector2.zero);
+                }
+            }
+        });
     }
 }
