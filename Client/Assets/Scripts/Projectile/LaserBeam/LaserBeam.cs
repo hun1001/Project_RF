@@ -89,7 +89,7 @@ public class LaserBeam : CustomObject
     {
         if (other.CompareTag("Player") && other.GetComponent<CustomObject>() != _owner)
         {
-            other.GetComponent<Tank_Damage>().Damaged(1, 99999, other.ClosestPoint(transform.position), Vector2.zero);
+            other.GetComponent<Tank_Damage>().Damaged(250, 99999, other.ClosestPoint(transform.position), Vector2.zero);
         }
     }
 }
