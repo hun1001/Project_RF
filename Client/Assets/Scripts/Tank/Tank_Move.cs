@@ -90,12 +90,7 @@ public class Tank_Move : Tank_Component
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (CheckCrashBack(collision.contacts[0].point) == false)
-        {
-            return;
-        }
-
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") && CheckCrashBack(collision.contacts[0].point) == true)
         {
             _onCrash?.Invoke(_currentSpeed);
             _tankSound.PlaySound(SoundType.TankImpact, AudioMixerType.Sfx, 0.7f);
