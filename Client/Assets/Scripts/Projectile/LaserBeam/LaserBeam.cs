@@ -19,15 +19,13 @@ public class LaserBeam : CustomObject
     private AudioSource _audioSource = null;
 
     private CustomObject _owner = null;
-    private Vector3 _startPosition = Vector3.zero;
+    private Transform _fireTransform = null;
+    private float _length = 0;
 
     private CameraManager _cameraManager = null;
 
-    public void SetLaserBeam(CustomObject owner, Vector3 startPosition, Vector3 endPosition)
+    public void SetLaserBeam(CustomObject owner, Transform fireTransform, float length)
     {
-        // StartPosition을 Transform으로 받아와서 Rotation과 길이를 구해서 LineRenderer를 계속해서 받아올 수 있게
-        // LineRenderer의 위치만 업데이트 해주면 됨
-
         _owner = owner;
 
         _meshRenderer.enabled = false;
@@ -35,16 +33,9 @@ public class LaserBeam : CustomObject
 
         _cameraManager ??= Camera.main.GetComponent<CameraManager>();
 
-        _lineRenderer.SetPosition(0, startPosition);
-        _lineRenderer.SetPosition(1, endPosition);
+        _length = length;
 
-        transform.localScale = new Vector3(1, Vector3.Distance(startPosition, endPosition) / 2, 1);
-        transform.position = (startPosition + endPosition) / 2;
-        transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(endPosition.y - startPosition.y, endPosition.x - startPosition.x) * Mathf.Rad2Deg + 90);
-
-        _startPosition = startPosition;
-
-        transform.SetParent(_owner.transform);
+        _fireTransform = fireTransform;
 
         StartCoroutine(LaserBeamCoroutine());
     }
@@ -52,9 +43,14 @@ public class LaserBeam : CustomObject
     private IEnumerator LaserBeamCoroutine()
     {
         _audioSource.Play();
+        StartCoroutine(nameof(LaserLineUpdateCoroutine));
         yield return new WaitForSeconds(1f);
 
-        transform.SetParent(null);
+        StopCoroutine(nameof(LaserLineUpdateCoroutine));
+
+        transform.localScale = new Vector3(1, _length / 2, 1);
+        transform.position = (_fireTransform.position + _fireTransform.position + _fireTransform.up * _length) / 2;
+        transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(_fireTransform.up.y, _fireTransform.up.x) * Mathf.Rad2Deg + 90);
 
         _meshRenderer.enabled = true;
         _collider.enabled = true;
@@ -68,21 +64,26 @@ public class LaserBeam : CustomObject
         transform.DOScaleX(0, 0.5f).SetEase(Ease.InOutSine).OnComplete(() => PoolManager.Pool(ID, gameObject));
     }
 
-    private void Update()
+    private IEnumerator LaserLineUpdateCoroutine()
     {
-
+        while (true)
+        {
+            SetLaserTransform();
+            yield return null;
+        }
     }
 
-    private void SetLinePosition(float distance)
+    private void SetLaserTransform()
     {
-
+        _lineRenderer.SetPosition(0, _fireTransform.position);
+        _lineRenderer.SetPosition(1, _fireTransform.position + _fireTransform.up * _length);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && other.GetComponent<CustomObject>() != _owner)
         {
-            other.GetComponent<Tank_Damage>().Damaged(1, 99999, other.ClosestPoint(transform.position), _startPosition);
+            other.GetComponent<Tank_Damage>().Damaged(1, 99999, other.ClosestPoint(transform.position), Vector2.zero);
         }
     }
 }

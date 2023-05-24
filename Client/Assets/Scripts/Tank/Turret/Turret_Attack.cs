@@ -23,7 +23,7 @@ public class Turret_Attack : Turret_Component
 
     private Tank_Move _tankMove = null;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         Turret.TryGetComponent(out _turretSound);
         _tankMove = GetComponent<Tank_Move>();
