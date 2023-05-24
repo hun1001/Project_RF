@@ -36,4 +36,10 @@ public class Missile : MonoBehaviour
                 PoolManager.Pool("Missile", gameObject);
             });
     }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _range);
+    }
 }
