@@ -2,35 +2,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.AI;
 
 public class Missile : MonoBehaviour
 {
+    private NavMeshPath _navMeshPath = null;
+    private TrailRenderer _trailRenderer = null;
     private Vector3 _targetPosition = Vector3.zero;
+    private CustomObject _owner = null;
     private float _duration = 1f;
 
-
-    private IEnumerator Start()
+    private void Awake()
     {
-        yield return new WaitForSeconds(1f);
-        SetMissile(new Vector3(10, 0, 0));
+        _navMeshPath = new NavMeshPath();
+        _trailRenderer = GetComponent<TrailRenderer>();
     }
 
-    private void SetMissile(Vector3 targetPosition, bool curveRight = true)
+    public void SetMissile(CustomObject owner, Vector3 targetPosition)
     {
-        Vector3 startPos = transform.position;
-        Vector3 endPos = targetPosition;
+        _navMeshPath.ClearCorners();
+        _trailRenderer.Clear();
 
-        Vector3 midPos = (startPos + endPos) / 2f + Vector3.back * 5f;
+        _owner = owner;
 
-        float distance = Vector3.Distance(startPos, endPos);
+        if (NavMesh.CalculatePath(transform.position, targetPosition, NavMesh.AllAreas, _navMeshPath))
+        {
+            _targetPosition = _navMeshPath.corners[_navMeshPath.corners.Length - 1];
+        }
+        else
+        {
+            _targetPosition = targetPosition;
+        }
 
-        float height = endPos.y - startPos.y;
+        transform.DOPath(_navMeshPath.corners, _duration, PathType.CatmullRom).SetEase(Ease.Linear)
+        .OnComplete(() =>
+        {
+            Debug.Log("도착!");
+        });
+    }
 
-        transform.DOPath(new[] { startPos, midPos, endPos }, _duration, PathType.CatmullRom)
-            .SetEase(Ease.Linear)
-            .OnComplete(() =>
-            {
-                Debug.Log("도착!");
-            });
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player") && other.GetComponent<CustomObject>() != _owner)
+        {
+            Debug.Log("플레이어에게 데미지!");
+        }
     }
 }

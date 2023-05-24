@@ -1,4 +1,5 @@
 using Pool;
+using UnityEngine;
 
 public class BossTurret_Attack : Turret_Attack
 {
@@ -21,8 +22,11 @@ public class BossTurret_Attack : Turret_Attack
         }
     }
 
-    private void FireMissile()
+    private void FireMissile(Vector3 _targetPosition)
     {
-
+        for (int i = 0; i < _bossTurret.LeftMissileFirePoints.Length; ++i)
+        {
+            PoolManager.Get<Missile>("Missile", _bossTurret.LeftMissileFirePoints[i].position, _bossTurret.LeftMissileFirePoints[i].rotation).SetMissile(_tank, _targetPosition);
+        }
     }
 }
