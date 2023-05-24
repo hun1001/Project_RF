@@ -69,10 +69,10 @@ public class MenuCanvas : BaseCanvas
         // });
 
         _startButton.interactable = true;
-        //_trainingButton.interactable = true;
+        _trainingButton.interactable = true;
 
         _startButton.onClick.AddListener(OnStartButton);
-        //_trainingButton.onClick.AddListener(OnTrainingStart);
+        _trainingButton.onClick.AddListener(OnTrainingStart);
         //_serverButton.onClick.AddListener(OnServerButton);
 
         _warningPanel.gameObject.SetActive(false);
