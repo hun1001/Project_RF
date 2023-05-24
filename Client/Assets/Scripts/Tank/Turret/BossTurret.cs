@@ -6,9 +6,13 @@ public class BossTurret : Turret
 {
     [SerializeField]
     private Transform _firePoint2 = null;
-    public Transform FirePoint2
-    {
-        get => _firePoint2;
-        set => _firePoint2 = value;
-    }
+    public Transform FirePoint2 => _firePoint2;
+
+    [SerializeField]
+    private Transform[] _leftMissileFirePoints = null;
+    public Transform[] LeftMissileFirePoints => _leftMissileFirePoints;
+
+    [SerializeField]
+    private Transform[] _rightMissileFirePoints = null;
+    public Transform[] RightMissileFirePoints => _rightMissileFirePoints;
 }

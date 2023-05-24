@@ -1,6 +1,6 @@
 using Pool;
 
-public class Turret_LaserAttack : Turret_Attack
+public class BossTurret_Attack : Turret_Attack
 {
     private Tank _tank = null;
     private BossTurret _bossTurret = null;

@@ -22,9 +22,12 @@ public class LaserBeam : CustomObject
     private Transform _fireTransform = null;
     private float _length = 0;
 
+    private float _chargeTime = 0;
+    private float _duration = 0;
+
     private CameraManager _cameraManager = null;
 
-    public void SetLaserBeam(CustomObject owner, Transform fireTransform, float length)
+    public void SetLaserBeam(CustomObject owner, Transform fireTransform, float length, float chargeTime = 1f, float duration = 1f)
     {
         _owner = owner;
 
@@ -37,6 +40,9 @@ public class LaserBeam : CustomObject
 
         _fireTransform = fireTransform;
 
+        _chargeTime = chargeTime;
+        _duration = duration;
+
         StartCoroutine(LaserBeamCoroutine());
     }
 
@@ -44,7 +50,7 @@ public class LaserBeam : CustomObject
     {
         _audioSource.Play();
         StartCoroutine(nameof(LaserLineUpdateCoroutine));
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(_chargeTime);
 
         StopCoroutine(nameof(LaserLineUpdateCoroutine));
 
@@ -57,7 +63,7 @@ public class LaserBeam : CustomObject
 
         _cameraManager.CameraShake(3, 5, 0.5f);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(_duration);
 
         _collider.enabled = false;
 
