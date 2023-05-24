@@ -10,10 +10,10 @@ public class Missile : MonoBehaviour
     private TrailRenderer _trailRenderer = null;
 
     private CustomObject _owner = null;
-    private float _range = 5f;
+    private float _range = 1.75f;
     private float _duration = 1f;
 
-    public void SetMissile(CustomObject owner, Vector3 targetPosition, float range = 5f, float duration = 1f)
+    public void SetMissile(CustomObject owner, Vector3 targetPosition, float range = 1.75f, float duration = 1f)
     {
         _trailRenderer.Clear();
 
@@ -33,6 +33,7 @@ public class Missile : MonoBehaviour
                         tank.GetComponent<Tank_Damage>()?.Damaged(100, 99999, targetPosition, Vector2.zero);
                     }
                 }
+                PoolManager.Get("MissileExplosionEffect", targetPosition, Quaternion.identity);
                 PoolManager.Pool("Missile", gameObject);
             });
     }
