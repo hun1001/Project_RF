@@ -38,15 +38,14 @@ public class InformationCanvas : BaseCanvas
     {
         Vector2 dir = new Vector2((float)objects[0], (float)objects[1]);
         dir = Camera.main.WorldToScreenPoint(dir);
-        Vector2 playerPos = (Vector2)Camera.main.WorldToScreenPoint(_player.transform.position);
+        Vector2 playerPos = Camera.main.WorldToScreenPoint(_player.Tank.transform.position);
         float angle = Mathf.Atan2(dir.y - playerPos.y, dir.x - playerPos.x) * Mathf.Rad2Deg;
         _hitImage.gameObject.SetActive(true);
-        _hitImage.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-        _hitImage.anchoredPosition = dir.normalized * 20f;
+        _hitImage.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y - playerPos.y, dir.x - playerPos.x) * Mathf.Rad2Deg + 90f);
+        _hitImage.anchoredPosition = (dir - playerPos).normalized * 20f;
 
         yield return new WaitForSeconds(1.5f);
         _hitImage.gameObject.SetActive(false);
-        _hitImage.anchoredPosition = Vector2.zero;
         _hitCoroutine = null;
     }
 
