@@ -23,6 +23,8 @@ public class BossAI : MonoBehaviour
 
     private Vector3 _moveTargetPosition = Vector3.zero;
 
+    private bool _isUsedSkill = false;
+
     private void Awake()
     {
         _tank = SpawnManager.Instance.SpawnUnit("BMP-130-2", transform.position, transform.rotation, GroupType.Enemy);
@@ -82,8 +84,9 @@ public class BossAI : MonoBehaviour
 
         shield = new ExecutionNode(() =>
         {
+            _isUsedSkill = true;
             _tankDamage.SetHP(_tankDamage.CurrentHealth + 50f);
-            hpBar.ChangeValue(50f);
+            hpBar.ChangeValue(500f);
             _tank.TankData.Armour += 10f;
         });
 
@@ -111,7 +114,7 @@ public class BossAI : MonoBehaviour
 
         checkTankHP = new ConditionalNode(() =>
         {
-            return _tankDamage.CurrentHealth < _tank.TankData.HP * 0.30f;
+            return _tankDamage.CurrentHealth < _tank.TankData.HP * 0.30f && _isUsedSkill == false;
         }, shield);
 
         tankMoveSequenceNode = new SequenceNode(checkAroundTarget);
