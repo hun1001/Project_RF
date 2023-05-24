@@ -17,8 +17,6 @@ public class SettingCanvas : BaseCanvas
     [SerializeField]
     private Toggle[] _toggles;
 
-    private Vector2 _frameOriginPos = new Vector2(-20f, 20f);
-
     [Header("Audio")]
     [SerializeField]
     private AudioMixer _audioMixer;
