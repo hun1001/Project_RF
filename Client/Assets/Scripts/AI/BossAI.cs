@@ -49,7 +49,7 @@ public class BossAI : MonoBehaviour
             EventManager.TriggerEvent(EventKeyword.BossClear);
         });
 
-        Bar hpBar = PoolManager.Get<Bar>("EnemyBar", _tank.transform.position, Quaternion.identity, _tank.transform);
+        Bar hpBar = FindObjectOfType<InformationCanvas>().BossHpBar;
         hpBar.Setting(_tank.TankData.HP);
 
         _tankDamage.AddOnDamageAction(hpBar.ChangeValue);

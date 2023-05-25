@@ -25,7 +25,7 @@ public class Tank_Damage : Tank_Component
 
     private void Awake()
     {
-        TryGetComponent(out  _tankSound);
+        TryGetComponent(out _tankSound);
     }
 
     private void Start() => ResetData();
@@ -88,7 +88,7 @@ public class Tank_Damage : Tank_Component
     {
         _currentHealth = 0;
         _tankSound.PlaySound(SoundType.TankDestroy, AudioMixerType.Sfx);
-        Pool.PoolManager.Pool(Instance.ID, gameObject);
+        PoolManager.Pool(Instance.ID, gameObject);
         EventManager.TriggerEvent(gameObject.GetInstanceID().ToString());
         _onDeathAction?.Invoke();
     }

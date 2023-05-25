@@ -12,6 +12,11 @@ public class InformationCanvas : BaseCanvas
 
     [SerializeField]
     private RectTransform _hitImage = null;
+
+    [SerializeField]
+    private Bar _bossHpBar = null;
+    public Bar BossHpBar => _bossHpBar;
+
     private Coroutine _hitCoroutine;
 
     private Player _player;
