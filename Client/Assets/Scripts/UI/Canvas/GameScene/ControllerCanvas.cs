@@ -66,5 +66,10 @@ public class ControllerCanvas : BaseCanvas
             currentTime += Time.deltaTime;
             yield return null;
         }
+
+        foreach (var image in _reloadImages)
+        {
+            image.fillAmount = 1;
+        }
     }
 }
