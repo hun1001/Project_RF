@@ -61,15 +61,15 @@ public class Player : CustomObject
 
         _cameraManager.AddTargetGroup(_tank.transform, 15, 100);
 
-        if (_tank.TankData.HasSkill == true)
-        {
-            _tank.GetComponent<Tank_Skill>(ComponentType.Skill).SkillImage = _controllerCanvas.ButtonGroup.transform.GetChild(0).GetComponent<Image>();
-            _controllerCanvas.ButtonGroup.SetButton(0, _tank.GetComponent<Tank_Skill>(ComponentType.Skill).UseSkill);
-        }
-        else
-        {
-            _controllerCanvas.ButtonGroup.SetButton(0, null, null, false);
-        }
+        //if (_tank.TankData.HasSkill == true)
+        //{
+        //    _tank.GetComponent<Tank_Skill>(ComponentType.Skill).SkillImage = _controllerCanvas.ButtonGroup.transform.GetChild(0).GetComponent<Image>();
+        //    _controllerCanvas.ButtonGroup.SetButton(0, _tank.GetComponent<Tank_Skill>(ComponentType.Skill).UseSkill);
+        //}
+        //else
+        //{
+        //    _controllerCanvas.ButtonGroup.SetButton(0, null, null, false);
+        //}
 
         ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
         int shellCnt = shellEquipmentData._shellEquipmentList.Count;

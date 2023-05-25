@@ -14,12 +14,12 @@ public class ButtonGroupManager : MonoBehaviour
     {
         if (image != null)
         {
-            _buttons[index].GetComponent<Image>().enabled = true;
-            _buttons[index].GetComponent<Image>().sprite = image;
+            _buttons[index].transform.GetChild(0).gameObject.SetActive(true);
+            _buttons[index].transform.GetChild(0).GetComponent<Image>().sprite = image;
         }
         else
         {
-            _buttons[index].GetComponent<Image>().enabled = false;
+            _buttons[index].transform.GetChild(0).gameObject.SetActive(false);
         }
 
         _buttons[index].interactable = interactable;
