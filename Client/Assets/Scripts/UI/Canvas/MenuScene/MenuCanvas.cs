@@ -21,6 +21,7 @@ public class MenuCanvas : BaseCanvas
     private Image[] _gearImages = null;
     [SerializeField]
     private GameObject[] _lockImages = null;
+    private Sprite _plusSprite = null;
 
     private string _currentTankID;
     private ItemEquipmentData _passiveItemEquipmentDataDict;
@@ -63,17 +64,14 @@ public class MenuCanvas : BaseCanvas
 
         _goodsTexts.SetGoodsTexts(GoodsManager.FreeGoods, GoodsManager.PaidGoods);
 
-        // GoodsManager.AddOnGoodsChanged((f, p) =>
-        // {
-        //     _goodsTexts.SetGoodsTexts(f, p);
-        // });
-
         _startButton.interactable = true;
         _trainingButton.interactable = true;
 
         _startButton.onClick.AddListener(OnStartButton);
         _trainingButton.onClick.AddListener(OnTrainingStart);
         //_serverButton.onClick.AddListener(OnServerButton);
+
+        _plusSprite = AddressablesManager.Instance.GetResource<Sprite>("PlusImage");
 
         _warningPanel.gameObject.SetActive(false);
 
@@ -112,16 +110,14 @@ public class MenuCanvas : BaseCanvas
             {
                 _gearImages[idx].sprite = null;
                 _gearImages[idx].gameObject.SetActive(false);
-                //_lockImages[idx++].SetActive(true);
-                idx++;
+                _lockImages[idx++].SetActive(true);
                 continue;
             }
 
-            //_lockImages[idx].SetActive(false);
+            _lockImages[idx].SetActive(false);
             if (passive == "")
             {
-                _gearImages[idx].sprite = null;
-                _gearImages[idx++].gameObject.SetActive(false);
+                _gearImages[idx++].sprite = _plusSprite;
                 continue;
             }
 
@@ -158,8 +154,7 @@ public class MenuCanvas : BaseCanvas
         {
             if (shell == "")
             {
-                _gearImages[idx].sprite = null;
-                _gearImages[idx++].gameObject.SetActive(false);
+                _gearImages[idx++].sprite = _plusSprite;
                 continue;
             }
 
