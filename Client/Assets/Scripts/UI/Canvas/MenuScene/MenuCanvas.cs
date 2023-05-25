@@ -15,6 +15,14 @@ public class MenuCanvas : BaseCanvas
     [SerializeField]
     private GoodsTexts _goodsTexts = null;
 
+    [Header("CurrentTank")]
+    [SerializeField]
+    private Image _tankTypeImage = null;
+    [SerializeField]
+    private TextController _tankTierText = null;
+    [SerializeField]
+    private TextController _tankNameText = null;
+
     [Header("Gear")]
     // 0 ~ 2 Passive / 3 ~ 4 Active / 5 ~ 6 Shell
     [SerializeField]
@@ -85,6 +93,7 @@ public class MenuCanvas : BaseCanvas
         _isHangerHide = false;
         _isOpen = true;
 
+        CurrentTankInfoUpdate();
         GearCheck();
     }
 
@@ -94,6 +103,7 @@ public class MenuCanvas : BaseCanvas
         _isHide = false;
         _isHangerHide = false;
 
+        CurrentTankInfoUpdate();
         GearCheck();
     }
 
@@ -105,6 +115,16 @@ public class MenuCanvas : BaseCanvas
         {
             OnHangerHide();
         }
+    }
+
+    private void CurrentTankInfoUpdate()
+    {
+        Tank tank = AddressablesManager.Instance.GetResource<GameObject>(PlayerDataManager.Instance.GetPlayerTankID()).GetComponent<Tank>();
+        TechTree techTree = FindObjectOfType<TechTree>();
+
+        _tankTypeImage.sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
+        _tankTierText.SetText(techTree.TankTierNumber[techTree.TankTier]);
+        _tankNameText.SetText(tank.ID);
     }
 
     public void GearCheck()

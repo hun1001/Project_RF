@@ -176,6 +176,7 @@ public class TechTreeCanvas : BaseCanvas
                                         if (TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex, lIndex].ID))
                                         {
                                             FindObjectOfType<TankModelManager>().ChangeTankModel(_techTree.TechTreeSO[index][jIndex, lIndex]);
+                                            _techTree.SetTankTier(lIndex);
                                             _tankInformation.SetActive(false);
                                         }
                                     });

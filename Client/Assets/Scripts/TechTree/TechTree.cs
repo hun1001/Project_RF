@@ -13,6 +13,8 @@ public class TechTree : MonoBehaviour
     private Sprite[] _tankTypeSprites = null;
 
     public readonly string[] TankTierNumber = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX" };
+    private int _tankTier = 0;
+    public int TankTier => _tankTier;
 
     public Sprite GetTankTypeSprite(TankType tankType)
     {
@@ -38,5 +40,10 @@ public class TechTree : MonoBehaviour
         }
 
         return sprite;
+    }
+
+    public void SetTankTier(int tier)
+    {
+        _tankTier = tier;
     }
 }
