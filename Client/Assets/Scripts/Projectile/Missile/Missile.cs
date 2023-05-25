@@ -40,7 +40,7 @@ public class Missile : MonoBehaviour
                 {
                     if (tank.gameObject != _owner.gameObject)
                     {
-                        tank.GetComponent<Tank_Damage>()?.Damaged(100, 99999, targetPosition, Vector2.zero);
+                        tank.GetComponent<Tank_Damage>()?.Damaged(50, 99999, targetPosition, Vector2.zero);
                     }
                 }
                 PoolManager.Get("MissileExplosionEffect", targetPosition, Quaternion.identity);

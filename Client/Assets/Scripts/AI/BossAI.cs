@@ -136,7 +136,7 @@ public class BossAI : MonoBehaviour
     private void Attack()
     {
         int attackType = Random.Range(0, 10);
-        if (attackType < 5)
+        if (attackType < 4)
         {
             _turretAttack.FireMissile(_target.transform.position);
         }
