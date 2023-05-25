@@ -4,7 +4,6 @@ using Cinemachine;
 using UnityEngine.Rendering;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using System.Linq;
 
 public class CameraManager : MonoBehaviour
 {
@@ -21,12 +20,6 @@ public class CameraManager : MonoBehaviour
 
     [SerializeField]
     private Volume _volume;
-
-    public void SetPlayer(Transform target)
-    {
-        _virtualCamera.Follow = target;
-        _virtualCamera.LookAt = target;
-    }
 
     public void CameraShake(float amplitudeGain, float frequencyGain, float duration)
     {

@@ -23,5 +23,10 @@ namespace Addressable
 
             return handle.Result;
         }
+
+        public void Release<T>(T obj)
+        {
+            Addressables.Release(obj);
+        }
     }
 }

@@ -53,23 +53,13 @@ public class Player : CustomObject
         _tank = SpawnManager.Instance.SpawnUnit(PlayerDataManager.Instance.GetPlayerTankID(), transform.position, Quaternion.identity, GroupType.Player);
         _tank.tag = "Player";
         FindObjectOfType<MinimapCameraManager>().Target = _tank.transform;
-        //_cameraManager.SetPlayer(_tank.transform);
+
         _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);
         _attackJoystick.AddOnPointerUpAction(() => _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine).SetEnableLineLenderer(false));
         _attackJoystick.AddOnPointerDownAction(() => _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine).SetEnableLineLenderer(true));
         _hpBar.Setting(_tank.TankData.HP);
 
         _cameraManager.AddTargetGroup(_tank.transform, 15, 100);
-
-        //if (_tank.TankData.HasSkill == true)
-        //{
-        //    _tank.GetComponent<Tank_Skill>(ComponentType.Skill).SkillImage = _controllerCanvas.ButtonGroup.transform.GetChild(0).GetComponent<Image>();
-        //    _controllerCanvas.ButtonGroup.SetButton(0, _tank.GetComponent<Tank_Skill>(ComponentType.Skill).UseSkill);
-        //}
-        //else
-        //{
-        //    _controllerCanvas.ButtonGroup.SetButton(0, null, null, false);
-        //}
 
         ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
         int shellCnt = shellEquipmentData._shellEquipmentList.Count;

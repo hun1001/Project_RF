@@ -73,7 +73,9 @@ namespace Pool
                 var q = _pool[_nameList[i]];
                 while (q.Count > 0)
                 {
-                    GameObject.Destroy(q.Dequeue());
+                    var obj = q.Dequeue();
+                    GameObject.Destroy(obj);
+                    AddressablesManager.Instance.Release(obj);
                 }
             }
             GC.Collect();
