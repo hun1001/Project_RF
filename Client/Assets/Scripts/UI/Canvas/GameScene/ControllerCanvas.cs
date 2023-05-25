@@ -18,8 +18,9 @@ public class ControllerCanvas : BaseCanvas
     private ButtonGroupManager _buttonGroup = null;
     public ButtonGroupManager ButtonGroup => _buttonGroup;
 
+    [Header("Reload")]
     [SerializeField]
-    private Image _reloadImage = null;
+    private Image[] _reloadImages = null;
 
     private Player _player;
     private Turret _playerTurret;
@@ -57,7 +58,11 @@ public class ControllerCanvas : BaseCanvas
 
         while (currentTime < reloadTime)
         {
-            _reloadImage.fillAmount = currentTime / reloadTime;
+            foreach (var image in _reloadImages)
+            {
+                image.fillAmount = currentTime / reloadTime;
+            }
+
             currentTime += Time.deltaTime;
             yield return null;
         }

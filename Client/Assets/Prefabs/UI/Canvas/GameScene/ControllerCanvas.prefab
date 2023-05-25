@@ -382,7 +382,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a5e0f6ac8726dfa449c9f691d73ee3d2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5b56d9fa0e8bd6e409ed188db38a692c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -456,7 +456,7 @@ GameObject:
   - component: {fileID: 3051306194126030955}
   - component: {fileID: 9093481220616562631}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: ShellImage 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -509,14 +509,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 73a6465bfe70239448c2b65c75909792, type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillClockwise: 0
+  m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &6140919450300175260
@@ -886,7 +886,11 @@ MonoBehaviour:
   _moveJoystick: {fileID: 6140919451293914630}
   _attackJoystick: {fileID: 2631327743074584711}
   _buttonGroup: {fileID: 8939850846984549614}
-  _reloadImage: {fileID: 2631327743367755525}
+  _reloadImages:
+  - {fileID: 2631327743367755525}
+  - {fileID: 2488289881705343820}
+  - {fileID: 1293357475644870749}
+  - {fileID: 9093481220616562631}
 --- !u!1 &6189754800087753259
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,7 +956,7 @@ GameObject:
   - component: {fileID: 1148007995915439531}
   - component: {fileID: 2488289881705343820}
   m_Layer: 5
-  m_Name: Image
+  m_Name: AttackImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1006,13 +1010,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: d46cba2e6030d864d8a03246d1b772bf, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillClockwise: 0
+  m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8393000891521476480
@@ -1074,7 +1078,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a5e0f6ac8726dfa449c9f691d73ee3d2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5b56d9fa0e8bd6e409ed188db38a692c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1148,7 +1152,7 @@ GameObject:
   - component: {fileID: 7347135074792943724}
   - component: {fileID: 1293357475644870749}
   m_Layer: 5
-  m_Name: Image
+  m_Name: ShellImage 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1201,14 +1205,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 73a6465bfe70239448c2b65c75909792, type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillClockwise: 0
+  m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8975544762496483308
