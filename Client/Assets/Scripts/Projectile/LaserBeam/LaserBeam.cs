@@ -20,7 +20,8 @@ public class LaserBeam : CustomObject
 
     private CustomObject _owner = null;
     private Transform _fireTransform = null;
-    private float _length = 0;
+    private float _maxLength = 0;
+    private float _currentLength = 0;
 
     private float _chargeTime = 0;
     private float _duration = 0;
@@ -36,7 +37,8 @@ public class LaserBeam : CustomObject
 
         _cameraManager ??= Camera.main.GetComponent<CameraManager>();
 
-        _length = length;
+        _maxLength = length;
+        _currentLength = length;
 
         _fireTransform = fireTransform;
 
@@ -54,8 +56,8 @@ public class LaserBeam : CustomObject
 
         StopCoroutine(nameof(LaserLineUpdateCoroutine));
 
-        transform.localScale = new Vector3(1, _length / 2, 1);
-        transform.position = (_fireTransform.position + _fireTransform.position + _fireTransform.up * _length) / 2;
+        transform.localScale = new Vector3(1, _currentLength / 2, 1);
+        transform.position = (_fireTransform.position + _fireTransform.position + _fireTransform.up * _currentLength) / 2;
         transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(_fireTransform.up.y, _fireTransform.up.x) * Mathf.Rad2Deg + 90);
 
         _meshRenderer.enabled = true;
@@ -81,8 +83,20 @@ public class LaserBeam : CustomObject
 
     private void SetLaserTransform()
     {
+        Ray2D ray = new Ray2D(_fireTransform.position, _fireTransform.up);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, _maxLength, LayerMask.GetMask("Wall"));
+
+        if (hit.collider != null)
+        {
+            _currentLength = hit.distance;
+        }
+        else
+        {
+            _currentLength = _maxLength;
+        }
+
         _lineRenderer.SetPosition(0, _fireTransform.position);
-        _lineRenderer.SetPosition(1, _fireTransform.position + _fireTransform.up * _length);
+        _lineRenderer.SetPosition(1, _fireTransform.position + _fireTransform.up * _currentLength);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

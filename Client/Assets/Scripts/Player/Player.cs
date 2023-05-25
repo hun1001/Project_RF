@@ -151,7 +151,7 @@ public class Player : CustomObject
 
         if (_attackJoystick.DragTime > 3f && _tankMove.CurrentSpeed == 0)
         {
-            _cameraManager.CameraZoom(-50, 1);
+            _cameraManager.CameraZoom(-50, 2f);
         }
         else
         {
