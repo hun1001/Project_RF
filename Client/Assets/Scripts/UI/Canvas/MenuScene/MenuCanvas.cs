@@ -39,6 +39,7 @@ public class MenuCanvas : BaseCanvas
     private RectTransform _showButton;
 
     private bool _isHide = false;
+    private bool _isHangerHide = false;
 
     [Header("Buttons")]
     [SerializeField]
@@ -80,7 +81,8 @@ public class MenuCanvas : BaseCanvas
 
     private void Start()
     {
-        _isHide = true;
+        _isHide = false;
+        _isHangerHide = false;
         _isOpen = true;
 
         GearCheck();
@@ -89,9 +91,20 @@ public class MenuCanvas : BaseCanvas
     public override void OnOpenEvents()
     {
         base.OnOpenEvents();
-        _isHide = true;
+        _isHide = false;
+        _isHangerHide = false;
 
         GearCheck();
+    }
+
+    public override void OnCloseEvents()
+    {
+        base.OnCloseEvents();
+
+        if (_isHangerHide)
+        {
+            OnHangerHide();
+        }
     }
 
     public void GearCheck()
@@ -258,6 +271,20 @@ public class MenuCanvas : BaseCanvas
         CanvasManager.ChangeCanvas(CanvasType.Gear, CanvasType);
     }
 
+    public void OnHangerHide()
+    {
+        if (_isHangerHide)
+        {
+            _isHangerHide = false;
+            _bottomFrame.DOAnchorPosY(0f, 0.3f);
+        }
+        else
+        {
+            _isHangerHide = true;
+            _bottomFrame.DOAnchorPosY(-68f, 0.3f);
+        }
+    }
+
     public void UIHide(bool isHide)
     {
         _isHide = isHide;
@@ -275,7 +302,14 @@ public class MenuCanvas : BaseCanvas
             else
             {
                 _topFrame.DOAnchorPosY(0f, 0.25f);
-                _bottomFrame.DOAnchorPosY(0f, 0.25f);
+                if (_isHangerHide)
+                {
+                    _bottomFrame.DOAnchorPosY(-68f, 0.25f);
+                }
+                else
+                {
+                    _bottomFrame.DOAnchorPosY(0f, 0.25f);
+                }
                 _leftFrame.DOAnchorPosX(0f, 0.25f);
                 //_showButton.DOAnchorPosY(0f, 0.25f);
             }
@@ -298,7 +332,14 @@ public class MenuCanvas : BaseCanvas
             else
             {
                 _topFrame.DOAnchorPosY(0f, 0.25f);
-                _bottomFrame.DOAnchorPosY(0f, 0.25f);
+                if (_isHangerHide)
+                {
+                    _bottomFrame.DOAnchorPosY(-68f, 0.25f);
+                }
+                else
+                {
+                    _bottomFrame.DOAnchorPosY(0f, 0.25f);
+                }
                 _leftFrame.DOAnchorPosX(0f, 0.25f);
             }
         });

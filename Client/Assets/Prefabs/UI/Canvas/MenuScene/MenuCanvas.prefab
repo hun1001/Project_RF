@@ -5546,7 +5546,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4867089922765571005}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1161041716000449652}
+        m_TargetAssemblyTypeName: MenuCanvas, Assembly-CSharp
+        m_MethodName: OnHangerHide
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6771911684119736095
 GameObject:
   m_ObjectHideFlags: 0
@@ -6035,7 +6047,6 @@ MonoBehaviour:
   - {fileID: 3138946244478496526}
   - {fileID: 1663887507193006525}
   - {fileID: 1652462546114844756}
-  _plusSprite: {fileID: 0}
   _topFrame: {fileID: 5937752492589452548}
   _bottomFrame: {fileID: 7578133760568828394}
   _leftFrame: {fileID: 9135161472254785354}
