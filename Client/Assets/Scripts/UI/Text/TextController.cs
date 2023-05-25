@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Text))]
 public class TextController : MonoBehaviour, IText
 {
+    [SerializeField]
     private Text _text;
 
     private void Awake()
     {
-        _text = GetComponent<Text>();
+        if (_text == null) _text = GetComponent<Text>();
     }
 
     public void SetText(string text)

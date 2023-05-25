@@ -4,6 +4,8 @@ using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using Addressable;
+using System.Reflection;
 
 public class TechTreeCanvas : BaseCanvas
 {
@@ -75,10 +77,11 @@ public class TechTreeCanvas : BaseCanvas
 
         _techTreeScrollView.TryGetComponent(out _scrollRect);
 
+        string currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
+
         for (int i = 0; i < _techTree.TechTreeSO.Length; ++i)
         {
             int index = i;
-
             var countryToggle = Instantiate(_countryToggleTemplate, _countryToggleGroupManager.transform).GetComponent<Toggle>();
             countryToggle.transform.GetChild(0).GetComponent<Image>().sprite = _techTree.TechTreeSO[index].FlagSprite;
             _toggleList.Add(countryToggle.transform as RectTransform);
@@ -122,6 +125,12 @@ public class TechTreeCanvas : BaseCanvas
                             }
                             else
                             {
+                                if (currentTankID == _techTree.TechTreeSO[index][jIndex, lIndex].ID)
+                                {
+                                    _techTree.SetTankTier(lIndex);
+                                    transform.parent.GetChild(0).GetComponent<MenuCanvas>().CurrentTankInfoUpdate();
+                                }
+
                                 node = Instantiate(_tankNodeTemplate, rowTransform);
 
                                 var tNC = node.GetComponent<TankNode>();

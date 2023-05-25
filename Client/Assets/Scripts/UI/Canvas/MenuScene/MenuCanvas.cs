@@ -93,7 +93,6 @@ public class MenuCanvas : BaseCanvas
         _isHangerHide = false;
         _isOpen = true;
 
-        CurrentTankInfoUpdate();
         GearCheck();
     }
 
@@ -117,10 +116,11 @@ public class MenuCanvas : BaseCanvas
         }
     }
 
-    private void CurrentTankInfoUpdate()
+    public void CurrentTankInfoUpdate()
     {
         Tank tank = AddressablesManager.Instance.GetResource<GameObject>(PlayerDataManager.Instance.GetPlayerTankID()).GetComponent<Tank>();
         TechTree techTree = FindObjectOfType<TechTree>();
+        Debug.Log(tank.ID);
 
         _tankTypeImage.sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
         _tankTierText.SetText(techTree.TankTierNumber[techTree.TankTier]);
