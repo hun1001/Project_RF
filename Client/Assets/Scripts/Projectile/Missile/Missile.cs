@@ -9,6 +9,12 @@ public class Missile : MonoBehaviour
     [SerializeField]
     private TrailRenderer _trailRenderer = null;
 
+    [SerializeField]
+    private AudioClip _fireSound = null;
+
+    [SerializeField]
+    private AudioClip _explosionSound = null;
+
     private CustomObject _owner = null;
     private float _range = 1.75f;
     private float _duration = 1f;
@@ -18,6 +24,12 @@ public class Missile : MonoBehaviour
     public void SetMissile(CustomObject owner, Vector3 targetPosition, float range = 1.75f, float duration = 1f)
     {
         _trailRenderer.Clear();
+
+        var audioSource = PoolManager.Get<AudioSourceController>("AudioSource", transform.position, Quaternion.identity);
+        audioSource.SetSound(_fireSound);
+        audioSource.SetGroup(AudioMixerType.Sfx);
+
+        audioSource.Play();
 
         _owner = owner;
         _range = range;
@@ -44,6 +56,13 @@ public class Missile : MonoBehaviour
                     }
                 }
                 PoolManager.Get("MissileExplosionEffect", targetPosition, Quaternion.identity);
+
+                var audioSource2 = PoolManager.Get<AudioSourceController>("AudioSource", transform.position, Quaternion.identity);
+                audioSource2.SetSound(_explosionSound);
+                audioSource2.SetGroup(AudioMixerType.Sfx);
+
+                audioSource2.Play();
+
                 PoolManager.Pool("Missile", gameObject);
             });
     }

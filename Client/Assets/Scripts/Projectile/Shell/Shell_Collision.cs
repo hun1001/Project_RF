@@ -13,6 +13,7 @@ public class Shell_Collision : Shell_Component
     private int angle;
 
     private Shell_Sound _shellSound;
+
     private void Awake()
     {
         (Instance as Shell).TryGetComponent(out _shellSound);
@@ -58,7 +59,6 @@ public class Shell_Collision : Shell_Component
                 PoolManager.Pool(Instance.ID, gameObject);
             }
         }
-        
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             normalVector = collision.contacts[0].normal;
