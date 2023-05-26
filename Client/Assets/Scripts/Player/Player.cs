@@ -150,14 +150,7 @@ public class Player : CustomObject
         _tankRotate.Rotate(_moveJoystick.Direction);
         _turretRotate.Rotate(_attackJoystick.Direction);
 
-        if (_attackJoystick.DragTime > 3f && _tankMove.CurrentSpeed == 0)
-        {
-            _cameraManager.CameraZoom(_cameraHeight - 20f, 2f);
-        }
-        else
-        {
-            _cameraManager.CameraZoom(_cameraHeight, 1f);
-        }
+        _cameraManager.CameraZoom(_cameraHeight, 1f);
     }
 
     private IEnumerator CheckAroundTarget()
