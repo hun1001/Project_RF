@@ -32,6 +32,17 @@ public class Player : CustomObject
     private Tank_Rotate _tankRotate = null;
     private Turret_Rotate _turretRotate = null;
 
+    private float _cameraHeight = -30;
+    public float CameraHeight
+    {
+        get => _cameraHeight;
+        set
+        {
+            _cameraHeight = Mathf.Clamp(value, -40, -30);
+        }
+    }
+
+
     [Header("Camera Shake")]
     public float cameraAttackShakeAmplitudeGain = 4f;
     public float cameraAttackShakeFrequencyGain = 6;
@@ -141,11 +152,11 @@ public class Player : CustomObject
 
         if (_attackJoystick.DragTime > 3f && _tankMove.CurrentSpeed == 0)
         {
-            _cameraManager.CameraZoom(-50, 2f);
+            _cameraManager.CameraZoom(_cameraHeight - 20f, 2f);
         }
         else
         {
-            _cameraManager.CameraZoom(-30f, 0.3f);
+            _cameraManager.CameraZoom(_cameraHeight, 1f);
         }
     }
 
@@ -161,6 +172,7 @@ public class Player : CustomObject
             if (isChanged == true)
             {
                 _cameraManager.ResetTargetGroup(findingTank.ToList());
+                _cameraHeight = findingTank.Length > 1 ? -40 : -30;
             }
 
             foreach (var enemy in findingTank)
