@@ -130,7 +130,7 @@ public class BossAI : MonoBehaviour
 
     private void Update()
     {
-        //   _behaviorTree.Tick();
+        _behaviorTree.Tick();
     }
 
     private void Attack()
