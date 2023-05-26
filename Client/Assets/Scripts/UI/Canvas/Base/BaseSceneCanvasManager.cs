@@ -70,6 +70,30 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
         }
     }
 
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
+            {
+                if (_activeCanvas != CanvasType.Setting)
+                {
+                    ChangeCanvas(CanvasType.Setting, _activeCanvas);
+                }
+            }
+            else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene)
+            {
+                if (_activeCanvas != CanvasType.Pause)
+                {
+                    if (_activeCanvas == CanvasType.GameOver || _activeCanvas == CanvasType.Setting)
+                        return;
+
+                    ChangeCanvas(CanvasType.Pause, _activeCanvas);
+                }
+            }
+        }
+    }
+
     public virtual void ChangeCanvas(CanvasType canvasType, CanvasType beforeCanvas = CanvasType.Base)
     {
         if(canvasType != CanvasType.Menu && beforeCanvas != CanvasType.Base)

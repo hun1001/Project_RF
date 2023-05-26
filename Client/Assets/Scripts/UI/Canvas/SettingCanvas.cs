@@ -68,21 +68,6 @@ public class SettingCanvas : BaseCanvas
         _sfx._sfxMuteToggle.isOn = Sfx._isSfxOn;
     }
 
-    private void OnApplicationPause(bool pause)
-    {
-        if (pause)
-        {
-            _isPause = pause;
-            if (_isOpen == false)
-            {
-                if (CanvasManager.ActiveCanvas == CanvasType.GameOver)
-                    return;
-
-                CanvasManager.ChangeCanvas(CanvasType.Setting, CanvasManager.ActiveCanvas);
-            }
-        }
-    }
-
     public override void OnOpenEvents()
     {
         base.OnOpenEvents();
