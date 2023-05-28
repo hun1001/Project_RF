@@ -12,6 +12,8 @@ public class Tank_Move : Tank_Component
     public float CurrentSpeed => _currentSpeed;
     private float _acceleration = 0f;
     private float _targetSpeed = 0f;
+    
+    private bool _collsion = false;
 
     private Tank_Sound _tankSound = null;
     private float _loadSoundDelay;
@@ -72,7 +74,9 @@ public class Tank_Move : Tank_Component
             _tankSound?.MoveSoundUpdate(0f);
         }
 
+        _currentSpeed = _collsion ? 0f : _currentSpeed;
         transform.Translate(Vector3.up * Time.deltaTime * _currentSpeed);
+        
         if (_loadSoundDelay > 0f)
         {
             _loadSoundDelay -= Time.deltaTime;
@@ -120,8 +124,18 @@ public class Tank_Move : Tank_Component
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Wall") && CheckCrashBack(other.contacts[0].point))
         {
+            _collsion = true;
             _currentSpeed = 0;
         }
+        else
+        {
+            _collsion = false;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        _collsion = false;
     }
 
     private bool CheckCrashBack(Vector2 collisionDir)
