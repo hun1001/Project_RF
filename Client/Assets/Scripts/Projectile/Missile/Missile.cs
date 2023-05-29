@@ -34,6 +34,8 @@ public class Missile : MonoBehaviour
         _owner = owner;
         _range = range;
         _duration = duration;
+        
+        PoolManager.Get<MissileTargetDisplay>("MissileTargetDisplay").SetTarget(targetPosition, _duration);
 
         _cameraManager ??= Camera.main.GetComponent<CameraManager>();
 
