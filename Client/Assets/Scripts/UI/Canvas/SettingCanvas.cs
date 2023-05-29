@@ -57,14 +57,14 @@ public class SettingCanvas : BaseCanvas
 
     private Sequence _changeFrameSequence;
 
-    private void Start()
-    {
-        _bgm._bgmSlider.value = SoundManager.Instance.BgmVolume;
-        _sfx._sfxSlider.value = SoundManager.Instance.SfxVolume;
+    //private void Start()
+    //{
+    //    _bgm._bgmSlider.value = SoundManager.Instance.BgmVolume;
+    //    _sfx._sfxSlider.value = SoundManager.Instance.SfxVolume;
 
-        _bgm._bgmMuteToggle.isOn = Bgm._isBgmOn;
-        _sfx._sfxMuteToggle.isOn = Sfx._isSfxOn;
-    }
+    //    _bgm._bgmMuteToggle.isOn = Bgm._isBgmOn;
+    //    _sfx._sfxMuteToggle.isOn = Sfx._isSfxOn;
+    //}
 
     //public override void OnOpenEvents()
     //{

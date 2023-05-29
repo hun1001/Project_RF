@@ -5,6 +5,7 @@ using Item;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -33,7 +34,7 @@ public class MenuCanvas : BaseCanvas
 
     private string _currentTankID;
     private ItemEquipmentData _passiveItemEquipmentDataDict;
-    private ItemEquipmentData _activeItemEquipmentDataDict;
+    //private ItemEquipmentData _activeItemEquipmentDataDict;
     private ShellEquipmentData _shellEquipmentDataDict;
 
     [Header("Animation")]
@@ -45,9 +46,19 @@ public class MenuCanvas : BaseCanvas
     private RectTransform _leftFrame;
     [SerializeField]
     private RectTransform _showButton;
+    [SerializeField]
+    private RectTransform _hangerDownImage;
 
     private bool _isHide = false;
     private bool _isHangerHide = false;
+
+    [Header("Hanger")]
+    [SerializeField]
+    private Transform _hangerContent;
+    [SerializeField]
+    private GameObject _tankTemplate;
+
+    private Dictionary<CountryType, Sprite> _flagImageDict = new Dictionary<CountryType, Sprite>();
 
     [Header("Buttons")]
     [SerializeField]
@@ -82,6 +93,12 @@ public class MenuCanvas : BaseCanvas
 
         _plusSprite = AddressablesManager.Instance.GetResource<Sprite>("PlusImage");
 
+        _flagImageDict.Add(CountryType.USSR, AddressablesManager.Instance.GetResource<Sprite>("USSRFlagImage"));
+        _flagImageDict.Add(CountryType.Germany, AddressablesManager.Instance.GetResource<Sprite>("GermanyFlagImage"));
+        _flagImageDict.Add(CountryType.USA, AddressablesManager.Instance.GetResource<Sprite>("USAFlagImage"));
+        _flagImageDict.Add(CountryType.Britain, AddressablesManager.Instance.GetResource<Sprite>("BritainFlagImage"));
+        _flagImageDict.Add(CountryType.France, AddressablesManager.Instance.GetResource<Sprite>("FranceFlagImage"));
+
         _warningPanel.gameObject.SetActive(false);
 
         EventManager.StartListening(EventKeyword.MenuCameraMove, CameraUIHide);
@@ -94,6 +111,7 @@ public class MenuCanvas : BaseCanvas
         _isOpen = true;
 
         GearCheck();
+        HangerUpdate();
     }
 
     public override void OnOpenEvents()
@@ -104,6 +122,7 @@ public class MenuCanvas : BaseCanvas
 
         CurrentTankInfoUpdate();
         GearCheck();
+        HangerUpdate();
     }
 
     public override void OnCloseEvents()
@@ -131,7 +150,7 @@ public class MenuCanvas : BaseCanvas
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
         Tank currentTank = FindObjectOfType<TankModelManager>().TankModel;
         _passiveItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Passive);
-        _activeItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Active);
+        //_activeItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Active);
         _shellEquipmentDataDict = ShellSaveManager.GetShellEquipment(_currentTankID);
 
         uint passiveSlotSize = currentTank.TankSO.PassiveItemInventorySize;
@@ -193,6 +212,29 @@ public class MenuCanvas : BaseCanvas
             Shell shellData = AddressablesManager.Instance.GetResource<GameObject>(shell).GetComponent<Shell>();
             _gearImages[idx].sprite = shellData.ShellSprite;
             _gearImages[idx++].gameObject.SetActive(true);
+        }
+    }
+
+    private void HangerUpdate()
+    {
+        TechTreeProgress ussrData = TechTreeDataManager.GetTechTreeProgress(CountryType.USSR);
+        TechTreeProgress germanyData = TechTreeDataManager.GetTechTreeProgress(CountryType.Germany);
+        TechTreeProgress usaData = TechTreeDataManager.GetTechTreeProgress(CountryType.USA);
+        TechTreeProgress britainData = TechTreeDataManager.GetTechTreeProgress(CountryType.Britain);
+        TechTreeProgress franceData = TechTreeDataManager.GetTechTreeProgress(CountryType.France);
+
+        foreach (var id in ussrData._tankProgressList)
+        {
+            var a = Instantiate(_tankTemplate, _hangerContent);
+            a.SetActive(true);
+            a.GetComponent<Image>().sprite = _flagImageDict[CountryType.USSR];
+            a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
+
+            a.GetComponent<Button>().onClick.RemoveAllListeners();
+            a.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                FindObjectOfType<TankModelManager>().ChangeTankModel(AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>());
+            });
         }
     }
 
@@ -296,11 +338,13 @@ public class MenuCanvas : BaseCanvas
         {
             _isHangerHide = false;
             _bottomFrame.DOAnchorPosY(0f, 0.3f);
+            _hangerDownImage.DORotate(Vector3.zero, 0.3f);
         }
         else
         {
             _isHangerHide = true;
             _bottomFrame.DOAnchorPosY(-68f, 0.3f);
+            _hangerDownImage.DORotate(Vector3.forward * 180f, 0.3f);
         }
     }
 
