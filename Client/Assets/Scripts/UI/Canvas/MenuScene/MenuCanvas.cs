@@ -120,7 +120,6 @@ public class MenuCanvas : BaseCanvas
     {
         Tank tank = AddressablesManager.Instance.GetResource<GameObject>(PlayerDataManager.Instance.GetPlayerTankID()).GetComponent<Tank>();
         TechTree techTree = FindObjectOfType<TechTree>();
-        Debug.Log(tank.ID);
 
         _tankTypeImage.sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
         _tankTierText.SetText(techTree.TankTierNumber[techTree.TankTier]);

@@ -72,4 +72,9 @@ public class ControllerCanvas : BaseCanvas
             image.fillAmount = 1;
         }
     }
+
+    public void OnPauseButton()
+    {
+        CanvasManager.ChangeCanvas(CanvasType.Pause, CanvasType);
+    }
 }

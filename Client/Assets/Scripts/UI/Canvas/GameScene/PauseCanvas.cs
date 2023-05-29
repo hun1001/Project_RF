@@ -20,4 +20,16 @@ public class PauseCanvas : BaseCanvas
     {
         CanvasManager.ChangeCanvas(CanvasType.Setting, CanvasType);
     }
+
+    public override void OnBackButton()
+    {
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
+        {
+            base.OnBackButton();
+        }
+        else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene)
+        {
+            CanvasManager.ChangeCanvas(CanvasType.Controller, CanvasType);
+        }
+    }
 }

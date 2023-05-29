@@ -55,38 +55,27 @@ public class SettingCanvas : BaseCanvas
     [SerializeField]
     private Sfx _sfx;
 
-    private bool _isPause = false;
-
     private Sequence _changeFrameSequence;
 
-    //private void Start()
-    //{
-    //    _bgm._bgmSlider.value = SoundManager.Instance.BgmVolume;
-    //    _sfx._sfxSlider.value = SoundManager.Instance.SfxVolume;
+    private void Start()
+    {
+        _bgm._bgmSlider.value = SoundManager.Instance.BgmVolume;
+        _sfx._sfxSlider.value = SoundManager.Instance.SfxVolume;
 
-    //    _bgm._bgmMuteToggle.isOn = Bgm._isBgmOn;
-    //    _sfx._sfxMuteToggle.isOn = Sfx._isSfxOn;
-    //}
+        _bgm._bgmMuteToggle.isOn = Bgm._isBgmOn;
+        _sfx._sfxMuteToggle.isOn = Sfx._isSfxOn;
+    }
 
     //public override void OnOpenEvents()
     //{
     //    base.OnOpenEvents();
 
-    //    if (_isPause == false)
+    //    _startSequence = DOTween.Sequence()
+    //    .PrependCallback(() =>
     //    {
-    //        _startSequence = DOTween.Sequence()
-    //        .PrependCallback(() =>
-    //        {
-    //            _backGround.anchoredPosition += Vector2.down * 500f;
-    //        })
-    //        .Append(_backGround.DOAnchorPosY(0f, 0.5f));
-    //    }
-    //}
-
-    //public override void OnCloseEvents()
-    //{
-    //    base.OnCloseEvents();
-    //    _isPause = false;
+    //        _backGround.anchoredPosition += Vector2.down * 500f;
+    //    })
+    //    .Append(_backGround.DOAnchorPosY(0f, 0.5f));
     //}
 
     //private void Update()
@@ -109,33 +98,22 @@ public class SettingCanvas : BaseCanvas
     //    }
     //}
 
-    public override void OnHomeButton()
-    {
-        _isOpen = false;
-        _isPause = false;
-
-        base.OnHomeButton();
-    }
-
-    /// <summary> 설정창 닫는 함수 </summary>
-    public override void OnBackButton()
-    {
-        _isOpen = false;
-        _isPause = false;
-
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
-        {
-            base.OnBackButton();
-        }
-        else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene)
-        {
-            CanvasManager.ChangeCanvas(CanvasType.Controller, CanvasType);
-        }
-        if (_toggles[1].isOn == true)
-        {
-            OnChangeFrame(0);
-        }
-    }
+    ///// <summary> 설정창 닫는 함수 </summary>
+    //public override void OnBackButton()
+    //{
+    //    if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
+    //    {
+    //        base.OnBackButton();
+    //    }
+    //    else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene)
+    //    {
+    //        CanvasManager.ChangeCanvas(CanvasType.Pause, CanvasType);
+    //    }
+    //    if (_toggles[1].isOn == true)
+    //    {
+    //        OnChangeFrame(0);
+    //    }
+    //}
 
     /// <summary> 프레임 바꾸는 함수 </summary>
     public void OnChangeFrame(int idx)
