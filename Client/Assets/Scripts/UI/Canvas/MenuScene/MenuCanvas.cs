@@ -57,8 +57,8 @@ public class MenuCanvas : BaseCanvas
     private Transform _hangerContent;
     [SerializeField]
     private GameObject _tankTemplate;
-
-    private Dictionary<CountryType, Sprite> _flagImageDict = new Dictionary<CountryType, Sprite>();
+    [SerializeField]
+    private Sprite[] _flagSprites;
 
     [Header("Buttons")]
     [SerializeField]
@@ -93,12 +93,6 @@ public class MenuCanvas : BaseCanvas
 
         _plusSprite = AddressablesManager.Instance.GetResource<Sprite>("PlusImage");
 
-        _flagImageDict.Add(CountryType.USSR, AddressablesManager.Instance.GetResource<Sprite>("USSRFlagImage"));
-        _flagImageDict.Add(CountryType.Germany, AddressablesManager.Instance.GetResource<Sprite>("GermanyFlagImage"));
-        _flagImageDict.Add(CountryType.USA, AddressablesManager.Instance.GetResource<Sprite>("USAFlagImage"));
-        _flagImageDict.Add(CountryType.Britain, AddressablesManager.Instance.GetResource<Sprite>("BritainFlagImage"));
-        _flagImageDict.Add(CountryType.France, AddressablesManager.Instance.GetResource<Sprite>("FranceFlagImage"));
-
         _warningPanel.gameObject.SetActive(false);
 
         EventManager.StartListening(EventKeyword.MenuCameraMove, CameraUIHide);
@@ -122,7 +116,6 @@ public class MenuCanvas : BaseCanvas
 
         CurrentTankInfoUpdate();
         GearCheck();
-        HangerUpdate();
     }
 
     public override void OnCloseEvents()
@@ -227,7 +220,7 @@ public class MenuCanvas : BaseCanvas
         {
             var a = Instantiate(_tankTemplate, _hangerContent);
             a.SetActive(true);
-            a.GetComponent<Image>().sprite = _flagImageDict[CountryType.USSR];
+            a.GetComponent<Image>().sprite = GetFlagSprite(CountryType.USSR);
             a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
 
             a.GetComponent<Button>().onClick.RemoveAllListeners();
@@ -235,6 +228,25 @@ public class MenuCanvas : BaseCanvas
             {
                 FindObjectOfType<TankModelManager>().ChangeTankModel(AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>());
             });
+        }
+    }
+
+    private Sprite GetFlagSprite(CountryType type)
+    {
+        switch (type)
+        {
+            case CountryType.USSR:
+                return _flagSprites[0];
+            case CountryType.Germany:
+                return _flagSprites[1];
+            case CountryType.USA:
+                return _flagSprites[2];
+            case CountryType.Britain:
+                return _flagSprites[3];
+            case CountryType.France:
+                return _flagSprites[4];
+            default:
+                return null;
         }
     }
 

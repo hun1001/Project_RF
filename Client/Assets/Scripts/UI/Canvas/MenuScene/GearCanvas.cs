@@ -243,7 +243,7 @@ public class GearCanvas : BaseCanvas
         ResetItem();
 
         PassiveAddItem();
-        ActiveAddItem();
+        //ActiveAddItem();
         LockItem();
 
         AddShell();
