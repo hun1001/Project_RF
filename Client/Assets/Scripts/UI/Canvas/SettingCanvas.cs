@@ -59,55 +59,55 @@ public class SettingCanvas : BaseCanvas
 
     private Sequence _changeFrameSequence;
 
-    private void Start()
-    {
-        _bgm._bgmSlider.value = SoundManager.Instance.BgmVolume;
-        _sfx._sfxSlider.value = SoundManager.Instance.SfxVolume;
+    //private void Start()
+    //{
+    //    _bgm._bgmSlider.value = SoundManager.Instance.BgmVolume;
+    //    _sfx._sfxSlider.value = SoundManager.Instance.SfxVolume;
 
-        _bgm._bgmMuteToggle.isOn = Bgm._isBgmOn;
-        _sfx._sfxMuteToggle.isOn = Sfx._isSfxOn;
-    }
+    //    _bgm._bgmMuteToggle.isOn = Bgm._isBgmOn;
+    //    _sfx._sfxMuteToggle.isOn = Sfx._isSfxOn;
+    //}
 
-    public override void OnOpenEvents()
-    {
-        base.OnOpenEvents();
+    //public override void OnOpenEvents()
+    //{
+    //    base.OnOpenEvents();
 
-        if (_isPause == false)
-        {
-            _startSequence = DOTween.Sequence()
-            .PrependCallback(() =>
-            {
-                _backGround.anchoredPosition += Vector2.down * 500f;
-            })
-            .Append(_backGround.DOAnchorPosY(0f, 0.5f));
-        }
-    }
+    //    if (_isPause == false)
+    //    {
+    //        _startSequence = DOTween.Sequence()
+    //        .PrependCallback(() =>
+    //        {
+    //            _backGround.anchoredPosition += Vector2.down * 500f;
+    //        })
+    //        .Append(_backGround.DOAnchorPosY(0f, 0.5f));
+    //    }
+    //}
 
-    public override void OnCloseEvents()
-    {
-        base.OnCloseEvents();
-        _isPause = false;
-    }
+    //public override void OnCloseEvents()
+    //{
+    //    base.OnCloseEvents();
+    //    _isPause = false;
+    //}
 
-    private void Update()
-    {
-        if (_bgm._isBgmMinusDown)
-        {
-            _bgm._bgmSlider.value -= 0.2f;
-        }
-        if (_bgm._isBgmPlusDown)
-        {
-            _bgm._bgmSlider.value += 0.2f;
-        }
-        if (_sfx._isSfxMinusDown)
-        {
-            _sfx._sfxSlider.value -= 0.2f;
-        }
-        if (_sfx._isSfxPlusDown)
-        {
-            _sfx._sfxSlider.value += 0.2f;
-        }
-    }
+    //private void Update()
+    //{
+    //    if (_bgm._isBgmMinusDown)
+    //    {
+    //        _bgm._bgmSlider.value -= 0.2f;
+    //    }
+    //    if (_bgm._isBgmPlusDown)
+    //    {
+    //        _bgm._bgmSlider.value += 0.2f;
+    //    }
+    //    if (_sfx._isSfxMinusDown)
+    //    {
+    //        _sfx._sfxSlider.value -= 0.2f;
+    //    }
+    //    if (_sfx._isSfxPlusDown)
+    //    {
+    //        _sfx._sfxSlider.value += 0.2f;
+    //    }
+    //}
 
     public override void OnHomeButton()
     {
