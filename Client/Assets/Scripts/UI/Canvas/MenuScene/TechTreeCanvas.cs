@@ -50,6 +50,11 @@ public class TechTreeCanvas : BaseCanvas
             _tankInformation.SetActive(false);
             PlayButtonSound();
         });
+        _tankInformationPanel.transform.GetChild(5).GetComponent<Button>().onClick.AddListener(() =>
+        {
+            _tankInformation.SetActive(false);
+            PlayButtonSound();
+        });
 
         _countryToggleTemplate = _countryToggleGroupManager.transform.GetChild(0).gameObject;
 
