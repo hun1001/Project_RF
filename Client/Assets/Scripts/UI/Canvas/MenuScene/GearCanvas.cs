@@ -255,22 +255,10 @@ public class GearCanvas : BaseCanvas
         _curentTank = FindObjectOfType<TankModelManager>().TankModel;
         _shellEquipmentDataDict = ShellSaveManager.GetShellEquipment(_currentTankID);
         _passiveItemSlotSize = _curentTank.TankSO.PassiveItemInventorySize;
-        _activeItemSlotSize = _curentTank.TankSO.ActiveItemInventorySize;
-
-        // √ ±‚»≠
-        foreach (var item in _itemInventoryDictionary)
-        {
-            Destroy(item.Value);
-        }
-        _itemInventoryDictionary.Clear();
-        foreach (var shell in _shellInventoryDictionary)
-        {
-            Destroy(shell.Value);
-        }
-        _shellInventoryDictionary.Clear();
+        //_activeItemSlotSize = _curentTank.TankSO.ActiveItemInventorySize;
 
         _passiveItemEquipSlotDict.Clear();
-        _activeItemEquipSlotDict.Clear();
+        //_activeItemEquipSlotDict.Clear();
         _shellEquipSlotDict.Clear();
 
         foreach (var image in _shellImages)
@@ -287,24 +275,26 @@ public class GearCanvas : BaseCanvas
         foreach (var itemName in passiveInventoryData._itemInventoryList)
         {
             Item_Base itemInfo = AddressablesManager.Instance.GetResource<GameObject>(itemName).GetComponent<Item_Base>();
+            if (_itemInventoryDictionary.ContainsKey(itemInfo))
+            {
+                if (_passiveItemEquipmentDataDict._itemEquipmentList.Contains(itemInfo.ID))
+                {
+                    int idx = _passiveItemEquipmentDataDict._itemEquipmentList.IndexOf(itemInfo.ID);
+                    if (_passiveItemSlotSize >= idx + 1)
+                    {
+                        _passiveItemEquipSlotDict.Add(idx, _itemInventoryDictionary[itemInfo]);
+                        _itemInventoryDictionary[itemInfo].SetActive(false);
 
+                        _passiveItemImages[idx].gameObject.SetActive(true);
+                        _passiveItemImages[idx].sprite = itemInfo.ItemSO.Image;
+                    }
+                }
+                continue;
+            }
             var item = Instantiate(_itemTemplate, _itemContent);
             item.SetActive(true);
             item.GetComponent<Image>().sprite = itemInfo.ItemSO.Image;
             _itemInventoryDictionary.Add(itemInfo, item);
-
-            if (_passiveItemEquipmentDataDict._itemEquipmentList.Contains(itemInfo.ID))
-            {
-                int idx = _passiveItemEquipmentDataDict._itemEquipmentList.IndexOf(itemInfo.ID);
-                if (_passiveItemSlotSize >= idx + 1)
-                {
-                    _passiveItemEquipSlotDict.Add(idx, item);
-                    item.SetActive(false);
-
-                    _passiveItemImages[idx].gameObject.SetActive(true);
-                    _passiveItemImages[idx].sprite = itemInfo.ItemSO.Image;
-                }
-            }
 
             item.GetComponent<Button>().onClick.AddListener(() =>
             {
@@ -335,24 +325,27 @@ public class GearCanvas : BaseCanvas
         foreach (var itemName in activeInventoryData._itemInventoryList)
         {
             Item_Base itemInfo = AddressablesManager.Instance.GetResource<GameObject>(itemName).GetComponent<Item_Base>();
+            if (_itemInventoryDictionary.ContainsKey(itemInfo))
+            {
+                if (_activeItemEquipmentDataDict._itemEquipmentList.Contains(itemInfo.ID))
+                {
+                    int idx = _activeItemEquipmentDataDict._itemEquipmentList.IndexOf(itemInfo.ID);
+                    if (_activeItemSlotSize >= idx + 1)
+                    {
+                        _activeItemEquipSlotDict.Add(idx, _itemInventoryDictionary[itemInfo]);
+                        _itemInventoryDictionary[itemInfo].SetActive(false);
+
+                        _activeItemImages[idx].gameObject.SetActive(true);
+                        _activeItemImages[idx].sprite = itemInfo.ItemSO.Image;
+                    }
+                }
+                continue;
+            }
 
             var item = Instantiate(_itemTemplate, _itemContent);
             item.SetActive(true);
             item.GetComponent<Image>().sprite = itemInfo.ItemSO.Image;
             _itemInventoryDictionary.Add(itemInfo, item);
-
-            if (_activeItemEquipmentDataDict._itemEquipmentList.Contains(itemInfo.ID))
-            {
-                int idx = _activeItemEquipmentDataDict._itemEquipmentList.IndexOf(itemInfo.ID);
-                if (_passiveItemSlotSize >= idx + 1)
-                {
-                    _activeItemEquipSlotDict.Add(idx, item);
-                    item.SetActive(false);
-
-                    _activeItemImages[idx].gameObject.SetActive(true);
-                    _activeItemImages[idx].sprite = itemInfo.ItemSO.Image;
-                }
-            }
 
             item.GetComponent<Button>().onClick.AddListener(() =>
             {
@@ -406,20 +399,25 @@ public class GearCanvas : BaseCanvas
         Turret turret = AddressablesManager.Instance.GetResource<GameObject>(_currentTankID).GetComponent<Turret>();
         foreach (Shell shellInfo in turret.TurretSO.Shells)
         {
+            if (_shellInventoryDictionary.ContainsKey(shellInfo))
+            {
+                if (_shellEquipmentDataDict._shellEquipmentList.Contains(shellInfo.ID))
+                {
+                    int idx = _shellEquipmentDataDict._shellEquipmentList.IndexOf(shellInfo.ID);
+                    _shellEquipSlotDict.Add(idx, _shellInventoryDictionary[shellInfo]);
+                    _shellInventoryDictionary[shellInfo].SetActive(false);
+
+                    _shellImages[idx].gameObject.SetActive(true);
+                    _shellImages[idx].sprite = shellInfo.ShellSprite;
+                }
+
+                continue;
+            }
+
             var shell = Instantiate(_itemTemplate, _itemContent);
             shell.SetActive(true);
             shell.GetComponent<Image>().sprite = shellInfo.ShellSprite;
             _shellInventoryDictionary.Add(shellInfo, shell);
-
-            if (_shellEquipmentDataDict._shellEquipmentList.Contains(shellInfo.ID))
-            {
-                int idx = _shellEquipmentDataDict._shellEquipmentList.IndexOf(shellInfo.ID);
-                _shellEquipSlotDict.Add(idx, shell);
-                shell.SetActive(false);
-
-                _shellImages[idx].gameObject.SetActive(true);
-                _shellImages[idx].sprite = shellInfo.ShellSprite;
-            }
 
             shell.GetComponent<Button>().onClick.AddListener(() =>
             {

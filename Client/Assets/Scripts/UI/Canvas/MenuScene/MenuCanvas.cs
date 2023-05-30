@@ -60,6 +60,8 @@ public class MenuCanvas : BaseCanvas
     [SerializeField]
     private Sprite[] _flagSprites;
 
+    private Dictionary<string, GameObject> _hangerDict = new Dictionary<string, GameObject>();
+
     [Header("Buttons")]
     [SerializeField]
     private Button _startButton = null;
@@ -104,9 +106,11 @@ public class MenuCanvas : BaseCanvas
         _isHangerHide = false;
         _isOpen = true;
 
-        CurrentTankInfoUpdate();
+        _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
+
         GearCheck();
         HangerUpdate();
+        CurrentTankInfoUpdate();
     }
 
     public override void OnOpenEvents()
@@ -115,8 +119,12 @@ public class MenuCanvas : BaseCanvas
         _isHide = false;
         _isHangerHide = false;
 
-        CurrentTankInfoUpdate();
+        _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
+        _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
+
         GearCheck();
+        HangerUpdate();
+        CurrentTankInfoUpdate();
     }
 
     public override void OnCloseEvents()
@@ -131,17 +139,19 @@ public class MenuCanvas : BaseCanvas
 
     public void CurrentTankInfoUpdate()
     {
-        Tank tank = AddressablesManager.Instance.GetResource<GameObject>(PlayerDataManager.Instance.GetPlayerTankID()).GetComponent<Tank>();
+        _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
+        Tank tank = AddressablesManager.Instance.GetResource<GameObject>(_currentTankID).GetComponent<Tank>();
         TechTree techTree = FindObjectOfType<TechTree>();
 
         _tankTypeImage.sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
         _tankTierText.SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
-        _tankNameText.SetText(tank.ID);
+        _tankNameText.SetText(_currentTankID);
+
+        _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(true);
     }
 
     public void GearCheck()
     {
-        _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
         Tank currentTank = FindObjectOfType<TankModelManager>().TankModel;
         _passiveItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Passive);
         //_activeItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Active);
@@ -220,6 +230,8 @@ public class MenuCanvas : BaseCanvas
 
         foreach (var id in ussrData._tankProgressList)
         {
+            if (_hangerDict.ContainsKey(id)) continue;
+
             Tank tank = AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>();
             var a = Instantiate(_tankTemplate, _hangerContent);
             a.SetActive(true);
@@ -228,10 +240,156 @@ public class MenuCanvas : BaseCanvas
             a.transform.GetChild(1).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
             a.transform.GetChild(2).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
 
+            if (_currentTankID == id)
+            {
+                a.transform.GetChild(3).gameObject.SetActive(true);
+            }
+            else
+            {
+                a.transform.GetChild(3).gameObject.SetActive(false);
+            }
+
+            _hangerDict.Add(id, a);
+
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
             {
+                _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
+                CurrentTankInfoUpdate();
+                GearCheck();
+            });
+        }
+
+        foreach (var id in germanyData._tankProgressList)
+        {
+            if (_hangerDict.ContainsKey(id)) continue;
+
+            Tank tank = AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>();
+            var a = Instantiate(_tankTemplate, _hangerContent);
+            a.SetActive(true);
+            a.GetComponent<Image>().sprite = GetFlagSprite(CountryType.Germany);
+            a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
+            a.transform.GetChild(1).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
+            a.transform.GetChild(2).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
+
+            if (_currentTankID == id)
+            {
+                a.transform.GetChild(3).gameObject.SetActive(true);
+            }
+            else
+            {
+                a.transform.GetChild(3).gameObject.SetActive(false);
+            }
+
+            _hangerDict.Add(id, a);
+
+            a.GetComponent<Button>().onClick.RemoveAllListeners();
+            a.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
+                FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
+                CurrentTankInfoUpdate();
+                GearCheck();
+            });
+        }
+
+        foreach (var id in usaData._tankProgressList)
+        {
+            if (_hangerDict.ContainsKey(id)) continue;
+
+            Tank tank = AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>();
+            var a = Instantiate(_tankTemplate, _hangerContent);
+            a.SetActive(true);
+            a.GetComponent<Image>().sprite = GetFlagSprite(CountryType.USA);
+            a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
+            a.transform.GetChild(1).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
+            a.transform.GetChild(2).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
+
+            if (_currentTankID == id)
+            {
+                a.transform.GetChild(3).gameObject.SetActive(true);
+            }
+            else
+            {
+                a.transform.GetChild(3).gameObject.SetActive(false);
+            }
+
+            _hangerDict.Add(id, a);
+
+            a.GetComponent<Button>().onClick.RemoveAllListeners();
+            a.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
+                FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
+                CurrentTankInfoUpdate();
+                GearCheck();
+            });
+        }
+
+        foreach (var id in britainData._tankProgressList)
+        {
+            if (_hangerDict.ContainsKey(id)) continue;
+
+            Tank tank = AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>();
+            var a = Instantiate(_tankTemplate, _hangerContent);
+            a.SetActive(true);
+            a.GetComponent<Image>().sprite = GetFlagSprite(CountryType.Britain);
+            a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
+            a.transform.GetChild(1).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
+            a.transform.GetChild(2).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
+
+            if (_currentTankID == id)
+            {
+                a.transform.GetChild(3).gameObject.SetActive(true);
+            }
+            else
+            {
+                a.transform.GetChild(3).gameObject.SetActive(false);
+            }
+
+            _hangerDict.Add(id, a);
+
+            a.GetComponent<Button>().onClick.RemoveAllListeners();
+            a.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
+                FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
+                CurrentTankInfoUpdate();
+                GearCheck();
+            });
+        }
+
+        foreach (var id in franceData._tankProgressList)
+        {
+            if (_hangerDict.ContainsKey(id)) continue;
+
+            Tank tank = AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>();
+            var a = Instantiate(_tankTemplate, _hangerContent);
+            a.SetActive(true);
+            a.GetComponent<Image>().sprite = GetFlagSprite(CountryType.France);
+            a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
+            a.transform.GetChild(1).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
+            a.transform.GetChild(2).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
+
+            if (_currentTankID == id)
+            {
+                a.transform.GetChild(3).gameObject.SetActive(true);
+            }
+            else
+            {
+                a.transform.GetChild(3).gameObject.SetActive(false);
+            }
+
+            _hangerDict.Add(id, a);
+
+            a.GetComponent<Button>().onClick.RemoveAllListeners();
+            a.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
+                FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
+                CurrentTankInfoUpdate();
+                GearCheck();
             });
         }
     }
