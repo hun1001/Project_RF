@@ -77,8 +77,6 @@ public class TechTreeCanvas : BaseCanvas
 
         _techTreeScrollView.TryGetComponent(out _scrollRect);
 
-        string currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
-
         for (int i = 0; i < _techTree.TechTreeSO.Length; ++i)
         {
             int index = i;
@@ -125,12 +123,6 @@ public class TechTreeCanvas : BaseCanvas
                             }
                             else
                             {
-                                if (currentTankID == _techTree.TechTreeSO[index][jIndex, lIndex].ID)
-                                {
-                                    _techTree.SetTankTier(lIndex);
-                                    transform.parent.GetChild(0).GetComponent<MenuCanvas>().CurrentTankInfoUpdate();
-                                }
-
                                 node = Instantiate(_tankNodeTemplate, rowTransform);
 
                                 var tNC = node.GetComponent<TankNode>();
@@ -185,7 +177,6 @@ public class TechTreeCanvas : BaseCanvas
                                         if (TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex, lIndex].ID))
                                         {
                                             FindObjectOfType<TankModelManager>().ChangeTankModel(_techTree.TechTreeSO[index][jIndex, lIndex]);
-                                            _techTree.SetTankTier(lIndex);
                                             _tankInformation.SetActive(false);
                                         }
                                     });

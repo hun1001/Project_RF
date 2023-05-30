@@ -34,6 +34,10 @@ public class TankSO : ScriptableObject
     public TankType TankType => _tankType;
 
     [SerializeField]
+    private uint _tankTier = 0;
+    public uint TankTier => _tankTier;
+
+    [SerializeField]
     private bool _hasSkill = false;
     public bool HasSkill => _hasSkill;
 
@@ -48,7 +52,7 @@ public class TankSO : ScriptableObject
     private uint _passiveItemInventorySize = 0;
     public uint PassiveItemInventorySize => _passiveItemInventorySize;
 
-    public void SetData(float hp, float armour, float maxSpeed, float acceleration, float rotationSpeed, TankType tankType, bool hasSkill, uint activeItemInventorySize, uint passiveItemInventorySize)
+    public void SetData(float hp, float armour, float maxSpeed, float acceleration, float rotationSpeed, TankType tankType, uint tier, bool hasSkill, uint activeItemInventorySize, uint passiveItemInventorySize)
     {
         _hp = hp;
         _armour = armour;
@@ -58,6 +62,7 @@ public class TankSO : ScriptableObject
         _rotationSpeed = rotationSpeed;
 
         _tankType = tankType;
+        _tankTier = tier;
 
         _hasSkill = hasSkill;
 

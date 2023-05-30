@@ -70,27 +70,27 @@ namespace CustomEditorWindow.SheetDataToSO
 
                             TankSO asset = null;
 
-                            isExist = File.Exists("Assets/ScriptableObjects/Tank/" + data[1].ToString() + "/" + data[0].ToString() + "_TankSO.asset");
+                            isExist = File.Exists("Assets/ScriptableObjects/Tank/" + data[2].ToString() + "/" + data[0].ToString() + "_TankSO.asset");
 
                             if (isExist)
                             {
-                                asset = AssetDatabase.LoadAssetAtPath<TankSO>("Assets/ScriptableObjects/Tank/" + data[1].ToString() + "/" + data[0].ToString() + "_TankSO.asset");
+                                asset = AssetDatabase.LoadAssetAtPath<TankSO>("Assets/ScriptableObjects/Tank/" + data[2].ToString() + "/" + data[0].ToString() + "_TankSO.asset");
                             }
                             else
                             {
                                 asset = ScriptableObject.CreateInstance<TankSO>();
                             }
 
-                            asset.SetData(float.Parse(data[6]), float.Parse(data[7]), float.Parse(data[3]), float.Parse(data[4]), float.Parse(data[5]), SheetDataUtil.GetTankType(data[2]), bool.Parse(data[8]), uint.Parse(data[9].ToString()), uint.Parse(data[10].ToString()));
+                            asset.SetData(float.Parse(data[7]), float.Parse(data[8]), float.Parse(data[4]), float.Parse(data[5]), float.Parse(data[6]), SheetDataUtil.GetTankType(data[3]), uint.Parse(data[1]), bool.Parse(data[9]), uint.Parse(data[10].ToString()), uint.Parse(data[11].ToString()));
 
-                            if (AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Tank/" + data[1].ToString()) == false)
+                            if (AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Tank/" + data[2].ToString()) == false)
                             {
-                                AssetDatabase.CreateFolder("Assets/ScriptableObjects/Tank", data[1].ToString());
+                                AssetDatabase.CreateFolder("Assets/ScriptableObjects/Tank", data[2].ToString());
                             }
 
                             if (isExist == false)
                             {
-                                AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Tank/" + data[1].ToString() + "/" + data[0].ToString() + "_TankSO.asset");
+                                AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Tank/" + data[2].ToString() + "/" + data[0].ToString() + "_TankSO.asset");
                             }
                             EditorUtility.SetDirty(asset);
                         }

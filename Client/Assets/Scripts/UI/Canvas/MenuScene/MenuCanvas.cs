@@ -104,6 +104,7 @@ public class MenuCanvas : BaseCanvas
         _isHangerHide = false;
         _isOpen = true;
 
+        CurrentTankInfoUpdate();
         GearCheck();
         HangerUpdate();
     }
@@ -134,7 +135,7 @@ public class MenuCanvas : BaseCanvas
         TechTree techTree = FindObjectOfType<TechTree>();
 
         _tankTypeImage.sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
-        _tankTierText.SetText(techTree.TankTierNumber[techTree.TankTier]);
+        _tankTierText.SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
         _tankNameText.SetText(tank.ID);
     }
 
@@ -215,18 +216,22 @@ public class MenuCanvas : BaseCanvas
         TechTreeProgress usaData = TechTreeDataManager.GetTechTreeProgress(CountryType.USA);
         TechTreeProgress britainData = TechTreeDataManager.GetTechTreeProgress(CountryType.Britain);
         TechTreeProgress franceData = TechTreeDataManager.GetTechTreeProgress(CountryType.France);
+        TechTree techTree = FindObjectOfType<TechTree>();
 
         foreach (var id in ussrData._tankProgressList)
         {
+            Tank tank = AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>();
             var a = Instantiate(_tankTemplate, _hangerContent);
             a.SetActive(true);
             a.GetComponent<Image>().sprite = GetFlagSprite(CountryType.USSR);
             a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
+            a.transform.GetChild(1).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
+            a.transform.GetChild(2).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
 
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
             {
-                FindObjectOfType<TankModelManager>().ChangeTankModel(AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>());
+                FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
             });
         }
     }
