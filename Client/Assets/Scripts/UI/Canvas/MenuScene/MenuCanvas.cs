@@ -2,13 +2,14 @@
 using DG.Tweening;
 using Event;
 using Item;
+using Pool;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MenuCanvas : BaseCanvas
+public class MenuCanvas : BaseCanvas, IButtonSound
 {
     [Header("Goods")]
     [SerializeField]
@@ -65,10 +66,8 @@ public class MenuCanvas : BaseCanvas
     [Header("Buttons")]
     [SerializeField]
     private Button _startButton = null;
-
     [SerializeField]
     private Button _trainingButton = null;
-
     [SerializeField]
     private Button _serverButton = null;
 
@@ -404,6 +403,7 @@ public class MenuCanvas : BaseCanvas
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
             {
+                PlayButtonSound();
                 _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
@@ -424,47 +424,6 @@ public class MenuCanvas : BaseCanvas
 
         HangerChangeOrder();
     }
-
-    /*private void HangerRearrange(string id, GameObject obj)
-    {
-        Tank tank = AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>();
-        for (int i = _hangerIDList.Count - 1; i >= 0; i--)
-        {
-            Tank a = AddressablesManager.Instance.GetResource<GameObject>(_hangerIDList[i]).GetComponent<Tank>();
-
-            if (tank.TankSO.CountryType == a.TankSO.CountryType)
-            {
-                _hangerIDList.Insert(i + 1, id);
-                _hangerObjList.Insert(i + 1, obj);
-                break;
-            }
-        }
-
-        _hangerIDList.Sort((x, y) =>
-        {
-            Tank tankX = AddressablesManager.Instance.GetResource<GameObject>(x).GetComponent<Tank>();
-            Tank tankY = AddressablesManager.Instance.GetResource<GameObject>(y).GetComponent<Tank>();
-
-            if (tankX != null && tankY != null && tankX.TankSO.CountryType == tankY.TankSO.CountryType)
-            {
-                return tankX.TankSO.TankTier.CompareTo(tankY.TankSO.TankTier);
-            }
-            return 0;
-        });
-        _hangerObjList.Sort((x, y) =>
-        {
-            Tank tankX = AddressablesManager.Instance.GetResource<GameObject>(x.name).GetComponent<Tank>();
-            Tank tankY = AddressablesManager.Instance.GetResource<GameObject>(y.name).GetComponent<Tank>();
-
-            if (tankX != null && tankY != null && tankX.TankSO.CountryType == tankY.TankSO.CountryType)
-            {
-                return tankX.TankSO.TankTier.CompareTo(tankY.TankSO.TankTier);
-            }
-            return 0;
-        });
-
-        HangerChangeOrder();
-    }*/
 
     private List<GameObject> Sort(List<GameObject> list)
     {
@@ -536,11 +495,15 @@ public class MenuCanvas : BaseCanvas
 
     public void OnStartButton()
     {
+        PlayButtonSound();
+
         if (ShellEmptyCheck())
         {
             WarningShellEmpty();
             return;
         }
+
+        PlayButtonSound();
 
         _startButton.interactable = false;
         Time.timeScale = 1;
@@ -551,6 +514,8 @@ public class MenuCanvas : BaseCanvas
 
     public void OnTrainingStart()
     {
+        PlayButtonSound();
+
         if (ShellEmptyCheck())
         {
             WarningShellEmpty();
@@ -566,6 +531,8 @@ public class MenuCanvas : BaseCanvas
 
     public void OnServerButton()
     {
+        PlayButtonSound();
+
         if (ShellEmptyCheck())
         {
             WarningShellEmpty();
@@ -606,26 +573,36 @@ public class MenuCanvas : BaseCanvas
     public void OnModeButton()
     {
         CanvasManager.ChangeCanvas(CanvasType.Mode, CanvasType);
+
+        PlayButtonSound();
     }
 
     public void OnSettingButton()
     {
         CanvasManager.ChangeCanvas(CanvasType.Setting, CanvasType);
+
+        PlayButtonSound();
     }
 
     public void OnShopButton()
     {
         CanvasManager.ChangeCanvas(CanvasType.Shop, CanvasType);
+
+        PlayButtonSound();
     }
 
     public void OnTechTreeButton()
     {
         CanvasManager.ChangeCanvas(CanvasType.TechTree, CanvasType);
+
+        PlayButtonSound();
     }
 
     public void OnOpenItem()
     {
         CanvasManager.ChangeCanvas(CanvasType.Gear, CanvasType);
+
+        PlayButtonSound();
     }
 
     public void OnHangerHide()
@@ -642,6 +619,8 @@ public class MenuCanvas : BaseCanvas
             _bottomFrame.DOAnchorPosY(-68f, 0.3f);
             _hangerDownImage.DORotate(Vector3.forward * 180f, 0.3f);
         }
+
+        PlayButtonSound();
     }
 
     public void UIHide(bool isHide)

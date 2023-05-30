@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Event;
+using Pool;
 
 [DisallowMultipleComponent]
-public abstract class BaseCanvas : MonoBehaviour
+public abstract class BaseCanvas : MonoBehaviour, IButtonSound
 {
     private BaseSceneCanvasManager _canvasManager = null;
     protected BaseSceneCanvasManager CanvasManager
@@ -23,6 +24,9 @@ public abstract class BaseCanvas : MonoBehaviour
     [SerializeField]
     private CanvasType _canvasType = CanvasType.Base;
     public CanvasType CanvasType => _canvasType;
+
+    [SerializeField]
+    protected AudioClip _buttonSound = null;
 
     private Canvas _canvas = null;
     public Canvas Canvas
@@ -43,6 +47,8 @@ public abstract class BaseCanvas : MonoBehaviour
     /// <summary> 메뉴씬으로 돌아가는 함수 </summary>
     public virtual void OnHomeButton()
     {
+        PlayButtonSound();
+
         CanvasManager.BeforeCanvasClear();
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
         {
@@ -60,6 +66,8 @@ public abstract class BaseCanvas : MonoBehaviour
     public virtual void OnBackButton()
     {
         CanvasManager.ChangeBeforeCanvas();
+
+        PlayButtonSound();
     }
 
     public virtual void OnOpenEvents()
@@ -70,5 +78,14 @@ public abstract class BaseCanvas : MonoBehaviour
     public virtual void OnCloseEvents()
     {
         _isOpen = false;
+    }
+
+    public void PlayButtonSound()
+    {
+        var audioSource = PoolManager.Get<AudioSourceController>("AudioSource", Vector3.zero, Quaternion.identity);
+        audioSource.SetSound(_buttonSound);
+        audioSource.SetGroup(AudioMixerType.Sfx);
+        audioSource.SetVolume(1f);
+        audioSource.Play();
     }
 }

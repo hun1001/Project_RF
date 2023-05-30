@@ -1,6 +1,7 @@
 using Addressable;
 using DG.Tweening;
 using Item;
+using Pool;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ public enum GearType
     Shell,
 }
 
-public class GearCanvas : BaseCanvas
+public class GearCanvas : BaseCanvas, IButtonSound
 {
     [Header("ItemList")]
     [SerializeField]
@@ -84,6 +85,22 @@ public class GearCanvas : BaseCanvas
         AddItems();
     }
 
+    public override void OnOpenEvents()
+    {
+        base.OnOpenEvents();
+
+        _startSequence = DOTween.Sequence()
+        .Prepend(_topPanel.DOAnchorPosY(_topPanel.sizeDelta.y, 0f))
+        .Join(_leftPanel.DOAnchorPosX(-_leftPanel.sizeDelta.x, 0f))
+        .Join(_rightPanel.DOAnchorPosX(_rightPanel.sizeDelta.x, 0f))
+        .Append(_topPanel.DOAnchorPosY(0f, 0.7f))
+        .Insert(0.3f, _leftPanel.DOAnchorPosX(0f, 0.5f))
+        .Join(_rightPanel.DOAnchorPosX(0f, 0.5f));
+
+        AddItems();
+        CloseInvetory(true);
+    }
+
     public void OnPassiveInventory(int idx)
     {
         foreach (var item in _itemInventoryDictionary)
@@ -108,6 +125,8 @@ public class GearCanvas : BaseCanvas
         _passiveItemToggles[idx].isOn = true;
         _passiveSlotIdx = idx;
         _activateGearType = GearType.PassiveItem;
+
+        PlayButtonSound();
     }
 
     public void OnActiveInventory(int idx)
@@ -134,6 +153,8 @@ public class GearCanvas : BaseCanvas
         _activeItemToggles[idx].isOn = true;
         _activeSlotIdx = idx;
         _activateGearType = GearType.ActiveItem;
+
+        PlayButtonSound();
     }
 
     public void OnShellInventory(int idx)
@@ -153,6 +174,8 @@ public class GearCanvas : BaseCanvas
         _shellToggles[idx].isOn = true;
         _shellSlotIdx = idx;
         _activateGearType = GearType.Shell;
+
+        PlayButtonSound();
     }
 
     public void OnUnmountGear()
@@ -196,6 +219,8 @@ public class GearCanvas : BaseCanvas
                 }
                 break;
         }
+
+        PlayButtonSound();
     }
 
     public void CloseInvetory(bool isInstant)
@@ -220,22 +245,8 @@ public class GearCanvas : BaseCanvas
         {
             _inventoryTransform.DOAnchorPosY(-_inventoryTransform.sizeDelta.y, 0.7f);
         }
-    }
 
-    public override void OnOpenEvents()
-    {
-        base.OnOpenEvents();
-
-        _startSequence = DOTween.Sequence()
-        .Prepend(_topPanel.DOAnchorPosY(_topPanel.sizeDelta.y, 0f))
-        .Join(_leftPanel.DOAnchorPosX(-_leftPanel.sizeDelta.x, 0f))
-        .Join(_rightPanel.DOAnchorPosX(_rightPanel.sizeDelta.x, 0f))
-        .Append(_topPanel.DOAnchorPosY(0f, 0.7f))
-        .Insert(0.3f, _leftPanel.DOAnchorPosX(0f, 0.5f))
-        .Join(_rightPanel.DOAnchorPosX(0f, 0.5f));
-
-        AddItems();
-        CloseInvetory(true);
+        PlayButtonSound();
     }
 
     private void AddItems()
@@ -312,6 +323,7 @@ public class GearCanvas : BaseCanvas
                 }
                 _passiveItemImages[_passiveSlotIdx].sprite = itemInfo.ItemSO.Image;
 
+                PlayButtonSound();
                 item.SetActive(false);
                 CloseInvetory(false);
             });
@@ -363,6 +375,7 @@ public class GearCanvas : BaseCanvas
                 }
                 _activeItemImages[_activeSlotIdx].sprite = itemInfo.ItemSO.Image;
 
+                PlayButtonSound();
                 item.SetActive(false);
                 CloseInvetory(false);
             });
@@ -447,6 +460,8 @@ public class GearCanvas : BaseCanvas
                 {
                     CloseInvetory(false);
                 }
+
+                PlayButtonSound();
             });
         }
     }
