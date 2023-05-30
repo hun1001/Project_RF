@@ -2,10 +2,8 @@
 using DG.Tweening;
 using Event;
 using Item;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -61,6 +59,9 @@ public class MenuCanvas : BaseCanvas
     private Sprite[] _flagSprites;
 
     private Dictionary<string, GameObject> _hangerDict = new Dictionary<string, GameObject>();
+    private List<string> _hangerIDList;
+    private List<GameObject> _hangerObjList;
+    private bool _isRearrange = false;
 
     [Header("Buttons")]
     [SerializeField]
@@ -105,12 +106,16 @@ public class MenuCanvas : BaseCanvas
         _isHide = false;
         _isHangerHide = false;
         _isOpen = true;
+        _isRearrange = false;
 
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
 
         GearCheck();
         HangerUpdate();
         CurrentTankInfoUpdate();
+        HangerSort();
+
+        _isRearrange = true;
     }
 
     public override void OnOpenEvents()
@@ -235,6 +240,7 @@ public class MenuCanvas : BaseCanvas
             Tank tank = AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>();
             var a = Instantiate(_tankTemplate, _hangerContent);
             a.SetActive(true);
+            a.name = id;
             a.GetComponent<Image>().sprite = GetFlagSprite(CountryType.USSR);
             a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
             a.transform.GetChild(1).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
@@ -250,6 +256,10 @@ public class MenuCanvas : BaseCanvas
             }
 
             _hangerDict.Add(id, a);
+            if (_isRearrange)
+            {
+                HangerRearrange(id, a);
+            }
 
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
@@ -268,6 +278,7 @@ public class MenuCanvas : BaseCanvas
             Tank tank = AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>();
             var a = Instantiate(_tankTemplate, _hangerContent);
             a.SetActive(true);
+            a.name = id;
             a.GetComponent<Image>().sprite = GetFlagSprite(CountryType.Germany);
             a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
             a.transform.GetChild(1).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
@@ -283,6 +294,10 @@ public class MenuCanvas : BaseCanvas
             }
 
             _hangerDict.Add(id, a);
+            if (_isRearrange)
+            {
+                HangerRearrange(id, a);
+            }
 
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
@@ -301,6 +316,7 @@ public class MenuCanvas : BaseCanvas
             Tank tank = AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>();
             var a = Instantiate(_tankTemplate, _hangerContent);
             a.SetActive(true);
+            a.name = id;
             a.GetComponent<Image>().sprite = GetFlagSprite(CountryType.USA);
             a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
             a.transform.GetChild(1).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
@@ -316,6 +332,10 @@ public class MenuCanvas : BaseCanvas
             }
 
             _hangerDict.Add(id, a);
+            if (_isRearrange)
+            {
+                HangerRearrange(id, a);
+            }
 
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
@@ -334,6 +354,7 @@ public class MenuCanvas : BaseCanvas
             Tank tank = AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>();
             var a = Instantiate(_tankTemplate, _hangerContent);
             a.SetActive(true);
+            a.name = id;
             a.GetComponent<Image>().sprite = GetFlagSprite(CountryType.Britain);
             a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
             a.transform.GetChild(1).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
@@ -349,6 +370,10 @@ public class MenuCanvas : BaseCanvas
             }
 
             _hangerDict.Add(id, a);
+            if (_isRearrange)
+            {
+                HangerRearrange(id, a);
+            }
 
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
@@ -367,6 +392,7 @@ public class MenuCanvas : BaseCanvas
             Tank tank = AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>();
             var a = Instantiate(_tankTemplate, _hangerContent);
             a.SetActive(true);
+            a.name = id;
             a.GetComponent<Image>().sprite = GetFlagSprite(CountryType.France);
             a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
             a.transform.GetChild(1).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
@@ -382,6 +408,10 @@ public class MenuCanvas : BaseCanvas
             }
 
             _hangerDict.Add(id, a);
+            if (_isRearrange)
+            {
+                HangerRearrange(id, a);
+            }
 
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
@@ -391,6 +421,102 @@ public class MenuCanvas : BaseCanvas
                 CurrentTankInfoUpdate();
                 GearCheck();
             });
+        }
+    }
+
+    private void HangerSort()
+    {
+        _hangerIDList = new List<string>(_hangerDict.Keys);
+        _hangerObjList = new List<GameObject>(_hangerDict.Values);
+
+        int gap = _hangerObjList.Count / 2;
+        while (gap > 0)
+        {
+            for (int i = gap; i < _hangerObjList.Count; i++)
+            {
+                GameObject tempObj = _hangerObjList[i];
+                string tempID = _hangerIDList[i];
+                int j = i;
+                while (j >= gap && ShouldSwap(_hangerIDList[j - gap], tempID))
+                {
+                    _hangerIDList[j] = _hangerIDList[j - gap];
+                    _hangerObjList[j] = _hangerObjList[j - gap];
+                    j -= gap;
+                }
+                _hangerIDList[j] = tempID;
+                _hangerObjList[j] = tempObj;
+            }
+            gap /= 2;
+        }
+
+        HangerChangeOrder();
+    }
+
+    private void HangerRearrange(string id, GameObject obj)
+    {
+        Tank tank = AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>();
+        for (int i = _hangerIDList.Count - 1; i >= 0; i--)
+        {
+            Tank a = AddressablesManager.Instance.GetResource<GameObject>(_hangerIDList[i]).GetComponent<Tank>();
+
+            if (tank.TankSO.CountryType == a.TankSO.CountryType)
+            {
+                _hangerIDList.Insert(i + 1, id);
+                _hangerObjList.Insert(i + 1, obj);
+                break;
+            }
+        }
+
+        _hangerIDList.Sort((x, y) =>
+        {
+            Tank tankX = AddressablesManager.Instance.GetResource<GameObject>(x).GetComponent<Tank>();
+            Tank tankY = AddressablesManager.Instance.GetResource<GameObject>(y).GetComponent<Tank>();
+
+            if (tankX != null && tankY != null && tankX.TankSO.CountryType == tankY.TankSO.CountryType)
+            {
+                return tankX.TankSO.TankTier.CompareTo(tankY.TankSO.TankTier);
+            }
+            return 0;
+        });
+        _hangerObjList.Sort((x, y) =>
+        {
+            Tank tankX = AddressablesManager.Instance.GetResource<GameObject>(x.name).GetComponent<Tank>();
+            Tank tankY = AddressablesManager.Instance.GetResource<GameObject>(y.name).GetComponent<Tank>();
+
+            if (tankX != null && tankY != null && tankX.TankSO.CountryType == tankY.TankSO.CountryType)
+            {
+                return tankX.TankSO.TankTier.CompareTo(tankY.TankSO.TankTier);
+            }
+            return 0;
+        });
+
+        HangerChangeOrder();
+    }
+
+    private bool ShouldSwap(string a, string b)
+    {
+        Tank tankA = AddressablesManager.Instance.GetResource<GameObject>(a).GetComponent<Tank>();
+        Tank tankB = AddressablesManager.Instance.GetResource<GameObject>(b).GetComponent<Tank>();
+
+        if (tankA != null && tankB != null)
+        {
+            // 같은 타입일 때만 비교하여 정렬
+            if (tankA.TankSO.CountryType == tankB.TankSO.CountryType)
+            {
+                return tankA.TankSO.TankTier > tankB.TankSO.TankTier;
+            }
+        }
+
+        return false;
+    }
+
+    private void HangerChangeOrder()
+    {
+        for (int i = 0; i < _hangerObjList.Count; i++)
+        {
+            GameObject item = _hangerObjList[i];
+
+            item.transform.SetSiblingIndex(i);
         }
     }
 

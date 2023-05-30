@@ -13,6 +13,16 @@ public static class SheetDataUtil
         _ => TankType.Medium,
     };
 
+    public static CountryType GetCountryType(string type) => type switch
+    {
+        "USSR" => CountryType.USSR,
+        "Germany" => CountryType.Germany,
+        "USA" => CountryType.USA,
+        "Britain" => CountryType.Britain,
+        "France" => CountryType.France,
+        _ => CountryType.None
+    };
+
     public static List<Shell> GetUseShell(string useShells)
     {
         List<Shell> shells = new List<Shell>();
