@@ -59,9 +59,8 @@ public class MenuCanvas : BaseCanvas
     private Sprite[] _flagSprites;
 
     private Dictionary<string, GameObject> _hangerDict = new Dictionary<string, GameObject>();
-    private List<string> _hangerIDList;
-    private List<GameObject> _hangerObjList;
-    private bool _isRearrange = false;
+    private Dictionary<CountryType, List<GameObject>> _countryHangerDataDict = new Dictionary<CountryType, List<GameObject>>();
+    private List<GameObject> _hangerList = new List<GameObject>();
 
     [Header("Buttons")]
     [SerializeField]
@@ -106,16 +105,19 @@ public class MenuCanvas : BaseCanvas
         _isHide = false;
         _isHangerHide = false;
         _isOpen = true;
-        _isRearrange = false;
 
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
+
+        _countryHangerDataDict.Add(CountryType.USSR, new List<GameObject>());
+        _countryHangerDataDict.Add(CountryType.Germany, new List<GameObject>());
+        _countryHangerDataDict.Add(CountryType.USA, new List<GameObject>());
+        _countryHangerDataDict.Add(CountryType.Britain, new List<GameObject>());
+        _countryHangerDataDict.Add(CountryType.France, new List<GameObject>());
 
         GearCheck();
         HangerUpdate();
         CurrentTankInfoUpdate();
         HangerSort();
-
-        _isRearrange = true;
     }
 
     public override void OnOpenEvents()
@@ -130,6 +132,7 @@ public class MenuCanvas : BaseCanvas
         GearCheck();
         HangerUpdate();
         CurrentTankInfoUpdate();
+        HangerSort();
     }
 
     public override void OnCloseEvents()
@@ -186,29 +189,29 @@ public class MenuCanvas : BaseCanvas
             _gearImages[idx++].gameObject.SetActive(true);
         }
 
-        //uint activeSlotSize = currentTank.TankSO.ActiveItemInventorySize;
-        //foreach (var active in _activeItemEquipmentDataDict._itemEquipmentList)
-        //{
-        //    if (idx - 2 > activeSlotSize)
-        //    {
-        //        _gearImages[idx].sprite = null;
-        //        _gearImages[idx].gameObject.SetActive(false);
-        //        _lockImages[idx++].SetActive(true);
-        //        continue;
-        //    }
+        /*uint activeSlotSize = currentTank.TankSO.ActiveItemInventorySize;
+        foreach (var active in _activeItemEquipmentDataDict._itemEquipmentList)
+        {
+            if (idx - 2 > activeSlotSize)
+            {
+                _gearImages[idx].sprite = null;
+                _gearImages[idx].gameObject.SetActive(false);
+                _lockImages[idx++].SetActive(true);
+                continue;
+            }
 
-        //    _lockImages[idx].SetActive(false);
-        //    if (active == "")
-        //    {
-        //        _gearImages[idx].sprite = null;
-        //        _gearImages[idx++].gameObject.SetActive(false);
-        //        continue;
-        //    }
+            _lockImages[idx].SetActive(false);
+            if (active == "")
+            {
+                _gearImages[idx].sprite = null;
+                _gearImages[idx++].gameObject.SetActive(false);
+                continue;
+            }
 
-        //    Item_Base itemInfo = AddressablesManager.Instance.GetResource<GameObject>(active).GetComponent<Item_Base>();
-        //    _gearImages[idx].sprite = itemInfo.ItemSO.Image;
-        //    _gearImages[idx++].gameObject.SetActive(true);
-        //}
+            Item_Base itemInfo = AddressablesManager.Instance.GetResource<GameObject>(active).GetComponent<Item_Base>();
+            _gearImages[idx].sprite = itemInfo.ItemSO.Image;
+            _gearImages[idx++].gameObject.SetActive(true);
+        }*/
 
         foreach (var shell in _shellEquipmentDataDict._shellEquipmentList)
         {
@@ -256,10 +259,7 @@ public class MenuCanvas : BaseCanvas
             }
 
             _hangerDict.Add(id, a);
-            if (_isRearrange)
-            {
-                HangerRearrange(id, a);
-            }
+            _countryHangerDataDict[CountryType.USSR].Add(a);
 
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
@@ -294,10 +294,7 @@ public class MenuCanvas : BaseCanvas
             }
 
             _hangerDict.Add(id, a);
-            if (_isRearrange)
-            {
-                HangerRearrange(id, a);
-            }
+            _countryHangerDataDict[CountryType.Germany].Add(a);
 
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
@@ -332,10 +329,7 @@ public class MenuCanvas : BaseCanvas
             }
 
             _hangerDict.Add(id, a);
-            if (_isRearrange)
-            {
-                HangerRearrange(id, a);
-            }
+            _countryHangerDataDict[CountryType.USA].Add(a);
 
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
@@ -370,10 +364,7 @@ public class MenuCanvas : BaseCanvas
             }
 
             _hangerDict.Add(id, a);
-            if (_isRearrange)
-            {
-                HangerRearrange(id, a);
-            }
+            _countryHangerDataDict[CountryType.Britain].Add(a);
 
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
@@ -408,10 +399,7 @@ public class MenuCanvas : BaseCanvas
             }
 
             _hangerDict.Add(id, a);
-            if (_isRearrange)
-            {
-                HangerRearrange(id, a);
-            }
+            _countryHangerDataDict[CountryType.France].Add(a);
 
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
@@ -426,33 +414,18 @@ public class MenuCanvas : BaseCanvas
 
     private void HangerSort()
     {
-        _hangerIDList = new List<string>(_hangerDict.Keys);
-        _hangerObjList = new List<GameObject>(_hangerDict.Values);
+        _hangerList.Clear();
 
-        int gap = _hangerObjList.Count / 2;
-        while (gap > 0)
-        {
-            for (int i = gap; i < _hangerObjList.Count; i++)
-            {
-                GameObject tempObj = _hangerObjList[i];
-                string tempID = _hangerIDList[i];
-                int j = i;
-                while (j >= gap && ShouldSwap(_hangerIDList[j - gap], tempID))
-                {
-                    _hangerIDList[j] = _hangerIDList[j - gap];
-                    _hangerObjList[j] = _hangerObjList[j - gap];
-                    j -= gap;
-                }
-                _hangerIDList[j] = tempID;
-                _hangerObjList[j] = tempObj;
-            }
-            gap /= 2;
-        }
+        _hangerList.AddRange(Sort(_countryHangerDataDict[CountryType.USSR]));
+        _hangerList.AddRange(Sort(_countryHangerDataDict[CountryType.Germany]));
+        _hangerList.AddRange(Sort(_countryHangerDataDict[CountryType.USA]));
+        _hangerList.AddRange(Sort(_countryHangerDataDict[CountryType.Britain]));
+        _hangerList.AddRange(Sort(_countryHangerDataDict[CountryType.France]));
 
         HangerChangeOrder();
     }
 
-    private void HangerRearrange(string id, GameObject obj)
+    /*private void HangerRearrange(string id, GameObject obj)
     {
         Tank tank = AddressablesManager.Instance.GetResource<GameObject>(id).GetComponent<Tank>();
         for (int i = _hangerIDList.Count - 1; i >= 0; i--)
@@ -491,6 +464,28 @@ public class MenuCanvas : BaseCanvas
         });
 
         HangerChangeOrder();
+    }*/
+
+    private List<GameObject> Sort(List<GameObject> list)
+    {
+        int gap = list.Count / 2;
+        while (gap > 0)
+        {
+            for (int i = gap; i < list.Count; i++)
+            {
+                GameObject temp = list[i];
+                int j = i;
+                while (j >= gap && ShouldSwap(list[j - gap].name, temp.name))
+                {
+                    list[j] = list[j - gap];
+                    j -= gap;
+                }
+                list[j] = temp;
+            }
+            gap /= 2;
+        }
+
+        return list;
     }
 
     private bool ShouldSwap(string a, string b)
@@ -512,9 +507,9 @@ public class MenuCanvas : BaseCanvas
 
     private void HangerChangeOrder()
     {
-        for (int i = 0; i < _hangerObjList.Count; i++)
+        for (int i = 0; i < _hangerList.Count; i++)
         {
-            GameObject item = _hangerObjList[i];
+            GameObject item = _hangerList[i];
 
             item.transform.SetSiblingIndex(i);
         }
