@@ -160,7 +160,7 @@ public class Player : CustomObject
         while (true)
         {
             yield return new WaitForSeconds(1f);
-            var findingTank = Physics2D.OverlapCircleAll(_tank.transform.position, 60f, 1 << LayerMask.NameToLayer("Tank"));
+            var findingTank = Physics2D.OverlapCircleAll(_tank.transform.position, 50f, 1 << LayerMask.NameToLayer("Tank"));
             isChanged = _cameraManager.TargetGroupLength != findingTank.Length;
             if (isChanged == true)
             {
