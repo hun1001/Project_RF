@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using Util;
+using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Addressable
 {

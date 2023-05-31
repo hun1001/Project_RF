@@ -160,7 +160,7 @@ public class ShellGenerator : EditorWindow
             shell.SetShellPrefabs(_shellSOs[index].Code, _shellSOs[index], _shellSprites[index]);
 
             _path.Clear();
-            _path.Append("Assets/Prefabs/Shell/" + shellTemplate.name + ".prefab");
+            _path.Append("Assets/Prefabs/Projectile/Shell/" + shellTemplate.name + ".prefab");
 
             if (File.Exists(_path.ToString()))
             {
