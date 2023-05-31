@@ -37,11 +37,11 @@ public class AudioSourceController : MonoBehaviour, IPoolReset
     {
         _audioSource.pitch = pitch;
     }
-    
+
     public void Play()
     {
         _audioSource.Play();
-        if(_audioSource.loop == false)
+        if (_audioSource.loop == false)
             StartCoroutine(ReturnToPool());
     }
 
@@ -49,6 +49,11 @@ public class AudioSourceController : MonoBehaviour, IPoolReset
     {
         yield return new WaitForSeconds(_audioSource.clip.length);
         PoolManager.Pool("AudioSource", gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
     }
 
     public void PoolObjectReset()
