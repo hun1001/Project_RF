@@ -28,7 +28,18 @@ namespace Addressable
 
         public void Release<T>(T obj)
         {
-            Addressables.Release(obj);
+            if (obj is GameObject)
+            {
+                var go = obj as GameObject;
+                if (go.scene.IsValid() == false)
+                {
+                    Addressables.ReleaseInstance(go);
+                }
+            }
+            else
+            {
+                Addressables.Release(obj);
+            }
         }
     }
 }
