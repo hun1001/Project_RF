@@ -9,6 +9,18 @@ using System.Reflection;
 
 public class TechTreeCanvas : BaseCanvas
 {
+    [Header("Goods")]
+    [SerializeField]
+    private GoodsTexts _goodsTexts = null;
+
+    [Header("Tier")]
+    [SerializeField]
+    private RectTransform _tankTierLine = null;
+
+    private GameObject _tankTierTemplate = null;
+    private GameObject _tankTierConnectLineTemplate = null;
+
+    [Header("TechTree")]
     [SerializeField]
     private TechTree _techTree = null;
 
@@ -21,6 +33,9 @@ public class TechTreeCanvas : BaseCanvas
     [SerializeField]
     private RectTransform _techTreeScrollView = null;
     private ScrollRect _scrollRect = null;
+
+    [SerializeField]
+    private TextController _countryTextController = null;
 
     [SerializeField]
     private GameObject _tankInformation = null;
@@ -56,6 +71,8 @@ public class TechTreeCanvas : BaseCanvas
             PlayButtonSound();
         });
 
+        _goodsTexts.SetGoodsTexts(GoodsManager.FreeGoods, GoodsManager.PaidGoods);
+
         _countryToggleTemplate = _countryToggleGroupManager.transform.GetChild(0).gameObject;
 
         _tankNodeRowTemplate = _tankNodeContentTransform.GetChild(0).gameObject;
@@ -68,6 +85,9 @@ public class TechTreeCanvas : BaseCanvas
         _noneLineTemplate = _verticalLineRowTemplate.transform.GetChild(0).gameObject;
         _verticalUpLineTemplate = _verticalLineRowTemplate.transform.GetChild(1).gameObject;
         _verticalDownLineTemplate = _verticalLineRowTemplate.transform.GetChild(2).gameObject;
+
+        _tankTierTemplate = _tankTierLine.GetChild(1).gameObject;
+        _tankTierConnectLineTemplate = _tankTierLine.GetChild(2).gameObject;
 
         _countryToggleTemplate.SetActive(false);
         _tankNodeRowTemplate.SetActive(false);
@@ -83,21 +103,46 @@ public class TechTreeCanvas : BaseCanvas
 
         _techTreeScrollView.TryGetComponent(out _scrollRect);
 
+        for (int i = 1; i < _techTree.TankTierNumber.Length; i++)
+        {
+            var tankTier = Instantiate(_tankTierTemplate, _tankTierLine);
+            Instantiate(_tankTierConnectLineTemplate, _tankTierLine);
+
+            tankTier.transform.GetChild(0).GetComponent<Text>().text = _techTree.TankTierNumber[i];
+        }
+
         for (int i = 0; i < _techTree.TechTreeSO.Length; ++i)
         {
             int index = i;
+            int max = 0;
             var countryToggle = Instantiate(_countryToggleTemplate, _countryToggleGroupManager.transform).GetComponent<Toggle>();
             countryToggle.transform.GetChild(0).GetComponent<Image>().sprite = _techTree.TechTreeSO[index].FlagSprite;
             _toggleList.Add(countryToggle.transform as RectTransform);
+
+            for (int k = 0; k < _techTree.TechTreeSO[index].Length; k++)
+            {
+                max = max < _techTree.TechTreeSO[index].GetTankArrayLength(k) ? _techTree.TechTreeSO[index].GetTankArrayLength(k) : max;
+            }
 
             countryToggle.onValueChanged.AddListener((isOn) =>
             {
                 if (isOn)
                 {
                     PlayButtonSound();
-                    for (int k = 2; k < _tankNodeContentTransform.transform.childCount; ++k)
+                    _countryTextController.SetText(_techTree.TechTreeSO[index].CountryType.ToString());
+
+                    for (int k = 3; k < _tankNodeContentTransform.transform.childCount; ++k)
                     {
                         Destroy(_tankNodeContentTransform.transform.GetChild(k).gameObject);
+                    }
+
+                    for (int k = 1; k < max * 2; k++)
+                    {
+                        _tankTierLine.GetChild(k).gameObject.SetActive(true);
+                    }
+                    for (int k = max * 2 + 1; k < _tankTierLine.childCount; k++)
+                    {
+                        _tankTierLine.GetChild(k).gameObject.SetActive(false);
                     }
 
                     for (int j = 0; j < _techTree.TechTreeSO[index].Length; ++j)
@@ -262,27 +307,27 @@ public class TechTreeCanvas : BaseCanvas
     {
         base.OnOpenEvents();
 
-        int idx = 1;
+        //int idx = 1;
         _startSequence = DOTween.Sequence()
         .PrependCallback(() =>
         {
             _techTreeScrollView.anchoredPosition = Vector2.right * 1000f;
 
-            idx = 1;
-            foreach (RectTransform rect in _toggleList)
-            {
-                rect.anchoredPosition += Vector2.down * 100f * idx++;
-            }
+            //idx = 1;
+            //foreach (RectTransform rect in _toggleList)
+            //{
+            //    rect.anchoredPosition += Vector2.down * 100f * idx++;
+            //}
         })
         .Append(_techTreeScrollView.DOAnchorPosX(0f, 1f))
-        .InsertCallback(0.5f, () =>
-        {
-            idx = 1;
-            foreach (RectTransform rect in _toggleList)
-            {
-                rect.DOAnchorPosY(-25f, 0.2f * idx++);
-            }
-        })
+        //.InsertCallback(0.5f, () =>
+        //{
+            //idx = 1;
+            //foreach (RectTransform rect in _toggleList)
+            //{
+            //    rect.DOAnchorPosY(-25f, 0.2f * idx++);
+            //}
+        //})
         .AppendCallback(() => _scrollRect.normalizedPosition = Vector2.zero);
 
         _tankInformation.SetActive(false);
