@@ -6,6 +6,7 @@ using System.IO;
 public static class SaveManager
 {
     private static readonly string _savePath = Application.persistentDataPath + "/save/";
+    public static string SavePath => _savePath;
 
     public static void Save<T>(string key, T data)
     {
