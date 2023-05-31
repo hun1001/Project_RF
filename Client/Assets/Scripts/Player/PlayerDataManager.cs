@@ -12,6 +12,13 @@ public class PlayerDataManager : Singleton<PlayerDataManager>
 
     public string GetPlayerTankID()
     {
-        return PlayerPrefs.GetString("PlayerTankID");
+        string id = PlayerPrefs.GetString("PlayerTankID");
+
+        if (string.IsNullOrEmpty(id))
+        {
+            id = "BT-5";
+        }
+
+        return id;
     }
 }
