@@ -43,12 +43,8 @@ public static class TechTreeDataManager
 
     public static bool HasTank(CountryType countryType, string tankName)
     {
-        if (!_techTreeProgressDict.ContainsKey(countryType))
-        {
-            return false;
-        }
-
-        return _techTreeProgressDict[countryType]._tankProgressList.Contains(tankName);
+        TechTreeProgress techTreeProgress = GetTechTreeProgress(countryType);
+        return techTreeProgress._tankProgressList.Contains(tankName);
     }
 
     public static void SaveTechTreeProgress(CountryType countryType)
