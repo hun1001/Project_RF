@@ -2,14 +2,13 @@
 using DG.Tweening;
 using Event;
 using Item;
-using Pool;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MenuCanvas : BaseCanvas, IButtonSound
+public class MenuCanvas : BaseCanvas
 {
     [Header("Goods")]
     [SerializeField]
@@ -68,6 +67,10 @@ public class MenuCanvas : BaseCanvas, IButtonSound
     private Toggle[] _sortOrderToggles = null;
     private bool _isSortOrder = false;
 
+    [SerializeField]
+    private Toggle[] _countryFilterToggles = null;
+    private bool[] _isCountryFilter = null;
+
     [Header("Buttons")]
     [SerializeField]
     private Button _startButton = null;
@@ -102,6 +105,26 @@ public class MenuCanvas : BaseCanvas, IButtonSound
         _warningPanel.gameObject.SetActive(false);
 
         EventManager.StartListening(EventKeyword.MenuCameraMove, CameraUIHide);
+
+        _isCountryFilter = new bool[_countryFilterToggles.Length];
+        for (int i = 0; i < _countryFilterToggles.Length; i++)
+        {
+            int index = i;
+            _countryFilterToggles[index].onValueChanged.AddListener((isOn) =>
+            {
+                if (isOn)
+                {
+                    PlayButtonSound();
+                    _isCountryFilter[index] = true;
+                }
+                else
+                {
+                    _isCountryFilter[index] = false;
+                }
+
+                HangerCountryFilter();
+            });
+        }
     }
 
     private void Start()
@@ -427,7 +450,69 @@ public class MenuCanvas : BaseCanvas, IButtonSound
         _hangerList.AddRange(Sort(_countryHangerDataDict[CountryType.Britain]));
         _hangerList.AddRange(Sort(_countryHangerDataDict[CountryType.France]));
 
+        HangerCountryFilter();
         HangerChangeOrder();
+    }
+
+    private void HangerCountryFilter()
+    {
+        int index = -1;
+        for (int i = 0; i < _isCountryFilter.Length; i++)
+        {
+            if (_isCountryFilter[i])
+            {
+                index = i;
+                break;
+            }
+        }
+
+        if (index < 0)
+        {
+            for (int i = 0; i < _hangerList.Count; i++)
+            {
+                _hangerList[i].SetActive(true);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < _hangerList.Count; i++)
+            {
+                _hangerList[i].SetActive(false);
+            }
+            switch (index)
+            {
+                case 0:
+                    for (int i = 0; i < _countryHangerDataDict[CountryType.USSR].Count; i++)
+                    {
+                        _countryHangerDataDict[CountryType.USSR][i].SetActive(true);
+                    }
+                    break;
+                case 1:
+                    for (int i = 0; i < _countryHangerDataDict[CountryType.Germany].Count; i++)
+                    {
+                        _countryHangerDataDict[CountryType.Germany][i].SetActive(true);
+                    }
+                    break;
+                case 2:
+                    for (int i = 0; i < _countryHangerDataDict[CountryType.USA].Count; i++)
+                    {
+                        _countryHangerDataDict[CountryType.USA][i].SetActive(true);
+                    }
+                    break;
+                case 3:
+                    for (int i = 0; i < _countryHangerDataDict[CountryType.Britain].Count; i++)
+                    {
+                        _countryHangerDataDict[CountryType.Britain][i].SetActive(true);
+                    }
+                    break;
+                case 4:
+                    for (int i = 0; i < _countryHangerDataDict[CountryType.France].Count; i++)
+                    {
+                        _countryHangerDataDict[CountryType.France][i].SetActive(true);
+                    }
+                    break;
+            }
+        }
     }
 
     private List<GameObject> Sort(List<GameObject> list)
@@ -455,6 +540,7 @@ public class MenuCanvas : BaseCanvas, IButtonSound
     public void OnSortOrder(bool isOrder)
     {
         _isSortOrder = isOrder;
+        PlayButtonSound();
 
         if (isOrder)
         {
