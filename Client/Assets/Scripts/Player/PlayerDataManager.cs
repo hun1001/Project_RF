@@ -17,6 +17,7 @@ public class PlayerDataManager : Singleton<PlayerDataManager>
         if (string.IsNullOrEmpty(id))
         {
             id = "BT-5";
+            PlayerPrefs.SetString("PlayerTankID", id);
         }
 
         return id;
