@@ -6,7 +6,7 @@ using Event;
 using Pool;
 
 [DisallowMultipleComponent]
-public abstract class BaseCanvas : MonoBehaviour, IButtonSound
+public abstract class BaseCanvas : MonoBehaviour
 {
     private BaseSceneCanvasManager _canvasManager = null;
     protected BaseSceneCanvasManager CanvasManager
@@ -80,7 +80,7 @@ public abstract class BaseCanvas : MonoBehaviour, IButtonSound
         _isOpen = false;
     }
 
-    public void PlayButtonSound()
+    protected void PlayButtonSound()
     {
         var audioSource = PoolManager.Get<AudioSourceController>("AudioSource", Vector3.zero, Quaternion.identity);
         audioSource.SetSound(_buttonSound);

@@ -15,7 +15,7 @@ public enum GearType
     Shell,
 }
 
-public class GearCanvas : BaseCanvas, IButtonSound
+public class GearCanvas : BaseCanvas
 {
     [Header("ItemList")]
     [SerializeField]
