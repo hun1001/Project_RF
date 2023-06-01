@@ -5,6 +5,7 @@ using UnityEngine;
 public static class EventKeyword
 {
     public const string MenuCameraMove = "MenuCameraMove";
+    public const string TankReplacement = "TankReplacement";
 
     public const string BossClear = "BossClear";
     public const string PlayerDead = "PlayerDead";
