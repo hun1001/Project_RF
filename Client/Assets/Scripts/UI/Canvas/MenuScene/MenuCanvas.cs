@@ -53,15 +53,20 @@ public class MenuCanvas : BaseCanvas, IButtonSound
 
     [Header("Hanger")]
     [SerializeField]
-    private Transform _hangerContent;
+    private Transform _hangerContent = null;
     [SerializeField]
-    private GameObject _tankTemplate;
+    private GameObject _tankTemplate = null;
     [SerializeField]
-    private Sprite[] _flagSprites;
+    private Sprite[] _flagSprites = null;
 
     private Dictionary<string, GameObject> _hangerDict = new Dictionary<string, GameObject>();
     private Dictionary<CountryType, List<GameObject>> _countryHangerDataDict = new Dictionary<CountryType, List<GameObject>>();
     private List<GameObject> _hangerList = new List<GameObject>();
+
+    [Header("Filter")]
+    [SerializeField]
+    private Toggle[] _sortOrderToggles = null;
+    private bool _isSortOrder = false;
 
     [Header("Buttons")]
     [SerializeField]
@@ -153,7 +158,7 @@ public class MenuCanvas : BaseCanvas, IButtonSound
         _tankTypeImage.sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
         _tankTierText.SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
         _tankNameText.SetText(_currentTankID);
-
+        
         _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(true);
     }
 
@@ -447,6 +452,22 @@ public class MenuCanvas : BaseCanvas, IButtonSound
         return list;
     }
 
+    public void OnSortOrder(bool isOrder)
+    {
+        _isSortOrder = isOrder;
+
+        if (isOrder)
+        {
+            _sortOrderToggles[1].isOn = true;
+        }
+        else
+        {
+            _sortOrderToggles[0].isOn = true;
+        }
+
+        HangerSort();
+    }
+
     private bool ShouldSwap(string a, string b)
     {
         Tank tankA = AddressablesManager.Instance.GetResource<GameObject>(a).GetComponent<Tank>();
@@ -457,7 +478,14 @@ public class MenuCanvas : BaseCanvas, IButtonSound
             // 같은 타입일 때만 비교하여 정렬
             if (tankA.TankSO.CountryType == tankB.TankSO.CountryType)
             {
-                return tankA.TankSO.TankTier > tankB.TankSO.TankTier;
+                if (_isSortOrder)
+                {
+                    return tankA.TankSO.TankTier < tankB.TankSO.TankTier;
+                }
+                else
+                {
+                    return tankA.TankSO.TankTier > tankB.TankSO.TankTier;
+                }
             }
         }
 
