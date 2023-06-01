@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class ControllerCanvas : BaseCanvas
 {
+    [Header("JoyStick")]
     [SerializeField]
     private Joystick _moveJoystick = null;
     public Joystick MoveJoystick => _moveJoystick;
@@ -14,6 +15,7 @@ public class ControllerCanvas : BaseCanvas
     private Joystick _attackJoystick = null;
     public Joystick AttackJoystick => _attackJoystick;
 
+    [Header("Button")]
     [SerializeField]
     private ButtonGroupManager _buttonGroup = null;
     public ButtonGroupManager ButtonGroup => _buttonGroup;

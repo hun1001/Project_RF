@@ -14,17 +14,26 @@ public class ButtonGroupManager : MonoBehaviour
     {
         if (image != null)
         {
-            _buttons[index].transform.GetChild(0).gameObject.SetActive(true);
-            _buttons[index].transform.GetChild(0).GetComponent<Image>().sprite = image;
+            _buttons[index].transform.GetChild(1).gameObject.SetActive(true);
+            _buttons[index].transform.GetChild(1).GetComponent<Image>().sprite = image;
         }
         else
         {
-            _buttons[index].transform.GetChild(0).gameObject.SetActive(false);
+            _buttons[index].transform.GetChild(1).gameObject.SetActive(false);
         }
 
         _buttons[index].interactable = interactable;
 
         _buttons[index]?.onClick.RemoveAllListeners();
         _buttons[index].onClick.AddListener(action);
+        _buttons[index].onClick.AddListener(() =>
+        {
+            for (int i = 0; i < _buttons.Count; i++)
+            {
+                int idx = i;
+                _buttons[idx].transform.GetChild(0).gameObject.SetActive(false);
+            }
+            _buttons[index].transform.GetChild(0).gameObject.SetActive(true);
+        });
     }
 }
