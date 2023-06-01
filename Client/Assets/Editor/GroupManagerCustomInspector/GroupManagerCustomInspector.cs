@@ -9,7 +9,7 @@ using System;
 
 namespace CustomEditorInspector.Group
 {
-    [CustomEditor(typeof(GroupManager))]
+    //[CustomEditor(typeof(GroupManager))]
     public class GroupManagerCustomInspector : Editor
     {
         private GroupManager _groupManager = null;
