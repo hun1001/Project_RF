@@ -41,7 +41,7 @@ public class AudioSourceController : MonoBehaviour, IPoolReset
     public void Play()
     {
         _audioSource.Play();
-        if (_audioSource.loop == false)
+        if (_audioSource.loop == false || gameObject.activeSelf == false)
             StartCoroutine(ReturnToPool());
     }
 
