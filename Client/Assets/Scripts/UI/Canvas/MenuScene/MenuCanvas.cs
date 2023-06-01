@@ -2,14 +2,13 @@
 using DG.Tweening;
 using Event;
 using Item;
-using Pool;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MenuCanvas : BaseCanvas, IButtonSound
+public class MenuCanvas : BaseCanvas
 {
     [Header("Goods")]
     [SerializeField]
@@ -65,8 +64,20 @@ public class MenuCanvas : BaseCanvas, IButtonSound
 
     [Header("Filter")]
     [SerializeField]
+    private GameObject _filterPanel = null;
+    private bool _isFilterOpen = false;
+
+    [SerializeField]
     private Toggle[] _sortOrderToggles = null;
     private bool _isSortOrder = false;
+
+    [SerializeField]
+    private Toggle[] _countryFilterToggles = null;
+    private bool[] _isCountryFilter = null;
+
+    [SerializeField]
+    private Toggle[] _tankTypeFilterToggles = null;
+    private bool[] _isTankTypeFilter = null;
 
     [Header("Buttons")]
     [SerializeField]
@@ -102,6 +113,46 @@ public class MenuCanvas : BaseCanvas, IButtonSound
         _warningPanel.gameObject.SetActive(false);
 
         EventManager.StartListening(EventKeyword.MenuCameraMove, CameraUIHide);
+
+        _isCountryFilter = new bool[_countryFilterToggles.Length];
+        for (int i = 0; i < _countryFilterToggles.Length; i++)
+        {
+            int index = i;
+            _countryFilterToggles[index].onValueChanged.AddListener((isOn) =>
+            {
+                if (isOn)
+                {
+                    PlayButtonSound();
+                    _isCountryFilter[index] = true;
+                }
+                else
+                {
+                    _isCountryFilter[index] = false;
+                }
+
+                HangerFilter();
+            });
+        }
+
+        _isTankTypeFilter = new bool[_tankTypeFilterToggles.Length];
+        for (int i = 0; i < _tankTypeFilterToggles.Length; i++)
+        {
+            int index = i;
+            _tankTypeFilterToggles[index].onValueChanged.AddListener((isOn) =>
+            {
+                if (isOn)
+                {
+                    PlayButtonSound();
+                    _isTankTypeFilter[index] = true;
+                }
+                else
+                {
+                    _isTankTypeFilter[index] = false;
+                }
+
+                HangerFilter();
+            });
+        }
     }
 
     private void Start()
@@ -129,6 +180,9 @@ public class MenuCanvas : BaseCanvas, IButtonSound
         base.OnOpenEvents();
         _isHide = false;
         _isHangerHide = false;
+        _isFilterOpen = false;
+
+        _filterPanel.SetActive(false);
 
         _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
@@ -427,7 +481,90 @@ public class MenuCanvas : BaseCanvas, IButtonSound
         _hangerList.AddRange(Sort(_countryHangerDataDict[CountryType.Britain]));
         _hangerList.AddRange(Sort(_countryHangerDataDict[CountryType.France]));
 
+        HangerFilter();
         HangerChangeOrder();
+    }
+
+    private void HangerFilter()
+    {
+        int countryIndex = -1;
+        int typeIndex = -1;
+        for (int i = 0; i < _isCountryFilter.Length; i++)
+        {
+            if (_isCountryFilter[i])
+            {
+                countryIndex = i;
+                break;
+            }
+        }
+        for (int i = 0; i < _isTankTypeFilter.Length; i++)
+        {
+            if (_isTankTypeFilter[i])
+            {
+                typeIndex = i;
+                break;
+            }
+        }
+
+        // 둘다 비활성화
+        if (countryIndex < 0 && typeIndex < 0)
+        {
+            for (int i = 0; i < _hangerList.Count; i++)
+            {
+                _hangerList[i].SetActive(true);
+            }
+        }
+        // 타입 필터
+        else if (typeIndex >= 0 && countryIndex < 0)
+        {
+            for (int i = 0; i < _hangerList.Count; i++)
+            {
+                Tank tank = AddressablesManager.Instance.GetResource<GameObject>(_hangerList[i].name).GetComponent<Tank>();
+
+                if (tank.TankSO.TankType == (TankType)typeIndex)
+                {
+                    _hangerList[i].SetActive(true);
+                }
+                else
+                {
+                    _hangerList[i].SetActive(false);
+                }
+            }
+        }
+        // 나라 필터
+        else if (countryIndex >= 0 && typeIndex < 0)
+        {
+            for (int i = 0; i < _hangerList.Count; i++)
+            {
+                Tank tank = AddressablesManager.Instance.GetResource<GameObject>(_hangerList[i].name).GetComponent<Tank>();
+
+                if (tank.TankSO.CountryType == (CountryType)(countryIndex + 1))
+                {
+                    _hangerList[i].SetActive(true);
+                }
+                else
+                {
+                    _hangerList[i].SetActive(false);
+                }
+            }
+        }
+        // 둘다 필터
+        else
+        {
+            for (int i = 0; i < _hangerList.Count; i++)
+            {
+                Tank tank = AddressablesManager.Instance.GetResource<GameObject>(_hangerList[i].name).GetComponent<Tank>();
+
+                if (tank.TankSO.CountryType == (CountryType)(countryIndex + 1) && tank.TankSO.TankType == (TankType)typeIndex)
+                {
+                    _hangerList[i].SetActive(true);
+                }
+                else
+                {
+                    _hangerList[i].SetActive(false);
+                }
+            }
+        }
     }
 
     private List<GameObject> Sort(List<GameObject> list)
@@ -455,6 +592,7 @@ public class MenuCanvas : BaseCanvas, IButtonSound
     public void OnSortOrder(bool isOrder)
     {
         _isSortOrder = isOrder;
+        PlayButtonSound();
 
         if (isOrder)
         {
@@ -466,6 +604,21 @@ public class MenuCanvas : BaseCanvas, IButtonSound
         }
 
         HangerSort();
+    }
+
+    public void OnFilterOpen()
+    {
+        PlayButtonSound();
+        if (_isFilterOpen)
+        {
+            _isFilterOpen = false;
+            _filterPanel.SetActive(false);
+        }
+        else
+        {
+            _isFilterOpen = true;
+            _filterPanel.SetActive(true);
+        }
     }
 
     private bool ShouldSwap(string a, string b)
@@ -709,5 +862,10 @@ public class MenuCanvas : BaseCanvas, IButtonSound
                 _leftFrame.DOAnchorPosX(0f, 0.25f);
             }
         });
+
+        if (_isFilterOpen)
+        {
+            OnFilterOpen();
+        }
     }
 }
