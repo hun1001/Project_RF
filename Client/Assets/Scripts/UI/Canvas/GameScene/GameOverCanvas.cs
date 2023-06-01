@@ -1,4 +1,5 @@
 using Event;
+using System.Collections;
 using UnityEngine;
 
 public class GameOverCanvas : BaseCanvas
@@ -17,8 +18,8 @@ public class GameOverCanvas : BaseCanvas
 
     private void Awake()
     {
-        EventManager.StartListening(EventKeyword.BossClear, () => BossModeGameOver(true));
-        EventManager.StartListening(EventKeyword.PlayerDead, () => BossModeGameOver(false));
+        EventManager.StartListening(EventKeyword.BossClear, () => StartCoroutine(BossModeGameOver(true)));
+        EventManager.StartListening(EventKeyword.PlayerDead, () => StartCoroutine(BossModeGameOver(false)));
     }
 
     public override void OnOpenEvents()
@@ -27,8 +28,10 @@ public class GameOverCanvas : BaseCanvas
         base.OnOpenEvents();
     }
 
-    private void BossModeGameOver(bool isClear)
+    private IEnumerator BossModeGameOver(bool isClear)
     {
+        yield return new WaitForSeconds(2f);
+
         _gameModeTextController.SetText("BOSS");
         CanvasManager.ChangeCanvas(CanvasType);
         if (isClear)
