@@ -89,6 +89,9 @@ public class Tank_Damage : Tank_Component
         _currentHealth = 0;
         _tankSound.PlaySound(SoundType.TankDestroy, AudioMixerType.Sfx);
         PoolManager.Pool(Instance.ID, gameObject);
+        PoolManager.Get("Assets/Resource/Tank/Destroyed_Tank/Destroyed_Tank.prefab", transform.position, Quaternion.Euler(-90, 0, 0));
+        PoolManager.Get("Assets/KriptoFX/MuzzleFlashes/Prefab/Impacts/Mobile/BrickImpact.prefab", new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity);
+        PoolManager.Get("Assets/Prefabs/Effect/explosion_stylized_large_originalFire_ShaderGraph.prefab", transform.position, Quaternion.Euler(-90, 0, 0));
         EventManager.TriggerEvent(gameObject.GetInstanceID().ToString());
         _onDeathAction?.Invoke();
     }

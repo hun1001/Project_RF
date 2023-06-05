@@ -121,10 +121,10 @@ public class Player : CustomObject
             }
         });
 
-
         tankDamage.AddOnDeathAction(() =>
         {
             EventManager.TriggerEvent(EventKeyword.PlayerDead);
+            StopCoroutine(nameof(CheckAroundTarget));
         });
 
         _tank.GetComponent<Tank_Move>(ComponentType.Move).AddOnCrashAction((a) =>
@@ -141,7 +141,7 @@ public class Player : CustomObject
         _tankRotate = _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate);
         _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
 
-        StartCoroutine(CheckAroundTarget());
+        StartCoroutine(nameof(CheckAroundTarget));
     }
 
     void Update()

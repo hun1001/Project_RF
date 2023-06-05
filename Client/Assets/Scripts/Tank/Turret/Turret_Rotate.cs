@@ -8,8 +8,8 @@ public class Turret_Rotate : Turret_Component
     {
         if (direction != Vector2.zero)
         {
-            Vector3 _direction = new Vector3(-direction.x, 0, direction.y);
-            Quaternion targetRotation = Quaternion.LookRotation(_direction);
+            Vector3 dir = new Vector3(-direction.x, 0, direction.y);
+            Quaternion targetRotation = Quaternion.LookRotation(dir);
             float maxRotationDelta = Turret.TurretData.RotationSpeed * Time.deltaTime;
             Turret.TurretTransform.rotation = Quaternion.RotateTowards(Turret.TurretTransform.rotation, Quaternion.Euler(0, 0, targetRotation.eulerAngles.y), maxRotationDelta);
         }
