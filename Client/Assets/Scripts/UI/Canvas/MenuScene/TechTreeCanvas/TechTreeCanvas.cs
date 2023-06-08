@@ -194,18 +194,7 @@ public class TechTreeCanvas : BaseCanvas
                                         }
                                         else
                                         {
-                                            if (jIndex == 0)
-                                            {
-                                                canUnlock = _techTree.TechTreeSO[index].IsLink(jIndex + 1, lIndex - 1) == TechTreeLinkStateType.UpLink && TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex + 1, lIndex - 1].ID);
-                                            }
-                                            else if (jIndex == _techTree.TechTreeSO[index].Length - 1)
-                                            {
-                                                canUnlock = TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex - 1, _techTree.TechTreeSO[index].GetTankArrayLength(jIndex - 1) - 1].ID);
-                                            }
-                                            else
-                                            {
-                                                canUnlock = _techTree.TechTreeSO[index].IsLink(jIndex + 1, lIndex - 1) == TechTreeLinkStateType.UpLink && TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex + 1, lIndex - 1].ID) || _techTree.TechTreeSO[index].IsLink(jIndex - 1, lIndex - 1) == TechTreeLinkStateType.DownLink && TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex - 1, lIndex - 1].ID);
-                                            }
+                                            canUnlock = TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex - 1, _techTree.TechTreeSO[index].GetTankArrayLength(jIndex - 1) - 1].ID);
                                         }
                                     }
                                     else
@@ -261,29 +250,29 @@ public class TechTreeCanvas : BaseCanvas
                         {
                             var verticalLineRow = Instantiate(_verticalLineRowTemplate, _tankNodeContentTransform).transform;
 
-                            for (int m = 0; m < _techTree.TechTreeSO[index].GetIsLinkLength(jIndex); ++m)
-                            {
-                                int mIndex = m;
-                                GameObject line = null;
+                            // for (int m = 0; m < _techTree.TechTreeSO[index].GetIsLinkLength(jIndex); ++m)
+                            // {
+                            //     int mIndex = m;
+                            //     GameObject line = null;
 
-                                switch (_techTree.TechTreeSO[index].IsLink(jIndex, mIndex))
-                                {
-                                    case TechTreeLinkStateType.None:
-                                        line = Instantiate(_noneLineTemplate, verticalLineRow);
-                                        break;
-                                    case TechTreeLinkStateType.UpLink:
-                                        line = Instantiate(_verticalUpLineTemplate, verticalLineRow);
+                            //     switch (_techTree.TechTreeSO[index].IsLink(jIndex, mIndex))
+                            //     {
+                            //         case TechTreeLinkStateType.None:
+                            //             line = Instantiate(_noneLineTemplate, verticalLineRow);
+                            //             break;
+                            //         case TechTreeLinkStateType.UpLink:
+                            //             line = Instantiate(_verticalUpLineTemplate, verticalLineRow);
 
-                                        break;
-                                    case TechTreeLinkStateType.DownLink:
-                                        line = Instantiate(_verticalDownLineTemplate, verticalLineRow);
-                                        break;
-                                    default:
-                                        Debug.LogError("TechTreeLinkStateType Error");
-                                        break;
-                                }
-                                line.SetActive(true);
-                            }
+                            //             break;
+                            //         case TechTreeLinkStateType.DownLink:
+                            //             line = Instantiate(_verticalDownLineTemplate, verticalLineRow);
+                            //             break;
+                            //         default:
+                            //             Debug.LogError("TechTreeLinkStateType Error");
+                            //             break;
+                            //     }
+                            //     line.SetActive(true);
+                            // }
                             verticalLineRow.gameObject.SetActive(true);
                         }
 
@@ -299,7 +288,6 @@ public class TechTreeCanvas : BaseCanvas
             countryToggle.gameObject.SetActive(true);
         }
 
-        //_countryToggleGroupManager.transform.GetChild(1).GetComponent<Toggle>().onValueChanged.Invoke(true);
         _countryToggleGroupManager.transform.GetChild(1).GetComponent<Toggle>().isOn = true;
     }
 
@@ -322,11 +310,11 @@ public class TechTreeCanvas : BaseCanvas
         .Append(_techTreeScrollView.DOAnchorPosX(0f, 1f))
         //.InsertCallback(0.5f, () =>
         //{
-            //idx = 1;
-            //foreach (RectTransform rect in _toggleList)
-            //{
-            //    rect.DOAnchorPosY(-25f, 0.2f * idx++);
-            //}
+        //idx = 1;
+        //foreach (RectTransform rect in _toggleList)
+        //{
+        //    rect.DOAnchorPosY(-25f, 0.2f * idx++);
+        //}
         //})
         .AppendCallback(() => _scrollRect.normalizedPosition = Vector2.zero);
 

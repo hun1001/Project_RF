@@ -25,21 +25,8 @@ public class TechTreeSO : ScriptableObject
     private TankArray[] _tankArrays = null;
     public Tank this[int i, int j] => _tankArrays[i][j];
 
-    [SerializeField]
-    private TechTreeLinkStateTypeArray[] _isLink = null;
-    public TechTreeLinkStateType IsLink(int i, int j)
-    {
-        if (GetIsLinkLength() <= i || GetIsLinkLength(i) <= j)
-        {
-            return TechTreeLinkStateType.None;
-        }
-        return _isLink[i][j];
-    }
-
     public int Length => _tankArrays.Length;
     public int GetTankArrayLength(int i) => _tankArrays[i].Length;
-    public int GetIsLinkLength() => _isLink.Length;
-    public int GetIsLinkLength(int i) => _isLink.Length == 0 ? 0 : _isLink[i].Length;
 
     public void SetTankArray(List<List<Tank>> tankList)
     {
@@ -47,29 +34,6 @@ public class TechTreeSO : ScriptableObject
         for (int i = 0; i < tankList.Count; i++)
         {
             _tankArrays[i] = new TankArray(tankList[i].ToArray());
-        }
-    }
-
-    public void SetIsLink(TechTreeLinkStateType[][] isLink)
-    {
-        _isLink = new TechTreeLinkStateTypeArray[isLink.Length];
-        for (int i = 0; i < isLink.Length; i++)
-        {
-            _isLink[i] = new TechTreeLinkStateTypeArray(isLink[i]);
-        }
-    }
-
-    public void SetIsLink(List<List<TechTreeLinkStateType>> isLink)
-    {
-        if (isLink == null)
-        {
-            return;
-        }
-
-        _isLink = new TechTreeLinkStateTypeArray[isLink.Count];
-        for (int i = 0; i < isLink.Count; i++)
-        {
-            _isLink[i] = new TechTreeLinkStateTypeArray(isLink[i].ToArray());
         }
     }
 
@@ -84,20 +48,6 @@ public class TechTreeSO : ScriptableObject
         public TankArray(Tank[] tanks)
         {
             _tanks = tanks;
-        }
-    }
-
-    [Serializable]
-    public struct TechTreeLinkStateTypeArray
-    {
-        [SerializeField]
-        private TechTreeLinkStateType[] _techTreeLinkStateTypes;
-        public TechTreeLinkStateType this[int index] => index >= Length ? TechTreeLinkStateType.None : _techTreeLinkStateTypes[index];
-        public int Length => _techTreeLinkStateTypes == null ? 0 : _techTreeLinkStateTypes.Length;
-
-        public TechTreeLinkStateTypeArray(TechTreeLinkStateType[] techTreeLinkStateTypes)
-        {
-            _techTreeLinkStateTypes = techTreeLinkStateTypes;
         }
     }
 }
