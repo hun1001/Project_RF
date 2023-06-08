@@ -11,7 +11,7 @@ public class TechTreeCanvas : BaseCanvas
 
     [Header("Tier")]
     [SerializeField]
-    private RectTransform _tankTierLine = null;
+    private TechTreeTierLine _tankTierLine = null;
 
     private GameObject _tankTierTemplate = null;
     private GameObject _tankTierConnectLineTemplate = null;
@@ -67,9 +67,6 @@ public class TechTreeCanvas : BaseCanvas
         _tankNodeNullTemplate = _tankNodeRowTemplate.transform.GetChild(2).gameObject;
         _tankNodeConnectHorizontalNullLineTemplate = _tankNodeRowTemplate.transform.GetChild(3).gameObject;
 
-        _tankTierTemplate = _tankTierLine.GetChild(1).gameObject;
-        _tankTierConnectLineTemplate = _tankTierLine.GetChild(2).gameObject;
-
         _tankNodeRowTemplate.SetActive(false);
         _tankNodeTemplate.SetActive(false);
         _tankNodeConnectHorizontalLineTemplate.SetActive(false);
@@ -77,14 +74,6 @@ public class TechTreeCanvas : BaseCanvas
         _tankNodeConnectHorizontalNullLineTemplate.SetActive(false);
 
         _techTreeScrollView.TryGetComponent(out _scrollRect);
-
-        for (int i = 1; i < _techTree.TankTierNumber.Length; i++)
-        {
-            var tankTier = Instantiate(_tankTierTemplate, _tankTierLine);
-            Instantiate(_tankTierConnectLineTemplate, _tankTierLine);
-
-            tankTier.transform.GetChild(0).GetComponent<Text>().text = _techTree.TankTierNumber[i];
-        }
 
         for (int i = 0; i < _techTree.TechTreeSO.Length; ++i)
         {
@@ -102,6 +91,9 @@ public class TechTreeCanvas : BaseCanvas
         _countryTextController.SetText(_techTree.TechTreeSO[index].CountryType.ToString());
 
         ResetTankNode();
+        _tankTierLine.ResetTierLine();
+
+        _tankTierLine.SetTierLine(_techTree.TechTreeSO[index].GetMaximumLength());
 
         for (int j = 0; j < _techTree.TechTreeSO[index].Length; ++j)
         {
@@ -194,7 +186,7 @@ public class TechTreeCanvas : BaseCanvas
 
     private void ResetTankNode()
     {
-        for (int k = 3; k < _tankNodeContentTransform.transform.childCount; ++k)
+        for (int k = 2; k < _tankNodeContentTransform.transform.childCount; ++k)
         {
             Destroy(_tankNodeContentTransform.transform.GetChild(k).gameObject);
         }
