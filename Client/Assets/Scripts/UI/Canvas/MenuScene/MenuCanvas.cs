@@ -161,6 +161,8 @@ public class MenuCanvas : BaseCanvas
         _isHide = false;
         _isHangerHide = false;
         _isOpen = true;
+        _isFilterOpen = false;
+        _isShellOpen = false;
 
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
 

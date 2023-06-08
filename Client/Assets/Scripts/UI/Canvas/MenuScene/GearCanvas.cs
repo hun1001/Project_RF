@@ -157,6 +157,10 @@ public class GearCanvas : BaseCanvas
 
     public void OnShellInventory(int idx)
     {
+        _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
+        Turret turret = AddressablesManager.Instance.GetResource<GameObject>(_currentTankID).GetComponent<Turret>();
+        _shellEquipmentDataDict = ShellSaveManager.GetShellEquipment(_currentTankID);
+
         foreach (var item in _itemInventoryDictionary)
         {
             item.Value.SetActive(false);
@@ -164,8 +168,17 @@ public class GearCanvas : BaseCanvas
 
         foreach (var shell in _shellInventoryDictionary)
         {
-            if (_shellEquipmentDataDict._shellEquipmentList.Contains(shell.Key.ID)) continue;
-            shell.Value.SetActive(true);
+            shell.Value.SetActive(false);
+
+            if (_shellEquipmentDataDict._shellEquipmentList.Contains(shell.Key.ID))
+            {
+                continue;
+            }
+
+            if (turret.TurretSO.Shells.Contains(shell.Key))
+            {
+                shell.Value.SetActive(true);
+            }
         }
 
         _inventoryTransform.DOAnchorPosY(0f, 0.7f);
@@ -424,6 +437,7 @@ public class GearCanvas : BaseCanvas
 
                 continue;
             }
+
 
             var shell = Instantiate(_itemTemplate, _itemContent);
             shell.SetActive(true);
