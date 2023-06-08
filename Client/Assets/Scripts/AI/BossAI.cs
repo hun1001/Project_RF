@@ -1,9 +1,7 @@
 using System.Collections;
 using UnityEngine;
-using Pool;
 using UnityEngine.AI;
 using Event;
-using Cinemachine;
 
 public class BossAI : MonoBehaviour
 {

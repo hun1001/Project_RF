@@ -13,9 +13,6 @@ public class TechTreeCanvas : BaseCanvas
     [SerializeField]
     private TechTreeTierLine _tankTierLine = null;
 
-    private GameObject _tankTierTemplate = null;
-    private GameObject _tankTierConnectLineTemplate = null;
-
     [Header("TechTree")]
     [SerializeField]
     private TechTree _techTree = null;

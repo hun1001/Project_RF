@@ -23,7 +23,7 @@ public class TechTreeTierLine : MonoBehaviour
     {
         _firstHorizontalLine.SetActive(maxLength > 1);
 
-        for (int i = 1; i <= maxLength; i++)
+        for (int i = 0; i < maxLength; i++)
         {
             var tankTier = Instantiate(_tankTierTemplate, _tankTierLine);
             var tankTierConnectLine = Instantiate(_tankTierConnectLineTemplate, _tankTierLine);
