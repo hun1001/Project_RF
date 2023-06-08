@@ -26,4 +26,9 @@ public class ToggleGroupManager : ToggleGroup
             toggle.isOn = i == onIndex;
         }
     }
+
+    public void AddToggle()
+    {
+
+    }
 }

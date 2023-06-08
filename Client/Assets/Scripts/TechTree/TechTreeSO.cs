@@ -28,13 +28,17 @@ public class TechTreeSO : ScriptableObject
     public int Length => _tankArrays.Length;
     public int GetTankArrayLength(int i) => _tankArrays[i].Length;
 
-    public void SetTankArray(List<List<Tank>> tankList)
+    public int GetMaximumLength()
     {
-        _tankArrays = new TankArray[tankList.Count];
-        for (int i = 0; i < tankList.Count; i++)
+        int max = 0;
+        foreach (var tankArray in _tankArrays)
         {
-            _tankArrays[i] = new TankArray(tankList[i].ToArray());
+            if (tankArray.Length > max)
+            {
+                max = tankArray.Length;
+            }
         }
+        return max;
     }
 
     [Serializable]
