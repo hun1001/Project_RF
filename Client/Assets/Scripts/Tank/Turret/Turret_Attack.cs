@@ -21,7 +21,7 @@ public class Turret_Attack : Turret_Component
     private Action _onFire = null;
     public void AddOnFireAction(Action action) => _onFire += action;
 
-    private Tank_Move _tankMove = null;
+    protected Tank_Move _tankMove = null;
 
     protected virtual void Awake()
     {

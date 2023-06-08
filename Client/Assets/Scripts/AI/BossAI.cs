@@ -157,7 +157,7 @@ public class BossAI : MonoBehaviour
 
             for (int i = 0; i < _navMeshPath.corners.Length - 1; i++)
             {
-                Debug.DrawLine(_navMeshPath.corners[i], _navMeshPath.corners[i + 1], Color.red, 60f);
+                Debug.DrawLine(_navMeshPath.corners[i], _navMeshPath.corners[i + 1], Color.red, 5f);
             }
         }
         else

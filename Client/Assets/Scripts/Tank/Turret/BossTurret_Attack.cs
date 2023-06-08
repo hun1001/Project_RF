@@ -9,6 +9,8 @@ public class BossTurret_Attack : Turret_Attack
 
     protected override void Awake()
     {
+        base.Awake();
+
         _tank = GetComponent<Tank>();
         _bossTurret = Turret as BossTurret;
     }
@@ -17,6 +19,8 @@ public class BossTurret_Attack : Turret_Attack
     {
         if (ReloadingTime <= 0 && gameObject.activeSelf)
         {
+            StartCoroutine(StopDuringFireCoroutine(2f));
+            StartCoroutine(ReboundCoroutine());
             PoolManager.Get<LaserBeam>("LaserBeam", Turret.FirePoint.position, Turret.FirePoint.rotation).SetLaserBeam(_tank, Turret.FirePoint, 500f);
             PoolManager.Get<LaserBeam>("LaserBeam", _bossTurret.FirePoint2.position, _bossTurret.FirePoint2.rotation).SetLaserBeam(_tank, _bossTurret.FirePoint2, 500f);
             ResetReloadTime();
@@ -33,6 +37,21 @@ public class BossTurret_Attack : Turret_Attack
         ResetReloadTime();
 
         StartCoroutine(FireMissileCoroutine(targetPosition));
+    }
+
+    private IEnumerator ReboundCoroutine()
+    {
+        Vector3 dir = Turret.FirePoint.position - transform.position;
+        dir.z = 0;
+        yield return new WaitForSeconds(1f);
+        _tankMove.TankRebound(-dir.normalized * 3f);
+    }
+
+    private IEnumerator StopDuringFireCoroutine(float time)
+    {
+        _tankMove._stop = true;
+        yield return new WaitForSeconds(time);
+        _tankMove._stop = false;
     }
 
     private IEnumerator FireMissileCoroutine(Vector3 targetPosition)
