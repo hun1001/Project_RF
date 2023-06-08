@@ -45,7 +45,7 @@ public class Shell_Collision : Shell_Component
             angle = (int)Vector2.Angle(incidentVector, normalVector);
             angle %= 180;
 
-            if (angle < 90 && angle >= 60)
+            if (angle < 90 && angle >= (Instance as Shell).ShellSO.RicochetAngle)
             {
                 reflectionDir = Vector2.Reflect(-incidentVector, normalVector);
 
