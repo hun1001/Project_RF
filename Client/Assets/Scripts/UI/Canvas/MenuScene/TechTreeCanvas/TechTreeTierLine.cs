@@ -1,18 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class TechTreeTierLine : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private TechTree _techTree = null;
+
+    [SerializeField]
+    private RectTransform _tankTierLine = null;
+
+    [SerializeField]
+    private GameObject _firstHorizontalLine = null;
+
+    [SerializeField]
+    private GameObject _tankTierTemplate = null;
+
+    [SerializeField]
+    private GameObject _tankTierConnectLineTemplate = null;
+
+
+    public void SetTierLine(int maxLength)
     {
-        
+        _firstHorizontalLine.SetActive(maxLength > 1);
+
+        for (int i = 1; i <= maxLength; i++)
+        {
+            var tankTier = Instantiate(_tankTierTemplate, _tankTierLine);
+            var tankTierConnectLine = Instantiate(_tankTierConnectLineTemplate, _tankTierLine);
+
+            tankTier.transform.GetChild(0).GetComponent<Text>().text = _techTree.TankTierNumber[i];
+
+            tankTier.SetActive(true);
+            tankTierConnectLine.SetActive(true);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ResetTierLine()
     {
-        
+        for (int i = 3; i < _tankTierLine.transform.childCount; ++i)
+        {
+            Destroy(_tankTierLine.transform.GetChild(i).gameObject);
+        }
     }
 }
