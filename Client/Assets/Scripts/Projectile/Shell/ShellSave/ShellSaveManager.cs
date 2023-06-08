@@ -1,6 +1,5 @@
-using System.Collections;
+using Event;
 using System.Collections.Generic;
-using UnityEngine;
 
 public static class ShellSaveManager
 {
@@ -37,6 +36,7 @@ public static class ShellSaveManager
         _shellEquipmentDataDict[tankID]._shellEquipmentList[idx] = shellName;
 
         SaveShellEquipment(tankID);
+        EventManager.TriggerEvent(EventKeyword.ShellReplacement);
     }
 
     public static void SaveShellEquipment(string tankID)

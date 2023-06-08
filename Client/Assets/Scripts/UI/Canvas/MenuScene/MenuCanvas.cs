@@ -29,6 +29,9 @@ public class MenuCanvas : BaseCanvas
     [SerializeField]
     private GameObject[] _lockImages = null;
     private Sprite _plusSprite = null;
+    [SerializeField]
+    private GameObject _shellReplacement = null;
+    private bool _isShellOpen = false;
 
     private string _currentTankID;
     private ItemEquipmentData _passiveItemEquipmentDataDict;
@@ -90,8 +93,6 @@ public class MenuCanvas : BaseCanvas
     [Header("Warning")]
     [SerializeField]
     private RectTransform _warningPanel;
-    [SerializeField]
-    private TextController _warningText;
     private Sequence _warningSequence;
 
     private void Awake()
@@ -169,6 +170,8 @@ public class MenuCanvas : BaseCanvas
         _countryHangerDataDict.Add(CountryType.Britain, new List<GameObject>());
         _countryHangerDataDict.Add(CountryType.France, new List<GameObject>());
 
+        EventManager.StartListening(EventKeyword.ShellReplacement, ShellCheck);
+
         GearCheck();
         HangerUpdate();
         CurrentTankInfoUpdate();
@@ -181,8 +184,10 @@ public class MenuCanvas : BaseCanvas
         _isHide = false;
         _isHangerHide = false;
         _isFilterOpen = false;
+        _isShellOpen = false;
 
         _filterPanel.SetActive(false);
+        _shellReplacement.SetActive(false);
 
         _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
@@ -221,7 +226,6 @@ public class MenuCanvas : BaseCanvas
         Tank currentTank = FindObjectOfType<TankModelManager>().TankModel;
         _passiveItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Passive);
         //_activeItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Active);
-        _shellEquipmentDataDict = ShellSaveManager.GetShellEquipment(_currentTankID);
 
         uint passiveSlotSize = currentTank.TankSO.PassiveItemInventorySize;
         uint idx = 0;
@@ -270,6 +274,14 @@ public class MenuCanvas : BaseCanvas
             _gearImages[idx].sprite = itemInfo.ItemSO.Image;
             _gearImages[idx++].gameObject.SetActive(true);
         }*/
+
+        ShellCheck();
+    }
+
+    private void ShellCheck()
+    {
+        int idx = 3;
+        _shellEquipmentDataDict = ShellSaveManager.GetShellEquipment(_currentTankID);
 
         foreach (var shell in _shellEquipmentDataDict._shellEquipmentList)
         {
@@ -322,6 +334,7 @@ public class MenuCanvas : BaseCanvas
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
             {
+                PlayButtonSound();
                 _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
@@ -357,6 +370,7 @@ public class MenuCanvas : BaseCanvas
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
             {
+                PlayButtonSound();
                 _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
@@ -392,6 +406,7 @@ public class MenuCanvas : BaseCanvas
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
             {
+                PlayButtonSound();
                 _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
@@ -427,6 +442,7 @@ public class MenuCanvas : BaseCanvas
             a.GetComponent<Button>().onClick.RemoveAllListeners();
             a.GetComponent<Button>().onClick.AddListener(() =>
             {
+                PlayButtonSound();
                 _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
@@ -740,7 +756,7 @@ public class MenuCanvas : BaseCanvas
         {
             _warningPanel.GetComponent<CanvasGroup>().DOFade(1, 0f);
             _warningPanel.gameObject.SetActive(true);
-            _warningText.SetText("총알이 장착되어 있지 않습니다!\n총알을 장착해주세요.");
+            _warningPanel.GetChild(0).GetComponent<TextController>().SetText("총알이 장착되어 있지 않습니다!\n총알을 장착해주세요.");
         })
         .AppendInterval(1.2f)
         .Append(_warningPanel.GetComponent<CanvasGroup>().DOFade(0, 1f))
@@ -784,6 +800,21 @@ public class MenuCanvas : BaseCanvas
         CanvasManager.ChangeCanvas(CanvasType.Gear, CanvasType);
 
         PlayButtonSound();
+    }
+
+    public void OnOpenShell()
+    {
+        PlayButtonSound();
+        if (_isShellOpen)
+        {
+            _isShellOpen = false;
+            _shellReplacement.SetActive(false);
+        }
+        else
+        {
+            _isShellOpen = true;
+            _shellReplacement.SetActive(true);
+        }
     }
 
     public void OnHangerHide()

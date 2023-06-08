@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Util;
 using UnityEngine;
+using Event;
 
 public class TankModelManager : MonoBehaviour
 {
@@ -30,5 +31,6 @@ public class TankModelManager : MonoBehaviour
         _tankModel = Instantiate(tank.transform.GetChild(0).gameObject, transform);
         TankModel = tank;
         PlayerDataManager.Instance.SetPlayerTankID(tank.ID);
+        EventManager.TriggerEvent(EventKeyword.TankReplacement);
     }
 }

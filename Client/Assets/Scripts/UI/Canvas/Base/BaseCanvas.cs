@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
 using Event;
 using Pool;
 
 [DisallowMultipleComponent]
-public abstract class BaseCanvas : MonoBehaviour
+public abstract class BaseCanvas : MonoBehaviour, IButtonSound
 {
     private BaseSceneCanvasManager _canvasManager = null;
     protected BaseSceneCanvasManager CanvasManager
@@ -80,7 +78,7 @@ public abstract class BaseCanvas : MonoBehaviour
         _isOpen = false;
     }
 
-    protected void PlayButtonSound()
+    public void PlayButtonSound()
     {
         var audioSource = PoolManager.Get<AudioSourceController>("AudioSource", Vector3.zero, Quaternion.identity);
         audioSource.SetSound(_buttonSound);
