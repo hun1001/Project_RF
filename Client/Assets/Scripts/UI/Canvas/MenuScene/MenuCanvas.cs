@@ -23,18 +23,19 @@ public class MenuCanvas : BaseCanvas
     private TextController _tankNameText = null;
 
     [Header("Gear")]
-    // 0 ~ 2 Passive / 3 ~ 4 Active / 5 ~ 6 Shell
+    // 0 ~ 2 Passive / 3 ~ 4 Active / 5 ~ 6 Shell - X
+    // 0 ~ 1 Shell
     [SerializeField]
     private Image[] _gearImages = null;
-    [SerializeField]
-    private GameObject[] _lockImages = null;
+    //[SerializeField]
+    //private GameObject[] _lockImages = null;
     private Sprite _plusSprite = null;
     [SerializeField]
     private GameObject _shellReplacement = null;
     private bool _isShellOpen = false;
 
     private string _currentTankID;
-    private ItemEquipmentData _passiveItemEquipmentDataDict;
+    //private ItemEquipmentData _passiveItemEquipmentDataDict;
     //private ItemEquipmentData _activeItemEquipmentDataDict;
     private ShellEquipmentData _shellEquipmentDataDict;
 
@@ -174,7 +175,8 @@ public class MenuCanvas : BaseCanvas
 
         EventManager.StartListening(EventKeyword.ShellReplacement, ShellCheck);
 
-        GearCheck();
+        //GearCheck();
+        ShellCheck();
         HangerUpdate();
         CurrentTankInfoUpdate();
         HangerSort();
@@ -194,7 +196,8 @@ public class MenuCanvas : BaseCanvas
         _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
 
-        GearCheck();
+        //GearCheck();
+        ShellCheck();
         HangerUpdate();
         CurrentTankInfoUpdate();
         HangerSort();
@@ -223,10 +226,10 @@ public class MenuCanvas : BaseCanvas
         _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(true);
     }
 
-    public void GearCheck()
+    /*public void GearCheck()
     {
         Tank currentTank = FindObjectOfType<TankModelManager>().TankModel;
-        _passiveItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Passive);
+        //_passiveItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Passive);
         //_activeItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Active);
 
         //uint passiveSlotSize = currentTank.TankSO.PassiveItemInventorySize;
@@ -253,7 +256,7 @@ public class MenuCanvas : BaseCanvas
         //     _gearImages[idx++].gameObject.SetActive(true);
         // }
 
-        /*uint activeSlotSize = currentTank.TankSO.ActiveItemInventorySize;
+        uint activeSlotSize = currentTank.TankSO.ActiveItemInventorySize;
         foreach (var active in _activeItemEquipmentDataDict._itemEquipmentList)
         {
             if (idx - 2 > activeSlotSize)
@@ -275,14 +278,14 @@ public class MenuCanvas : BaseCanvas
             Item_Base itemInfo = AddressablesManager.Instance.GetResource<GameObject>(active).GetComponent<Item_Base>();
             _gearImages[idx].sprite = itemInfo.ItemSO.Image;
             _gearImages[idx++].gameObject.SetActive(true);
-        }*/
+        }
 
         ShellCheck();
-    }
+    }*/
 
     private void ShellCheck()
     {
-        int idx = 3;
+        int idx = 0;
         _shellEquipmentDataDict = ShellSaveManager.GetShellEquipment(_currentTankID);
 
         foreach (var shell in _shellEquipmentDataDict._shellEquipmentList)
@@ -340,7 +343,8 @@ public class MenuCanvas : BaseCanvas
                 _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
-                GearCheck();
+                //GearCheck();
+                ShellCheck();
             });
         }
 
@@ -376,7 +380,8 @@ public class MenuCanvas : BaseCanvas
                 _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
-                GearCheck();
+                //GearCheck();
+                ShellCheck();
             });
         }
 
@@ -412,7 +417,8 @@ public class MenuCanvas : BaseCanvas
                 _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
-                GearCheck();
+                //GearCheck();
+                ShellCheck();
             });
         }
 
@@ -448,7 +454,8 @@ public class MenuCanvas : BaseCanvas
                 _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
-                GearCheck();
+                //GearCheck();
+                ShellCheck();
             });
         }
 
@@ -484,7 +491,8 @@ public class MenuCanvas : BaseCanvas
                 _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
-                GearCheck();
+                //GearCheck();
+                ShellCheck();
             });
         }
     }
