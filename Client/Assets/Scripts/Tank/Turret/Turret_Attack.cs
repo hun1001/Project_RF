@@ -45,20 +45,25 @@ public class Turret_Attack : Turret_Component
                 {
                     if (_burstReloadTime <= 0)
                     {
-                        _magazineSize--;
-                        _burstReloadTime = Turret.TurretData.BurstData.BurstReloadTime;
+                        if (--_magazineSize <= 0)
+                        {
+                            _isReload = true;
+                            _reloadingTime = Turret.TurretData.ReloadTime;
+                        }
+                        else
+                        {
+                            _burstReloadTime = Turret.TurretData.BurstData.BurstReloadTime;
+                        }
+
                         if (_turretSound != null)
                         {
                             _turretSound.PlaySound(SoundType.Fire, AudioMixerType.Sfx);
                             _turretSound.PlaySound(SoundType.ShellDrop, AudioMixerType.Sfx, 0.5f);
                         }
                         Firing();
+
+                        
                     }
-                }
-                else
-                {
-                    _isReload = true;
-                    _reloadingTime = Turret.TurretData.ReloadTime;
                 }
             }
         }
