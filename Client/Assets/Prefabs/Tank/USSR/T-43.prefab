@@ -217,7 +217,6 @@ GameObject:
   - component: {fileID: 540318482561853717}
   - component: {fileID: 1645338773138693042}
   - component: {fileID: 8059622565733577002}
-  - component: {fileID: 3132925640437066707}
   m_Layer: 6
   m_Name: T-43
   m_TagString: Tank
@@ -315,6 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _componentType: 1
+  _stop: 0
 --- !u!114 &7525115388831326544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -533,38 +533,3 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &3132925640437066707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4880948635142922707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b130f358dcb26548b2ff0923d496dc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team: 0
-  brightness: 1
-  shapeType: 0
-  absoluteOffset: 0
-  offset: {x: 0, y: 0}
-  boxSize: {x: 5, y: 5}
-  circleRadius: 35
-  innerRadius: 1
-  angle: 180
-  texture: {fileID: 0}
-  rotateToForward: 0
-  mesh: {fileID: 0}
-  lineOfSightMask:
-    serializedVersion: 2
-    m_Bits: 8
-  lineOfSightRaycastCount: 100
-  lineOfSightPenetration: 5
-  lineOfSightRaycastAngle: 360
-  lineOfSightRaycastOffset: 0
-  lineOfSightSeeOutsideRange: 0
-  multithreading: 1
-  cellBased: 0
-  snapToPixelCenter: 0
