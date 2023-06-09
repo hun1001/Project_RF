@@ -26,6 +26,11 @@ public class CameraManager : MonoBehaviour
         StartCoroutine(CameraShakeCoroutine(amplitudeGain, frequencyGain, duration));
     }
 
+    public void CameraShake(CameraShakeValueSO cameraShakeValueSO)
+    {
+        StartCoroutine(CameraShakeCoroutine(cameraShakeValueSO.AmplitudeGain, cameraShakeValueSO.FrequencyGain, cameraShakeValueSO.Duration));
+    }
+
     private IEnumerator CameraShakeCoroutine(float a, float f, float d)
     {
         var cinemachineBasicMultiChannelPerlin = _virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();

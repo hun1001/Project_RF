@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Pool;
 using UnityEngine.Events;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using Addressable;
 using System.Linq;
 using Event;
@@ -44,18 +40,15 @@ public class Player : CustomObject
 
 
     [Header("Camera Shake")]
-    public float cameraAttackShakeAmplitudeGain = 4f;
-    public float cameraAttackShakeFrequencyGain = 6;
-    public float cameraAttackShakeDuration = 0.1f;
 
-    [Space(10f)]
-    public float cameraDamageShakeAmplitudeGain = 5f;
-    public float cameraDamageShakeFrequencyGain = 8;
-    public float cameraDamageShakeDuration = 0.2f;
+    [SerializeField]
+    private CameraShakeValueSO _cameraAttackShakeValueSO = null;
 
-    [Space(10f)]
-    public float cameraCrashShakeFrequencyGain = 8;
-    public float cameraCrashShakeDuration = 0.2f;
+    [SerializeField]
+    private CameraShakeValueSO _cameraDamageShakeValueSO = null;
+
+    [SerializeField]
+    private CameraShakeValueSO _cameraCrashShakeValueSO = null;
 
     protected override void Awake()
     {
@@ -111,7 +104,7 @@ public class Player : CustomObject
         {
             if (a < 0)
             {
-                _cameraManager.CameraShake(cameraDamageShakeAmplitudeGain, cameraDamageShakeFrequencyGain, cameraDamageShakeDuration);
+                _cameraManager.CameraShake(_cameraDamageShakeValueSO);
                 _cameraManager.SetVolumeVignette(Color.red, 0.25f, 1f, 0.4f);
 
                 object[] objects = new object[2];
@@ -132,12 +125,12 @@ public class Player : CustomObject
 
         _tank.GetComponent<Tank_Move>(ComponentType.Move).AddOnCrashAction((a) =>
         {
-            _cameraManager.CameraShake(a * 0.3f, cameraCrashShakeFrequencyGain, cameraCrashShakeDuration);
+            _cameraManager.CameraShake(a * 0.3f, _cameraCrashShakeValueSO.FrequencyGain, _cameraCrashShakeValueSO.Duration);
         });
 
         _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() =>
         {
-            _cameraManager.CameraShake(cameraAttackShakeAmplitudeGain, cameraAttackShakeFrequencyGain, cameraAttackShakeDuration);
+            _cameraManager.CameraShake(_cameraAttackShakeValueSO);
         });
 
         _tankMove = _tank.GetComponent<Tank_Move>(ComponentType.Move);
