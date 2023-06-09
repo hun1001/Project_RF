@@ -53,7 +53,10 @@ public class Bar : MonoBehaviour, IPoolReset
     public void ChangeValue(float value)
     {
         _currentValue += value;
+
         if (_currentValue > _maxValue) _currentValue = _maxValue;
+        if (_currentValue < 0) _currentValue = 0;
+
         _valueImage.fillAmount = _currentValue / _maxValue;
 
         UpdateValueText();

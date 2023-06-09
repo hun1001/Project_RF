@@ -69,9 +69,9 @@ public class Turret_AimLine : Turret_Component
 
         var a = Turret.GetComponent<Turret_Attack>(ComponentType.Attack);
 
+        var rayData = Physics2D.Raycast(Turret.FirePoint.position, Turret.FirePoint.up, Turret.CurrentShell.Speed * 2f);
         if (a.ReloadingTime <= 0f)
         {
-            var rayData = Physics2D.Raycast(Turret.FirePoint.position, Turret.FirePoint.up, Turret.CurrentShell.Speed * 2f);
             Debug.DrawLine(Turret.FirePoint.position, Turret.FirePoint.position + Turret.FirePoint.up * Turret.CurrentShell.Speed * 2f, Color.red, 0.1f);
 
             if (rayData.collider != null && rayData.collider != Turret.GetComponent<Tank>().GetComponent<Collider2D>())
@@ -89,8 +89,6 @@ public class Turret_AimLine : Turret_Component
         }
         else
         {
-            var rayData = Physics2D.Raycast(Turret.FirePoint.position, Turret.FirePoint.up, Turret.CurrentShell.Speed * 2f);
-
             _isAim = rayData.collider != null && rayData.collider != Turret.GetComponent<Tank>().GetComponent<Collider2D>();
 
             var pos = _isAim ? (Vector3)(rayData.point + (Vector2)Turret.FirePoint.up) : Turret.FirePoint.position + Turret.FirePoint.up * Turret.CurrentShell.Speed * 2f;
