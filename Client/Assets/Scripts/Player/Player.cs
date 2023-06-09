@@ -125,6 +125,7 @@ public class Player : CustomObject
         {
             _tank.GetComponent<Tank_Move>(ComponentType.Move).SetEnableMove(false);
             StopCoroutine(nameof(InputUpdateCoroutine));
+            _attackJoystick.ClearOnPointerUpAction();
             EventManager.TriggerEvent(EventKeyword.PlayerDead);
             StopCoroutine(nameof(CheckAroundTarget));
         });
