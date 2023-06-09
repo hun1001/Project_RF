@@ -49,9 +49,9 @@ public class BossTurret_Attack : Turret_Attack
 
     private IEnumerator StopDuringFireCoroutine(float time)
     {
-        _tankMove._stop = true;
+        _tankMove.SetEnableMove(false);
         yield return new WaitForSeconds(time);
-        _tankMove._stop = false;
+        _tankMove.SetEnableMove(true);
     }
 
     private IEnumerator FireMissileCoroutine(Vector3 targetPosition)

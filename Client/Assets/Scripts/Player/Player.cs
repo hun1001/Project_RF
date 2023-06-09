@@ -123,6 +123,8 @@ public class Player : CustomObject
 
         tankDamage.AddOnDeathAction(() =>
         {
+            _tank.GetComponent<Tank_Move>(ComponentType.Move).SetEnableMove(false);
+            StopCoroutine(nameof(InputUpdateCoroutine));
             EventManager.TriggerEvent(EventKeyword.PlayerDead);
             StopCoroutine(nameof(CheckAroundTarget));
         });
@@ -141,16 +143,24 @@ public class Player : CustomObject
         _tankRotate = _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate);
         _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
 
+        StartCoroutine(nameof(InputUpdateCoroutine));
         StartCoroutine(nameof(CheckAroundTarget));
     }
 
     void Update()
     {
-        _tankMove.Move(_moveJoystick.Magnitude);
-        _tankRotate.Rotate(_moveJoystick.Direction);
-        _turretRotate.Rotate(_attackJoystick.Direction);
-
         _cameraManager.CameraZoom(_cameraHeight, 1f);
+    }
+
+    private IEnumerator InputUpdateCoroutine()
+    {
+        while (true)
+        {
+            _tankMove.Move(_moveJoystick.Magnitude);
+            _tankRotate.Rotate(_moveJoystick.Direction);
+            _turretRotate.Rotate(_attackJoystick.Direction);
+            yield return null;
+        }
     }
 
     private IEnumerator CheckAroundTarget()

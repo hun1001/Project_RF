@@ -14,7 +14,7 @@ public class Tank_Move : Tank_Component
     private float _targetSpeed = 0f;
 
     private bool _collision = false;
-    public bool _stop = false;
+    private bool _stop = false;
 
     private Tank_Sound _tankSound = null;
     private float _loadSoundDelay;
@@ -164,5 +164,10 @@ public class Tank_Move : Tank_Component
     public void TankRebound(Vector3 dir)
     {
         StartCoroutine(CrashRebound(dir));
+    }
+
+    public void SetEnableMove(bool enable)
+    {
+        _stop = !enable;
     }
 }
