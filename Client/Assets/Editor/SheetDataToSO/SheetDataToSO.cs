@@ -64,6 +64,18 @@ namespace CustomEditorWindow.SheetDataToSO
                 switch (_dataType[_dataTypeIndex])
                 {
                     case "Tank":
+
+                        // 0: Name
+                        // 1: Tier
+                        // 2: Country
+                        // 3: Category
+                        // 4: MaxSpeed
+                        // 5: Acceleration
+                        // 6: RotationSpeed
+                        // 7: HP
+                        // 8: Armour
+                        // 9: Price
+
                         for (int i = 1; i < lines.Length; i++)
                         {
                             string[] data = lines[i].Split('\t');
@@ -81,7 +93,7 @@ namespace CustomEditorWindow.SheetDataToSO
                                 asset = ScriptableObject.CreateInstance<TankSO>();
                             }
 
-                            asset.SetData(float.Parse(data[7]), float.Parse(data[8]), float.Parse(data[4]), float.Parse(data[5]), float.Parse(data[6]), SheetDataUtil.GetCountryType(data[2]), SheetDataUtil.GetTankType(data[3]), uint.Parse(data[1]), bool.Parse(data[9]), uint.Parse(data[10].ToString()), uint.Parse(data[11].ToString()));
+                            asset.SetData(float.Parse(data[7]), float.Parse(data[8]), float.Parse(data[4]), float.Parse(data[5]), float.Parse(data[6]), SheetDataUtil.GetCountryType(data[2]), SheetDataUtil.GetTankType(data[3]), uint.Parse(data[1]), uint.Parse(data[9]));
 
                             if (AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Tank/" + data[2].ToString()) == false)
                             {

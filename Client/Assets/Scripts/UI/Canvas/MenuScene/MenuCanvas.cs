@@ -219,7 +219,7 @@ public class MenuCanvas : BaseCanvas
         _tankTypeImage.sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
         _tankTierText.SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
         _tankNameText.SetText(_currentTankID);
-        
+
         _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(true);
     }
 
@@ -229,29 +229,29 @@ public class MenuCanvas : BaseCanvas
         _passiveItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Passive);
         //_activeItemEquipmentDataDict = ItemSaveManager.GetItemEquipment(ItemType.Active);
 
-        uint passiveSlotSize = currentTank.TankSO.PassiveItemInventorySize;
-        uint idx = 0;
-        foreach (var passive in _passiveItemEquipmentDataDict._itemEquipmentList)
-        {
-            if (idx + 1 > passiveSlotSize)
-            {
-                _gearImages[idx].sprite = null;
-                _gearImages[idx].gameObject.SetActive(false);
-                _lockImages[idx++].SetActive(true);
-                continue;
-            }
+        //uint passiveSlotSize = currentTank.TankSO.PassiveItemInventorySize;
+        // uint idx = 0;
+        // foreach (var passive in _passiveItemEquipmentDataDict._itemEquipmentList)
+        // {
+        //     if (idx + 1 > passiveSlotSize)
+        //     {
+        //         _gearImages[idx].sprite = null;
+        //         _gearImages[idx].gameObject.SetActive(false);
+        //         _lockImages[idx++].SetActive(true);
+        //         continue;
+        //     }
 
-            _lockImages[idx].SetActive(false);
-            if (passive == "")
-            {
-                _gearImages[idx++].sprite = _plusSprite;
-                continue;
-            }
+        //     _lockImages[idx].SetActive(false);
+        //     if (passive == "")
+        //     {
+        //         _gearImages[idx++].sprite = _plusSprite;
+        //         continue;
+        //     }
 
-            Item_Base itemInfo = AddressablesManager.Instance.GetResource<GameObject>(passive).GetComponent<Item_Base>();
-            _gearImages[idx].sprite = itemInfo.ItemSO.Image;
-            _gearImages[idx++].gameObject.SetActive(true);
-        }
+        //     Item_Base itemInfo = AddressablesManager.Instance.GetResource<GameObject>(passive).GetComponent<Item_Base>();
+        //     _gearImages[idx].sprite = itemInfo.ItemSO.Image;
+        //     _gearImages[idx++].gameObject.SetActive(true);
+        // }
 
         /*uint activeSlotSize = currentTank.TankSO.ActiveItemInventorySize;
         foreach (var active in _activeItemEquipmentDataDict._itemEquipmentList)

@@ -276,7 +276,7 @@ public class GearCanvas : BaseCanvas
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
         _curentTank = FindObjectOfType<TankModelManager>().TankModel;
         _shellEquipmentDataDict = ShellSaveManager.GetShellEquipment(_currentTankID);
-        _passiveItemSlotSize = _curentTank.TankSO.PassiveItemInventorySize;
+        //_passiveItemSlotSize = _curentTank.TankSO.PassiveItemInventorySize;
         //_activeItemSlotSize = _curentTank.TankSO.ActiveItemInventorySize;
 
         _passiveItemEquipSlotDict.Clear();

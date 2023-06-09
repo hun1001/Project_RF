@@ -31,18 +31,18 @@ namespace Item
             _player = GameObject.FindWithTag("Player");
             Tank _playerTank = _player.GetComponent<Tank>();
 
-            int itemIdx = 0;
+            //int itemIdx = 0;
             // Passive
-            foreach (var itemID in _passiveItemEquipmentData._itemEquipmentList)
-            {
-                if (itemID != "")
-                {
-                    itemIdx = _passiveItemEquipmentData._itemEquipmentList.IndexOf(itemID) + 1;
-                    if (itemIdx > _playerTank.TankSO.PassiveItemInventorySize) continue;
-                    var item = PoolManager.Get<Passive_Item>(itemID, _player.transform);
-                    item.ItemEquip();
-                }
-            }
+            // foreach (var itemID in _passiveItemEquipmentData._itemEquipmentList)
+            // {
+            //     if (itemID != "")
+            //     {
+            //         itemIdx = _passiveItemEquipmentData._itemEquipmentList.IndexOf(itemID) + 1;
+            //         if (itemIdx > _playerTank.TankSO.PassiveItemInventorySize) continue;
+            //         var item = PoolManager.Get<Passive_Item>(itemID, _player.transform);
+            //         item.ItemEquip();
+            //     }
+            // }
 
             //int activeIdx = 1;
             //// Active
