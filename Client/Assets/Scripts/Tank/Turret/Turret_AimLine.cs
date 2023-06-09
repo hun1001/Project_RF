@@ -99,7 +99,7 @@ public class Turret_AimLine : Turret_Component
         }
     }
 
-    public void SetEnableLineLenderer(bool isActive)
+    public void SetEnableLineRenderer(bool isActive)
     {
         _lineRenderer.enabled = isActive;
     }
