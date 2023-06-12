@@ -66,8 +66,8 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
             {
                 _shellDict[_shells[idx].ID].SetActive(true);
 
-                _shellDict[_shells[idx].ID].transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = dmg / 1000f;
-                _shellDict[_shells[idx].ID].transform.GetChild(2).GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = pen / 400f;
+                _shellDict[_shells[idx].ID].transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = dmg / 1500f;
+                _shellDict[_shells[idx].ID].transform.GetChild(2).GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = pen / 500f;
 
                 _shellDict[_shells[idx].ID].transform.GetChild(3).GetChild(0).GetComponent<Text>().text = dmg.ToString();
                 _shellDict[_shells[idx].ID].transform.GetChild(3).GetChild(1).GetComponent<Text>().text = pen.ToString();
@@ -95,8 +95,8 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
 
             // Bar
             Transform bars = obj.transform.GetChild(2);
-            bars.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = dmg / 1000f;
-            bars.GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = pen / 400f;
+            bars.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = dmg / 1500f;
+            bars.GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = pen / 500f;
             bars.GetChild(2).GetChild(0).GetComponent<Image>().fillAmount = _shells[idx].Speed / 140f;
             bars.GetChild(3).GetChild(0).GetComponent<Image>().fillAmount = _shells[idx].ShellSO.RicochetAngle / 90f;
 

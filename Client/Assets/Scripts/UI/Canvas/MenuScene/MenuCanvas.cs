@@ -41,18 +41,21 @@ public class MenuCanvas : BaseCanvas
 
     [Header("Animation")]
     [SerializeField]
-    private RectTransform _topFrame;
+    private RectTransform _topFrame = null;
     [SerializeField]
-    private RectTransform _bottomFrame;
+    private RectTransform _bottomFrame = null;
     [SerializeField]
-    private RectTransform _leftFrame;
+    private RectTransform _leftFrame = null;
+    //[SerializeField]
+    //private RectTransform _showButton = null;
     [SerializeField]
-    private RectTransform _showButton;
+    private RectTransform _hangerDownImage = null;
     [SerializeField]
-    private RectTransform _hangerDownImage;
+    private RectTransform _seeButton = null;
 
     private bool _isHide = false;
     private bool _isHangerHide = false;
+    private bool _isSeeTank = false;
 
     [Header("Hanger")]
     [SerializeField]
@@ -164,6 +167,7 @@ public class MenuCanvas : BaseCanvas
         _isOpen = true;
         _isFilterOpen = false;
         _isShellOpen = false;
+        _isSeeTank = false;
 
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
 
@@ -189,6 +193,7 @@ public class MenuCanvas : BaseCanvas
         _isHangerHide = false;
         _isFilterOpen = false;
         _isShellOpen = false;
+        _isSeeTank = false;
 
         _filterPanel.SetActive(false);
         _shellReplacement.SetActive(false);
@@ -210,6 +215,11 @@ public class MenuCanvas : BaseCanvas
         if (_isHangerHide)
         {
             OnHangerHide();
+        }
+
+        if (_isSeeTank)
+        {
+            OnSeeButton();
         }
     }
 
@@ -283,6 +293,7 @@ public class MenuCanvas : BaseCanvas
         ShellCheck();
     }*/
 
+    #region Shell
     private void ShellCheck()
     {
         int idx = 0;
@@ -302,6 +313,34 @@ public class MenuCanvas : BaseCanvas
         }
     }
 
+    private bool ShellEmptyCheck()
+    {
+        ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
+
+        return shellEquipmentData._shellEquipmentList[0] == "" && shellEquipmentData._shellEquipmentList[1] == "";
+    }
+
+    private void WarningShellEmpty()
+    {
+        _warningSequence.Kill();
+        _warningSequence = DOTween.Sequence()
+        .AppendCallback(() =>
+        {
+            _warningPanel.GetComponent<CanvasGroup>().DOFade(1, 0f);
+            _warningPanel.gameObject.SetActive(true);
+            _warningPanel.GetChild(0).GetComponent<TextController>().SetText("총알이 장착되어 있지 않습니다!\n총알을 장착해주세요.");
+        })
+        .AppendInterval(1.2f)
+        .Append(_warningPanel.GetComponent<CanvasGroup>().DOFade(0, 1f))
+        .AppendCallback(() =>
+        {
+            _warningPanel.gameObject.SetActive(false);
+            _warningPanel.GetComponent<CanvasGroup>().DOFade(1, 0f);
+        });
+    }
+    #endregion
+
+    #region Hanger
     private void HangerUpdate()
     {
         TechTreeProgress ussrData = TechTreeDataManager.GetTechTreeProgress(CountryType.USSR);
@@ -699,7 +738,9 @@ public class MenuCanvas : BaseCanvas
                 return null;
         }
     }
+    #endregion
 
+    #region Buttons
     public void OnStartButton()
     {
         PlayButtonSound();
@@ -751,32 +792,6 @@ public class MenuCanvas : BaseCanvas
         EventManager.ClearEvent();
     }
 
-    private bool ShellEmptyCheck()
-    {
-        ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
-
-        return shellEquipmentData._shellEquipmentList[0] == "" && shellEquipmentData._shellEquipmentList[1] == "";
-    }
-
-    private void WarningShellEmpty()
-    {
-        _warningSequence.Kill();
-        _warningSequence = DOTween.Sequence()
-        .AppendCallback(() =>
-        {
-            _warningPanel.GetComponent<CanvasGroup>().DOFade(1, 0f);
-            _warningPanel.gameObject.SetActive(true);
-            _warningPanel.GetChild(0).GetComponent<TextController>().SetText("총알이 장착되어 있지 않습니다!\n총알을 장착해주세요.");
-        })
-        .AppendInterval(1.2f)
-        .Append(_warningPanel.GetComponent<CanvasGroup>().DOFade(0, 1f))
-        .AppendCallback(() =>
-        {
-            _warningPanel.gameObject.SetActive(false);
-            _warningPanel.GetComponent<CanvasGroup>().DOFade(1, 0f);
-        });
-    }
-
     public void OnModeButton()
     {
         CanvasManager.ChangeCanvas(CanvasType.Mode, CanvasType);
@@ -805,12 +820,12 @@ public class MenuCanvas : BaseCanvas
         PlayButtonSound();
     }
 
-    public void OnOpenItem()
+    /*public void OnOpenItem()
     {
         CanvasManager.ChangeCanvas(CanvasType.Gear, CanvasType);
 
         PlayButtonSound();
-    }
+    }*/
 
     public void OnOpenShell()
     {
@@ -826,7 +841,9 @@ public class MenuCanvas : BaseCanvas
             _shellReplacement.SetActive(true);
         }
     }
+    #endregion
 
+    #region Animations
     public void OnHangerHide()
     {
         if (_isHangerHide)
@@ -845,22 +862,24 @@ public class MenuCanvas : BaseCanvas
         PlayButtonSound();
     }
 
-    public void UIHide(bool isHide)
+    public void OnSeeButton()
     {
-        _isHide = isHide;
-
-        _startSequence = DOTween.Sequence()
+        DOTween.Sequence()
         .AppendCallback(() =>
         {
-            if (_isHide == false)
+            if (_isSeeTank == false)
             {
+                _isSeeTank = true;
+
                 _topFrame.DOAnchorPosY(82f, 0.25f);
                 _bottomFrame.DOAnchorPosY(-102f, 0.25f);
-                _leftFrame.DOAnchorPosX(-60f, 0.25f);
-                //_showButton.DOAnchorPosY(-_showButton.sizeDelta.y, 0.25f);
+                _leftFrame.DOAnchorPosX(-61f, 0.25f);
+                _seeButton.DOAnchorPosX(61f, 0.25f);
             }
             else
             {
+                _isSeeTank = false;
+
                 _topFrame.DOAnchorPosY(0f, 0.25f);
                 if (_isHangerHide)
                 {
@@ -871,7 +890,49 @@ public class MenuCanvas : BaseCanvas
                     _bottomFrame.DOAnchorPosY(0f, 0.25f);
                 }
                 _leftFrame.DOAnchorPosX(0f, 0.25f);
-                //_showButton.DOAnchorPosY(0f, 0.25f);
+                _seeButton.DOAnchorPosX(0f, 0.25f);
+
+            }
+        });
+
+    }
+
+    public void UIHide(bool isHide)
+    {
+        _isHide = isHide;
+
+        DOTween.Sequence()
+        .AppendCallback(() =>
+        {
+            if (_isHide == false)
+            {
+                _topFrame.DOAnchorPosY(82f, 0.25f);
+                _bottomFrame.DOAnchorPosY(-102f, 0.25f);
+                _leftFrame.DOAnchorPosX(-61f, 0.25f);
+                _seeButton.DOAnchorPosX(0f, 0.25f);
+
+                //_showButton.DOAnchorPosY(-_showButton.sizeDelta.y, 0.25f);
+            }
+            else
+            {
+                if (_isSeeTank == false)
+                {
+                    _topFrame.DOAnchorPosY(0f, 0.25f);
+                    if (_isHangerHide)
+                    {
+                        _bottomFrame.DOAnchorPosY(-68f, 0.25f);
+                    }
+                    else
+                    {
+                        _bottomFrame.DOAnchorPosY(0f, 0.25f);
+                    }
+                    _leftFrame.DOAnchorPosX(0f, 0.25f);
+                    //_showButton.DOAnchorPosY(0f, 0.25f);
+                }
+                else
+                {
+                    _seeButton.DOAnchorPosX(61f, 0.25f);
+                }
             }
         });
     }
@@ -880,27 +941,35 @@ public class MenuCanvas : BaseCanvas
     {
         _isHide = (bool)isHide[0];
 
-        _startSequence = DOTween.Sequence()
+        DOTween.Sequence()
         .AppendCallback(() =>
         {
             if (_isHide == false)
             {
                 _topFrame.DOAnchorPosY(82f, 0.25f);
                 _bottomFrame.DOAnchorPosY(-102f, 0.25f);
-                _leftFrame.DOAnchorPosX(-60f, 0.25f);
+                _leftFrame.DOAnchorPosX(-61f, 0.25f);
+                _seeButton.DOAnchorPosX(0f, 0.25f);
             }
             else
             {
-                _topFrame.DOAnchorPosY(0f, 0.25f);
-                if (_isHangerHide)
+                if (_isSeeTank == false)
                 {
-                    _bottomFrame.DOAnchorPosY(-68f, 0.25f);
+                    _topFrame.DOAnchorPosY(0f, 0.25f);
+                    if (_isHangerHide)
+                    {
+                        _bottomFrame.DOAnchorPosY(-68f, 0.25f);
+                    }
+                    else
+                    {
+                        _bottomFrame.DOAnchorPosY(0f, 0.25f);
+                    }
+                    _leftFrame.DOAnchorPosX(0f, 0.25f);
                 }
                 else
                 {
-                    _bottomFrame.DOAnchorPosY(0f, 0.25f);
+                    _seeButton.DOAnchorPosX(61f, 0.25f);
                 }
-                _leftFrame.DOAnchorPosX(0f, 0.25f);
             }
         });
 
@@ -909,4 +978,5 @@ public class MenuCanvas : BaseCanvas
             OnFilterOpen();
         }
     }
+    #endregion
 }
