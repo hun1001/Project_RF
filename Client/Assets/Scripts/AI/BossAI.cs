@@ -124,17 +124,19 @@ public class BossAI : MonoBehaviour
         rootNode = new RootNode(selectorNode);
 
         _behaviorTree = new BehaviorTree(rootNode);
-
-        StartCoroutine(BehaviorTreeUpdateCoroutine());
     }
 
-    private IEnumerator BehaviorTreeUpdateCoroutine()
+    private float _delayTime = 0f;
+
+    private void Update()
     {
-        yield return new WaitForSeconds(3f);
-        while (true)
+        if (_delayTime < 1f)
+        {
+            _delayTime += Time.deltaTime;
+        }
+        else
         {
             _behaviorTree.Tick();
-            yield return null;
         }
     }
 
