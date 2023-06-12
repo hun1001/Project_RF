@@ -124,11 +124,18 @@ public class BossAI : MonoBehaviour
         rootNode = new RootNode(selectorNode);
 
         _behaviorTree = new BehaviorTree(rootNode);
+
+        StartCoroutine(BehaviorTreeUpdateCoroutine());
     }
 
-    private void Update()
+    private IEnumerator BehaviorTreeUpdateCoroutine()
     {
-        _behaviorTree.Tick();
+        yield return new WaitForSeconds(3f);
+        while (true)
+        {
+            _behaviorTree.Tick();
+            yield return null;
+        }
     }
 
     private void Attack()
