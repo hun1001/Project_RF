@@ -49,11 +49,6 @@ public class TechTreeCanvas : BaseCanvas
             _tankInformation.SetActive(false);
             PlayButtonSound();
         });
-        _tankInformationPanel.transform.GetChild(5).GetComponent<Button>().onClick.AddListener(() =>
-        {
-            _tankInformation.SetActive(false);
-            PlayButtonSound();
-        });
 
         _goodsTexts.SetGoodsTexts(GoodsManager.FreeGoods, GoodsManager.PaidGoods);
 
@@ -137,26 +132,27 @@ public class TechTreeCanvas : BaseCanvas
                         topUI.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
                         topUI.GetChild(1).GetComponent<Text>().text = _techTree.TankTierNumber[lIndex];
                         topUI.GetChild(2).GetComponent<Text>().text = _techTree.TechTreeSO[index][jIndex, lIndex].ID;
-
+                        
                         // 탱크 이미지 없으니까 일단  null
                         _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
 
-                        _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.RemoveAllListeners();
-                        _tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
-                        {
-                            if (TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex, lIndex].ID))
-                            {
-                                FindObjectOfType<TankModelManager>().ChangeTankModel(_techTree.TechTreeSO[index][jIndex, lIndex]);
-                                _tankInformation.SetActive(false);
-                            }
-                            PlayButtonSound();
-                        });
+                        //_tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.RemoveAllListeners();
+                        //_tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
+                        //{
+                        //    if (TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex, lIndex].ID))
+                        //    {
+                        //        FindObjectOfType<TankModelManager>().ChangeTankModel(_techTree.TechTreeSO[index][jIndex, lIndex]);
+                        //        _tankInformation.SetActive(false);
+                        //    }
+                        //    PlayButtonSound();
+                        //});
 
                         _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
                         _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.AddListener(() =>
                         {
                             TechTreeDataManager.AddTank(_techTree.TechTreeSO[index].CountryType, _techTree.TechTreeSO[index][jIndex, lIndex].ID);
                             tNC.IsTankLocked = false;
+                            _tankInformation.SetActive(false);
                             PlayButtonSound();
                         });
                     });
