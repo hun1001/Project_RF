@@ -1,4 +1,5 @@
 using System.Text;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +17,9 @@ public class TrainingTankManager : MonoBehaviour
 
     [SerializeField]
     private Text _debugText = null;
+
+    [SerializeField]
+    private float _destroyedTankPoolingTime = 0f;
 
     private StringBuilder _debugTextString = new StringBuilder();
 
@@ -52,6 +56,7 @@ public class TrainingTankManager : MonoBehaviour
 
         _tank.GetComponent<Tank_Damage>().AddOnDamageAction(SetDebugText);
         _tank.GetComponent<Tank_Damage>().AddOnDamageAction(_hpBar.ChangeValue);
+        _tank.GetComponent<Tank_Damage>().AddOnDeathAction(() => StartCoroutine(DestroyedTankPool()));
 
         SetDebugText(0);
     }
@@ -66,5 +71,20 @@ public class TrainingTankManager : MonoBehaviour
         _debugTextString.Append($"Result Damage: {-d}\n");
 
         _debugText.text = _debugTextString.ToString();
+    }
+
+    private IEnumerator DestroyedTankPool()
+    {
+        GameObject obj = GameObject.Find("Destroyed_Tank(Clone)");
+        string id = obj.name;
+
+        if (id.Contains("(Clone)"))
+        {
+            id = id.Replace("(Clone)", "");
+        }
+
+        yield return new WaitForSeconds(_destroyedTankPoolingTime);
+        
+        PoolManager.Pool(id, obj);
     }
 }
