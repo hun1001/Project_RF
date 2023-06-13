@@ -31,6 +31,7 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
 
     private void Start()
     {
+        _template.SetActive(false);
         ShellAdd();
 
         EventManager.StartListening(EventKeyword.TankReplacement, () =>
