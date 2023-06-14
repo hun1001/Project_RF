@@ -136,16 +136,12 @@ public class TechTreeCanvas : BaseCanvas
                         // 탱크 이미지 없으니까 일단  null
                         _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
 
-                        //_tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.RemoveAllListeners();
-                        //_tankInformationPanel.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
-                        //{
-                        //    if (TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex, lIndex].ID))
-                        //    {
-                        //        FindObjectOfType<TankModelManager>().ChangeTankModel(_techTree.TechTreeSO[index][jIndex, lIndex]);
-                        //        _tankInformation.SetActive(false);
-                        //    }
-                        //    PlayButtonSound();
-                        //});
+                        var stats = _tankInformationPanel.transform.GetChild(2);
+                        // Health
+
+                        // Power
+
+                        // Movement
 
                         _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
                         _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.AddListener(() =>
