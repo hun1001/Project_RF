@@ -138,10 +138,17 @@ public class TechTreeCanvas : BaseCanvas
 
                         var stats = _tankInformationPanel.transform.GetChild(2);
                         // Health
-
+                        float health = 1000f * ((_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.HP * 0.1f) * (_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.Armour * 0.1f)) / 11392f;
+                        stats.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = health * 0.001f;
+                        stats.GetChild(0).GetChild(2).GetComponent<Text>().text = string.Format("{0:0}", health);
                         // Power
-
+                        float power = 1000f * (_techTree.TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.AtkPower * _techTree.TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.PenetrationPower) / 11440f;
+                        stats.GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = power * 0.001f;
+                        stats.GetChild(1).GetChild(2).GetComponent<Text>().text = string.Format("{0:0}", power);
                         // Movement
+                        float movement = 1000f * ((_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.MaxSpeed * 0.4f) * (_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.Acceleration * 0.2f) * (_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.RotationSpeed * 0.2f) * (_techTree.TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.RotationSpeed * 0.2f)) / 93177f;
+                        stats.GetChild(2).GetChild(0).GetComponent<Image>().fillAmount = movement * 0.001f;
+                        stats.GetChild(2).GetChild(2).GetComponent<Text>().text = string.Format("{0:0}", movement);
 
                         _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
                         _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.AddListener(() =>
