@@ -49,13 +49,14 @@ public class Shell_Collision : Shell_Component
             {
                 reflectionDir = Vector2.Reflect(-incidentVector, normalVector);
 
+                PoolManager.Get("Ricochet_Old", transform.position, transform.rotation);
                 transform.up = reflectionDir;
                 _shellSound.PlaySound(SoundType.Ricochet, AudioMixerType.Sfx);
             }
             else
             {
                 collision.gameObject.GetComponent<Tank_Damage>()?.Damaged((Instance as Shell).Damage, (Instance as Shell).Penetration, collision.contacts[0].point, transform.up);
-                PoolManager.Get("Explosion_APHE_01", transform.position, transform.rotation);
+                PoolManager.Get("TankExplosion_01", transform.position, transform.rotation);
                 PoolManager.Pool(Instance.ID, gameObject);
             }
         }
