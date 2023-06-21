@@ -97,34 +97,7 @@ public class Player : CustomObject
             slotIndex++;
         }
 
-        // TODO : 연동이 잘 안되는 경우 존재 해결 필요
-        Tank_Damage tankDamage = _tank.GetComponent<Tank_Damage>(ComponentType.Damage);
-        tankDamage.AddOnDamageAction(_hpBar.ChangeValue);
-        tankDamage.AddOnDamageAction((a) =>
-        {
-            if (a < 0)
-            {
-                _cameraManager.CameraShake(_cameraDamageShakeValueSO);
-                _cameraManager.SetVolumeVignette(Color.red, 0.25f, 1f, 0.4f);
-#if UNITY_ANDROID
-                Handheld.Vibrate();
-#endif
-
-                object[] objects = new object[2];
-                objects[0] = tankDamage.LastHitDir.x;
-                objects[1] = tankDamage.LastHitDir.y;
-                EventManager.TriggerEvent(EventKeyword.PlayerHit, objects);
-            }
-        });
-
-        tankDamage.AddOnDeathAction(() =>
-        {
-            _tank.GetComponent<Tank_Move>(ComponentType.Move).SetEnableMove(false);
-            StopCoroutine(nameof(InputUpdateCoroutine));
-            _attackJoystick.ClearOnPointerUpAction();
-            EventManager.TriggerEvent(EventKeyword.PlayerDead);
-            StopCoroutine(nameof(CheckAroundTarget));
-        });
+        SetTankDamage();
 
         _tank.GetComponent<Tank_Move>(ComponentType.Move).AddOnCrashAction((a) =>
         {
@@ -186,5 +159,37 @@ public class Player : CustomObject
                 _cameraManager.AddTargetGroup(enemy.transform, 20, 80);
             }
         }
+    }
+
+    private void SetTankDamage()
+    {
+        // TODO : 연동이 잘 안되는 경우 존재 해결 필요
+        Tank_Damage tankDamage = _tank.GetComponent<Tank_Damage>(ComponentType.Damage);
+        tankDamage.AddOnDamageAction(_hpBar.ChangeValue);
+        tankDamage.AddOnDamageAction((a) =>
+        {
+            if (a < 0)
+            {
+                _cameraManager.CameraShake(_cameraDamageShakeValueSO);
+                _cameraManager.SetVolumeVignette(Color.red, 0.25f, 1f, 0.4f);
+#if UNITY_ANDROID
+                Handheld.Vibrate();
+#endif
+
+                object[] objects = new object[2];
+                objects[0] = tankDamage.LastHitDir.x;
+                objects[1] = tankDamage.LastHitDir.y;
+                EventManager.TriggerEvent(EventKeyword.PlayerHit, objects);
+            }
+        });
+
+        tankDamage.AddOnDeathAction(() =>
+        {
+            _tank.GetComponent<Tank_Move>(ComponentType.Move).SetEnableMove(false);
+            StopCoroutine(nameof(InputUpdateCoroutine));
+            _attackJoystick.ClearOnPointerUpAction();
+            EventManager.TriggerEvent(EventKeyword.PlayerDead);
+            StopCoroutine(nameof(CheckAroundTarget));
+        });
     }
 }
