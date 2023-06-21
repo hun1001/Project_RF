@@ -51,6 +51,13 @@ public class AudioSourceController : MonoBehaviour, IPoolReset
         PoolManager.Pool("AudioSource", gameObject);
     }
 
+    public void StopAudio()
+    {
+        _audioSource.Stop();
+
+        PoolManager.Pool("AudioSource", gameObject);
+    }
+
     private void OnDestroy()
     {
         StopAllCoroutines();

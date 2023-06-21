@@ -674,6 +674,7 @@ public class MenuCanvas : BaseCanvas
     public void OnFilterOpen()
     {
         PlayButtonSound();
+
         if (_isFilterOpen)
         {
             _isFilterOpen = false;
