@@ -72,7 +72,6 @@ public class MenuCanvas : BaseCanvas
     [Header("Filter")]
     [SerializeField]
     private GameObject _filterPanel = null;
-    private bool _isFilterOpen = false;
 
     [SerializeField]
     private Toggle[] _sortOrderToggles = null;
@@ -165,11 +164,8 @@ public class MenuCanvas : BaseCanvas
         _isHide = false;
         _isHangerHide = false;
         _isOpen = true;
-        _isFilterOpen = false;
         _isShellOpen = false;
         _isSeeTank = false;
-
-        _filterPanel.SetActive(false);
 
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
 
@@ -193,7 +189,6 @@ public class MenuCanvas : BaseCanvas
         base.OnOpenEvents();
         _isHide = false;
         _isHangerHide = false;
-        _isFilterOpen = false;
         _isShellOpen = false;
         _isSeeTank = false;
 
@@ -677,16 +672,7 @@ public class MenuCanvas : BaseCanvas
     {
         PlayButtonSound();
 
-        if (_isFilterOpen)
-        {
-            _isFilterOpen = false;
-            _filterPanel.SetActive(false);
-        }
-        else
-        {
-            _isFilterOpen = true;
-            _filterPanel.SetActive(true);
-        }
+        _filterPanel.SetActive(!_filterPanel.activeSelf);
     }
 
     private bool ShouldSwap(string a, string b)
@@ -976,7 +962,7 @@ public class MenuCanvas : BaseCanvas
             }
         });
 
-        if (_isFilterOpen)
+        if (_filterPanel.activeSelf)
         {
             OnFilterOpen();
         }

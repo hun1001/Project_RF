@@ -1,5 +1,4 @@
 using UnityEngine;
-using FoW;
 
 [DisallowMultipleComponent]
 public class Tank : CustomObject, IPoolReset

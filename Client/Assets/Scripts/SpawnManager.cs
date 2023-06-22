@@ -2,7 +2,6 @@ using Util;
 using System.Collections.Generic;
 using UnityEngine;
 using Pool;
-using FoW;
 
 public class SpawnManager : MonoSingleton<SpawnManager>
 {
