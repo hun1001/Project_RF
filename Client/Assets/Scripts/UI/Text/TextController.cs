@@ -2,16 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-[RequireComponent(typeof(Text))]
+[RequireComponent(typeof(TextMeshProUGUI))]
 public class TextController : MonoBehaviour, IText
 {
     [SerializeField]
-    private Text _text;
+    private TextMeshProUGUI _text;
 
     private void Awake()
     {
-        if (_text == null) _text = GetComponent<Text>();
+        if (_text == null) _text = GetComponent<TextMeshProUGUI>();
     }
 
     public void SetText(string text)

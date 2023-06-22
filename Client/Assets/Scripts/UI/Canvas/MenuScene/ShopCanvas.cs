@@ -5,6 +5,7 @@ using DG.Tweening;
 using Item;
 using Util;
 using System.Collections.Generic;
+using TMPro;
 
 public enum ShopToggle
 {
@@ -132,7 +133,7 @@ public class ShopCanvas : BaseCanvas
                 _showingItemList.Add(item, product);
 
                 product.transform.GetChild(0).GetComponent<Image>().sprite = item.ItemSO.Image;
-                product.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = item.ItemSO.Name;
+                product.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.ItemSO.Name;
 
                 product.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() =>
                 {

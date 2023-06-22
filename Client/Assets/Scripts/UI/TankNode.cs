@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using TMPro;
 
 public class TankNode : MonoBehaviour
 {
@@ -11,10 +12,10 @@ public class TankNode : MonoBehaviour
     private Image _tankTypeIcon = null;
 
     [SerializeField]
-    private Text _tankTierText = null;
+    private TextMeshProUGUI _tankTierText = null;
 
     [SerializeField]
-    private Text _tankNameText = null;
+    private TextMeshProUGUI _tankNameText = null;
 
     [SerializeField]
     private Image _tankLockImage = null;

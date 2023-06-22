@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Bar : MonoBehaviour, IPoolReset
 {
@@ -19,7 +20,7 @@ public class Bar : MonoBehaviour, IPoolReset
     protected Image _valueImage = null;
 
     [SerializeField]
-    protected Text _valueText = null;
+    protected TextMeshProUGUI _valueText = null;
 
     private float _maxValue = 0;
     private float _currentValue = 0;

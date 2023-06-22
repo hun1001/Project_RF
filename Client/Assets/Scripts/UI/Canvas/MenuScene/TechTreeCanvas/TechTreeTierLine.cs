@@ -1,5 +1,5 @@
-using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
 public class TechTreeTierLine : MonoBehaviour
 {
@@ -28,7 +28,7 @@ public class TechTreeTierLine : MonoBehaviour
             var tankTier = Instantiate(_tankTierTemplate, _tankTierLine);
             var tankTierConnectLine = Instantiate(_tankTierConnectLineTemplate, _tankTierLine);
 
-            tankTier.transform.GetChild(0).GetComponent<Text>().text = _techTree.TankTierNumber[i];
+            tankTier.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _techTree.TankTierNumber[i];
 
             tankTier.SetActive(true);
             tankTierConnectLine.SetActive(true);

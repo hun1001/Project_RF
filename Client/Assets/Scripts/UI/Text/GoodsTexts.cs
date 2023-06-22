@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class GoodsTexts : MonoBehaviour
 {
     [SerializeField]
-    private Text _freeGoodsText = null;
+    private TextMeshProUGUI _freeGoodsText = null;
 
     [SerializeField]
-    private Text _paidGoodsText = null;
+    private TextMeshProUGUI _paidGoodsText = null;
 
     public void SetGoodsTexts(int freeGoods, int paidGoods)
     {

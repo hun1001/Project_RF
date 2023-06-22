@@ -1,6 +1,7 @@
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine;
+using TMPro;
 
 public class ToggleGroupManager : ToggleGroup
 {
@@ -18,7 +19,7 @@ public class ToggleGroupManager : ToggleGroup
             toggle = Instantiate(_templateToggle, transform);
             toggle.gameObject.SetActive(true);
 
-            toggle.transform.GetChild(1).GetComponent<Text>().text = toggleText[i];
+            toggle.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = toggleText[i];
             toggle.transform.GetChild(0).GetComponent<Image>().sprite = s[i];
             toggle.onValueChanged.RemoveAllListeners();
             toggle.onValueChanged.AddListener(onValueChanged[i]);
