@@ -13,7 +13,7 @@ public class SettingCanvas : BaseCanvas
     [SerializeField]
     private RectTransform _frame;
     [SerializeField]
-    private Text[] _frameTexts;
+    private TextMeshProUGUI[] _frameTexts;
     [SerializeField]
     private Toggle[] _toggles;
 
