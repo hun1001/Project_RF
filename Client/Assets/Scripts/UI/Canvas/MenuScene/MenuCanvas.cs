@@ -169,6 +169,8 @@ public class MenuCanvas : BaseCanvas
         _isShellOpen = false;
         _isSeeTank = false;
 
+        _filterPanel.SetActive(false);
+
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
 
         _countryHangerDataDict.Add(CountryType.USSR, new List<GameObject>());
