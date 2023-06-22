@@ -102,17 +102,11 @@ public class Player : CustomObject
         _tank.GetComponent<Tank_Move>(ComponentType.Move).AddOnCrashAction((a) =>
         {
             _cameraManager.CameraShake(a * 0.3f, _cameraCrashShakeValueSO.FrequencyGain, _cameraCrashShakeValueSO.Duration);
-#if UNITY_ANDROID
-            Handheld.Vibrate();
-#endif
         });
 
         _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() =>
         {
             _cameraManager.CameraShake(_cameraAttackShakeValueSO);
-#if UNITY_ANDROID
-            Handheld.Vibrate();
-#endif
         });
 
         _tankMove = _tank.GetComponent<Tank_Move>(ComponentType.Move);
@@ -172,9 +166,6 @@ public class Player : CustomObject
             {
                 _cameraManager.CameraShake(_cameraDamageShakeValueSO);
                 _cameraManager.SetVolumeVignette(Color.red, 0.25f, 1f, 0.4f);
-#if UNITY_ANDROID
-                Handheld.Vibrate();
-#endif
 
                 object[] objects = new object[2];
                 objects[0] = tankDamage.LastHitDir.x;
@@ -190,6 +181,10 @@ public class Player : CustomObject
             _attackJoystick.ClearOnPointerUpAction();
             EventManager.TriggerEvent(EventKeyword.PlayerDead);
             StopCoroutine(nameof(CheckAroundTarget));
+
+#if UNITY_ANDROID
+            Handheld.Vibrate();
+#endif
         });
     }
 }
