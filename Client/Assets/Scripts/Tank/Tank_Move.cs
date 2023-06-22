@@ -26,13 +26,6 @@ public class Tank_Move : Tank_Component
     private void Awake()
     {
         TryGetComponent(out _tankSound);
-
-        GetComponent<Turret_Attack>().AddOnFireAction(() =>
-        {
-            Vector3 dir = (Instance as Tank).Turret.FirePoint.position - transform.position;
-            dir.z = 0;
-            StartCoroutine(CrashRebound(-dir.normalized * 1f));
-        });
     }
 
     private void Start()
