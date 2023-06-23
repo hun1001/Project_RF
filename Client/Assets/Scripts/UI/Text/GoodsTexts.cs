@@ -4,10 +4,10 @@ using TMPro;
 public class GoodsTexts : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI _freeGoodsText = null;
+    private TMP_Text _freeGoodsText = null;
 
     [SerializeField]
-    private TextMeshProUGUI _paidGoodsText = null;
+    private TMP_Text _paidGoodsText = null;
 
     public void SetGoodsTexts(int freeGoods, int paidGoods)
     {
