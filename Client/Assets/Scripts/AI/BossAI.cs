@@ -47,6 +47,11 @@ public class BossAI : MonoBehaviour
             EventManager.TriggerEvent(EventKeyword.BossClear);
         });
 
+        _tankMove.AddOnCrashAction((_) =>
+        {
+            _moveTargetPosition = Vector3.zero;
+        });
+
         Bar hpBar = FindObjectOfType<InformationCanvas>().BossHpBar;
         hpBar.Setting(_tank.TankData.HP);
 
