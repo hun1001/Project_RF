@@ -325,7 +325,7 @@ public class MenuCanvas : BaseCanvas
         {
             _warningPanel.GetComponent<CanvasGroup>().DOFade(1, 0f);
             _warningPanel.gameObject.SetActive(true);
-            _warningPanel.GetChild(0).GetComponent<TextController>().SetText("총알이 장착되어 있지 않습니다!\n총알을 장착해주세요.");
+            _warningPanel.GetChild(0).GetComponent<TextController>().SetText("No bullets loaded!\nEquip the bullet.");
         })
         .AppendInterval(1.2f)
         .Append(_warningPanel.GetComponent<CanvasGroup>().DOFade(0, 1f))

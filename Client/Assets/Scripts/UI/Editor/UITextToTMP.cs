@@ -17,6 +17,8 @@ public class UITextToTMP : MonoBehaviour
         public TextAlignmentOptions alignOptions; // 정렬 옵션
         public FontStyles fontStyles; // 폰트 스타일 옵션
     }
+    public const string PATH_FONT = "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset";
+
 
     [MenuItem("Tools/UITextToTMP")]
     public static void ChangeTextMeshProUGUI()
@@ -36,7 +38,7 @@ public class UITextToTMP : MonoBehaviour
                 {
                     TextMeshProUGUI newGUIText = obj.AddComponent<TextMeshProUGUI>();
                     newGUIText.text = data.text;
-                    //newGUIText.font = data.font;
+                    newGUIText.font = data.font;
                     newGUIText.fontSize = data.fontSize;
                     newGUIText.color = data.color;
                     newGUIText.enableAutoSizing = data.autoSize;
@@ -48,12 +50,31 @@ public class UITextToTMP : MonoBehaviour
         }
     }
 
+    [MenuItem("Tools/TMPChangeFont")]
+    public static void ChangeFont()
+    {
+        GameObject[] rootObj = GetSceneRootObject();
+        TMP_FontAsset font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(PATH_FONT); ;
+
+        for (int i = 0; i < rootObj.Length; i++)
+        {
+            GameObject gbj = (GameObject)rootObj[i] as GameObject;
+            Component[] com = gbj.transform.GetComponentsInChildren(typeof(TextMeshProUGUI), true);
+            foreach (TextMeshProUGUI txt in com)
+            {
+                GameObject obj = txt.gameObject;
+                TextMeshProUGUI tmp = obj.GetComponent<TextMeshProUGUI>();
+                tmp.font = font;
+            }
+        }
+    }
+
     private static TextData ConvertTextData(Text text)
     {
         TextData data = new TextData();
         data.text = text.text;
         data.color = text.color;
-        //data.font
+        data.font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(PATH_FONT);
         data.fontSize = text.fontSize;
         data.fontMaxSize = text.resizeTextMaxSize;
         data.autoSize = text.resizeTextForBestFit;
