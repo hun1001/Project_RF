@@ -72,7 +72,11 @@ public class TechTreeCanvas : BaseCanvas
         {
             int index = i;
 
-            _countryToggleGroup.CreateCountryToggles(_techTree.TechTreeSO[index].FlagSprite, () => SetTechTree(index));
+            _countryToggleGroup.CreateCountryToggles(_techTree.TechTreeSO[index].FlagSprite, () =>
+            {
+                _tankInformation.SetActive(false);
+                SetTechTree(index);
+            });
         }
 
         _countryToggleGroup.ChangeFirstToggleValue(true);
@@ -133,7 +137,7 @@ public class TechTreeCanvas : BaseCanvas
                         topUI.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
                         topUI.GetChild(1).GetComponent<TextMeshProUGUI>().text = _techTree.TankTierNumber[lIndex];
                         topUI.GetChild(2).GetComponent<TextMeshProUGUI>().text = _techTree.TechTreeSO[index][jIndex, lIndex].ID;
-                        
+
                         // 탱크 이미지 없으니까 일단  null
                         _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
 
