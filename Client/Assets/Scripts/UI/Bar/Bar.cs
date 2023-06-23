@@ -22,8 +22,8 @@ public class Bar : MonoBehaviour, IPoolReset
     [SerializeField]
     protected TextMeshProUGUI _valueText = null;
 
-    private float _maxValue = 0;
-    private float _currentValue = 0;
+    protected float _maxValue = 0;
+    protected float _currentValue = 0;
 
     private bool _isChangingBeforeBar = false;
 
@@ -65,7 +65,7 @@ public class Bar : MonoBehaviour, IPoolReset
         StartCoroutine(nameof(ChangeBeforeBarCoroutine));
     }
 
-    private void UpdateValueText()
+    protected virtual void UpdateValueText()
     {
         _valueText.text = string.Format("{0:0} / {1:0}", _currentValue, _maxValue);
     }
