@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Addressable;
 using Pool;
 using System.Linq;
+using TMPro;
 
 public class TrainingTankManager : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class TrainingTankManager : MonoBehaviour
     private Dropdown _tankDropdown = null;
 
     [SerializeField]
-    private Text _debugText = null;
+    private TextMeshProUGUI _debugText = null;
 
     [SerializeField]
     private float _destroyedTankPoolingTime = 0f;
