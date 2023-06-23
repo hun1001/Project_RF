@@ -4,15 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-[RequireComponent(typeof(TextMeshProUGUI))]
+[RequireComponent(typeof(TMP_Text))]
 public class TextController : MonoBehaviour, IText
 {
     [SerializeField]
-    private TextMeshProUGUI _text;
+    private TMP_Text _text;
 
     private void Awake()
     {
-        if (_text == null) _text = GetComponent<TextMeshProUGUI>();
+        if (_text == null) _text = GetComponent<TMP_Text>();
     }
 
     public void SetText(string text)

@@ -5,6 +5,7 @@ using Event;
 using Addressable;
 using Pool;
 using DG.Tweening;
+using TMPro;
 
 public class ShellReplacement : MonoBehaviour, IButtonSound
 {
@@ -70,8 +71,8 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
                 _shellDict[_shells[idx].ID].transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = dmg / 1500f;
                 _shellDict[_shells[idx].ID].transform.GetChild(2).GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = pen / 500f;
 
-                _shellDict[_shells[idx].ID].transform.GetChild(3).GetChild(0).GetComponent<Text>().text = dmg.ToString();
-                _shellDict[_shells[idx].ID].transform.GetChild(3).GetChild(1).GetComponent<Text>().text = pen.ToString();
+                _shellDict[_shells[idx].ID].transform.GetChild(3).GetChild(0).GetComponent<TMP_Text>().text = dmg.ToString();
+                _shellDict[_shells[idx].ID].transform.GetChild(3).GetChild(1).GetComponent<TMP_Text>().text = pen.ToString();
 
                 if (_shellEquipmentData._shellEquipmentList.Contains(_shells[i].ID))
                 {
@@ -103,10 +104,10 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
 
             // Value Text
             Transform values = obj.transform.GetChild(3);
-            values.GetChild(0).GetComponent<Text>().text = dmg.ToString();
-            values.GetChild(1).GetComponent<Text>().text = pen.ToString();
-            values.GetChild(2).GetComponent<Text>().text = _shells[idx].Speed.ToString();
-            values.GetChild(3).GetComponent<Text>().text = _shells[idx].ShellSO.RicochetAngle.ToString();
+            values.GetChild(0).GetComponent<TMP_Text>().text = dmg.ToString();
+            values.GetChild(1).GetComponent<TMP_Text>().text = pen.ToString();
+            values.GetChild(2).GetComponent<TMP_Text>().text = _shells[idx].Speed.ToString();
+            values.GetChild(3).GetComponent<TMP_Text>().text = _shells[idx].ShellSO.RicochetAngle.ToString();
 
             Toggle toggle = _shellDict[_shells[idx].ID].transform.GetChild(4).GetComponent<Toggle>();
             if (_shellEquipmentData._shellEquipmentList.Contains(_shells[idx].ID))
@@ -155,7 +156,7 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
         {
             _warningPanel.GetComponent<CanvasGroup>().DOFade(1, 0f);
             _warningPanel.gameObject.SetActive(true);
-            _warningPanel.GetChild(0).GetComponent<TextController>().SetText("ÃÑ¾ËÀÌ °¡µæ Ã¡½À´Ï´Ù.");
+            _warningPanel.GetChild(0).GetComponent<TextController>().SetText("ï¿½Ñ¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¡ï¿½ï¿½ï¿½Ï´ï¿½.");
         })
         .AppendInterval(1.2f)
         .Append(_warningPanel.GetComponent<CanvasGroup>().DOFade(0, 1f))
