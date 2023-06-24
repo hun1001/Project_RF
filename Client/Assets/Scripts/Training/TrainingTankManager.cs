@@ -14,7 +14,7 @@ public class TrainingTankManager : MonoBehaviour
     private Transform _tankTransform = null;
 
     [SerializeField]
-    private Dropdown _tankDropdown = null;
+    private TMP_Dropdown _tankDropdown = null;
 
     [SerializeField]
     private TextMeshProUGUI _debugText = null;
@@ -85,7 +85,7 @@ public class TrainingTankManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(_destroyedTankPoolingTime);
-        
+
         PoolManager.Pool(id, obj);
     }
 }
