@@ -1,27 +1,17 @@
 using Event;
 using UnityEngine;
-using Util;
 
 public class RewardManager : MonoBehaviour
 {
     private void Awake()
     {
-        EventManager.StartListening(EventKeyword.BossClear, () => GameOver(true));
-        EventManager.StartListening(EventKeyword.PlayerDead, () => GameOver(false));
+        EventManager.StartListening(EventKeyword.GiveReward, GiveReward);
     }
 
-    private void GameOver(bool isClear)
+    private void GiveReward(object[] objects)
     {
-        int rewardValue = 0;
-        if (isClear)
-        {
-            rewardValue = 100;
-            GoodsManager.IncreaseFreeGoods(rewardValue);
-        }
-        else
-        {
-            rewardValue = 10;
-            GoodsManager.IncreaseFreeGoods(rewardValue);
-        }
+        int rewardValue = (int)objects[0];
+
+        GoodsManager.IncreaseFreeGoods(rewardValue);
     }
 }

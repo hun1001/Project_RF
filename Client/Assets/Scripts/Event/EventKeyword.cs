@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public static class EventKeyword
 {
     public const string MenuCameraMove = "MenuCameraMove";
@@ -9,6 +5,8 @@ public static class EventKeyword
     public const string ShellReplacement = "ShellReplacement";
 
     public const string BossClear = "BossClear";
+    public const string StageClear = "StageClear";
     public const string PlayerDead = "PlayerDead";
+    public const string GiveReward = "GiveReward";
     public const string PlayerHit = "PlayerHit";
 }
