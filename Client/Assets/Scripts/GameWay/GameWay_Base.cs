@@ -11,7 +11,7 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
     protected StageListSO _stageListSO = null;
 
     /// <summary> 현재 스테이지 </summary>
-    protected static int _currentStage = 0;
+    public static int CurrentStage = 0;
     /// <summary> 현재 맵 정보 </summary>
     protected static Map_Information _currentMap = null;
 
@@ -21,11 +21,11 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
     /// <summary> 적을 생성할 때 사용하는 함수 </summary>
     protected virtual void Spawn()
     {
-        for (int i = 0; i < _stageListSO.Stages[_currentStage].Enemys.Length; i++)
+        for (int i = 0; i < _stageListSO.Stages[CurrentStage].Enemys.Length; i++)
         {
-            PoolManager.Get(_stageListSO.Stages[_currentStage].Enemys[i].name, _currentMap.SpawnPoints[i].position, Quaternion.identity);
+            PoolManager.Get(_stageListSO.Stages[CurrentStage].Enemys[i].name, _currentMap.SpawnPoints[i].position, Quaternion.identity);
         }
-        RemainingEnemy += _stageListSO.Stages[_currentStage].Enemys.Length;
+        RemainingEnemy += _stageListSO.Stages[CurrentStage].Enemys.Length;
     }
 
     /// <summary> 맵을 랜덤으로 선택하는 함수 </summary>

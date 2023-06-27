@@ -6,6 +6,6 @@ public class StageCanvas : BaseCanvas
 {
     public void SelectStage(int idx)
     {
-
+        GameWay_Base.CurrentStage = idx;
     }
 }

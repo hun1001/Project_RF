@@ -22,9 +22,9 @@ public class WaveManager : GameWay_Base
 
     public override void StageClear()
     {
-        if (_currentStage < _stageListSO.Stages.Length - 1)
+        if (CurrentStage < _stageListSO.Stages.Length - 1)
         {
-            _currentStage++;
+            CurrentStage++;
         }
         else
         {
