@@ -8,6 +8,6 @@ namespace Stage
     public class StageSO : ScriptableObject
     {
         /// <summary> 적 리스트 </summary>
-        public GameObject[] Enemys;
+        public Tank[] Enemys;
     }
 }

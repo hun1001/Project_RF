@@ -28,27 +28,14 @@ namespace Stage
         /// <summary> 그전에 사용한 맵을 지우는 함수 </summary>
         private void MapRemove()
         {
+            if (_currentMap == null) return;
             PoolManager.Pool(_currentMap.name, _currentMap.gameObject);
             _currentMap = null;
         }
 
         public override void StageClear()
         {
-            if (_currentStage >= _stageListSO.Stages.Length - 1)
-            {
-                // 완전 클리어
-                // 결과창 띄우고 다음 스테이지 해금
-                return;
-            }
-
-            // 아이템 창 띄우기
-        }
-
-        /// <summary> 다음 스테이지로 넘어갈 때 실행하는 함수 </summary>
-        private void NextStage()
-        {
-            _currentStage++;
-            StageStart();
+            
         }
     }
 }

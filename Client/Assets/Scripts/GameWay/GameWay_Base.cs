@@ -23,7 +23,7 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
     {
         for (int i = 0; i < _stageListSO.Stages[_currentStage].Enemys.Length; i++)
         {
-            PoolManager.Get(_stageListSO.Stages[_currentStage].Enemys[i].name, _currentMap.RandomSpawnPoint(), Quaternion.identity);
+            PoolManager.Get(_stageListSO.Stages[_currentStage].Enemys[i].ID, _currentMap.RandomSpawnPoint(), Quaternion.identity);
         }
         RemainingEnemy += _stageListSO.Stages[_currentStage].Enemys.Length;
     }
