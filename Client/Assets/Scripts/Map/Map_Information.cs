@@ -15,6 +15,7 @@ namespace Map
 
         /// <summary> 적 생성 위치들 </summary>
         private Transform[] _spawnPoints => _spawnPointParent.GetComponentsInChildren<Transform>().Where(x => x != _spawnPointParent).ToArray();
+        public Transform[] SpawnPoints => _spawnPoints;
 
         /// <summary> 적 생성 위치를 랜덤으로 반환하는 함수 </summary>
         /// <returns> 적 생성 위치 </returns>

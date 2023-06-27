@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pool;
 using Map;
+using Event;
 
 namespace Stage
 {
@@ -35,7 +36,7 @@ namespace Stage
 
         public override void StageClear()
         {
-            
+            EventManager.TriggerEvent(EventKeyword.StageClear);
         }
     }
 }

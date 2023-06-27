@@ -21,6 +21,9 @@ public class GameOverCanvas : BaseCanvas
         // 게임 모드에 따라서 달라져야함
         EventManager.StartListening(EventKeyword.BossClear, () => StartCoroutine(BossModeGameOver(true)));
         EventManager.StartListening(EventKeyword.PlayerDead, () => StartCoroutine(BossModeGameOver(false)));
+
+        EventManager.StartListening(EventKeyword.StageClear, () => StartCoroutine(StageModeGameOver(true)));
+        //EventManager.StartListening(EventKeyword.PlayerDead, () => StartCoroutine(StageModeGameOver(false)));
     }
 
     public override void OnOpenEvents()
@@ -56,7 +59,26 @@ public class GameOverCanvas : BaseCanvas
 
     private IEnumerator StageModeGameOver(bool isClear)
     {
+        int rewardValue = 0;
         yield return new WaitForSeconds(2f);
 
+        _gameModeTextController.SetText("Stage N");
+        CanvasManager.ChangeCanvas(CanvasType);
+
+        // 스테이지 마다 보상 값
+        if (isClear)
+        {
+            rewardValue = 50;
+            _gameResultTextController.SetText("Clear");
+            _rewardValueTextController.SetText(rewardValue);
+        }
+        else
+        {
+            rewardValue = Random.Range(2, 8);
+            _gameResultTextController.SetText("Defeat");
+            _rewardValueTextController.SetText(rewardValue);
+        }
+
+        EventManager.TriggerEvent(EventKeyword.GiveReward, rewardValue);
     }
 }
