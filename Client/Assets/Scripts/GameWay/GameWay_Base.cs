@@ -9,6 +9,7 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
     /// <summary> 해당 스테이지 리스트의 SO </summary>
     [SerializeField]
     protected StageListSO _stageListSO = null;
+    public StageListSO StageListSO => _stageListSO;
 
     /// <summary> 현재 스테이지 </summary>
     public static int CurrentStage = 0;
@@ -23,7 +24,8 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
     {
         for (int i = 0; i < _stageListSO.Stages[CurrentStage].Enemys.Length; i++)
         {
-            PoolManager.Get(_stageListSO.Stages[CurrentStage].Enemys[i].name, _currentMap.SpawnPoints[i].position, Quaternion.identity);
+            var ai = PoolManager.Get<TankAI>("AI", _currentMap.SpawnPoints[i].position, Quaternion.identity);
+            ai.Init(_stageListSO.Stages[CurrentStage].Enemys[i].name);
         }
         RemainingEnemy += _stageListSO.Stages[CurrentStage].Enemys.Length;
     }

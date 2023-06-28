@@ -20,10 +20,16 @@ public class GameOverCanvas : BaseCanvas
     {
         // 게임 모드에 따라서 달라져야함
         EventManager.StartListening(EventKeyword.BossClear, () => StartCoroutine(BossModeGameOver(true)));
-        EventManager.StartListening(EventKeyword.PlayerDead, () => StartCoroutine(BossModeGameOver(false)));
 
         EventManager.StartListening(EventKeyword.StageClear, () => StartCoroutine(StageModeGameOver(true)));
-        //EventManager.StartListening(EventKeyword.PlayerDead, () => StartCoroutine(StageModeGameOver(false)));
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
+        {
+            EventManager.StartListening(EventKeyword.PlayerDead, () => StartCoroutine(BossModeGameOver(false)));
+        }
+        else
+        {
+            EventManager.StartListening(EventKeyword.PlayerDead, () => StartCoroutine(StageModeGameOver(false)));
+        }
     }
 
     public override void OnOpenEvents()
@@ -65,16 +71,20 @@ public class GameOverCanvas : BaseCanvas
         _gameModeTextController.SetText("Stage N");
         CanvasManager.ChangeCanvas(CanvasType);
 
-        // 스테이지 마다 보상 값
+        rewardValue = GameWay_Base.Instance.StageListSO.Stages[GameWay_Base.CurrentStage].Reward;
+        
         if (isClear)
         {
-            rewardValue = 50;
             _gameResultTextController.SetText("Clear");
             _rewardValueTextController.SetText(rewardValue);
         }
         else
         {
-            rewardValue = Random.Range(2, 8);
+            int min = GameWay_Base.Instance.StageListSO.Stages[GameWay_Base.CurrentStage].MinDefeatPercent;
+            int max = GameWay_Base.Instance.StageListSO.Stages[GameWay_Base.CurrentStage].MaxDefeatPercent;
+            int percent = Random.Range(min, max);
+
+            rewardValue = (int)(rewardValue * 0.01f * percent);
             _gameResultTextController.SetText("Defeat");
             _rewardValueTextController.SetText(rewardValue);
         }

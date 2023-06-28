@@ -109,7 +109,7 @@ public class MenuCanvas : BaseCanvas
         _trainingButton.interactable = true;
 
         _startButton.onClick.AddListener(OnStartButton);
-        _trainingButton.onClick.AddListener(OnTrainingStart);
+        _trainingButton.onClick.AddListener(OnModeButton);
         //_serverButton.onClick.AddListener(OnServerButton);
 
         _plusSprite = AddressablesManager.Instance.GetResource<Sprite>("PlusImage");
@@ -739,8 +739,6 @@ public class MenuCanvas : BaseCanvas
             WarningShellEmpty();
             return;
         }
-
-        PlayButtonSound();
 
         _startButton.interactable = false;
         Time.timeScale = 1;

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Event;
+using UnityEngine.SceneManagement;
 
 public class ModeCanvas : BaseCanvas
 {
@@ -16,6 +18,11 @@ public class ModeCanvas : BaseCanvas
     private RectTransform _content;
     [SerializeField]
     private RectTransform _scrollView;
+
+    [Header("Warning")]
+    [SerializeField]
+    private RectTransform _warningPanel;
+    private Sequence _warningSequence;
 
     private Image[] _mapImages;
 
@@ -62,5 +69,79 @@ public class ModeCanvas : BaseCanvas
                 image.DOFade(1f, 1f);
             }
         });
+    }
+
+    private bool ShellEmptyCheck()
+    {
+        ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
+
+        return shellEquipmentData._shellEquipmentList[0] == "" && shellEquipmentData._shellEquipmentList[1] == "";
+    }
+
+    private void WarningShellEmpty()
+    {
+        _warningSequence.Kill();
+        _warningSequence = DOTween.Sequence()
+        .AppendCallback(() =>
+        {
+            _warningPanel.GetComponent<CanvasGroup>().DOFade(1, 0f);
+            _warningPanel.gameObject.SetActive(true);
+            _warningPanel.GetChild(0).GetComponent<TextController>().SetText("No bullets loaded!\nEquip the bullet.");
+        })
+        .AppendInterval(1.2f)
+        .Append(_warningPanel.GetComponent<CanvasGroup>().DOFade(0, 1f))
+        .AppendCallback(() =>
+        {
+            _warningPanel.gameObject.SetActive(false);
+            _warningPanel.GetComponent<CanvasGroup>().DOFade(1, 0f);
+        });
+    }
+
+    public void OnBossMode()
+    {
+        PlayButtonSound();
+
+        if (ShellEmptyCheck())
+        {
+            WarningShellEmpty();
+            return;
+        }
+
+        Time.timeScale = 1;
+        SceneManager.LoadScene("GameScene");
+        Pool.PoolManager.DeleteAllPool();
+        EventManager.ClearEvent();
+    }
+
+    public void OnStageMode()
+    {
+        PlayButtonSound();
+
+        if (ShellEmptyCheck())
+        {
+            WarningShellEmpty();
+            return;
+        }
+
+        Time.timeScale = 1;
+        SceneManager.LoadScene("StageTestScene");
+        Pool.PoolManager.DeleteAllPool();
+        EventManager.ClearEvent();
+    }
+
+    public void OnTrainingRoom()
+    {
+        PlayButtonSound();
+
+        if (ShellEmptyCheck())
+        {
+            WarningShellEmpty();
+            return;
+        }
+
+        Time.timeScale = 1;
+        SceneManager.LoadScene("TrainingScene");
+        Pool.PoolManager.DeleteAllPool();
+        EventManager.ClearEvent();
     }
 }
