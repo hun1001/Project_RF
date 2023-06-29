@@ -55,7 +55,7 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
                         ChangeBeforeCanvas();
                     }
                 }
-                else if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene)
+                else if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.StageScene)
                 {
                     if(_activeCanvas == CanvasType.Pause)
                     {
@@ -81,7 +81,7 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
             //        ChangeCanvas(CanvasType.Setting, _activeCanvas);
             //    }
             //}
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene)
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.StageScene)
             {
                 if (_activeCanvas != CanvasType.Pause)
                 {

@@ -25,7 +25,7 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
         for (int i = 0; i < _stageListSO.Stages[CurrentStage].Enemys.Length; i++)
         {
             var ai = PoolManager.Get<TankAI>("AI", _currentMap.SpawnPoints[i].position, Quaternion.identity);
-            ai.Init(_stageListSO.Stages[CurrentStage].Enemys[i].name);
+            ai.Init(_stageListSO.Stages[CurrentStage].Enemys[i].ID);
         }
         RemainingEnemy += _stageListSO.Stages[CurrentStage].Enemys.Length;
     }

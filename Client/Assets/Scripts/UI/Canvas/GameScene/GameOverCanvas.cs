@@ -50,13 +50,13 @@ public class GameOverCanvas : BaseCanvas
         if (isClear)
         {
             rewardValue = 100;
-            _gameResultTextController.SetText("Victory");
+            _gameResultTextController.SetText("<color=#FFEA00>" + "Victory" + "</color>");
             _rewardValueTextController.SetText(rewardValue);
         }
         else
         {
             rewardValue = Random.Range(5, 15);
-            _gameResultTextController.SetText("Defeat");
+            _gameResultTextController.SetText("<color=#C20000>" + "Defeat" + "</color>");
             _rewardValueTextController.SetText(rewardValue);
         }
 
@@ -68,14 +68,14 @@ public class GameOverCanvas : BaseCanvas
         int rewardValue = 0;
         yield return new WaitForSeconds(2f);
 
-        _gameModeTextController.SetText("Stage N");
+        _gameModeTextController.SetText(string.Format("Stage " + (GameWay_Base.CurrentStage + 1).ToString()));
         CanvasManager.ChangeCanvas(CanvasType);
 
         rewardValue = GameWay_Base.Instance.StageListSO.Stages[GameWay_Base.CurrentStage].Reward;
         
         if (isClear)
         {
-            _gameResultTextController.SetText("Clear");
+            _gameResultTextController.SetText("<color=#FFEA00>" + "Clear" + "</color>");
             _rewardValueTextController.SetText(rewardValue);
         }
         else
@@ -85,7 +85,7 @@ public class GameOverCanvas : BaseCanvas
             int percent = Random.Range(min, max);
 
             rewardValue = (int)(rewardValue * 0.01f * percent);
-            _gameResultTextController.SetText("Defeat");
+            _gameResultTextController.SetText("<color=#C20000>" + "Defeat" + "</color>");
             _rewardValueTextController.SetText(rewardValue);
         }
 

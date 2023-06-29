@@ -156,7 +156,7 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
         {
             _warningPanel.GetComponent<CanvasGroup>().DOFade(1, 0f);
             _warningPanel.gameObject.SetActive(true);
-            _warningPanel.GetChild(0).GetComponent<TextController>().SetText("�Ѿ��� ���� á���ϴ�.");
+            _warningPanel.GetChild(0).GetComponent<TextController>().SetText("Shell is Full!");
         })
         .AppendInterval(1.2f)
         .Append(_warningPanel.GetComponent<CanvasGroup>().DOFade(0, 1f))
