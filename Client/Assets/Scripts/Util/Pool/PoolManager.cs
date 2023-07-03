@@ -78,6 +78,8 @@ namespace Pool
                     AddressablesManager.Instance.Release(obj);
                 }
             }
+
+            Resources.UnloadUnusedAssets();
             GC.Collect();
         }
 
