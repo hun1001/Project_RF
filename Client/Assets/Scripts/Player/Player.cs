@@ -114,7 +114,7 @@ public class Player : CustomObject
         _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
 
         StartCoroutine(nameof(InputUpdateCoroutine));
-        StartCoroutine(nameof(CheckAroundTarget));
+        // StartCoroutine(nameof(CheckAroundTarget));
     }
 
     void Update()
