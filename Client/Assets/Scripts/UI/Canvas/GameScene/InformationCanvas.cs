@@ -1,6 +1,7 @@
 using Event;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,8 +17,18 @@ public class InformationCanvas : BaseCanvas
 
     [Header("Boss")]
     [SerializeField]
+    private GameObject _bossPanel = null;
+    [SerializeField]
+    private TextController _bossName = null;
+    [SerializeField]
     private Bar _bossHpBar = null;
     public Bar BossHpBar => _bossHpBar;
+
+    [Header("Stage")]
+    [SerializeField]
+    private GameObject _stagePanel = null;
+    [SerializeField]
+    private TextController _enemyCnt = null;
 
     private Coroutine _hitCoroutine;
     private Player _player;
@@ -44,6 +55,28 @@ public class InformationCanvas : BaseCanvas
             if (_hitCoroutine != null) StopCoroutine(_hitCoroutine);
             _hitCoroutine = StartCoroutine(HitEffect(objects));
         });
+    }
+
+    private void Start()
+    {
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
+        {
+            _stagePanel.SetActive(false);
+            _bossPanel.SetActive(true);
+            _bossName.SetText(FindObjectOfType<BossAI>().Tank.ID);
+        }
+        else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.StageScene)
+        {
+            _bossPanel.SetActive(false);
+            _stagePanel.SetActive(true);
+            StageEnemyCntUpdate();
+            EventManager.StartListening(EventKeyword.EnemyDie, StageEnemyCntUpdate);
+        }
+        else // Tranining
+        {
+            _bossPanel.SetActive(false);
+            _stagePanel.SetActive(false);
+        }
     }
 
     private void Update()
@@ -78,6 +111,18 @@ public class InformationCanvas : BaseCanvas
                 _chargingImages[i].fillAmount = 0f;
             }
             _isDirty = false;
+        }
+    }
+
+    private void StageEnemyCntUpdate()
+    {
+        if (GameWay_Base.RemainingEnemy > 0)
+        {
+            _enemyCnt.SetText(GameWay_Base.RemainingEnemy);
+        }
+        else
+        {
+            _enemyCnt.SetText("Clear");
         }
     }
 

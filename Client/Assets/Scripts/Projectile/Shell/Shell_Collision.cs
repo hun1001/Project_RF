@@ -48,9 +48,13 @@ public class Shell_Collision : Shell_Component
             if (angle < 90 && angle >= (Instance as Shell).ShellSO.RicochetAngle)
             {
                 reflectionDir = Vector2.Reflect(-incidentVector, normalVector);
-
-                PoolManager.Get("Ricochet_Old", transform.position, transform.rotation);
                 transform.up = reflectionDir;
+                PoolManager.Get("Ricochet_Old", transform.position, transform.rotation);
+
+                PopupText text = PoolManager.Get<PopupText>("PopupDamage", transform.position + Vector3.back * 5, Quaternion.identity);
+                text.SetText("<color=#55ff00><size=1.2>MISS</size></color>");
+                text.DoMoveText();
+
                 _shellSound.PlaySound(SoundType.Ricochet, AudioMixerType.Sfx);
             }
             else

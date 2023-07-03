@@ -1,4 +1,5 @@
-﻿using Map;
+﻿using Event;
+using Map;
 using Pool;
 using Stage;
 using UnityEngine;
@@ -17,7 +18,22 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
     protected static Map_Information _currentMap = null;
 
     [HideInInspector]
-    public int RemainingEnemy = 0;
+    public static int RemainingEnemy = 0;
+
+    protected virtual void Awake()
+    {
+        EventManager.DeleteEvent(EventKeyword.EnemyDie);
+        EventManager.StartListening(EventKeyword.EnemyDie, EnemyDie);
+    }
+
+    private void EnemyDie()
+    {
+        RemainingEnemy--;
+        if (RemainingEnemy <= 0)
+        {
+            StageClear();
+        }
+    }
 
     /// <summary> 적을 생성할 때 사용하는 함수 </summary>
     protected virtual void Spawn()

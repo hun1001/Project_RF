@@ -6,7 +6,10 @@ public static class EventKeyword
 
     public const string BossClear = "BossClear";
     public const string StageClear = "StageClear";
+
     public const string PlayerDead = "PlayerDead";
-    public const string GiveReward = "GiveReward";
     public const string PlayerHit = "PlayerHit";
+    public const string EnemyDie = "EnemyDie";
+
+    public const string GiveReward = "GiveReward";
 }

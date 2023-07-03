@@ -45,13 +45,11 @@ public class Tank_Damage : Tank_Component
 
         float sumDamage = damage * UnityEngine.Random.Range(0.9f, 1.1f) + decreaseDamage;
 
+        string str;
+
         sumDamage = Mathf.Clamp(sumDamage, 1, damage);
 
         sumDamage = (float)Math.Truncate(sumDamage);
-
-        PopupText text = PoolManager.Get<PopupText>("PopupDamage", hitPos + Vector3.back * 5, Quaternion.identity);
-        text.SetText(sumDamage);
-        text.DoMoveText();
 
         _lastHitDir = hitDir;
 
@@ -59,19 +57,27 @@ public class Tank_Damage : Tank_Component
         if (sumDamage == 1)
         {
             _tankSound.PlaySound(SoundType.TankHitVerySmall, AudioMixerType.Sfx);
+            str = "<color=#ff4c4c><size=1.3>";
         }
         else if (percent >= 0.4)
         {
             _tankSound.PlaySound(SoundType.TankHitBig, AudioMixerType.Sfx);
+            str = "<color=#a30000><size=2.5>";
         }
         else if (percent >= 0.2)
         {
             _tankSound.PlaySound(SoundType.TankHitMed, AudioMixerType.Sfx);
+            str = "<color=#c21010><size=1.9>";
         }
         else
         {
             _tankSound.PlaySound(SoundType.TankHitSmall, AudioMixerType.Sfx);
+            str = "<color=#e02828><size=1.5>";
         }
+
+        PopupText text = PoolManager.Get<PopupText>("PopupDamage", hitPos + Vector3.back * 5, Quaternion.identity);
+        text.SetText(str + sumDamage.ToString() + "</size></color>");
+        text.DoMoveText();
 
         sumDamage *= -1;
 

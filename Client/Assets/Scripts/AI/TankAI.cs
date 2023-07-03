@@ -23,12 +23,8 @@ public class TankAI : MonoBehaviour
         EventManager.DeleteEvent(_tank.gameObject.GetInstanceID().ToString());
         EventManager.StartListening(_tank.gameObject.GetInstanceID().ToString(), () =>
         {
-            GameWay_Base.Instance.RemainingEnemy--;
+            EventManager.TriggerEvent(EventKeyword.EnemyDie);
             EventManager.TriggerEvent("Recycling");
-            if (GameWay_Base.Instance.RemainingEnemy <= 0)
-            {
-                GameWay_Base.Instance.StageClear();
-            }
         });
 
         _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction(_hpBar.ChangeValue);

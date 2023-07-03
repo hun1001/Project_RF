@@ -9,8 +9,9 @@ namespace Stage
 {
     public class StageManager : GameWay_Base
     {
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             StageStart();
         }
 

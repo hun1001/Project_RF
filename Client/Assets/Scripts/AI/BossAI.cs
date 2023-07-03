@@ -6,6 +6,7 @@ using Event;
 public class BossAI : MonoBehaviour
 {
     private Tank _tank = null;
+    public Tank Tank => _tank;
     private NavMeshPath _navMeshPath = null;
     private BehaviorTree _behaviorTree = null;
 
