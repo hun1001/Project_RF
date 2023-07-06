@@ -130,8 +130,6 @@ public class BMP_BossAI : MonoBehaviour
         rootNode = new RootNode(selectorNode);
 
         _behaviorTree = new BehaviorTree(rootNode);
-
-        StartCoroutine(OnUpdateCoroutine());
     }
 
     private float _delayTime = 0f;
@@ -145,15 +143,6 @@ public class BMP_BossAI : MonoBehaviour
         else
         {
             _behaviorTree.Tick();
-        }
-    }
-
-    private IEnumerator OnUpdateCoroutine()
-    {
-        while (true)
-        {
-            _behaviorTree.Tick();
-            yield return new WaitForSeconds(0.5f);
         }
     }
 
