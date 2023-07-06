@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Event;
 
-public class BossAI : MonoBehaviour
+public class BMP_BossAI : MonoBehaviour
 {
     private Tank _tank = null;
     public Tank Tank => _tank;
