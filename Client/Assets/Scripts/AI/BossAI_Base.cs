@@ -1,12 +1,11 @@
 using System.Collections;
-using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine;
 using Event;
 
-public class BMP_BossAI : MonoBehaviour
+public class BossAI_Base : MonoBehaviour
 {
     private Tank _tank = null;
-    public Tank Tank => _tank;
     private NavMeshPath _navMeshPath = null;
     private BehaviorTree _behaviorTree = null;
 
@@ -15,7 +14,7 @@ public class BMP_BossAI : MonoBehaviour
     private Tank_Damage _tankDamage = null;
 
     private Turret_Rotate _turretRotate = null;
-    private BossTurret_Attack _turretAttack = null;
+    private Turret_Attack _turretAttack = null;
     private Turret_AimLine _turretAimLine = null;
 
     private Tank _target = null;
@@ -26,8 +25,9 @@ public class BMP_BossAI : MonoBehaviour
 
     private void Awake()
     {
-        _tank = SpawnManager.Instance.SpawnUnit("BMP-130-2", transform.position, transform.rotation, GroupType.Enemy);
         _navMeshPath = new NavMeshPath();
+
+        _tank = SpawnManager.Instance.SpawnUnit("BMP-130-2", transform.position, transform.rotation, GroupType.Enemy);
 
         _tankMove = _tank.GetComponent<Tank_Move>(ComponentType.Move);
         _tankRotate = _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate);
@@ -130,13 +130,11 @@ public class BMP_BossAI : MonoBehaviour
         rootNode = new RootNode(selectorNode);
 
         _behaviorTree = new BehaviorTree(rootNode);
-
-        StartCoroutine(OnUpdateCoroutine());
     }
 
     private float _delayTime = 0f;
 
-    private void Up3date()
+    private void Update()
     {
         if (_delayTime < 1f)
         {
@@ -148,31 +146,9 @@ public class BMP_BossAI : MonoBehaviour
         }
     }
 
-    private IEnumerator OnUpdateCoroutine()
-    {
-        while (true)
-        {
-            _behaviorTree.Tick();
-            yield return new WaitForSeconds(0.5f);
-        }
-    }
-
     private void Attack()
     {
-        int attackType = Random.Range(0, 10);
-        if (attackType < 4)
-        {
-            _turretAttack.FireMissile(_target.transform.position);
-        }
-        else if (attackType < 8)
-        {
-            _turretAttack.Fire();
-        }
-        else
-        {
-            _turretAttack.FireMissile(_target.transform.position);
-            _turretAttack.Fire();
-        }
+
     }
 
     private void Move(Vector3 position)
