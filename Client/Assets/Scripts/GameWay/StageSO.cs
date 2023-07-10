@@ -15,5 +15,13 @@ namespace Stage
         public int MinDefeatPercent = 0;
         [Range(0, 50)]
         public int MaxDefeatPercent = 50;
+
+        public void SetData(Tank[] tanks, int reward, int minDefeatPercent, int maxDefeatPercent)
+        {
+            Enemys = tanks;
+            Reward = reward;
+            MinDefeatPercent = minDefeatPercent;
+            MaxDefeatPercent = maxDefeatPercent;
+        }
     }
 }
