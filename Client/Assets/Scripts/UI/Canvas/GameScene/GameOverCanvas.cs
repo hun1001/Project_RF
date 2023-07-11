@@ -75,7 +75,7 @@ public class GameOverCanvas : BaseCanvas
         
         if (isClear)
         {
-            _gameResultTextController.SetText("<color=#FFEA00>" + "Clear" + "</color>");
+            _gameResultTextController.SetText("<color=#FFEA00>Clear</color>");
             _rewardValueTextController.SetText(rewardValue);
         }
         else
@@ -83,9 +83,9 @@ public class GameOverCanvas : BaseCanvas
             int min = GameWay_Base.Instance.StageListSO.Stages[GameWay_Base.CurrentStage].MinDefeatPercent;
             int max = GameWay_Base.Instance.StageListSO.Stages[GameWay_Base.CurrentStage].MaxDefeatPercent;
             int percent = Random.Range(min, max);
-
+            
             rewardValue = (int)(rewardValue * 0.01f * percent);
-            _gameResultTextController.SetText("<color=#C20000>" + "Defeat" + "</color>");
+            _gameResultTextController.SetText("<color=#C20000>Defeat</color>");
             _rewardValueTextController.SetText(rewardValue);
         }
 

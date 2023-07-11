@@ -133,7 +133,7 @@ public class InformationCanvas : BaseCanvas
         Vector2 playerPos = Camera.main.WorldToScreenPoint(_player.Tank.transform.position);
         float angle = Mathf.Atan2(dir.y - playerPos.y, dir.x - playerPos.x) * Mathf.Rad2Deg;
         _hitImage.gameObject.SetActive(true);
-        _hitImage.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y - playerPos.y, dir.x - playerPos.x) * Mathf.Rad2Deg + 90f);
+        _hitImage.rotation = Quaternion.Euler(0f, 0f, angle + 90f);
         _hitImage.anchoredPosition = (dir - playerPos).normalized * 20f;
 
         yield return new WaitForSeconds(1.5f);

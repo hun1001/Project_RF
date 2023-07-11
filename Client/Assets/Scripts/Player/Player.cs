@@ -97,6 +97,15 @@ public class Player : CustomObject
             slotIndex++;
         }
 
+        if (shellEquipmentData._shellEquipmentList[0] == "")
+        {
+            _tank.Turret.CurrentShell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[1]).GetComponent<Shell>();
+        }
+        else
+        {
+            _tank.Turret.CurrentShell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[0]).GetComponent<Shell>();
+        }
+
         SetTankDamage();
 
         _tank.GetComponent<Tank_Move>(ComponentType.Move).AddOnCrashAction((a) =>
