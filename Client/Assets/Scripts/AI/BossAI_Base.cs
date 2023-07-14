@@ -30,6 +30,7 @@ public abstract class BossAI_Base : MonoBehaviour
     public Turret_AimLine TurretAimLine => _turretAimLine;
 
     private Tank _target = null;
+    public Tank Target => _target;
 
     private void Awake()
     {

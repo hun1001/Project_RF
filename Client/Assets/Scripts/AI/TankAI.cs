@@ -1,133 +1,136 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Pool;
-using Event;
+using UnityEngine.AI;
 
-public class TankAI : MonoBehaviour
+public class TankAI : BossAI_Base
 {
-    private Tank _tank = null;
-    private Transform _target = null;
-    private Bar _hpBar = null;
+    private NavMeshPath _navMeshPath = null;
+    private Vector3 _moveTargetPosition = Vector3.zero;
 
-    private bool _isAiming = false;
+    string _id = string.Empty;
 
-    private BehaviorTree _behaviorTree = null;
-
-    public void Init(string tankID)
+    public void Init(string id)
     {
-        _tank = SpawnManager.Instance.SpawnUnit(tankID, transform.position, transform.rotation, GroupType.Enemy);
-        _hpBar = PoolManager.Get<Bar>("EnemyBar", _tank.transform.position, Quaternion.identity, _tank.transform);
-        _hpBar.Setting(_tank.TankData.HP);
+        _id = id;
+    }
 
-        EventManager.DeleteEvent(_tank.gameObject.GetInstanceID().ToString());
-        EventManager.StartListening(_tank.gameObject.GetInstanceID().ToString(), () =>
-        {
-            EventManager.TriggerEvent(EventKeyword.EnemyDie);
-            EventManager.TriggerEvent("Recycling");
-        });
+    protected override void OnStart()
+    {
+        _navMeshPath = new NavMeshPath();
+    }
 
-        _tank.GetComponent<Tank_Damage>(ComponentType.Damage).AddOnDamageAction(_hpBar.ChangeValue);
+    protected override Tank TankSpawn()
+    {
+        return SpawnManager.Instance.SpawnUnit(_id, transform.position, transform.rotation, GroupType.Enemy);
+    }
+
+    protected override BehaviorTree SetBehaviorTree()
+    {
+        BehaviorTree behaviorTree = null;
 
         RootNode rootNode = null;
-        WhileNode whileNode = null;
-        SequenceNode sequenceNode = null;
 
+        SelectorNode selectorNode = null;
+
+        SequenceNode tankMoveSequenceNode = null;
         ConditionalNode checkAroundTarget = null;
         ExecutionNode move2Target = null;
 
-        ExecutionNode aim2Target = null;
-
+        SequenceNode tankAttackSequenceNode = null;
         ConditionalNode checkTargetInAim = null;
-        ExecutionNode fire = null;
+        ExecutionNode atk2Target = null;
 
         move2Target = new ExecutionNode(() =>
         {
-            Vector3 direction = (_target.position - _tank.transform.position).normalized;
-
-            float dis = Vector3.Distance(_tank.transform.position, _target.position);
-
-            if (dis > 20f && !_isAiming)
-            {
-                _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(direction);
-                _tank.GetComponent<Tank_Move>(ComponentType.Move).Move(0.9f);
-            }
-            else if (dis < 10)
-            {
-                _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate).Rotate(-direction);
-                _tank.GetComponent<Tank_Move>(ComponentType.Move).Move(-0.4f);
-            }
-            else
-            {
-                _isAiming = true;
-            }
+            _moveTargetPosition = Target.transform.position + (Random.insideUnitSphere * 20f);
+            _moveTargetPosition.z = 0f;
+            Move(_moveTargetPosition);
         });
 
-        aim2Target = new ExecutionNode(() =>
+        atk2Target = new ExecutionNode(() =>
         {
-            Vector3 direction = (_target.position - _tank.Turret.FirePoint.position).normalized;
-            float dis = Vector3.Distance(_tank.Turret.FirePoint.position, _target.position);
-
-            if (dis > _tank.Turret.CurrentShell.Speed * 2f)
-            {
-                _isAiming = false;
-            }
-
-            var r = Physics2D.Raycast(_tank.Turret.FirePoint.position, _tank.Turret.FirePoint.up, _tank.Turret.CurrentShell.Speed * 2f, LayerMask.GetMask("Tank"));
-            if (r.collider == null || r.collider.GetComponent<Tank>().GroupType != GroupType.Player)
-            {
-                _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate).Rotate(direction);
-            }
+            Attack();
         });
-
-        fire = new ExecutionNode(() =>
-        {
-            _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire();
-        });
-
-        checkTargetInAim = new ConditionalNode(() =>
-        {
-            var r = Physics2D.Raycast(_tank.Turret.FirePoint.position, _tank.Turret.FirePoint.up, _tank.Turret.CurrentShell.Speed * 2f, LayerMask.GetMask("Tank"));
-            if (r.collider != null)
-            {
-                if (r.collider.GetComponent<Tank>().GroupType == GroupType.Player)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }, fire);
 
         checkAroundTarget = new ConditionalNode(() =>
         {
-            var c = Physics2D.OverlapCircleAll(_tank.transform.position, _tank.Turret.CurrentShell.Speed * 2f, LayerMask.GetMask("Tank"));
-
-            foreach (var item in c)
+            if (_moveTargetPosition == Vector3.zero || Vector3.Distance(Tank.transform.position, _moveTargetPosition) < 15f)
             {
-                if (item.GetComponent<Tank>().GroupType == GroupType.Player)
-                {
-                    _target = item.transform;
-                    return true;
-                }
+                StopAllCoroutines();
+                _navMeshPath.ClearCorners();
+                return true;
             }
-            _isAiming = false;
+
             return false;
         }, move2Target);
 
-        sequenceNode = new SequenceNode(checkAroundTarget, aim2Target, checkTargetInAim);
 
-        whileNode = new WhileNode(() =>
+        checkTargetInAim = new ConditionalNode(() =>
         {
-            return true;
-        }, sequenceNode);
+            TurretRotate.Rotate((Target.transform.position - Tank.transform.position).normalized);
 
-        rootNode = new RootNode(whileNode);
+            return TurretAimLine.IsAim;
+        }, atk2Target);
 
-        _behaviorTree = new BehaviorTree(rootNode);
+        tankMoveSequenceNode = new SequenceNode(checkAroundTarget);
+        tankAttackSequenceNode = new SequenceNode(checkTargetInAim);
+
+        selectorNode = new SelectorNode(tankMoveSequenceNode, tankAttackSequenceNode);
+
+        rootNode = new RootNode(selectorNode);
+
+        return behaviorTree;
     }
 
-    private void Update()
+    private void Move(Vector3 position)
     {
-        _behaviorTree.Tick();
+        if (NavMesh.CalculatePath(Tank.transform.position, position, NavMesh.AllAreas, _navMeshPath))
+        {
+            StartCoroutine(MoveTarget(0, _navMeshPath.corners.Length));
+
+            for (int i = 0; i < _navMeshPath.corners.Length - 1; i++)
+            {
+                Debug.DrawLine(_navMeshPath.corners[i], _navMeshPath.corners[i + 1], Color.red, 5f);
+            }
+        }
+        else
+        {
+            _moveTargetPosition = Vector3.zero;
+        }
+    }
+
+    private IEnumerator MoveTarget(int index, int pathLength)
+    {
+        if (index < pathLength)
+        {
+            float dis = Vector3.Distance(Tank.transform.position, _navMeshPath.corners[index]);
+            while (dis > 1f)
+            {
+                if (dis < 20f)
+                {
+                    TankMove.Move(0.6f);
+                }
+                else if (dis < 10f)
+                {
+                    TankMove.Move(0.4f);
+                }
+                else
+                {
+                    TankMove.Move(0.9f);
+                }
+
+                TankRotate.Rotate((_navMeshPath.corners[index] - Tank.transform.position).normalized);
+                dis = Vector3.Distance(Tank.transform.position, _navMeshPath.corners[index]);
+                yield return null;
+            }
+
+            StartCoroutine(MoveTarget(index + 1, pathLength));
+        }
+    }
+
+    private void Attack()
+    {
+
     }
 }
