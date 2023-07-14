@@ -134,7 +134,7 @@ public class BMP_BossAI : MonoBehaviour
 
     private float _delayTime = 0f;
 
-    private void Up3date()
+    private void Update()
     {
         if (_delayTime < 1f)
         {
