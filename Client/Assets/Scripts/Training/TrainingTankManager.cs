@@ -2,7 +2,6 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Addressable;
 using Pool;
 using System.Linq;
@@ -21,6 +20,8 @@ public class TrainingTankManager : MonoBehaviour
 
     [SerializeField]
     private float _destroyedTankPoolingTime = 0f;
+    public static Queue<GameObject> DestroyedTankQueue = new Queue<GameObject>();
+    private Coroutine _destroyedCoroutine = null;
 
     private StringBuilder _debugTextString = new StringBuilder();
 
@@ -57,7 +58,13 @@ public class TrainingTankManager : MonoBehaviour
 
         _tank.GetComponent<Tank_Damage>().AddOnDamageAction(SetDebugText);
         _tank.GetComponent<Tank_Damage>().AddOnDamageAction(_hpBar.ChangeValue);
-        _tank.GetComponent<Tank_Damage>().AddOnDeathAction(() => StartCoroutine(DestroyedTankPool()));
+        _tank.GetComponent<Tank_Damage>().AddOnDeathAction(() =>
+        { 
+            if (_destroyedCoroutine == null)
+            {
+                _destroyedCoroutine = StartCoroutine(DestroyedTankPool());
+            }
+        });
 
         SetDebugText(0);
     }
@@ -76,16 +83,22 @@ public class TrainingTankManager : MonoBehaviour
 
     private IEnumerator DestroyedTankPool()
     {
-        GameObject obj = GameObject.Find("Destroyed_Tank(Clone)");
-        string id = obj.name;
+        WaitForSeconds waitForSeconds = new WaitForSeconds(_destroyedTankPoolingTime);
+        string id = null;
+        GameObject obj = null;
 
-        if (id.Contains("(Clone)"))
+        while (DestroyedTankQueue.Count > 0)
         {
-            id = id.Replace("(Clone)", "");
+            yield return waitForSeconds;
+            obj = DestroyedTankQueue.Dequeue();
+            id = obj.name;
+            if (id.Contains("(Clone)"))
+            {
+                id = id.Replace("(Clone)", "");
+            }
+            PoolManager.Pool(id, obj);
         }
 
-        yield return new WaitForSeconds(_destroyedTankPoolingTime);
-
-        PoolManager.Pool(id, obj);
+        _destroyedCoroutine = null;
     }
 }

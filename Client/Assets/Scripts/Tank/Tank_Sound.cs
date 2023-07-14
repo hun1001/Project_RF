@@ -38,10 +38,10 @@ public class Tank_Sound : Tank_Component
 
     public void StopEngineSound()
     {
-        _engineSource.StopAudio();
+        _engineSource?.StopAudio();
         _engineSource = null;
 
-        _trackSource.StopAudio();
+        _trackSource?.StopAudio();
         _trackSource = null;
     }
 
