@@ -129,8 +129,10 @@ public class Player : CustomObject
     {
         while (true)
         {
-            // _tankMove.Move(_moveJoystick.Magnitude);
-            // _tankRotate.Rotate(_moveJoystick.Direction);
+            Vector2 moveDir = Vector2.zero;
+            moveDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            _tankMove.Move(moveDir.magnitude);
+            _tankRotate.Rotate(moveDir.normalized);
             // _turretRotate.Rotate(_attackJoystick.Direction);
             yield return null;
         }
