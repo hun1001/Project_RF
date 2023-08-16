@@ -81,37 +81,37 @@ public class InformationCanvas : BaseCanvas
 
     private void Update()
     {
-        if (_controllerCanvas.AttackJoystick.DragTime > 0f && _tankMove.CurrentSpeed == 0)
-        {
-            if (_controllerCanvas.AttackJoystick.DragTime <= 3f)
-            {
-                if (_isDirty == false)
-                {
-                    _isDirty = true;
-                }
+        // if (_controllerCanvas.AttackJoystick.DragTime > 0f && _tankMove.CurrentSpeed == 0)
+        // {
+        //     if (_controllerCanvas.AttackJoystick.DragTime <= 3f)
+        //     {
+        //         if (_isDirty == false)
+        //         {
+        //             _isDirty = true;
+        //         }
 
-                _chargingIndex = (int)_controllerCanvas.AttackJoystick.DragTime;
+        //         _chargingIndex = (int)_controllerCanvas.AttackJoystick.DragTime;
 
-                _chargingImages[_chargingIndex].fillAmount = (_controllerCanvas.AttackJoystick.DragTime - _chargingIndex);
+        //         _chargingImages[_chargingIndex].fillAmount = (_controllerCanvas.AttackJoystick.DragTime - _chargingIndex);
 
-                if (_chargingIndex > 0 && _chargingIndex < 3 && _chargingImages[_chargingIndex - 1].fillAmount < 1f)
-                {
-                    _chargingImages[_chargingIndex - 1].fillAmount = 1f;
-                }
-            }
-            else if (_chargingImages[2].fillAmount < 1f)
-            {
-                _chargingImages[2].fillAmount = 1f;
-            }
-        }
-        else if (_isDirty)
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                _chargingImages[i].fillAmount = 0f;
-            }
-            _isDirty = false;
-        }
+        //         if (_chargingIndex > 0 && _chargingIndex < 3 && _chargingImages[_chargingIndex - 1].fillAmount < 1f)
+        //         {
+        //             _chargingImages[_chargingIndex - 1].fillAmount = 1f;
+        //         }
+        //     }
+        //     else if (_chargingImages[2].fillAmount < 1f)
+        //     {
+        //         _chargingImages[2].fillAmount = 1f;
+        //     }
+        // }
+        // else if (_isDirty)
+        // {
+        //     for (int i = 0; i < 3; i++)
+        //     {
+        //         _chargingImages[i].fillAmount = 0f;
+        //     }
+        //     _isDirty = false;
+        // }
     }
 
     private void StageEnemyCntUpdate()

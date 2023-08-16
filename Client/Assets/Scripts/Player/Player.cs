@@ -7,13 +7,6 @@ using Event;
 
 public class Player : CustomObject
 {
-    [Header("Canvas")]
-    [SerializeField]
-    private ControllerCanvas _controllerCanvas = null;
-
-    private Joystick _moveJoystick => _controllerCanvas.MoveJoystick;
-    private Joystick _attackJoystick => _controllerCanvas.AttackJoystick;
-
     [SerializeField]
     private InformationCanvas _informationCanvas = null;
 
@@ -58,9 +51,9 @@ public class Player : CustomObject
         _tank.tag = "Player";
         FindObjectOfType<MinimapCameraManager>().Target = _tank.transform;
 
-        _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);
-        _attackJoystick.AddOnPointerUpAction(() => _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine).SetEnableLineRenderer(false));
-        _attackJoystick.AddOnPointerDownAction(() => _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine).SetEnableLineRenderer(true));
+        // _attackJoystick.AddOnPointerUpAction(_tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire);
+        // _attackJoystick.AddOnPointerUpAction(() => _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine).SetEnableLineRenderer(false));
+        // _attackJoystick.AddOnPointerDownAction(() => _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine).SetEnableLineRenderer(true));
         _hpBar.Setting(_tank.TankData.HP);
 
         _cameraManager.AddTargetGroup(_tank.transform, 15, 100);
@@ -76,26 +69,27 @@ public class Player : CustomObject
         Sprite[] shellSprite = new Sprite[shellCnt];
         UnityAction[] shellAction = new UnityAction[shellCnt];
 
-        int slotIndex = 0;
-        for (int i = 0; i < shellEquipmentData._shellEquipmentList.Count; i++)
-        {
-            int dataIndex = i;
-            if (shellEquipmentData._shellEquipmentList[dataIndex] == "")
-            {
-                _controllerCanvas.ButtonGroup.SetButton(slotIndex, null, null, false);
-                continue;
-            }
+        // 포탄 UI에 할당하는 코드 였던것
+        // int slotIndex = 0;
+        // for (int i = 0; i < shellEquipmentData._shellEquipmentList.Count; i++)
+        // {
+        //     int dataIndex = i;
+        //     if (shellEquipmentData._shellEquipmentList[dataIndex] == "")
+        //     {
+        //         _controllerCanvas.ButtonGroup.SetButton(slotIndex, null, null, false);
+        //         continue;
+        //     }
 
-            Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[dataIndex]).GetComponent<Shell>();
-            shellName[slotIndex] = shell.ID;
-            shellSprite[slotIndex] = shell.ShellSprite;
-            shellAction[slotIndex] = () =>
-            {
-                _tank.Turret.CurrentShell = shell;
-            };
-            _controllerCanvas.ButtonGroup.SetButton(slotIndex, shellAction[slotIndex], shellSprite[slotIndex]);
-            slotIndex++;
-        }
+        //     Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[dataIndex]).GetComponent<Shell>();
+        //     shellName[slotIndex] = shell.ID;
+        //     shellSprite[slotIndex] = shell.ShellSprite;
+        //     shellAction[slotIndex] = () =>
+        //     {
+        //         _tank.Turret.CurrentShell = shell;
+        //     };
+        //     _controllerCanvas.ButtonGroup.SetButton(slotIndex, shellAction[slotIndex], shellSprite[slotIndex]);
+        //     slotIndex++;
+        // }
 
         if (shellEquipmentData._shellEquipmentList[0] == "")
         {
@@ -135,9 +129,9 @@ public class Player : CustomObject
     {
         while (true)
         {
-            _tankMove.Move(_moveJoystick.Magnitude);
-            _tankRotate.Rotate(_moveJoystick.Direction);
-            _turretRotate.Rotate(_attackJoystick.Direction);
+            // _tankMove.Move(_moveJoystick.Magnitude);
+            // _tankRotate.Rotate(_moveJoystick.Direction);
+            // _turretRotate.Rotate(_attackJoystick.Direction);
             yield return null;
         }
     }
@@ -187,13 +181,9 @@ public class Player : CustomObject
         {
             _tank.GetComponent<Tank_Move>(ComponentType.Move).SetEnableMove(false);
             StopCoroutine(nameof(InputUpdateCoroutine));
-            _attackJoystick.ClearOnPointerUpAction();
+            //_attackJoystick.ClearOnPointerUpAction();
             EventManager.TriggerEvent(EventKeyword.PlayerDead);
             StopCoroutine(nameof(CheckAroundTarget));
-
-#if UNITY_ANDROID
-            Handheld.Vibrate();
-#endif
         });
     }
 }
