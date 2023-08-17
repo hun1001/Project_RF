@@ -43,6 +43,11 @@ public class InformationCanvas : BaseCanvas
 
     private int _chargingIndex;
 
+    [Header("Shell")]
+    [SerializeField]
+    private GameObject _shellImageGroup = null;
+    public GameObject ShellImageGroup => _shellImageGroup;
+
     private void Awake()
     {
         _player = FindObjectOfType<Player>();

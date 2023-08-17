@@ -70,27 +70,31 @@ public class Player : CustomObject
         Sprite[] shellSprite = new Sprite[shellCnt];
         UnityAction[] shellAction = new UnityAction[shellCnt];
 
-        // ?¬íƒ„ UI??? ë‹¹?˜ëŠ” ì½”ë“œ ?€?˜ê²ƒ
-        // int slotIndex = 0;
-        // for (int i = 0; i < shellEquipmentData._shellEquipmentList.Count; i++)
-        // {
-        //     int dataIndex = i;
-        //     if (shellEquipmentData._shellEquipmentList[dataIndex] == "")
-        //     {
-        //         _controllerCanvas.ButtonGroup.SetButton(slotIndex, null, null, false);
-        //         continue;
-        //     }
+        int slotIndex = 0;
+        for (int i = 0; i < shellEquipmentData._shellEquipmentList.Count; i++)
+        {
+            int dataIndex = i;
+            if (shellEquipmentData._shellEquipmentList[dataIndex] == "")
+            {
+                _informationCanvas.ShellImageGroup.transform.GetChild(slotIndex).gameObject.SetActive(false);
+                continue;
+            }
 
-        //     Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[dataIndex]).GetComponent<Shell>();
-        //     shellName[slotIndex] = shell.ID;
-        //     shellSprite[slotIndex] = shell.ShellSprite;
-        //     shellAction[slotIndex] = () =>
-        //     {
-        //         _tank.Turret.CurrentShell = shell;
-        //     };
-        //     _controllerCanvas.ButtonGroup.SetButton(slotIndex, shellAction[slotIndex], shellSprite[slotIndex]);
-        //     slotIndex++;
-        // }
+            Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[dataIndex]).GetComponent<Shell>();
+            shellName[slotIndex] = shell.ID;
+            shellSprite[slotIndex] = shell.ShellSprite;
+            shellAction[slotIndex] = () =>
+            {
+                _tank.Turret.CurrentShell = shell;
+            };
+            
+            _informationCanvas.ShellImageGroup.transform.GetChild(slotIndex).gameObject.SetActive(true);
+            _informationCanvas.ShellImageGroup.transform.GetChild(slotIndex).GetChild(0).gameObject.SetActive(false);
+            _informationCanvas.ShellImageGroup.transform.GetChild(slotIndex).GetChild(1).gameObject.SetActive(true);
+            _informationCanvas.ShellImageGroup.transform.GetChild(slotIndex).GetChild(1).GetComponent<UnityEngine.UI.Image>().sprite = shellSprite[slotIndex];
+
+            slotIndex++;
+        }
 
         if (shellEquipmentData._shellEquipmentList[0] == "")
         {
@@ -118,7 +122,6 @@ public class Player : CustomObject
         _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
 
         StartCoroutine(nameof(InputUpdateCoroutine));
-        // StartCoroutine(nameof(CheckAroundTarget));
     }
 
     void Update()
