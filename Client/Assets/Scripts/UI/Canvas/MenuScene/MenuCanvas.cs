@@ -56,6 +56,7 @@ public class MenuCanvas : BaseCanvas
     private bool _isHide = false;
     private bool _isHangerHide = false;
     private bool _isSeeTank = false;
+    private bool _isCameraHide = false;
 
     [Header("Hanger")]
     [SerializeField]
@@ -182,6 +183,9 @@ public class MenuCanvas : BaseCanvas
         HangerUpdate();
         CurrentTankInfoUpdate();
         HangerSort();
+
+        GameManager.Input.KeyAction -= OnKeyboard;
+        GameManager.Input.KeyAction += OnKeyboard;
     }
 
     public override void OnOpenEvents()
@@ -217,6 +221,46 @@ public class MenuCanvas : BaseCanvas
         if (_isSeeTank)
         {
             OnSeeButton();
+        }
+    }
+
+    private void OnKeyboard()
+    {
+        if (CanvasManager.ActiveCanvas == CanvasType)
+        {
+            if (_isShellOpen)
+            {
+                OnOpenShell();
+                return;
+            }
+
+            if (_isCameraHide == false)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    OnHangerHide();
+                }
+
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    OnFilterOpen();
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                OnTechTreeButton();
+            }
+
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                OnStartButton();
+            }
+
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                OnModeButton();
+            }
         }
     }
 
@@ -933,6 +977,8 @@ public class MenuCanvas : BaseCanvas
         {
             if (_isHide == false)
             {
+                _isCameraHide = true;
+
                 _topFrame.DOAnchorPosY(82f, 0.25f);
                 _bottomFrame.DOAnchorPosY(-102f, 0.25f);
                 _leftFrame.DOAnchorPosX(-61f, 0.25f);
@@ -940,6 +986,8 @@ public class MenuCanvas : BaseCanvas
             }
             else
             {
+                _isCameraHide = false;
+
                 if (_isSeeTank == false)
                 {
                     _topFrame.DOAnchorPosY(0f, 0.25f);
