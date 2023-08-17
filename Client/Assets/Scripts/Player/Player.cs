@@ -4,6 +4,7 @@ using UnityEngine.Events;
 using Addressable;
 using System.Linq;
 using Event;
+using System;
 
 public class Player : CustomObject
 {
@@ -68,7 +69,7 @@ public class Player : CustomObject
 
         string[] shellName = new string[shellCnt];
         Sprite[] shellSprite = new Sprite[shellCnt];
-        UnityAction[] shellAction = new UnityAction[shellCnt];
+        Action[] shellAction = new Action[shellCnt];
 
         int slotIndex = 0;
         for (int i = 0; i < shellEquipmentData._shellEquipmentList.Count; i++)
@@ -83,9 +84,15 @@ public class Player : CustomObject
             Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[dataIndex]).GetComponent<Shell>();
             shellName[slotIndex] = shell.ID;
             shellSprite[slotIndex] = shell.ShellSprite;
+            int idx = slotIndex;
             shellAction[slotIndex] = () =>
             {
                 _tank.Turret.CurrentShell = shell;
+                Debug.Log(idx);
+                for(int j = 0;j< _informationCanvas.ShellImageGroup.transform.childCount; j++)
+                {
+                    _informationCanvas.ShellImageGroup.transform.GetChild(j).GetChild(0).gameObject.SetActive(j == idx);
+                }
             };
             
             _informationCanvas.ShellImageGroup.transform.GetChild(slotIndex).gameObject.SetActive(true);
@@ -95,6 +102,8 @@ public class Player : CustomObject
 
             slotIndex++;
         }
+
+        KeyboardManager.Instance.AddKeyDownActionList(shellAction);
 
         if (shellEquipmentData._shellEquipmentList[0] == "")
         {
