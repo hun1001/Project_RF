@@ -101,8 +101,7 @@ public class MenuCanvas : BaseCanvas
 
     private void Awake()
     {
-        GoodsManager.IncreaseFreeGoods(1);
-        GoodsManager.IncreaseFreeGoods(-1);
+        GoodsManager.IncreaseFreeGoods(0);
 
         _goodsTexts.SetGoodsTexts(GoodsManager.FreeGoods, GoodsManager.PaidGoods);
 
@@ -169,6 +168,7 @@ public class MenuCanvas : BaseCanvas
         _isSeeTank = false;
 
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
+        Debug.Log("Current Tank ID : " + _currentTankID);
 
         _countryHangerDataDict.Add(CountryType.USSR, new List<GameObject>());
         _countryHangerDataDict.Add(CountryType.Germany, new List<GameObject>());
