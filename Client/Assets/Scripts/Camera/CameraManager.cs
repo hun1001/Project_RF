@@ -94,6 +94,7 @@ public class CameraManager : MonoBehaviour
     public void CameraZoom(float fovChange)
     {
         _virtualCamera.m_Lens.FieldOfView += fovChange;
+        _virtualCamera.m_Lens.FieldOfView = Mathf.Clamp(_virtualCamera.m_Lens.FieldOfView, 30, 80);
     }
 
     public void CameraZoom(float fov, float duration)
