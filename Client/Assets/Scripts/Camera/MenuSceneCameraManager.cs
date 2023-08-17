@@ -15,16 +15,10 @@ public class MenuSceneCameraManager : MonoBehaviour
     {
         TryGetComponent(out _cam);
     }
+
     void Update()
     {
-#if UNITY_EDITOR
         _isOnUI = EventSystem.current.IsPointerOverGameObject();
-#else
-        if(Input.touchCount > 0)
-        {
-            _isOnUI = EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
-        }
-#endif
 
         if (Input.GetMouseButtonDown(0) && _isOnUI == false)
         {
