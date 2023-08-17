@@ -134,7 +134,7 @@ public class Player : CustomObject
             _tankMove.Move(moveDir.magnitude);
             _tankRotate.Rotate(moveDir.normalized);
             
-            //_turretRotate.Rotate();
+            _turretRotate.Rotate(MouseManager.Instance.MouseDir);
 
             yield return null;
         }
