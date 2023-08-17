@@ -30,6 +30,12 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        GameManager.Input.KeyAction -= OnKeyboard;
+        GameManager.Input.KeyAction += OnKeyboard;
+    }
+
     private void Update()
     {
         if(_openDelay > 0f)
@@ -38,15 +44,15 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
         }
     }
 
-    private void OnGUI()
+    private void OnKeyboard()
     {
-        if (UnityEngine.Event.current.type == EventType.KeyDown && UnityEngine.Event.current.keyCode == KeyCode.Escape)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (_openDelay <= 0f)
             {
-                if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
+                if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
                 {
-                    if(_activeCanvas == CanvasType.Menu)
+                    if (_activeCanvas == CanvasType.Menu)
                     {
                         ChangeCanvas(CanvasType.Setting, _activeCanvas);
                     }
@@ -55,13 +61,13 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
                         ChangeBeforeCanvas();
                     }
                 }
-                else if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.StageScene)
+                else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.StageScene)
                 {
-                    if(_activeCanvas == CanvasType.Pause)
+                    if (_activeCanvas == CanvasType.Pause)
                     {
                         ChangeCanvas(CanvasType.Information, _activeCanvas);
                     }
-                    else if(_activeCanvas != CanvasType.GameOver)
+                    else if (_activeCanvas != CanvasType.GameOver)
                     {
                         ChangeCanvas(CanvasType.Pause, _activeCanvas);
                     }
