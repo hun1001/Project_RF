@@ -88,7 +88,6 @@ public class Player : CustomObject
             shellAction[slotIndex] = () =>
             {
                 _tank.Turret.CurrentShell = shell;
-                Debug.Log(idx);
                 for(int j = 0;j< _informationCanvas.ShellImageGroup.transform.childCount; j++)
                 {
                     _informationCanvas.ShellImageGroup.transform.GetChild(j).GetChild(0).gameObject.SetActive(j == idx);
