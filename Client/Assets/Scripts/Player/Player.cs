@@ -69,7 +69,7 @@ public class Player : CustomObject
         Sprite[] shellSprite = new Sprite[shellCnt];
         UnityAction[] shellAction = new UnityAction[shellCnt];
 
-        // 포탄 UI에 할당하는 코드 였던것
+        // ?�탄 UI???�당?�는 코드 ?�?�것
         // int slotIndex = 0;
         // for (int i = 0; i < shellEquipmentData._shellEquipmentList.Count; i++)
         // {
@@ -133,36 +133,16 @@ public class Player : CustomObject
             moveDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             _tankMove.Move(moveDir.magnitude);
             _tankRotate.Rotate(moveDir.normalized);
-            // _turretRotate.Rotate(_attackJoystick.Direction);
+            
+            //_turretRotate.Rotate();
+
             yield return null;
-        }
-    }
-
-    private IEnumerator CheckAroundTarget()
-    {
-        bool isChanged = false;
-
-        while (true)
-        {
-            yield return new WaitForSeconds(1f);
-            var findingTank = Physics2D.OverlapCircleAll(_tank.transform.position, 50f, 1 << LayerMask.NameToLayer("Tank"));
-            isChanged = _cameraManager.TargetGroupLength != findingTank.Length;
-            if (isChanged == true)
-            {
-                _cameraManager.ResetTargetGroup(findingTank.ToList());
-                _cameraHeight = findingTank.Length > 1 ? -40 : -30;
-            }
-
-            foreach (var enemy in findingTank)
-            {
-                _cameraManager.AddTargetGroup(enemy.transform, 20, 80);
-            }
         }
     }
 
     private void SetTankDamage()
     {
-        // TODO : 연동이 잘 안되는 경우 존재 해결 필요
+        // TODO : ?�동?????�되??경우 존재 ?�결 ?�요
         Tank_Damage tankDamage = _tank.GetComponent<Tank_Damage>(ComponentType.Damage);
         tankDamage.AddOnDamageAction(_hpBar.ChangeValue);
         tankDamage.AddOnDamageAction((a) =>
@@ -185,7 +165,6 @@ public class Player : CustomObject
             StopCoroutine(nameof(InputUpdateCoroutine));
             //_attackJoystick.ClearOnPointerUpAction();
             EventManager.TriggerEvent(EventKeyword.PlayerDead);
-            StopCoroutine(nameof(CheckAroundTarget));
         });
     }
 }

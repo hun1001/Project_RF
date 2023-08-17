@@ -37,7 +37,7 @@ public class CameraManager : MonoBehaviour
 
         // 진폭
         cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = a;
-        // 횟수
+        // ?�수
         cinemachineBasicMultiChannelPerlin.m_FrequencyGain = f;
 
         yield return new WaitForSeconds(d);
@@ -54,7 +54,7 @@ public class CameraManager : MonoBehaviour
 
         // 진폭
         cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0;
-        // 횟수
+        // ?�수
         cinemachineBasicMultiChannelPerlin.m_FrequencyGain = 0;
     }
 
@@ -134,28 +134,6 @@ public class CameraManager : MonoBehaviour
         _targetGroup.AddMember(target, weight, radius);
     }
 
-    public void RemoveTargetGroup(Transform target)
-    {
-        if (_targetGroup.FindMember(target) != -1)
-        {
-            _targetGroup.RemoveMember(target);
-        }
-    }
-
-    public void ResetTargetGroup(List<Collider2D> targets)
-    {
-        foreach (var t in _targetGroup.m_Targets)
-        {
-            if (targets.Contains(t.target.gameObject.GetComponent<Collider2D>()))
-            {
-                continue;
-            }
-            else
-            {
-                _targetGroup.RemoveMember(t.target);
-            }
-        }
-    }
 
     public void SetVolumeVignette(Color color, float intensity, float smoothness, float duration)
     {
@@ -176,22 +154,4 @@ public class CameraManager : MonoBehaviour
             vignette.smoothness.value = 0.2f;
         }
     }
-
-    // public void SetVolumeWhiteBalance(float temperature, float tint, float duration)
-    // {
-    //     StartCoroutine(VolumeWhiteBalanceCoroutine(temperature, tint, duration));
-    // }
-
-    // private IEnumerator VolumeWhiteBalanceCoroutine(float temperature, float tint, float duration)
-    // {
-    //     WhiteBalance whiteBalance = null;
-    //     if (_volume.profile.TryGet<WhiteBalance>(out whiteBalance))
-    //     {
-    //         whiteBalance.temperature.value = temperature;
-    //         whiteBalance.tint.value = tint;
-    //         yield return new WaitForSeconds(duration);
-    //         whiteBalance.temperature.value = 0;
-    //         whiteBalance.tint.value = 0;
-    //     }
-    // }
 }
