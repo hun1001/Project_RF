@@ -144,7 +144,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &109542865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1471,7 +1471,7 @@ GameObject:
   - component: {fileID: 1639147662}
   - component: {fileID: 1639147663}
   m_Layer: 0
-  m_Name: Mouse
+  m_Name: MouseManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1503,6 +1503,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b81ceb268e3d574dbe8c23712a14329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MouseDir: {x: 0, y: 0}
+  MouseMagnitude: 0
 --- !u!1001 &1683202690
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2282,7 +2284,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5421782098150238983, guid: bfa16371c5cb61b419bef8d0035aed03, type: 3}
       propertyPath: m_Targets.Array.size
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5421782098150238983, guid: bfa16371c5cb61b419bef8d0035aed03, type: 3}
+      propertyPath: m_Targets.Array.data[0].radius
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5421782098150238983, guid: bfa16371c5cb61b419bef8d0035aed03, type: 3}
       propertyPath: m_Targets.Array.data[0].target
@@ -2372,5 +2378,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5421782099177503132, guid: bfa16371c5cb61b419bef8d0035aed03, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bfa16371c5cb61b419bef8d0035aed03, type: 3}

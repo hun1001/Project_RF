@@ -21,6 +21,11 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private Volume _volume;
 
+    private void LateUpdate()
+    {
+        transform.rotation = Quaternion.identity;
+    }
+
     public void CameraShake(float amplitudeGain, float frequencyGain, float duration)
     {
         StartCoroutine(CameraShakeCoroutine(amplitudeGain, frequencyGain, duration));

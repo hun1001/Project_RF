@@ -29,7 +29,7 @@ public class PauseCanvas : BaseCanvas
         }
         else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.StageScene)
         {
-            CanvasManager.ChangeCanvas(CanvasType.Controller, CanvasType);
+            CanvasManager.ChangeCanvas(CanvasType.Information, CanvasType);
         }
     }
 }

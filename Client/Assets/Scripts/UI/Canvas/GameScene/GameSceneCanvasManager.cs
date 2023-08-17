@@ -13,9 +13,9 @@ public class GameSceneCanvasManager : BaseSceneCanvasManager
     public override void ChangeCanvas(CanvasType canvasType, CanvasType beforeCanvas)
     {
         base.ChangeCanvas(canvasType, beforeCanvas);
-        if (canvasType == CanvasType.Controller || canvasType == CanvasType.Information)
+        if (canvasType == CanvasType.Information)
         {
-            GetCanvas(CanvasType.Controller).Canvas.enabled = GetCanvas(CanvasType.Information).Canvas.enabled = true;
+            GetCanvas(CanvasType.Information).Canvas.enabled = true;
         }
     }
 }
