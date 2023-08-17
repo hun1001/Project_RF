@@ -10,10 +10,6 @@ namespace Item
 {
     public class GearManager : MonoSingleton<GearManager>
     {
-        [SerializeField]
-        private ControllerCanvas _controllerCanvas;
-        public ControllerCanvas ControllerCanvas => _controllerCanvas;
-
         private ItemEquipmentData _passiveItemEquipmentData;
         private ItemEquipmentData _activeItemEquipmentData;
 

@@ -35,8 +35,6 @@ public class InformationCanvas : BaseCanvas
 
     [Header("Charging")]
     [SerializeField]
-    private ControllerCanvas _controllerCanvas;
-    [SerializeField]
     private Image[] _chargingImages;
     private Tank_Move _tankMove;
     private bool _isDirty = false;
