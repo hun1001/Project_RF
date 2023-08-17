@@ -64,7 +64,7 @@ public class Turret_AimLine : Turret_Component
 
     private void Update()
     {
-        // TODO : 총알 존재 시간 2f -> 총알 속도 * 총알 존재 시간
+        // TODO : 총알 존재 ?�간 2f -> 총알 ?�도 * 총알 존재 ?�간
         _lineRenderer.SetPosition(0, Turret.FirePoint.position);
 
         var a = Turret.GetComponent<Turret_Attack>(ComponentType.Attack);

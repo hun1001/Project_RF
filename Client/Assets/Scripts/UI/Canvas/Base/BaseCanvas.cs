@@ -58,6 +58,7 @@ public abstract class BaseCanvas : MonoBehaviour, IButtonSound
             UnityEngine.SceneManagement.SceneManager.LoadScene("MenuScene");
             EventManager.ClearEvent();
             Pool.PoolManager.DeleteAllPool();
+            MouseManager.Instance.ClearMouseButtonAction();
         }
     }
 

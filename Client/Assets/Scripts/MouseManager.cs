@@ -15,6 +15,7 @@ public class MouseManager : MonoSingleton<MouseManager>
     public Action OnMouseRightButtonDown = null;
     public Action OnMouseRightButtonUp = null;
 
+
     private void Update()
     {
         Vector2 centorPosition = new Vector2(Screen.width / 2, Screen.height / 2);
@@ -25,15 +26,17 @@ public class MouseManager : MonoSingleton<MouseManager>
         MouseDir = mouseDir.normalized;
         MouseMagnitude = mouseDir.magnitude;
 
-
-        if(Input.GetMouseButton(1))
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == 1)
         {
-            transform.position = MouseDir * MouseMagnitude;
-            transform.position += FindObjectOfType<Player>().transform.position;
-        }
-        else
-        {
-            transform.position = FindObjectOfType<Player>().transform.position;
+            if (Input.GetMouseButton(1))
+            {
+                transform.position = MouseDir * MouseMagnitude;
+                transform.position += FindObjectOfType<Player>().transform.position;
+            }
+            else
+            {
+                transform.position = FindObjectOfType<Player>().transform.position;
+            }
         }
 
         if(Input.GetMouseButtonDown(0))
@@ -55,5 +58,13 @@ public class MouseManager : MonoSingleton<MouseManager>
         {
             OnMouseRightButtonUp?.Invoke();
         }
+    }
+
+    public void ClearMouseButtonAction()
+    {
+        OnMouseLeftButtonDown = null;
+        OnMouseLeftButtonUp = null;
+        OnMouseRightButtonDown = null;
+        OnMouseRightButtonUp = null;
     }
 }
