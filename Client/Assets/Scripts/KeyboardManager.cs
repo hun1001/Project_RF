@@ -7,12 +7,7 @@ using Util;
 public class KeyboardManager : MonoSingleton<KeyboardManager>
 {
 
-    private Dictionary<KeyCode, Action> keyDownAction = null;
-
-    private void Awake()
-    {
-        keyDownAction = new Dictionary<KeyCode, Action>();
-    }
+    private Dictionary<KeyCode, Action> keyDownAction = new Dictionary<KeyCode, Action>();
 
     void Update()
     {

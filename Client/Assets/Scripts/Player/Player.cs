@@ -59,6 +59,9 @@ public class Player : CustomObject
         _hpBar.Setting(_tank.TankData.HP);
 
         _cameraManager.AddTargetGroup(_tank.transform, 30, 100);
+        var audioListener = _cameraManager.transform.GetChild(1);
+        audioListener.SetParent(transform);
+        audioListener.localPosition = Vector3.zero;
 
         ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
         int shellCnt = shellEquipmentData._shellEquipmentList.Count;

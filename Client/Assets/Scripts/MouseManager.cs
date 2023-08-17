@@ -28,6 +28,8 @@ public class MouseManager : MonoSingleton<MouseManager>
 
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == 1)
         {
+            Camera.main.GetComponent<CameraManager>().CameraZoom(Input.mouseScrollDelta.y);
+
             if (Input.GetMouseButton(1))
             {
                 transform.position = MouseDir * MouseMagnitude;

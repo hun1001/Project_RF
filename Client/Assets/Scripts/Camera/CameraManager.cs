@@ -21,11 +21,6 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private Volume _volume;
 
-    private void LateUpdate()
-    {
-        transform.rotation = Quaternion.identity;
-    }
-
     public void CameraShake(float amplitudeGain, float frequencyGain, float duration)
     {
         StartCoroutine(CameraShakeCoroutine(amplitudeGain, frequencyGain, duration));
@@ -95,6 +90,11 @@ public class CameraManager : MonoBehaviour
     }
 
     private bool _isZooming = false;
+
+    public void CameraZoom(float fovChange)
+    {
+        _virtualCamera.m_Lens.FieldOfView += fovChange;
+    }
 
     public void CameraZoom(float fov, float duration)
     {
