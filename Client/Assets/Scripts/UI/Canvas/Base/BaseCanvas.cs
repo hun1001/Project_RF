@@ -59,7 +59,7 @@ public abstract class BaseCanvas : MonoBehaviour, IButtonSound
             EventManager.ClearEvent();
             Pool.PoolManager.DeleteAllPool();
             MouseManager.Instance.ClearMouseButtonAction();
-            KeyboardManager.Instance.ClearKeyActions();
+            //KeyboardManager.Instance.ClearKeyActions();
         }
     }
 

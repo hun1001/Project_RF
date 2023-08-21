@@ -184,8 +184,91 @@ public class MenuCanvas : BaseCanvas
         CurrentTankInfoUpdate();
         HangerSort();
 
-        GameManager.Input.KeyAction -= OnKeyboard;
-        GameManager.Input.KeyAction += OnKeyboard;
+        AddInputAction();
+    }
+
+    private void AddInputAction()
+    {
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.Space, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType)
+            {
+                if (_isShellOpen)
+                {
+                    OnOpenShell();
+                    return;
+                }
+
+                if (_isCameraHide == false)
+                {
+                    OnHangerHide();
+
+                    if (Input.GetKeyDown(KeyCode.F))
+                    {
+                        OnFilterOpen();
+                    }
+                }
+            }
+        });
+
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.F, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType)
+            {
+                if (_isShellOpen)
+                {
+                    OnOpenShell();
+                    return;
+                }
+
+                if (_isCameraHide == false)
+                {
+                    OnFilterOpen();
+                }
+            }
+        });
+
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.T, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType)
+            {
+                if (_isShellOpen)
+                {
+                    OnOpenShell();
+                    return;
+                }
+
+                OnTechTreeButton();
+            }
+        });
+
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.S, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType)
+            {
+                if (_isShellOpen)
+                {
+                    OnOpenShell();
+                    return;
+                }
+
+                OnStartButton();
+            }
+        });
+
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.M, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType)
+            {
+                if (_isShellOpen)
+                {
+                    OnOpenShell();
+                    return;
+                }
+
+                OnModeButton();
+            }
+        });
     }
 
     public override void OnOpenEvents()
@@ -221,46 +304,6 @@ public class MenuCanvas : BaseCanvas
         if (_isSeeTank)
         {
             OnSeeButton();
-        }
-    }
-
-    private void OnKeyboard()
-    {
-        if (CanvasManager.ActiveCanvas == CanvasType)
-        {
-            if (_isShellOpen)
-            {
-                OnOpenShell();
-                return;
-            }
-
-            if (_isCameraHide == false)
-            {
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    OnHangerHide();
-                }
-
-                if (Input.GetKeyDown(KeyCode.F))
-                {
-                    OnFilterOpen();
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                OnTechTreeButton();
-            }
-
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                OnStartButton();
-            }
-
-            if (Input.GetKeyDown(KeyCode.M))
-            {
-                OnModeButton();
-            }
         }
     }
 

@@ -32,8 +32,7 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Input.KeyAction -= OnKeyboard;
-        GameManager.Input.KeyAction += OnKeyboard;
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.Escape, InputEscape);
     }
 
     private void Update()
@@ -44,33 +43,30 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
         }
     }
 
-    private void OnKeyboard()
+    private void InputEscape()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (_openDelay <= 0f)
         {
-            if (_openDelay <= 0f)
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
             {
-                if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
+                if (_activeCanvas == CanvasType.Menu)
                 {
-                    if (_activeCanvas == CanvasType.Menu)
-                    {
-                        ChangeCanvas(CanvasType.Setting, _activeCanvas);
-                    }
-                    else
-                    {
-                        ChangeBeforeCanvas();
-                    }
+                    ChangeCanvas(CanvasType.Setting, _activeCanvas);
                 }
-                else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.StageScene)
+                else
                 {
-                    if (_activeCanvas == CanvasType.Pause)
-                    {
-                        ChangeCanvas(CanvasType.Information, _activeCanvas);
-                    }
-                    else if (_activeCanvas != CanvasType.GameOver)
-                    {
-                        ChangeCanvas(CanvasType.Pause, _activeCanvas);
-                    }
+                    ChangeBeforeCanvas();
+                }
+            }
+            else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.StageScene)
+            {
+                if (_activeCanvas == CanvasType.Pause)
+                {
+                    ChangeCanvas(CanvasType.Information, _activeCanvas);
+                }
+                else if (_activeCanvas != CanvasType.GameOver)
+                {
+                    ChangeCanvas(CanvasType.Pause, _activeCanvas);
                 }
             }
         }
