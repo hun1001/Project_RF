@@ -13,6 +13,7 @@ public class TankAI : BossAI_Base
     public void Init(string id)
     {
         _id = id;
+        _canTankSpawn = true;
     }
 
     protected override void OnStart()
@@ -79,6 +80,8 @@ public class TankAI : BossAI_Base
         selectorNode = new SelectorNode(tankMoveSequenceNode, tankAttackSequenceNode);
 
         rootNode = new RootNode(selectorNode);
+
+        behaviorTree = new BehaviorTree(rootNode);
 
         return behaviorTree;
     }

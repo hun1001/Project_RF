@@ -66,7 +66,8 @@ public class InformationCanvas : BaseCanvas
         {
             _stagePanel.SetActive(false);
             _bossPanel.SetActive(true);
-            _bossName.SetText(FindObjectOfType<BMP_BossAI>().Tank.ID);
+            //TODO
+            //_bossName.SetText(FindObjectOfType<BMP_BossAI>().Tank.ID);
         }
         else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.StageScene)
         {

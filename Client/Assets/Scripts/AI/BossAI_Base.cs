@@ -32,9 +32,17 @@ public abstract class BossAI_Base : MonoBehaviour
     private Tank _target = null;
     public Tank Target => _target;
 
+    protected bool _canTankSpawn = false;
+    private bool _isUpdate = false;
+
     private void Awake()
     {
         _navMeshPath = new NavMeshPath();
+    }
+
+    private IEnumerator Start()
+    {
+        yield return new WaitUntil(() => _canTankSpawn);
 
         _tank = TankSpawn();
 
@@ -47,10 +55,7 @@ public abstract class BossAI_Base : MonoBehaviour
         _turretAimLine = _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine);
 
         _target = FindObjectOfType<Player>().Tank;
-    }
 
-    private void Start()
-    {
         _tankDamage.AddOnDeathAction(() =>
         {
             Destroy(this.gameObject);
@@ -65,12 +70,16 @@ public abstract class BossAI_Base : MonoBehaviour
         OnStart();
 
         _behaviorTree = SetBehaviorTree();
+        _isUpdate = true;
     }
 
     private void Update()
     {
-        OnUpdate();
-        _behaviorTree.Tick();
+        if(_isUpdate)
+        { 
+            OnUpdate();
+            _behaviorTree.Tick();
+        }
     }
 
     protected abstract Tank TankSpawn();
