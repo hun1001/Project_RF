@@ -5,10 +5,6 @@ namespace Map
 {
     public class Map_Information : MonoBehaviour
     {
-        [SerializeField]
-        private MapSO _mapSO;
-        public MapSO MapData => _mapSO;
-
         /// <summary> 적 생성 위치들의 부모 </summary>
         [SerializeField]
         private Transform _spawnPointParent;
