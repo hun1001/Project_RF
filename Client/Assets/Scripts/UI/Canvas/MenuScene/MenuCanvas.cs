@@ -168,7 +168,6 @@ public class MenuCanvas : BaseCanvas
         _isSeeTank = false;
 
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
-        Debug.Log("Current Tank ID : " + _currentTankID);
 
         _countryHangerDataDict.Add(CountryType.USSR, new List<GameObject>());
         _countryHangerDataDict.Add(CountryType.Germany, new List<GameObject>());
