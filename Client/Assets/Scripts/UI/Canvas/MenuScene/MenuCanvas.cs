@@ -832,6 +832,7 @@ public class MenuCanvas : BaseCanvas
         SceneManager.LoadScene("GameScene");
         Pool.PoolManager.DeleteAllPool();
         EventManager.ClearEvent();
+        KeyboardManager.Instance.ClearKeyActions();
     }
 
     public void OnTrainingStart()
@@ -849,6 +850,7 @@ public class MenuCanvas : BaseCanvas
         SceneManager.LoadScene("TrainingScene");
         Pool.PoolManager.DeleteAllPool();
         EventManager.ClearEvent();
+        KeyboardManager.Instance.ClearKeyActions();
     }
 
     public void OnServerButton()
@@ -864,6 +866,7 @@ public class MenuCanvas : BaseCanvas
         _serverButton.interactable = false;
         ServerManager.Instance.ConnectToServer();
         EventManager.ClearEvent();
+        KeyboardManager.Instance.ClearKeyActions();
     }
 
     public void OnModeButton()
