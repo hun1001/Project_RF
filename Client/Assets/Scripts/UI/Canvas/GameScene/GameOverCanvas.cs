@@ -32,6 +32,35 @@ public class GameOverCanvas : BaseCanvas
         }
     }
 
+    private void Start()
+    {
+        AddInputAction();
+    }
+
+    protected override void AddInputAction()
+    {
+        //KeyboardManager.Instance.AddKeyDownAction(KeyCode.R, () =>
+        //{
+        //    // Retry
+        //});
+
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.Return, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType)
+            {
+                OnHomeButton();
+            }
+        });
+
+        //KeyboardManager.Instance.AddKeyDownAction(KeyCode.Escape, () =>
+        //{
+        //    if (CanvasManager.ActiveCanvas == CanvasType)
+        //    {
+        //        OnHomeButton();
+        //    }
+        //});
+    }
+
     public override void OnOpenEvents()
     {
         Time.timeScale = 0f;

@@ -187,7 +187,7 @@ public class MenuCanvas : BaseCanvas
         AddInputAction();
     }
 
-    private void AddInputAction()
+    protected override void AddInputAction()
     {
         KeyboardManager.Instance.AddKeyDownAction(KeyCode.Space, () =>
         {

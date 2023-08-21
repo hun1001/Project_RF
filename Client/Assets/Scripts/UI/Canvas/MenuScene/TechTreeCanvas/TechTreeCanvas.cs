@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
-
+using System;
+using System.Reflection;
 
 public class TechTreeCanvas : BaseCanvas
 {
@@ -80,6 +81,30 @@ public class TechTreeCanvas : BaseCanvas
         }
 
         _countryToggleGroup.ChangeFirstToggleValue(true);
+    }
+
+    private void Start()
+    {
+        AddInputAction();
+    }
+
+    protected override void AddInputAction()
+    {
+        Action[] actions = new Action[_techTree.TechTreeSO.Length];
+        for (int i = 0; i < _techTree.TechTreeSO.Length; ++i)
+        {
+            int idx = i;
+            actions[idx] = () =>
+            {
+                if (CanvasManager.ActiveCanvas == CanvasType)
+                {
+                    _tankInformation.SetActive(false);
+                    SetTechTree(idx);
+                }
+            };
+        }
+
+        KeyboardManager.Instance.AddKeyDownActionList(actions);
     }
 
     private void SetTechTree(int index)

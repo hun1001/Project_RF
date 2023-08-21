@@ -88,4 +88,9 @@ public abstract class BaseCanvas : MonoBehaviour, IButtonSound
         audioSource.SetVolume(1f);
         audioSource.Play();
     }
+
+    protected virtual void AddInputAction()
+    {
+        
+    }
 }
