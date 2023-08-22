@@ -6,6 +6,7 @@ using Pool;
 
 public abstract class BossAI_Base : MonoBehaviour
 {
+    [SerializeField]
     private Tank _tank = null;
     public Tank Tank => _tank;
 
