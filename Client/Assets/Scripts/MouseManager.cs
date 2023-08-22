@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using Util;
 
@@ -20,8 +21,14 @@ public class MouseManager : MonoSingleton<MouseManager>
 
     private void Start()
     {
+        OnSceneLoaded();
+        SceneManager.sceneLoaded += (scene, mode) => OnSceneLoaded();
+    }
+
+    private void OnSceneLoaded()
+    {
         _player = FindObjectOfType<Player>();
-        _player.Tank.GetComponent<Tank_Damage>().AddOnDeathAction(() => _isPlayerDead = true);
+        _player?.Tank.GetComponent<Tank_Damage>().AddOnDeathAction(() => _isPlayerDead = true);
     }
 
     private void Update()

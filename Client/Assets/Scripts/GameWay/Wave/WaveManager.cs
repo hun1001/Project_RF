@@ -31,7 +31,7 @@ public class WaveManager : GameWay_Base
         
         EventManager.TriggerEvent("Clear");
         
-        if(CurrentStage >= StageListSO.Stages.Length)
+        if(CurrentStage + 1 >= StageListSO.Stages.Length)
         {
             EventManager.TriggerEvent(EventKeyword.StageClear);
             return;
