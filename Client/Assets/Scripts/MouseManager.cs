@@ -15,11 +15,13 @@ public class MouseManager : MonoSingleton<MouseManager>
     public Action OnMouseRightButtonDown = null;
     public Action OnMouseRightButtonUp = null;
 
+    private Player _player;
     private bool _isPlayerDead = false;
 
     private void Start()
     {
-        FindObjectOfType<Player>().GetComponent<Tank_Damage>().AddOnDeathAction(() => _isPlayerDead = true);
+        _player = FindObjectOfType<Player>();
+        _player.Tank.GetComponent<Tank_Damage>().AddOnDeathAction(() => _isPlayerDead = true);
     }
 
     private void Update()
@@ -39,11 +41,11 @@ public class MouseManager : MonoSingleton<MouseManager>
             if (Input.GetMouseButton(1) && _isPlayerDead == false)
             {
                 transform.position = MouseDir * MouseMagnitude;
-                transform.position += FindObjectOfType<Player>().transform.position;
+                transform.position += _player.transform.position;
             }
             else
             {
-                transform.position = FindObjectOfType<Player>().transform.position;
+                transform.position = _player.transform.position;
             }
         }
 
