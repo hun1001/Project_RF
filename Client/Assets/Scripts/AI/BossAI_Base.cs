@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine.AI;
 using UnityEngine;
 using Event;
+using Pool;
 
 public abstract class BossAI_Base : MonoBehaviour
 {
@@ -58,7 +59,8 @@ public abstract class BossAI_Base : MonoBehaviour
 
         _tankDamage.AddOnDeathAction(() =>
         {
-            Destroy(this.gameObject);
+            Destroy(this.gameObject, 3.5f);
+            StartCoroutine(PoolCoroutine());
             //EventManager.TriggerEvent(EventKeyword.BossClear);
         });
 
@@ -71,6 +73,12 @@ public abstract class BossAI_Base : MonoBehaviour
 
         _behaviorTree = SetBehaviorTree();
         _isUpdate = true;
+    }
+
+    private IEnumerator PoolCoroutine()
+    {
+        yield return new WaitForSeconds(3f);
+        PoolManager.Pool(Tank.ID, _tank.gameObject);
     }
 
     private void Update()

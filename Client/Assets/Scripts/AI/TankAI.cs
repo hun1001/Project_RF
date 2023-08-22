@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using Event;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -19,6 +19,11 @@ public class TankAI : BossAI_Base
     protected override void OnStart()
     {
         _navMeshPath = new NavMeshPath();
+
+        TankDamage.AddOnDeathAction(() =>
+        {
+            EventManager.TriggerEvent(EventKeyword.EnemyDie);
+        });
     }
 
     protected override Tank TankSpawn()
