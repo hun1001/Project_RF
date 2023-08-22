@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WaveManager : GameWay_Base
 {
-    private int _repeatCnt = 0;
+    //private int _repeatCnt = 0;
 
     private void Start()
     {
@@ -24,22 +24,16 @@ public class WaveManager : GameWay_Base
         }
 
         base.Spawn();
-        Debug.Log("Wave: " + CurrentStage);
     }
 
     public override void StageClear()
     {
-        if (CurrentStage < _stageListSO.Stages.Length - 1)
-        {
-            CurrentStage++;
-        }
-        else
-        {
-            _repeatCnt++;
-        }
-
+        CurrentStage++;
+        
         EventManager.TriggerEvent("Clear");
-        // ItemManager.Instance.ItemPickUp();
+        
+
+
         Spawn();
     }
 }

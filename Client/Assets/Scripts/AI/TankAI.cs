@@ -18,6 +18,7 @@ public class TankAI : BossAI_Base
 
     protected override void OnStart()
     {
+        TankDamage.ResetOnDeathAction();
         TankDamage.AddOnDeathAction(() =>
         {
             EventManager.TriggerEvent(EventKeyword.EnemyDie);

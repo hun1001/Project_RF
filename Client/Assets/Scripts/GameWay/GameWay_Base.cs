@@ -17,7 +17,6 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
     /// <summary> 현재 맵 정보 </summary>
     protected static Map_Information _currentMap = null;
 
-    [HideInInspector]
     public static int RemainingEnemy = 0;
 
     protected virtual void Awake()
@@ -37,7 +36,6 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
         }
     }
 
-    /// <summary> 적을 생성할 때 사용하는 함수 </summary>
     protected virtual void Spawn()
     {
         for (int i = 0; i < _stageListSO.Stages[CurrentStage].Enemys.Length; i++)
@@ -45,7 +43,7 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
             var ai = PoolManager.Get<TankAI>("AI", _currentMap.RandomSpawnPoint(), Quaternion.identity);
             ai.Init(_stageListSO.Stages[CurrentStage].Enemys[i].ID);
         }
-        RemainingEnemy += _stageListSO.Stages[CurrentStage].Enemys.Length;
+        RemainingEnemy = _stageListSO.Stages[CurrentStage].Enemys.Length;
     }
 
     /// <summary> 해당 스테이지를 클리어시 실행하는 함수 </summary>
