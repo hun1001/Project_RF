@@ -24,6 +24,8 @@ public class Tank : CustomObject, IPoolReset
     private Turret _turret = null;
     public Turret Turret => _turret;
 
+    public bool IsDead => _thisTankSO.HP <= 0;
+
     public Tank SetTank(GroupType groupType)
     {
         _groupType = groupType;

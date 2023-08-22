@@ -17,8 +17,9 @@ public abstract class Tank_Skill : Tank_Component
 
     public abstract void UseSkill();
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         if (_coolTime > 0)
         {
             _coolTime -= Time.deltaTime;

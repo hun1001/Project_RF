@@ -25,8 +25,6 @@ public class TankAI : BossAI_Base
         {
             EventManager.TriggerEvent(EventKeyword.EnemyDie);
         });
-
-        Tank.gameObject.SetActive(true);
     }
 
     protected override Tank TankSpawn()

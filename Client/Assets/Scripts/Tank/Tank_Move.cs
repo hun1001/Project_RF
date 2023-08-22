@@ -8,7 +8,7 @@ using UnityEngine;
 public class Tank_Move : Tank_Component
 {
     private float _maxSpeed = 0f;
-    private float _currentSpeed = 0f;
+    public float _currentSpeed = 0f;
     public float CurrentSpeed => _currentSpeed;
     private float _acceleration = 0f;
     private float _targetSpeed = 0f;

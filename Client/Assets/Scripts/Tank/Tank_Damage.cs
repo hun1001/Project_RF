@@ -102,6 +102,9 @@ public class Tank_Damage : Tank_Component
         PoolManager.Get("BrickImpact", new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity);
         PoolManager.Get("explosion_stylized_large_originalFire_ShaderGraph", transform.position, Quaternion.Euler(-90, 0, 0));
         EventManager.TriggerEvent(gameObject.GetInstanceID().ToString());
+
+        (Instance as Tank).GetComponent<Tank_Move>(ComponentType.Move)._currentSpeed = 0;
+
         _onDeathAction?.Invoke();
     }
 

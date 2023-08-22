@@ -84,7 +84,7 @@ public abstract class BossAI_Base : MonoBehaviour
 
     private void Update()
     {
-        if(_isUpdate)
+        if(_isUpdate&&!_tank.IsDead)
         { 
             OnUpdate();
             _behaviorTree.Tick();
