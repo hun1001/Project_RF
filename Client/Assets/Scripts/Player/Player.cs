@@ -60,7 +60,7 @@ public class Player : CustomObject
 
         _cameraManager.AddTargetGroup(_tank.transform, 30, 100);
         var audioListener = _cameraManager.transform.GetChild(1);
-        audioListener.SetParent(transform);
+        audioListener.SetParent(_tank.transform);
         audioListener.localPosition = Vector3.zero;
 
         ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
