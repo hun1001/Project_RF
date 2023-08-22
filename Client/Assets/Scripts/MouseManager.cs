@@ -15,6 +15,14 @@ public class MouseManager : MonoSingleton<MouseManager>
     public Action OnMouseRightButtonDown = null;
     public Action OnMouseRightButtonUp = null;
 
+    private Player _player;
+    private bool _isPlayerDead = false;
+
+    private void Start()
+    {
+        _player = FindObjectOfType<Player>();
+        _player.Tank.GetComponent<Tank_Damage>().AddOnDeathAction(() => _isPlayerDead = true);
+    }
 
     private void Update()
     {
@@ -26,18 +34,18 @@ public class MouseManager : MonoSingleton<MouseManager>
         MouseDir = mouseDir.normalized;
         MouseMagnitude = mouseDir.magnitude;
 
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == 1)
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
         {
             Camera.main.GetComponent<CameraManager>().CameraZoom(-Input.mouseScrollDelta.y);
 
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButton(1) && _isPlayerDead == false)
             {
                 transform.position = MouseDir * MouseMagnitude;
-                transform.position += FindObjectOfType<Player>().transform.position;
+                transform.position += _player.transform.position;
             }
             else
             {
-                transform.position = FindObjectOfType<Player>().transform.position;
+                transform.position = _player.transform.position;
             }
         }
 
