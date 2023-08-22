@@ -14,6 +14,7 @@ public class TankAI : BossAI_Base
     {
         _id = id;
         _canTankSpawn = true;
+        TankDamage?.ResetDeathAction();
     }
 
     protected override void OnStart()
@@ -24,6 +25,8 @@ public class TankAI : BossAI_Base
         {
             EventManager.TriggerEvent(EventKeyword.EnemyDie);
         });
+
+        Tank.gameObject.SetActive(true);
     }
 
     protected override Tank TankSpawn()

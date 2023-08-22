@@ -1,5 +1,6 @@
 ﻿using Item;
 using Event;
+using UnityEngine;
 
 public class WaveManager : GameWay_Base
 {
@@ -25,6 +26,7 @@ public class WaveManager : GameWay_Base
         }
 
         base.Spawn();
+        Debug.Log("Wave: " + CurrentStage);
     }
 
     public override void StageClear()

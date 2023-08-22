@@ -62,9 +62,9 @@ public class Tank_Move : Tank_Component
         }
         else
         {
-            _targetSpeed = 0;
+            _targetSpeed = magnitude * _maxSpeed;
             SpeedDeceleration();
-            _isDepart = false;
+            //_isDepart = false;
             _tankSound?.MoveSoundUpdate(0f);
         }
 
@@ -83,7 +83,20 @@ public class Tank_Move : Tank_Component
         {
             _currentSpeed -= _acceleration * Time.deltaTime * 2;
         }
-        else if (_currentSpeed < 0f) _currentSpeed = 0f;
+    }
+
+    public void Stop()
+    {
+        _targetSpeed = 0f;
+        if(_currentSpeed > 0)
+        {
+            _currentSpeed -= _acceleration * Time.deltaTime * 2;
+        }else if(_currentSpeed < 0)
+        {
+            _currentSpeed += _acceleration * Time.deltaTime * 2;
+        }
+        _isDepart = false;
+        _tankSound?.MoveSoundUpdate(0f);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

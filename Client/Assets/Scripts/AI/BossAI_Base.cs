@@ -60,7 +60,6 @@ public abstract class BossAI_Base : MonoBehaviour
 
         _tankDamage.AddOnDeathAction(() =>
         {
-            Destroy(this.gameObject, 3.5f);
             StartCoroutine(PoolCoroutine());
             //EventManager.TriggerEvent(EventKeyword.BossClear);
         });
@@ -80,6 +79,7 @@ public abstract class BossAI_Base : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         PoolManager.Pool(Tank.ID, _tank.gameObject);
+        PoolManager.Pool("AI", this.gameObject);
     }
 
     private void Update()

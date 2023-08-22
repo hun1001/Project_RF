@@ -153,7 +153,7 @@ public class Player : CustomObject
 
             if(Input.GetKey(KeyCode.Q)&&Input.GetKey(KeyCode.E))
             {
-                _tankMove.Move(-1f);
+                _tankMove.Move(-0.1f);
             }
             else if(Input.GetKey(KeyCode.Q))
             {
@@ -162,6 +162,11 @@ public class Player : CustomObject
             else if(Input.GetKey(KeyCode.E))
             {
                 _tankRotate.RotateRight();
+            }
+
+            if(Input.GetKey(KeyCode.Space))
+            {
+                _tankMove.Stop();
             }
 
             yield return null;
