@@ -59,13 +59,13 @@ public abstract class BossAI_Base : MonoBehaviour
         _tankDamage.AddOnDeathAction(() =>
         {
             Destroy(this.gameObject);
-            EventManager.TriggerEvent(EventKeyword.BossClear);
+            //EventManager.TriggerEvent(EventKeyword.BossClear);
         });
 
-        Bar hpBar = FindObjectOfType<InformationCanvas>().BossHpBar;
-        hpBar.Setting(_tank.TankData.HP);
+        //Bar hpBar = FindObjectOfType<InformationCanvas>().BossHpBar;
+        //hpBar.Setting(_tank.TankData.HP);
 
-        _tankDamage.AddOnDamageAction(hpBar.ChangeValue);
+        //_tankDamage.AddOnDamageAction(hpBar.ChangeValue);
 
         OnStart();
 
