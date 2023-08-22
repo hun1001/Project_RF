@@ -10,7 +10,7 @@ public abstract class BossAI_Base : MonoBehaviour
     private Tank _tank = null;
     public Tank Tank => _tank;
 
-    private NavMeshPath _navMeshPath = null;
+    protected NavMeshPath _navMeshPath = null;
     private BehaviorTree _behaviorTree = null;
 
     private Tank_Move _tankMove = null;
@@ -34,17 +34,11 @@ public abstract class BossAI_Base : MonoBehaviour
     private Tank _target = null;
     public Tank Target => _target;
 
-    protected bool _canTankSpawn = false;
     private bool _isUpdate = false;
 
-    private void Awake()
+    protected virtual void Init()
     {
         _navMeshPath = new NavMeshPath();
-    }
-
-    private IEnumerator Start()
-    {
-        yield return new WaitUntil(() => _canTankSpawn);
 
         _tank = TankSpawn();
 
@@ -58,11 +52,7 @@ public abstract class BossAI_Base : MonoBehaviour
 
         _target = FindObjectOfType<Player>().Tank;
 
-        _tankDamage.AddOnDeathAction(() =>
-        {
-            StartCoroutine(PoolCoroutine());
-            //EventManager.TriggerEvent(EventKeyword.BossClear);
-        });
+        _tankDamage.AddOnDeathAction(Pool);
 
         //Bar hpBar = FindObjectOfType<InformationCanvas>().BossHpBar;
         //hpBar.Setting(_tank.TankData.HP);
@@ -75,11 +65,10 @@ public abstract class BossAI_Base : MonoBehaviour
         _isUpdate = true;
     }
 
-    private IEnumerator PoolCoroutine()
+    private void Pool()
     {
-        yield return new WaitForSeconds(3f);
-        PoolManager.Pool(Tank.ID, _tank.gameObject);
-        PoolManager.Pool("AI", this.gameObject);
+        _isUpdate = false;
+        PoolManager.Pool("AI", gameObject);
     }
 
     private void Update()

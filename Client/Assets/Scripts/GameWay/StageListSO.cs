@@ -10,8 +10,5 @@ namespace Stage
     {
         /// <summary> 스테이지 리스트 </summary>
         public StageSO[] Stages;
-
-        /// <summary> 맵 리스트 </summary>
-        public Map_Information[] Maps;
     }
 }

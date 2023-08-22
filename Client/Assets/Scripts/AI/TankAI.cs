@@ -5,7 +5,6 @@ using UnityEngine.AI;
 
 public class TankAI : BossAI_Base
 {
-    private NavMeshPath _navMeshPath = null;
     private Vector3 _moveTargetPosition = Vector3.zero;
 
     string _id = string.Empty;
@@ -13,17 +12,16 @@ public class TankAI : BossAI_Base
     public void Init(string id)
     {
         _id = id;
-        _canTankSpawn = true;
-        TankDamage?.ResetDeathAction();
+        base.Init();
+        StopAllCoroutines();
     }
 
     protected override void OnStart()
     {
-        _navMeshPath = new NavMeshPath();
-
         TankDamage.AddOnDeathAction(() =>
         {
             EventManager.TriggerEvent(EventKeyword.EnemyDie);
+            _moveTargetPosition = Vector3.zero;
         });
     }
 

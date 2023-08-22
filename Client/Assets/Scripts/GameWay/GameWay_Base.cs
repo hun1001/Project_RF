@@ -24,6 +24,8 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
     {
         EventManager.DeleteEvent(EventKeyword.EnemyDie);
         EventManager.StartListening(EventKeyword.EnemyDie, EnemyDie);
+
+        _currentMap = FindObjectOfType<Map_Information>();
     }
 
     private void EnemyDie()
@@ -44,22 +46,6 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
             ai.Init(_stageListSO.Stages[CurrentStage].Enemys[i].ID);
         }
         RemainingEnemy += _stageListSO.Stages[CurrentStage].Enemys.Length;
-    }
-
-    /// <summary> 맵을 랜덤으로 선택하는 함수 </summary>
-    /// <returns> 랜덤으로 선택된 맵 </returns>
-    protected Map_Information RandomMapSelect()
-    {
-        if(_stageListSO.Maps.Length == 0) return FindObjectOfType<Map_Information>();
-        int randomIndex = Random.Range(0, _stageListSO.Maps.Length);
-        return _stageListSO.Maps[randomIndex];
-    }
-
-    /// <summary> 선택된 맵을 생성하는 함수 </summary>
-    protected void MapCreation()
-    {
-        if (_stageListSO.Maps.Length == 0) return;
-        _currentMap = PoolManager.Get(_currentMap.name).GetComponent<Map_Information>();
     }
 
     /// <summary> 해당 스테이지를 클리어시 실행하는 함수 </summary>

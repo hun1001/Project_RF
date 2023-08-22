@@ -8,8 +8,6 @@ public class WaveManager : GameWay_Base
 
     private void Start()
     {
-        _currentMap = RandomMapSelect();
-        // MapCreation();
         Spawn();
     }
 

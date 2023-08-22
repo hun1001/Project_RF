@@ -15,6 +15,7 @@ namespace Map
         /// <returns> 적 생성 위치 </returns>
         public Vector3 RandomSpawnPoint()
         {
+
             int randomIndex = Random.Range(0, SpawnPoints.Length);
             return SpawnPoints[randomIndex].position;
         }

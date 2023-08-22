@@ -19,8 +19,10 @@ public class Tank_Damage : Tank_Component
     public void AddOnDamageAction(Action<float> action) => _onDamageAction += action;
 
     private Action _onDeathAction = null;
-    public void AddOnDeathAction(Action action) => _onDeathAction += action;
-    public void ResetDeathAction() => _onDeathAction = null;
+    public void AddOnDeathAction(Action action)
+    {
+        _onDeathAction += action;
+    }
 
     private void Awake()
     {
