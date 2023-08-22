@@ -134,6 +134,6 @@ public class TankAI : BossAI_Base
 
     private void Attack()
     {
-
+        Tank.Turret.GetComponent<Turret_Attack>().Fire();
     }
 }

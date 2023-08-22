@@ -65,9 +65,7 @@ public class InformationCanvas : BaseCanvas
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
         {
             _stagePanel.SetActive(false);
-            _bossPanel.SetActive(true);
-            //TODO
-            //_bossName.SetText(FindObjectOfType<BMP_BossAI>().Tank.ID);
+            _bossPanel.SetActive(false);
         }
         else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.StageScene)
         {
@@ -81,6 +79,11 @@ public class InformationCanvas : BaseCanvas
             _bossPanel.SetActive(false);
             _stagePanel.SetActive(false);
         }
+    }
+
+    public void BossInfoSetting()
+    {
+        //¸¸µé¾î¾ßµÊ
     }
 
     private void Update()
