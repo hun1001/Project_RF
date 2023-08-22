@@ -32,8 +32,9 @@ public class Tank_Sound : Tank_Component
     public void StartEngineSound()
     {
         _engineSource = PlaySound(SoundType.Engine, AudioMixerType.Sfx, 0.2f, true);
-
+        _engineSource.transform.SetParent(Instance.transform);
         _trackSource = PlaySound(SoundType.Track, AudioMixerType.Sfx, 0f, true);
+        _trackSource.transform.SetParent(Instance.transform);
     }
 
     public void StopEngineSound()
