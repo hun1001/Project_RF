@@ -94,10 +94,13 @@ public class MenuCanvas : BaseCanvas
     [SerializeField]
     private Button _serverButton = null;
 
-    [Header("Warning")]
+    [Header("Other")]
     [SerializeField]
     private RectTransform _warningPanel;
     private Sequence _warningSequence;
+    [SerializeField]
+    private GameObject _keyGuidePanel;
+    private bool _isGuideOpen = false;
 
     private void Awake()
     {
@@ -882,12 +885,12 @@ public class MenuCanvas : BaseCanvas
         PlayButtonSound();
     }
 
-    public void OnShopButton()
-    {
-        CanvasManager.ChangeCanvas(CanvasType.Shop, CanvasType);
+    //public void OnShopButton()
+    //{
+    //    CanvasManager.ChangeCanvas(CanvasType.Shop, CanvasType);
 
-        PlayButtonSound();
-    }
+    //    PlayButtonSound();
+    //}
 
     public void OnTechTreeButton()
     {
@@ -895,13 +898,6 @@ public class MenuCanvas : BaseCanvas
 
         PlayButtonSound();
     }
-
-    /*public void OnOpenItem()
-    {
-        CanvasManager.ChangeCanvas(CanvasType.Gear, CanvasType);
-
-        PlayButtonSound();
-    }*/
 
     public void OnOpenShell()
     {
@@ -915,6 +911,21 @@ public class MenuCanvas : BaseCanvas
         {
             _isShellOpen = true;
             _shellReplacement.SetActive(true);
+        }
+    }
+
+    public void OnGuideOpen()
+    {
+        PlayButtonSound();
+        if (_isGuideOpen)
+        {
+            _isGuideOpen = false;
+            _keyGuidePanel.SetActive(false);
+        }
+        else
+        {
+            _isGuideOpen = true;
+            _keyGuidePanel.SetActive(true);
         }
     }
     #endregion
