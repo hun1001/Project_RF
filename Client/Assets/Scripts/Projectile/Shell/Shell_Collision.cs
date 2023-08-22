@@ -66,20 +66,20 @@ public class Shell_Collision : Shell_Component
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            normalVector = collision.contacts[0].normal;
-            incidentVector = -transform.up;
+            //normalVector = collision.contacts[0].normal;
+            //incidentVector = -transform.up;
 
-            angle = (int)Vector2.Angle(incidentVector, normalVector);
-            angle %= 180;
+            //angle = (int)Vector2.Angle(incidentVector, normalVector);
+            //angle %= 180;
 
-            if (angle < 90 && angle >= 60)
-            {
-                reflectionDir = Vector2.Reflect(-incidentVector, normalVector);
+            //if (angle < 90 && angle >= 60)
+            //{
+            //    reflectionDir = Vector2.Reflect(-incidentVector, normalVector);
 
-                transform.up = reflectionDir;
-                _shellSound.PlaySound(SoundType.Ricochet, AudioMixerType.Sfx);
-            }
-            else
+            //    transform.up = reflectionDir;
+            //    _shellSound.PlaySound(SoundType.Ricochet, AudioMixerType.Sfx);
+            //}
+            //else
             {
                 PoolManager.Get("Explosion_APHE_01", transform.position, transform.rotation);
                 PoolManager.Pool(Instance.ID, gameObject);
