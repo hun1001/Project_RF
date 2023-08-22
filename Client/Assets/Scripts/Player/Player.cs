@@ -151,6 +151,15 @@ public class Player : CustomObject
             
             _turretRotate.Rotate(MouseManager.Instance.MouseDir);
 
+            if(Input.GetKey(KeyCode.Q))
+            {
+                _tankRotate.RotateLeft();
+            }
+            else if(Input.GetKey(KeyCode.E))
+            {
+                _tankRotate.RotateRight();
+            }
+
             yield return null;
         }
     }
