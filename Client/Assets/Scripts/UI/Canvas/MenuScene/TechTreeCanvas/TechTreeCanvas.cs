@@ -163,7 +163,7 @@ public class TechTreeCanvas : BaseCanvas
                         topUI.GetChild(1).GetComponent<TextMeshProUGUI>().text = _techTree.TankTierNumber[lIndex];
                         topUI.GetChild(2).GetComponent<TextMeshProUGUI>().text = _techTree.TechTreeSO[index][jIndex, lIndex].ID;
 
-                        // 탱크 이미지 없으니까 일단  null
+                        // ?�크 ?��?지 ?�으?�까 ?�단  null
                         _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
 
                         var stats = _tankInformationPanel.transform.GetChild(2);

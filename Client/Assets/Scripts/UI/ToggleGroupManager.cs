@@ -5,31 +5,14 @@ using TMPro;
 
 public class ToggleGroupManager : ToggleGroup
 {
+    [SerializeField]
     private Toggle _templateToggle = null;
 
-    public void SetToggleGroup(string[] toggleText, Sprite[] s, UnityAction<bool>[] onValueChanged, int onIndex = 0)
+    public void AddToggle(int shellNumber, string shellName, Sprite shellSprite, UnityAction<bool> unityAction)
     {
-        _templateToggle ??= transform.GetChild(0).GetComponent<Toggle>();
-        _templateToggle.gameObject.SetActive(false);
+        var toggle = Instantiate(_templateToggle, transform).GetComponent<ShellTemplateHandle>();
+        toggle.gameObject.SetActive(true);
 
-        Toggle toggle = null;
-
-        for (int i = 0; i < toggleText.Length; ++i)
-        {
-            toggle = Instantiate(_templateToggle, transform);
-            toggle.gameObject.SetActive(true);
-
-            toggle.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = toggleText[i];
-            toggle.transform.GetChild(0).GetComponent<Image>().sprite = s[i];
-            toggle.onValueChanged.RemoveAllListeners();
-            toggle.onValueChanged.AddListener(onValueChanged[i]);
-            toggle.group = this;
-            toggle.isOn = i == onIndex;
-        }
-    }
-
-    public void AddToggle()
-    {
-
+        toggle.SetShellTemplate(shellNumber, shellName, shellSprite, unityAction);
     }
 }

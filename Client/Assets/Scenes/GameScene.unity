@@ -525,7 +525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: Player
-  _informationCanvas: {fileID: 1983070566}
+  _informationCanvas: {fileID: 1141589055}
   _cameraAttackShakeValueSO: {fileID: 11400000, guid: 90cd6c3365e34ff44977c73f3f6ea0c6, type: 2}
   _cameraDamageShakeValueSO: {fileID: 11400000, guid: bb3ab556b605560429e40a82694d03ab, type: 2}
   _cameraCrashShakeValueSO: {fileID: 11400000, guid: 923ac604d72afe34d918bd64566e6852, type: 2}
@@ -1912,6 +1912,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2733630743605750295, guid: 997fcd964bca29a42a97a30f0871933d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 10.790001
+      objectReference: {fileID: 0}
     - target: {fileID: 2736882273180578029, guid: 997fcd964bca29a42a97a30f0871933d, type: 3}
       propertyPath: m_Camera
       value: 
@@ -1972,6 +1976,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameSceneCanvasManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6891136542071225400, guid: 997fcd964bca29a42a97a30f0871933d, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 415293283}
     - target: {fileID: 7756695445797973706, guid: 997fcd964bca29a42a97a30f0871933d, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1996,12 +2004,31 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8618325542076668414, guid: 997fcd964bca29a42a97a30f0871933d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 71.79999
+      objectReference: {fileID: 0}
+    - target: {fileID: 8696893504934438658, guid: 997fcd964bca29a42a97a30f0871933d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -6.1800003
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 175960622509155882, guid: 997fcd964bca29a42a97a30f0871933d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 997fcd964bca29a42a97a30f0871933d, type: 3}
+--- !u!114 &1141589055 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 395705508351489711, guid: 997fcd964bca29a42a97a30f0871933d, type: 3}
+  m_PrefabInstance: {fileID: 1141589054}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29781c3fdc90cc14a98042d7f043fade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1155392373
 GameObject:
   m_ObjectHideFlags: 0
@@ -2993,17 +3020,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 73bb6e0afd34e87409e0fbdd448f1b29, type: 3}
   m_PrefabInstance: {fileID: 1103332777}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1983070566 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 41938264116120592, guid: 997fcd964bca29a42a97a30f0871933d, type: 3}
-  m_PrefabInstance: {fileID: 1141589054}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29781c3fdc90cc14a98042d7f043fade, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1996056381
 GameObject:
   m_ObjectHideFlags: 0
