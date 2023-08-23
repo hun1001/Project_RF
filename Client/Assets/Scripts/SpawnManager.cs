@@ -9,10 +9,6 @@ public class SpawnManager : MonoSingleton<SpawnManager>
     {
         var spawnedUnit = PoolManager.Get<Tank>(unitID, position, rotation).SetTank(groupType);
 
-        var minimapIcon = PoolManager.Get<MinimapIcon>("Assets/Prefabs/MinimapIcon.prefab", spawnedUnit.transform);
-        minimapIcon.transform.localPosition = new Vector3(0, 0, -15);
-        minimapIcon.SetIconColor(groupType);
-
         return spawnedUnit;
     }
 }

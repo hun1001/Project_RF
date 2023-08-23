@@ -50,7 +50,6 @@ public class Player : CustomObject
         Camera.main.TryGetComponent(out _cameraManager);
         _tank = SpawnManager.Instance.SpawnUnit(PlayerDataManager.Instance.GetPlayerTankID(), transform.position, Quaternion.identity, GroupType.Player);
         _tank.tag = "Player";
-        FindObjectOfType<MinimapCameraManager>().Target = _tank.transform;
 
         MouseManager.Instance.OnMouseLeftButtonDown += _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire;
 
