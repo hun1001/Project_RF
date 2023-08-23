@@ -7,6 +7,13 @@ using Util;
 
 public class MouseManager : MonoSingleton<MouseManager>
 {
+    private float _mouseScrollSensitive = 5f;
+    public void SetMouseScrollSensitive(float mouseScrollSensitive)
+    {
+        _mouseScrollSensitive = mouseScrollSensitive;
+        _mouseScrollSensitive = Mathf.Clamp(_mouseScrollSensitive, 1f, 10f);
+    }
+
     public Vector2 MouseDir = Vector2.zero;
     public float MouseMagnitude = 0f;
 
@@ -41,9 +48,9 @@ public class MouseManager : MonoSingleton<MouseManager>
         MouseDir = mouseDir.normalized;
         MouseMagnitude = mouseDir.magnitude;
 
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
+        if (SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
         {
-            Camera.main.GetComponent<CameraManager>().CameraZoom(-Input.mouseScrollDelta.y);
+            Camera.main.GetComponent<CameraManager>().CameraZoom(-Input.mouseScrollDelta.y * _mouseScrollSensitive);
 
             if (Input.GetMouseButton(1) && _isPlayerDead == false)
             {
