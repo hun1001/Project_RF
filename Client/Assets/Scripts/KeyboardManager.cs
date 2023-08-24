@@ -21,6 +21,12 @@ public class KeyboardManager : MonoSingleton<KeyboardManager>
 
     public void AddKeyDownAction(KeyCode keyCode, Action action)
     {
+        if (keyDownAction.ContainsKey(keyCode))
+        {
+            keyDownAction[keyCode] += action;
+            return;
+        }
+
         keyDownAction.Add(keyCode, action);
     }
 
