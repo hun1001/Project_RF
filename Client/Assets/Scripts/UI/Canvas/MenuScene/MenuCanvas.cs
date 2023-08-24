@@ -89,10 +89,6 @@ public class MenuCanvas : BaseCanvas
     [Header("Buttons")]
     [SerializeField]
     private Button _startButton = null;
-    [SerializeField]
-    private Button _trainingButton = null;
-    [SerializeField]
-    private Button _serverButton = null;
 
     [Header("Other")]
     [SerializeField]
@@ -109,10 +105,9 @@ public class MenuCanvas : BaseCanvas
         _goodsTexts.SetGoodsTexts(GoodsManager.FreeGoods, GoodsManager.PaidGoods);
 
         _startButton.interactable = true;
-        _trainingButton.interactable = true;
 
         _startButton.onClick.AddListener(OnStartButton);
-        _trainingButton.onClick.AddListener(OnModeButton);
+        //_trainingButton.onClick.AddListener(OnModeButton);
         //_serverButton.onClick.AddListener(OnServerButton);
 
         _plusSprite = AddressablesManager.Instance.GetResource<Sprite>("PlusImage");
@@ -255,20 +250,6 @@ public class MenuCanvas : BaseCanvas
                 }
 
                 OnStartButton();
-            }
-        });
-
-        KeyboardManager.Instance.AddKeyDownAction(KeyCode.M, () =>
-        {
-            if (CanvasManager.ActiveCanvas == CanvasType)
-            {
-                if (_isShellOpen)
-                {
-                    OnOpenShell();
-                    return;
-                }
-
-                OnModeButton();
             }
         });
     }
@@ -837,46 +818,28 @@ public class MenuCanvas : BaseCanvas
         KeyboardManager.Instance.ClearKeyActions();
     }
 
-    public void OnTrainingStart()
-    {
-        PlayButtonSound();
+    //public void OnServerButton()
+    //{
+    //    PlayButtonSound();
 
-        if (ShellEmptyCheck())
-        {
-            WarningShellEmpty();
-            return;
-        }
+    //    if (ShellEmptyCheck())
+    //    {
+    //        WarningShellEmpty();
+    //        return;
+    //    }
 
-        _trainingButton.interactable = false;
-        Time.timeScale = 1;
-        SceneManager.LoadScene("TrainingScene");
-        Pool.PoolManager.DeleteAllPool();
-        EventManager.ClearEvent();
-        KeyboardManager.Instance.ClearKeyActions();
-    }
+    //    _serverButton.interactable = false;
+    //    ServerManager.Instance.ConnectToServer();
+    //    EventManager.ClearEvent();
+    //    KeyboardManager.Instance.ClearKeyActions();
+    //}
 
-    public void OnServerButton()
-    {
-        PlayButtonSound();
+    //public void OnModeButton()
+    //{
+    //    CanvasManager.ChangeCanvas(CanvasType.Mode, CanvasType);
 
-        if (ShellEmptyCheck())
-        {
-            WarningShellEmpty();
-            return;
-        }
-
-        _serverButton.interactable = false;
-        ServerManager.Instance.ConnectToServer();
-        EventManager.ClearEvent();
-        KeyboardManager.Instance.ClearKeyActions();
-    }
-
-    public void OnModeButton()
-    {
-        CanvasManager.ChangeCanvas(CanvasType.Mode, CanvasType);
-
-        PlayButtonSound();
-    }
+    //    PlayButtonSound();
+    //}
 
     public void OnSettingButton()
     {
