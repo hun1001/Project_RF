@@ -87,7 +87,11 @@ public class Player : CustomObject
                 }
             });
 
-            // 여기에 key event 추가해야됨
+            KeyboardManager.Instance.AddKeyDownAction((KeyCode)((int)KeyCode.Alpha1 + (i)), () =>
+            {
+                int index = dataIndex;
+                _informationCanvas.ShellToggleManager.ToggleList[index].isOn = true;
+            });
         }
 
         if (shellEquipmentData._shellEquipmentList[0] == "")

@@ -17,6 +17,7 @@ public class ShellTemplateHandle : MonoBehaviour
 
     [SerializeField]
     private Toggle _toggle = null;
+    public Toggle Toggle => _toggle;
 
     public void SetShellTemplate(int shellNumber, string shellName, Sprite shellSprite, UnityAction<bool> action)
     {

@@ -7,7 +7,7 @@ namespace UnityEngine.Rendering.LWRP
     /// so you can use it later in rendering. For example, you can copy
     /// the opaque texture to use it for distortion effects.
     /// </summary>
-    internal class BlitPass : UnityEngine.Rendering.Universal.ScriptableRenderPass
+    internal class BlitPass : Universal.ScriptableRenderPass
     {
         public enum RenderTarget
         {
@@ -20,9 +20,9 @@ namespace UnityEngine.Rendering.LWRP
         public FilterMode filterMode { get; set; }
 
         private RenderTargetIdentifier source { get; set; }
-        private UnityEngine.Rendering.Universal.RenderTargetHandle destination { get; set; }
+        private Universal.RenderTargetHandle destination { get; set; }
 
-        UnityEngine.Rendering.Universal.RenderTargetHandle m_TemporaryColorTexture;
+        Universal.RenderTargetHandle m_TemporaryColorTexture;
         string m_ProfilerTag;
 
         /// <summary>
