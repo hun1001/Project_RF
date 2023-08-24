@@ -4,6 +4,7 @@ using Pool;
 using Stage;
 using UnityEngine;
 using Util;
+using UnityEngine.SceneManagement;
 
 public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
 {
@@ -19,11 +20,19 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
 
     public static int RemainingEnemy = 0;
 
-    protected virtual void Awake()
+    private void Awake()
     {
-        EventManager.DeleteEvent(EventKeyword.EnemyDie);
         EventManager.StartListening(EventKeyword.EnemyDie, EnemyDie);
 
+        //_currentMap = FindObjectOfType<Map_Information>();
+
+        SceneManager.sceneLoaded += (_, _) => GameWayReset();
+    }
+
+    private void GameWayReset()
+    {
+        CurrentStage = 0;
+        RemainingEnemy = 0;
         _currentMap = FindObjectOfType<Map_Information>();
     }
 
@@ -46,6 +55,5 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
         RemainingEnemy = _stageListSO.Stages[CurrentStage].Enemys.Length;
     }
 
-    /// <summary> 해당 스테이지를 클리어시 실행하는 함수 </summary>
     public abstract void StageClear();
 }
