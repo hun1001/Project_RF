@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Util;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 public class KeyboardManager : MonoSingleton<KeyboardManager>
 {
@@ -34,7 +35,7 @@ public class KeyboardManager : MonoSingleton<KeyboardManager>
     {
         for(int i = 0; i < actions.Length; i++)
         {
-            keyDownAction.Add((KeyCode)((int)KeyCode.Alpha1 + (i)), actions[i]);
+            AddKeyDownAction((KeyCode)((int)KeyCode.Alpha1 + (i)), actions[i]);
         }
     }
 
