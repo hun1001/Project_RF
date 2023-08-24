@@ -47,7 +47,7 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
     {
         if (_openDelay <= 0f)
         {
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene)
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene && TutorialManager.Instance.IsTutorial == false)
             {
                 if (_activeCanvas == CanvasType.Menu)
                 {

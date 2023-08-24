@@ -11,5 +11,5 @@ public enum CanvasType
     Gear,
     GameOver,
     Pause,
-    Stage
+    Tutorial,
 }
