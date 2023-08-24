@@ -35,6 +35,7 @@ public class KeyboardManager : MonoSingleton<KeyboardManager>
 
     public void ClearKeyActions()
     {
+        Debug.Log("ClearKeyActions");
         keyDownAction?.Clear();
     }
 }

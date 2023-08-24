@@ -815,7 +815,6 @@ public class MenuCanvas : BaseCanvas
         SceneManager.LoadScene("GameScene");
         Pool.PoolManager.DeleteAllPool();
         EventManager.ClearEvent();
-        KeyboardManager.Instance.ClearKeyActions();
     }
 
     //public void OnServerButton()
