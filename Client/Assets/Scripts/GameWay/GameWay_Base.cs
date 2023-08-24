@@ -24,8 +24,6 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
     {
         EventManager.StartListening(EventKeyword.EnemyDie, EnemyDie);
 
-        //_currentMap = FindObjectOfType<Map_Information>();
-
         SceneManager.sceneLoaded += (_, _) => GameWayReset();
     }
 
