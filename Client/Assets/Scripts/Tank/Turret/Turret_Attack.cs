@@ -110,7 +110,7 @@ public class Turret_Attack : Turret_Component
         float atk = Turret.TurretData.AtkPower;
         float pen = Turret.TurretData.PenetrationPower;
 
-        if (_tankMove.CurrentSpeed <= 0)
+        if (_tankMove.CurrentSpeed == 0)
         {
             atk *= 1.2f;
             pen *= 1.2f;

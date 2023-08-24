@@ -6,7 +6,6 @@ using Util;
 
 public class KeyboardManager : MonoSingleton<KeyboardManager>
 {
-
     private Dictionary<KeyCode, Action> keyDownAction = new Dictionary<KeyCode, Action>();
 
     void Update()
@@ -35,7 +34,6 @@ public class KeyboardManager : MonoSingleton<KeyboardManager>
 
     public void ClearKeyActions()
     {
-        Debug.Log("ClearKeyActions");
         keyDownAction?.Clear();
     }
 }
