@@ -19,9 +19,16 @@ public class InformationCanvas : BaseCanvas
     private ToggleGroupManager shellToggleManager = null;
     public ToggleGroupManager ShellToggleManager => shellToggleManager;
 
+    [SerializeField]
+    private TMP_Text _speedText = null;
+
     private void Awake()
     {
         _player = FindObjectOfType<Player>();
     }
 
+    private void Update()
+    {
+        _speedText.text = $"{_player.Tank.GetComponent<Tank_Move>(ComponentType.Move).CurrentSpeed:F1} km/h";
+    }
 }
