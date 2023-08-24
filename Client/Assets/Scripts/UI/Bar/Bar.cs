@@ -67,7 +67,7 @@ public class Bar : MonoBehaviour, IPoolReset
 
     protected virtual void UpdateValueText()
     {
-        _valueText.text = string.Format("{0:0} / {1:0}", _currentValue, _maxValue);
+        _valueText.text = string.Format("{0:0} HP", _currentValue);
     }
 
     private IEnumerator ChangeBeforeBarCoroutine()

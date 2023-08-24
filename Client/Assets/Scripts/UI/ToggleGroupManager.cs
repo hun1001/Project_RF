@@ -2,34 +2,22 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 public class ToggleGroupManager : ToggleGroup
 {
+    [SerializeField]
     private Toggle _templateToggle = null;
 
-    public void SetToggleGroup(string[] toggleText, Sprite[] s, UnityAction<bool>[] onValueChanged, int onIndex = 0)
+    private List<Toggle> _toggleList = new List<Toggle>();
+    public List<Toggle> ToggleList => _toggleList;
+
+    public void AddToggle(int shellNumber, string shellName, Sprite shellSprite, UnityAction<bool> unityAction)
     {
-        _templateToggle ??= transform.GetChild(0).GetComponent<Toggle>();
-        _templateToggle.gameObject.SetActive(false);
+        var toggleHandle = Instantiate(_templateToggle, transform).GetComponent<ShellTemplateHandle>();
+        toggleHandle.gameObject.SetActive(true);
 
-        Toggle toggle = null;
-
-        for (int i = 0; i < toggleText.Length; ++i)
-        {
-            toggle = Instantiate(_templateToggle, transform);
-            toggle.gameObject.SetActive(true);
-
-            toggle.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = toggleText[i];
-            toggle.transform.GetChild(0).GetComponent<Image>().sprite = s[i];
-            toggle.onValueChanged.RemoveAllListeners();
-            toggle.onValueChanged.AddListener(onValueChanged[i]);
-            toggle.group = this;
-            toggle.isOn = i == onIndex;
-        }
-    }
-
-    public void AddToggle()
-    {
-
+        toggleHandle.SetShellTemplate(shellNumber, shellName, shellSprite, unityAction);
+        _toggleList.Add(toggleHandle.Toggle);
     }
 }

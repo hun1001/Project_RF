@@ -50,7 +50,6 @@ public class Player : CustomObject
         Camera.main.TryGetComponent(out _cameraManager);
         _tank = SpawnManager.Instance.SpawnUnit(PlayerDataManager.Instance.GetPlayerTankID(), transform.position, Quaternion.identity, GroupType.Player);
         _tank.tag = "Player";
-        FindObjectOfType<MinimapCameraManager>().Target = _tank.transform;
 
         MouseManager.Instance.OnMouseLeftButtonDown += _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire;
 
@@ -70,42 +69,30 @@ public class Player : CustomObject
             shellCnt--;
         }
 
-        string[] shellName = new string[shellCnt];
-        Sprite[] shellSprite = new Sprite[shellCnt];
-        Action[] shellAction = new Action[shellCnt];
-
-        int slotIndex = 0;
         for (int i = 0; i < shellEquipmentData._shellEquipmentList.Count; i++)
         {
             int dataIndex = i;
             if (shellEquipmentData._shellEquipmentList[dataIndex] == "")
             {
-                _informationCanvas.ShellImageGroup.transform.GetChild(slotIndex).gameObject.SetActive(false);
                 continue;
             }
 
             Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[dataIndex]).GetComponent<Shell>();
-            shellName[slotIndex] = shell.ID;
-            shellSprite[slotIndex] = shell.ShellSprite;
-            int idx = slotIndex;
-            shellAction[slotIndex] = () =>
+
+            _informationCanvas.ShellToggleManager.AddToggle(dataIndex, shell.ID, shell.ShellSprite, (inOn) =>
             {
-                _tank.Turret.CurrentShell = shell;
-                for(int j = 0;j< _informationCanvas.ShellImageGroup.transform.childCount; j++)
+                if (inOn)
                 {
-                    _informationCanvas.ShellImageGroup.transform.GetChild(j).GetChild(0).gameObject.SetActive(j == idx);
+                    _tank.Turret.CurrentShell = shell;
                 }
-            };
-            
-            _informationCanvas.ShellImageGroup.transform.GetChild(slotIndex).gameObject.SetActive(true);
-            _informationCanvas.ShellImageGroup.transform.GetChild(slotIndex).GetChild(0).gameObject.SetActive(false);
-            _informationCanvas.ShellImageGroup.transform.GetChild(slotIndex).GetChild(1).gameObject.SetActive(true);
-            _informationCanvas.ShellImageGroup.transform.GetChild(slotIndex).GetChild(1).GetComponent<UnityEngine.UI.Image>().sprite = shellSprite[slotIndex];
+            });
 
-            slotIndex++;
+            KeyboardManager.Instance.AddKeyDownAction((KeyCode)((int)KeyCode.Alpha1 + (i)), () =>
+            {
+                int index = dataIndex;
+                _informationCanvas.ShellToggleManager.ToggleList[index].isOn = true;
+            });
         }
-
-        KeyboardManager.Instance.AddKeyDownActionList(shellAction);
 
         if (shellEquipmentData._shellEquipmentList[0] == "")
         {
