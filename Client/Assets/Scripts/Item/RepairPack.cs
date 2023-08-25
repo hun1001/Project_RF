@@ -7,14 +7,16 @@ public class RepairPack : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("RepairPack OnTriggerEnter2D");
         var tank = collision.GetComponent<Tank>();
 
         if (tank != null)
         {
-            Debug.Log("RepairPack");
-            PoolManager.Pool("RepairPack", gameObject);
-
-            tank.GetComponent<Tank_Damage>(ComponentType.Damage).Repair(20);
+            if(tank == FindObjectOfType<Player>().Tank)
+            {
+                tank.GetComponent<Tank_Damage>().Repair(20f);
+                PoolManager.Pool("Assets/Prefabs/RepairPack.prefab", gameObject);
+            }
         }
     }
 }

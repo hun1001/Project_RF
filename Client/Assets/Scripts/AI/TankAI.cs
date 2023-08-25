@@ -1,5 +1,6 @@
 using System.Collections;
 using Event;
+using Pool;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -22,6 +23,7 @@ public class TankAI : BossAI_Base
         TankDamage.AddOnDeathAction(() =>
         {
             EventManager.TriggerEvent(EventKeyword.EnemyDie);
+            PoolManager.Get("Assets/Prefabs/RepairPack.prefab", Tank.transform.position, Quaternion.identity);
             _moveTargetPosition = Vector3.zero;
         });
     }
