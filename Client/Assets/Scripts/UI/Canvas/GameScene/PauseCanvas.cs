@@ -27,7 +27,7 @@ public class PauseCanvas : BaseCanvas
         {
             base.OnBackButton();
         }
-        else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene)
+        else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
         {
             CanvasManager.ChangeCanvas(CanvasType.Information, CanvasType);
         }

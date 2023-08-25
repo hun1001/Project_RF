@@ -8,10 +8,10 @@ public class GameManager : MonoSingleton<GameManager>
 {
     private void Start()
     {
-        SceneManager.sceneLoaded += OnSceneLoad;
+        SceneManager.sceneUnloaded += OnSceneLoad;
     }
 
-    private void OnSceneLoad(Scene scene, LoadSceneMode mode)
+    private void OnSceneLoad(Scene scene)
     {
         KeyboardManager.Instance.ClearKeyActions();
     }

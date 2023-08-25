@@ -267,7 +267,4 @@ public class SettingCanvas : BaseCanvas
     #endregion
     #endregion
     #endregion
-
-    #region Graphic
-    #endregion
 }

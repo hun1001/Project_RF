@@ -2,5 +2,5 @@ public enum SceneType : int
 {
     MenuScene = 0,
     GameScene = 1,
-    TrainingScene = 2,
+    TutorialScene = 2,
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using Event;
+using Pool;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -22,8 +23,15 @@ public class TankAI : BossAI_Base
         TankDamage.AddOnDeathAction(() =>
         {
             EventManager.TriggerEvent(EventKeyword.EnemyDie);
+            PoolManager.Get("Assets/Prefabs/RepairPack.prefab", Tank.transform.position + new Vector3(0, 0, -2f), Quaternion.identity);
             _moveTargetPosition = Vector3.zero;
         });
+
+        var hpBar = PoolManager.Get<EnemyBar>("EnemyBar", Tank.transform);
+
+        hpBar.Setting(Tank.TankData.HP);
+
+        TankDamage.AddOnDamageAction(hpBar.ChangeValue);
     }
 
     protected override Tank TankSpawn()

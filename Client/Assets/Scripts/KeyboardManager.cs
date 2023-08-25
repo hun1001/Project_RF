@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Util;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 public class KeyboardManager : MonoSingleton<KeyboardManager>
 {
-
     private Dictionary<KeyCode, Action> keyDownAction = new Dictionary<KeyCode, Action>();
 
     void Update()
@@ -22,6 +22,12 @@ public class KeyboardManager : MonoSingleton<KeyboardManager>
 
     public void AddKeyDownAction(KeyCode keyCode, Action action)
     {
+        if (keyDownAction.ContainsKey(keyCode))
+        {
+            keyDownAction[keyCode] += action;
+            return;
+        }
+
         keyDownAction.Add(keyCode, action);
     }
 
@@ -29,7 +35,7 @@ public class KeyboardManager : MonoSingleton<KeyboardManager>
     {
         for(int i = 0; i < actions.Length; i++)
         {
-            keyDownAction.Add((KeyCode)((int)KeyCode.Alpha1 + (i)), actions[i]);
+            AddKeyDownAction((KeyCode)((int)KeyCode.Alpha1 + (i)), actions[i]);
         }
     }
 

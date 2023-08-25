@@ -111,7 +111,6 @@ public class ModeCanvas : BaseCanvas
         SceneManager.LoadScene("GameScene");
         Pool.PoolManager.DeleteAllPool();
         EventManager.ClearEvent();
-        KeyboardManager.Instance.ClearKeyActions();
     }
 
     public void OnStageMode()
@@ -128,7 +127,6 @@ public class ModeCanvas : BaseCanvas
         SceneManager.LoadScene("StageTestScene");
         Pool.PoolManager.DeleteAllPool();
         EventManager.ClearEvent();
-        KeyboardManager.Instance.ClearKeyActions();
     }
 
     public void OnTrainingRoom()
@@ -145,6 +143,5 @@ public class ModeCanvas : BaseCanvas
         SceneManager.LoadScene("TrainingScene");
         Pool.PoolManager.DeleteAllPool();
         EventManager.ClearEvent();
-        KeyboardManager.Instance.ClearKeyActions();
     }
 }

@@ -61,8 +61,6 @@ public class Turret_Attack : Turret_Component
                             _turretSound.PlaySound(SoundType.ShellDrop, AudioMixerType.Sfx, 0.5f);
                         }
                         Firing();
-
-                        
                     }
                 }
             }
@@ -81,6 +79,15 @@ public class Turret_Attack : Turret_Component
                 Firing();
             }
         }
+    }
+
+    public void FireMachineGun()
+    {
+        float atk = Turret.TurretData.AtkPower /10;
+        float pen = Turret.TurretData.PenetrationPower/10;
+
+        PoolManager.Get<Shell>("Bullet", Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(GetComponent<Tank>(), atk, pen);
+        PoolManager.Get("MuzzleFlash4", Turret.FirePoint.position, Turret.FirePoint.rotation);
     }
 
     private void Update()
@@ -110,7 +117,7 @@ public class Turret_Attack : Turret_Component
         float atk = Turret.TurretData.AtkPower;
         float pen = Turret.TurretData.PenetrationPower;
 
-        if (_tankMove.CurrentSpeed <= 0)
+        if (_tankMove.CurrentSpeed == 0)
         {
             atk *= 1.2f;
             pen *= 1.2f;

@@ -1,11 +1,10 @@
 ﻿using Item;
 using Event;
+using Pool;
 using UnityEngine;
 
 public class WaveManager : GameWay_Base
 {
-    //private int _repeatCnt = 0;
-
     private void Start()
     {
         Spawn();
@@ -13,17 +12,15 @@ public class WaveManager : GameWay_Base
 
     protected override void Spawn()
     {
-        //for (int i = 0; i < (_repeatCnt * 0.25) + 1; i++)
         if (StageListSO.Stages[CurrentStage].IsBoss)
         {
-            // 보스 웨이브 전용 로직 작동
+            var boss = PoolManager.Get<TankAI>("Boss_AI", _currentMap.RandomSpawnPoint(), Quaternion.identity);
+            RemainingEnemy = _stageListSO.Stages[CurrentStage].Enemys.Length;
         }
         else
         {
-            
+            base.Spawn();
         }
-
-        base.Spawn();
     }
 
     public override void StageClear()

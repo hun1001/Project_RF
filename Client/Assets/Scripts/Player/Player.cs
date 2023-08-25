@@ -94,6 +94,8 @@ public class Player : CustomObject
             });
         }
 
+        _informationCanvas.ShellToggleManager.ToggleList[0].isOn = true;
+
         if (shellEquipmentData._shellEquipmentList[0] == "")
         {
             _tank.Turret.CurrentShell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[1]).GetComponent<Shell>();
@@ -154,6 +156,11 @@ public class Player : CustomObject
             if(Input.GetKey(KeyCode.Space))
             {
                 _tankMove.Stop();
+            }
+
+            if(Input.GetKey(KeyCode.F))
+            {
+                Tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).FireMachineGun();
             }
 
             yield return null;

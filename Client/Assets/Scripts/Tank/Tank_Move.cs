@@ -37,6 +37,8 @@ public class Tank_Move : Tank_Component
 
     public void Move(float magnitude)
     {
+        magnitude = Mathf.Clamp(magnitude, -1f, 1f);
+
         if (magnitude > 0)
         {
             if (_isDepart == false)
