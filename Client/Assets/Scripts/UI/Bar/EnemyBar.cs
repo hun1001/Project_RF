@@ -5,10 +5,7 @@ using UnityEngine;
 
 public class EnemyBar : Bar
 {
-    [SerializeField]
-    private TextMeshPro _worldSpaceValueText = null;
-
-    private static Vector3 _offset = Vector3.down * 3.5f + Vector3.back;
+    private readonly static Vector3 _offset = Vector3.up * 3.5f + Vector3.back;
 
     private void LateUpdate()
     {
@@ -18,6 +15,6 @@ public class EnemyBar : Bar
 
     protected override void UpdateValueText()
     {
-        _worldSpaceValueText.text = string.Format("{0:0} / {1:0}", _currentValue, _maxValue);
+        
     }
 }
