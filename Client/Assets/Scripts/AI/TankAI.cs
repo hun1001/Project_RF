@@ -23,7 +23,7 @@ public class TankAI : BossAI_Base
         TankDamage.AddOnDeathAction(() =>
         {
             EventManager.TriggerEvent(EventKeyword.EnemyDie);
-            PoolManager.Get("Assets/Prefabs/RepairPack.prefab", Tank.transform.position, Quaternion.identity);
+            PoolManager.Get("Assets/Prefabs/RepairPack.prefab", Tank.transform.position + new Vector3(0, 0, -2f), Quaternion.identity);
             _moveTargetPosition = Vector3.zero;
         });
     }

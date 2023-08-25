@@ -7,7 +7,6 @@ public class RepairPack : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("RepairPack OnTriggerEnter2D");
         var tank = collision.GetComponent<Tank>();
 
         if (tank != null)
