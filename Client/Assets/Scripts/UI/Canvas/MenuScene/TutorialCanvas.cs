@@ -1,22 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class TutorialCanvas : BaseCanvas
 {
     [Header("Tutorial")]
     [SerializeField]
-    private TutorialSO _textsSO = null;
+    protected TutorialSO _textsSO = null;
     [SerializeField]
-    private GameObject _skipPanel = null;
+    protected GameObject _skipPanel = null;
     [SerializeField]
-    private TextController _tutorialText = null;
+    protected TextController _tutorialText = null;
     [SerializeField]
-    private GameObject _tutorialPanelParent = null;
+    protected GameObject _tutorialPanelParent = null;
     [SerializeField]
-    private GameObject[] _tutorialPanels;
+    protected GameObject[] _tutorialPanels;
+
+    protected int _tutorialCount = 0;
 
     [Header("Menu UI")]
     [SerializeField]
@@ -30,9 +29,7 @@ public class TutorialCanvas : BaseCanvas
     [SerializeField]
     private GameObject _techTreeUI = null;
 
-    private int _tutorialCount = 0;
-
-    private void Awake()
+    protected virtual void Awake()
     {
         _menuUI.SetActive(true);
         _shellList.SetActive(false);
@@ -78,20 +75,12 @@ public class TutorialCanvas : BaseCanvas
         _tutorialText.SetText(_textsSO.TutorialTexts[0]);
     }
 
-    public void NextTutorial()
+    public virtual void NextTutorial()
     {
         _tutorialPanels[_tutorialCount++].SetActive(false);
         _tutorialText.SetText(_textsSO.TutorialTexts[_tutorialCount]);
         _tutorialPanels[_tutorialCount].SetActive(true);
 
-        if (_tutorialCount == 1234)
-        {
-            _shellList.SetActive(true);
-        }
-        if (_tutorialCount == 12345)
-        {
-            _filter.SetActive(true);
-        }
         if (_shellList.activeSelf)
         {
             _shellList.SetActive(false);
@@ -99,6 +88,15 @@ public class TutorialCanvas : BaseCanvas
         if (_filter.activeSelf)
         {
             _filter.SetActive(false);
+        }
+        // TODO
+        if (_tutorialCount == 1234)
+        {
+            _shellList.SetActive(true);
+        }
+        if (_tutorialCount == 12345)
+        {
+            _filter.SetActive(true);
         }
     }
 }

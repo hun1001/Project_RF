@@ -102,10 +102,10 @@ public class Tank_Damage : Tank_Component
         _tankSound.PlaySound(SoundType.TankDestroy, AudioMixerType.Sfx);
         PoolManager.Pool(Instance.ID, gameObject);
         GameObject destroyTank = PoolManager.Get("Destroyed_Tank", transform.position, transform.rotation);
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene)
-        {
-            TrainingTankManager.DestroyedTankQueue.Enqueue(destroyTank);
-        }
+        //if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TrainingScene)
+        //{
+        //    TrainingTankManager.DestroyedTankQueue.Enqueue(destroyTank);
+        //}
         PoolManager.Get("BrickImpact", new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity);
         PoolManager.Get("explosion_stylized_large_originalFire_ShaderGraph", transform.position, Quaternion.Euler(-90, 0, 0));
         EventManager.TriggerEvent(gameObject.GetInstanceID().ToString());

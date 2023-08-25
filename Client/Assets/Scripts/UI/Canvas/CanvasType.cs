@@ -12,4 +12,5 @@ public enum CanvasType
     GameOver,
     Pause,
     Tutorial,
+    GameTutorial,
 }
