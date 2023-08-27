@@ -5,17 +5,17 @@ public class TutorialCanvas : BaseCanvas
 {
     [Header("Tutorial")]
     [SerializeField]
-    protected TutorialSO _textsSO = null;
+    private TutorialSO _textsSO = null;
     [SerializeField]
-    protected GameObject _skipPanel = null;
+    private GameObject _skipPanel = null;
     [SerializeField]
-    protected TextController _tutorialText = null;
+    private TextController _tutorialText = null;
     [SerializeField]
-    protected GameObject _tutorialPanelParent = null;
+    private GameObject _tutorialPanelParent = null;
     [SerializeField]
-    protected GameObject[] _tutorialPanels;
+    private GameObject[] _tutorialPanels;
 
-    protected int _tutorialCount = 0;
+    private int _tutorialCount = 0;
 
     [Header("Menu UI")]
     [SerializeField]
@@ -29,7 +29,7 @@ public class TutorialCanvas : BaseCanvas
     [SerializeField]
     private GameObject _techTreeUI = null;
 
-    protected virtual void Awake()
+    private void Awake()
     {
         _menuUI.SetActive(true);
         _shellList.SetActive(false);
@@ -75,7 +75,7 @@ public class TutorialCanvas : BaseCanvas
         _tutorialText.SetText(_textsSO.TutorialTexts[0]);
     }
 
-    public virtual void NextTutorial()
+    public void NextTutorial()
     {
         _tutorialPanels[_tutorialCount++].SetActive(false);
         _tutorialText.SetText(_textsSO.TutorialTexts[_tutorialCount]);
