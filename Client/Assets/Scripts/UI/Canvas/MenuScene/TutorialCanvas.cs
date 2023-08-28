@@ -37,6 +37,10 @@ public class TutorialCanvas : BaseCanvas
         _techTreeUI.SetActive(false);
         _tutorialPanelParent.SetActive(false);
         _skipPanel.SetActive(true);
+        foreach (var obj in _tutorialPanels)
+        {
+            obj.SetActive(false);
+        }
 
         KeyboardManager.Instance.AddKeyDownAction(KeyCode.Escape, () =>
         {
@@ -66,20 +70,36 @@ public class TutorialCanvas : BaseCanvas
         PlayButtonSound();
         _skipPanel.SetActive(false);
         _tutorialPanelParent.SetActive(true);
+
+        if (_tutorialCount == 0)
+        {
+            TutorialStart();
+        }
     }
 
     public void TutorialStart()
     {
         _tutorialCount = 0;
-        _tutorialPanels[0].SetActive(true);
+        //_tutorialPanels[0].SetActive(true);
         _tutorialText.SetText(_textsSO.TutorialTexts[0]);
+    }
+
+    public void TutorialEnd()
+    {
+        _tutorialCount = 0;
+        TutorialManager.Instance.TutorialEnd();
+        CanvasManager.ChangeCanvas(CanvasType.Menu);
     }
 
     public void NextTutorial()
     {
-        _tutorialPanels[_tutorialCount++].SetActive(false);
+        _tutorialCount++;
+        if (_tutorialCount == _textsSO.TutorialTexts.Length)
+        {
+            TutorialEnd();
+            return;
+        }
         _tutorialText.SetText(_textsSO.TutorialTexts[_tutorialCount]);
-        _tutorialPanels[_tutorialCount].SetActive(true);
 
         if (_shellList.activeSelf)
         {

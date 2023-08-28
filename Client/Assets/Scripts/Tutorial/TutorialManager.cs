@@ -5,7 +5,7 @@ using Util;
 
 public class TutorialManager : MonoSingleton<TutorialManager>
 {
-    // Tutorial ing?
+    // Tutorial ing
     private bool _isTutorial = false;
     public bool IsTutorial => _isTutorial;
 
@@ -24,6 +24,11 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         PlayerPrefs.SetInt("Tutorial", 1);
 
         FindObjectOfType<BaseSceneCanvasManager>().ChangeCanvas(CanvasType.Tutorial);
+    }
+
+    public void TutorialEnd()
+    {
+        _isTutorial = false;
     }
 
     public void TutorialSkip()
