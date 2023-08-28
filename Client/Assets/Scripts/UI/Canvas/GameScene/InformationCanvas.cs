@@ -22,13 +22,30 @@ public class InformationCanvas : BaseCanvas
     [SerializeField]
     private TMP_Text _speedText = null;
 
+    [SerializeField]
+    private TankInfoUI _tankInfoUI = null;
+
     private void Awake()
     {
         _player = FindObjectOfType<Player>();
     }
 
+    private void Start()
+    {
+        _player.OnPlayerDidNotAnyThing += _tankInfoUI.Stop;
+
+        _player.TankRotate.OnTurnLeftAction += _tankInfoUI.TurnLeft;
+        _player.TankRotate.OnTurnRightAction += _tankInfoUI.TurnRight;
+
+        _player.TankMove.OnForwardAction += _tankInfoUI.Forward;
+        _player.TankMove.OnBackwardAction += _tankInfoUI.Backward;
+    }
+
     private void Update()
     {
         _speedText.text = $"{_player.Tank.GetComponent<Tank_Move>(ComponentType.Move).CurrentSpeed:F1} km/h";
+
+        _tankInfoUI.UpdateTankBodyRotate(_player.Tank.transform.rotation);
+        _tankInfoUI.UpdateTankTurretRotate(_player.Tank.Turret.TurretTransform.rotation);
     }
 }

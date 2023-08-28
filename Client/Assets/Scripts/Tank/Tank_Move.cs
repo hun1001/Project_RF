@@ -23,6 +23,9 @@ public class Tank_Move : Tank_Component
     private Action<float> _onCrash = null;
     public void AddOnCrashAction(Action<float> action) => _onCrash += action;
 
+    public Action OnForwardAction = null;
+    public Action OnBackwardAction = null;
+
     private void Awake()
     {
         TryGetComponent(out _tankSound);
@@ -39,8 +42,14 @@ public class Tank_Move : Tank_Component
     {
         magnitude = Mathf.Clamp(magnitude, -1f, 1f);
 
+        if(magnitude < 0)
+        {
+            OnBackwardAction?.Invoke();
+        }
+
         if (magnitude > 0)
         {
+            OnForwardAction?.Invoke();
             if (_isDepart == false)
             {
                 if (_loadSoundDelay <= 0f)

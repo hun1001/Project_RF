@@ -19,7 +19,11 @@ public class Player : CustomObject
     public Tank Tank => _tank;
 
     private Tank_Move _tankMove = null;
+    public Tank_Move TankMove => _tankMove;
+
     private Tank_Rotate _tankRotate = null;
+    public Tank_Rotate TankRotate => _tankRotate;
+
     private Turret_Rotate _turretRotate = null;
 
     private float _cameraHeight = -30;
@@ -43,6 +47,8 @@ public class Player : CustomObject
 
     [SerializeField]
     private CameraShakeValueSO _cameraCrashShakeValueSO = null;
+
+    public Action OnPlayerDidNotAnyThing = null;
 
     protected override void Awake()
     {
@@ -131,14 +137,20 @@ public class Player : CustomObject
 
     private IEnumerator InputUpdateCoroutine()
     {
+        bool wasControlled = true;
+
         while (true)
         {
+            wasControlled = true;
+
+            _turretRotate.Rotate(MouseManager.Instance.MouseDir);
+
             Vector2 moveDir = Vector2.zero;
             moveDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             _tankMove.Move(moveDir.magnitude);
             _tankRotate.Rotate(moveDir.normalized);
-            
-            _turretRotate.Rotate(MouseManager.Instance.MouseDir);
+
+            wasControlled = moveDir != Vector2.zero;
 
             if(Input.GetKey(KeyCode.Q)&&Input.GetKey(KeyCode.E))
             {
@@ -152,10 +164,20 @@ public class Player : CustomObject
             {
                 _tankRotate.RotateRight();
             }
+            else
+            {
+                wasControlled = wasControlled || false;
+            }
 
             if(Input.GetKey(KeyCode.Space))
             {
                 _tankMove.Stop();
+                wasControlled = false;
+            }
+
+            if(!wasControlled)
+            {
+                //OnPlayerDidNotAnyThing?.Invoke();
             }
 
             if(Input.GetKey(KeyCode.F))
