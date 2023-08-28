@@ -50,6 +50,8 @@ public class Player : CustomObject
 
     public Action OnPlayerDidNotAnyThing = null;
 
+    public ControlType controlType = ControlType.Simple;
+
     protected override void Awake()
     {
         base.Awake();
@@ -135,59 +137,84 @@ public class Player : CustomObject
         _cameraManager.CameraZoom(_cameraHeight, 1f);
     }
 
+    private bool wasControlled = true;
+
     private IEnumerator InputUpdateCoroutine()
     {
-        bool wasControlled = true;
-
         while (true)
         {
             _turretRotate.Rotate(MouseManager.Instance.MouseDir);
 
-            Vector2 moveDir = Vector2.zero;
-            moveDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            _tankMove.Move(moveDir.magnitude);
-            _tankRotate.Rotate(moveDir.normalized);
-
-            wasControlled = moveDir != Vector2.zero;
-
-            if(Input.GetKey(KeyCode.Q)&&Input.GetKey(KeyCode.E))
+            switch (controlType)
             {
-                _tankMove.Move(-0.1f);
-                _tankRotate.OnTurnStopAction?.Invoke();
-                wasControlled = true;
-            }
-            else if(Input.GetKey(KeyCode.Q))
-            {
-                _tankRotate.RotateLeft();
-                wasControlled = true;
-            }
-            else if(Input.GetKey(KeyCode.E))
-            {
-                _tankRotate.RotateRight();
-                wasControlled = true;
-            }
-            else
-            {
-                wasControlled = wasControlled || false;
-            }
-
-            if(Input.GetKey(KeyCode.Space))
-            {
-                _tankMove.Stop();
-                wasControlled = false;
-            }
-
-            if(!wasControlled)
-            {
-                OnPlayerDidNotAnyThing?.Invoke();
-            }
-
-            if(Input.GetKey(KeyCode.F))
-            {
-                Tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).FireMachineGun();
+                case ControlType.Detail:
+                    DetailControl();
+                    break;
+                case ControlType.Simple:
+                    SimpleControl();
+                    break;
             }
 
             yield return null;
+        }
+    }
+
+    private void DetailControl()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+
+        }
+    }
+
+    private void SimpleControl()
+    {
+        Vector2 moveDir = Vector2.zero;
+        moveDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        _tankMove.Move(moveDir.magnitude);
+        _tankRotate.Rotate(moveDir.normalized);
+
+        wasControlled = moveDir != Vector2.zero;
+
+        if (Input.GetKey(KeyCode.Q) && Input.GetKey(KeyCode.E))
+        {
+            _tankMove.Move(-0.1f);
+            _tankRotate.OnTurnStopAction?.Invoke();
+            wasControlled = true;
+        }
+        else if (Input.GetKey(KeyCode.Q))
+        {
+            _tankRotate.RotateLeft();
+            wasControlled = true;
+        }
+        else if (Input.GetKey(KeyCode.E))
+        {
+            _tankRotate.RotateRight();
+            wasControlled = true;
+        }
+        else
+        {
+            wasControlled = wasControlled || false;
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            _tankMove.Stop();
+            wasControlled = false;
+        }
+
+        if (!wasControlled)
+        {
+            OnPlayerDidNotAnyThing?.Invoke();
+        }
+
+        if (Input.GetKey(KeyCode.F))
+        {
+            Tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).FireMachineGun();
         }
     }
 
