@@ -32,6 +32,10 @@ public class TankAI : BossAI_Base
         hpBar.Setting(Tank.TankData.HP);
 
         TankDamage.AddOnDamageAction(hpBar.ChangeValue);
+        TankMove.AddOnCrashAction((_) =>
+        {
+            _moveTargetPosition = Vector3.zero;
+        });
     }
 
     protected override Tank TankSpawn()
