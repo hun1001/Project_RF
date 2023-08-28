@@ -40,6 +40,11 @@ public class InformationCanvas : BaseCanvas
 
         _player.TankMove.OnForwardAction += _tankInfoUI.Forward;
         _player.TankMove.OnBackwardAction += _tankInfoUI.Backward;
+
+        _player.TurretAttack.AddOnFireAction(() =>
+        {
+            shellToggleManager.CurrentCoolDownHandle.SetCoolDown(_player.Tank.Turret.TurretData.ReloadTime);
+        });
     }
 
     private void Update()

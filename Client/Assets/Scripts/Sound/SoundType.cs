@@ -18,4 +18,5 @@ public enum SoundType
     TankHitVerySmall,
     TankDestroy,
     TankImpact,
+    BGM,
 }

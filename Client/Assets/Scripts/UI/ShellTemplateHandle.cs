@@ -19,6 +19,16 @@ public class ShellTemplateHandle : MonoBehaviour
     private Toggle _toggle = null;
     public Toggle Toggle => _toggle;
 
+    public bool isOn
+    {
+        get => _toggle.isOn;
+        set => _toggle.isOn = value;
+    }
+
+    [SerializeField]
+    private CoolDownBarHandle _coolDownBarHandle = null;
+    public CoolDownBarHandle CoolDownBarHandle => _coolDownBarHandle;
+
     public void SetShellTemplate(int shellNumber, string shellName, Sprite shellSprite, UnityAction<bool> action)
     {
         _shellNumberText.text = shellNumber.ToString();
