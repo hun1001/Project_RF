@@ -10,6 +10,7 @@ public class Tank_Rotate : Tank_Component
 
     public Action OnTurnRightAction = null;
     public Action OnTurnLeftAction = null;
+    public Action OnTurnStopAction = null;
 
     public void Rotate(Vector2 direction)
     {
@@ -34,6 +35,10 @@ public class Tank_Rotate : Tank_Component
             else if (angleDifference > 0)
             {
                 OnTurnLeftAction?.Invoke();
+            }
+            else
+            {
+                OnTurnStopAction?.Invoke();
             }
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, targetRotation.eulerAngles.y), maxRotationDelta);

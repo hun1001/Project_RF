@@ -29,4 +29,5 @@ public class TankInfoUI : MonoBehaviour
     public void TurnLeft() => _tankDirUIHandle.TurnLeft();
 
     public void Stop() => _tankDirUIHandle.Stop();
+    public void TurnStop() => _tankDirUIHandle.TurnStop();
 }

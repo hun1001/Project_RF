@@ -141,8 +141,6 @@ public class Player : CustomObject
 
         while (true)
         {
-            wasControlled = true;
-
             _turretRotate.Rotate(MouseManager.Instance.MouseDir);
 
             Vector2 moveDir = Vector2.zero;
@@ -155,14 +153,18 @@ public class Player : CustomObject
             if(Input.GetKey(KeyCode.Q)&&Input.GetKey(KeyCode.E))
             {
                 _tankMove.Move(-0.1f);
+                _tankRotate.OnTurnStopAction?.Invoke();
+                wasControlled = true;
             }
             else if(Input.GetKey(KeyCode.Q))
             {
                 _tankRotate.RotateLeft();
+                wasControlled = true;
             }
             else if(Input.GetKey(KeyCode.E))
             {
                 _tankRotate.RotateRight();
+                wasControlled = true;
             }
             else
             {
@@ -177,7 +179,7 @@ public class Player : CustomObject
 
             if(!wasControlled)
             {
-                //OnPlayerDidNotAnyThing?.Invoke();
+                OnPlayerDidNotAnyThing?.Invoke();
             }
 
             if(Input.GetKey(KeyCode.F))

@@ -36,6 +36,7 @@ public class InformationCanvas : BaseCanvas
 
         _player.TankRotate.OnTurnLeftAction += _tankInfoUI.TurnLeft;
         _player.TankRotate.OnTurnRightAction += _tankInfoUI.TurnRight;
+        _player.TankRotate.OnTurnStopAction += _tankInfoUI.TurnStop;
 
         _player.TankMove.OnForwardAction += _tankInfoUI.Forward;
         _player.TankMove.OnBackwardAction += _tankInfoUI.Backward;
