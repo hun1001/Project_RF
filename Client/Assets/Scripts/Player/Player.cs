@@ -137,7 +137,7 @@ public class Player : CustomObject
         _cameraManager.CameraZoom(_cameraHeight, 1f);
     }
 
-    private bool wasControlled = true;
+    private bool _wasControlled = true;
 
     private IEnumerator InputUpdateCoroutine()
     {
@@ -155,6 +155,11 @@ public class Player : CustomObject
                     break;
             }
 
+            if (!_wasControlled)
+            {
+                OnPlayerDidNotAnyThing?.Invoke();
+            }
+
             yield return null;
         }
     }
@@ -163,11 +168,37 @@ public class Player : CustomObject
     {
         if (Input.GetKey(KeyCode.W))
         {
-            
+            _tankMove.Move(1f);
+            _wasControlled = true;
         }
         else if (Input.GetKey(KeyCode.S))
         {
+            _tankMove.Move(-0.1f);
+            _wasControlled = true;
+        }
+        else
+        {
+            _wasControlled = false;
+        }
 
+        if (Input.GetKey(KeyCode.D))
+        {
+            _tankRotate.RotateRight();
+            _wasControlled = true;
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            _tankRotate.RotateLeft();
+            _wasControlled = true;
+        }
+        else
+        {
+            _wasControlled = _wasControlled || false;
+        }
+
+        if(Input.GetKeyUp(KeyCode.A)||Input.GetKeyUp(KeyCode.D)||Input.GetKeyUp(KeyCode.W)||Input.GetKeyUp(KeyCode.S))
+        {
+            OnPlayerDidNotAnyThing?.Invoke();
         }
     }
 
@@ -178,38 +209,33 @@ public class Player : CustomObject
         _tankMove.Move(moveDir.magnitude);
         _tankRotate.Rotate(moveDir.normalized);
 
-        wasControlled = moveDir != Vector2.zero;
+        _wasControlled = moveDir != Vector2.zero;
 
         if (Input.GetKey(KeyCode.Q) && Input.GetKey(KeyCode.E))
         {
             _tankMove.Move(-0.1f);
             _tankRotate.OnTurnStopAction?.Invoke();
-            wasControlled = true;
+            _wasControlled = true;
         }
         else if (Input.GetKey(KeyCode.Q))
         {
             _tankRotate.RotateLeft();
-            wasControlled = true;
+            _wasControlled = true;
         }
         else if (Input.GetKey(KeyCode.E))
         {
             _tankRotate.RotateRight();
-            wasControlled = true;
+            _wasControlled = true;
         }
         else
         {
-            wasControlled = wasControlled || false;
+            _wasControlled = _wasControlled || false;
         }
 
         if (Input.GetKey(KeyCode.Space))
         {
             _tankMove.Stop();
-            wasControlled = false;
-        }
-
-        if (!wasControlled)
-        {
-            OnPlayerDidNotAnyThing?.Invoke();
+            _wasControlled = false;
         }
 
         if (Input.GetKey(KeyCode.F))
