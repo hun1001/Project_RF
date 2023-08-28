@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialCanvas : BaseCanvas
 {
@@ -14,8 +15,6 @@ public class TutorialCanvas : BaseCanvas
     [SerializeField]
     private GameObject _nextButton = null;
     [SerializeField]
-    private GameObject _shellsButton = null;
-    [SerializeField]
     private GameObject[] _tutorialPanels;
 
     private int _tutorialCount = 0;
@@ -27,6 +26,12 @@ public class TutorialCanvas : BaseCanvas
     private GameObject _shellList = null;
     [SerializeField]
     private GameObject _filter = null;
+    [SerializeField]
+    private GameObject[] _shellButtons = null;
+    [SerializeField]
+    private Image[] _shellImages = null;
+    [SerializeField]
+    private Sprite[] _shellSprites = null;
 
     [Header("TechTree UI")]
     [SerializeField]
@@ -39,7 +44,10 @@ public class TutorialCanvas : BaseCanvas
         _filter.SetActive(false);
         _techTreeUI.SetActive(false);
         _tutorialPanelParent.SetActive(false);
-        _skipPanel.SetActive(true);
+        _shellButtons[0].SetActive(false);
+        _shellButtons[1].SetActive(false);
+        _nextButton.SetActive(true);
+        _skipPanel.SetActive(false);
         foreach (var obj in _tutorialPanels)
         {
             obj.SetActive(false);
@@ -52,6 +60,8 @@ public class TutorialCanvas : BaseCanvas
                 OpenSkipPanel();
             }
         });
+
+        TutorialStart();
     }
 
     public void OpenSkipPanel()
@@ -82,9 +92,10 @@ public class TutorialCanvas : BaseCanvas
 
     public void TutorialStart()
     {
+        _tutorialPanelParent.SetActive(true);
         _tutorialCount = 0;
-        //_tutorialPanels[0].SetActive(true);
         _tutorialText.SetText(_textsSO.TutorialTexts[0]);
+        _nextButton.SetActive(true);
     }
 
     public void TutorialEnd()
@@ -92,6 +103,11 @@ public class TutorialCanvas : BaseCanvas
         _tutorialCount = 0;
         TutorialManager.Instance.TutorialEnd();
         CanvasManager.ChangeCanvas(CanvasType.Menu);
+    }
+
+    public void GameTutorialStart()
+    {
+        Debug.Log("Test");
     }
 
     public void NextTutorial()
@@ -104,32 +120,73 @@ public class TutorialCanvas : BaseCanvas
         }
         _tutorialText.SetText(_textsSO.TutorialTexts[_tutorialCount]);
 
-        if (_shellList.activeSelf)
+        switch (_tutorialCount)
         {
-            _shellList.SetActive(false);
-        }
-        if (_filter.activeSelf)
-        {
-            _filter.SetActive(false);
-        }
-        
-        // Hanger
-        if (_tutorialCount == 2)
-        {
-            _tutorialPanels[0].SetActive(true);
-        }
-        else if (_tutorialCount <= 4 && _tutorialPanels[0].activeSelf)
-        {
-            _tutorialPanels[0].SetActive(false);
-        }
-        // TODO
-        if (_tutorialCount == 1234)
-        {
-            _shellList.SetActive(true);
-        }
-        if (_tutorialCount == 12345)
-        {
-            _filter.SetActive(true);
+            // Hanger
+            case 2:
+                {
+                    _tutorialPanels[0].SetActive(true);
+                    break;
+                }
+            case 4:
+                {
+                    _tutorialPanels[0].SetActive(false);
+                    break;
+                }
+
+            // Shell
+            case 5:
+                {
+                    _tutorialPanels[1].SetActive(true);
+                    _nextButton.SetActive(false);
+                    break;
+                }
+            case 6:
+                {
+                    _shellList.SetActive(true);
+                    _tutorialPanels[1].SetActive(false);
+                    _tutorialPanels[2].SetActive(true);
+                    _nextButton.SetActive(true);
+                    break;
+                }
+            case 7:
+                {
+                    _nextButton.SetActive(false);
+                    _shellButtons[0].SetActive(true);
+                    break;
+                }
+            case 8:
+                {
+                    _shellList.SetActive(false);
+                    _shellButtons[0].SetActive(false);
+                    _tutorialPanels[2].SetActive(false);
+                    _shellImages[0].sprite = _shellSprites[0];
+                    _nextButton.SetActive(true);
+                    break;
+                }
+            case 11:
+                {
+                    _shellList.SetActive(true);
+                    _nextButton.SetActive(false);
+                    _tutorialPanels[2].SetActive(true);
+                    _shellButtons[1].SetActive(true);
+                    break;
+                }
+            case 12:
+                {
+                    _nextButton.SetActive(true);
+                    _shellList.SetActive(false);
+                    _tutorialPanels[2].SetActive(false);
+                    _shellButtons[1].SetActive(false);
+                    _shellImages[1].sprite = _shellSprites[1];
+                    break;
+                }
+            case 15:
+                { 
+                    _nextButton.SetActive(false);
+                    _tutorialPanels[3].SetActive(true);
+                    break;
+                }
         }
     }
 }
