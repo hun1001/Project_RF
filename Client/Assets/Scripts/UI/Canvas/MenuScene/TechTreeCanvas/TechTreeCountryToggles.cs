@@ -26,6 +26,17 @@ public class TechTreeCountryToggles : MonoBehaviour
         countryToggle.gameObject.SetActive(true);
     }
 
+    public void AddCountryToggleAction(int idx, UnityAction onValueChangedToTrue)
+    {
+        _toggleGroupManager.transform.GetChild(idx + 1).GetComponent<Toggle>().onValueChanged.AddListener((bool value) =>
+        {
+            if (value)
+            {
+                onValueChangedToTrue?.Invoke();
+            }
+        });
+    }
+
     public void ChangeFirstToggleValue(bool value)
     {
         _toggleGroupManager.transform.GetChild(1).GetComponent<Toggle>().isOn = value;

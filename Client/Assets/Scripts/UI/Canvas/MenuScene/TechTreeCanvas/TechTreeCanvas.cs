@@ -81,6 +81,15 @@ public class TechTreeCanvas : BaseCanvas
         }
 
         _countryToggleGroup.ChangeFirstToggleValue(true);
+
+        for (int i = 0; i < _techTree.TechTreeSO.Length; i++)
+        {
+            int index = i;
+            _countryToggleGroup.AddCountryToggleAction(index, () =>
+            {
+                PlayButtonSound();
+            });
+        }
     }
 
     private void Start()
@@ -109,7 +118,6 @@ public class TechTreeCanvas : BaseCanvas
 
     private void SetTechTree(int index)
     {
-        PlayButtonSound();
         _countryTextController.SetText(_techTree.TechTreeSO[index].CountryType.ToString());
 
         ResetTankNode();
