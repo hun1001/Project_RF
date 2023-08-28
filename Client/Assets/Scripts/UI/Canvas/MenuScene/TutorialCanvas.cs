@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Video;
 
 public class TutorialCanvas : BaseCanvas
 {
@@ -12,6 +11,10 @@ public class TutorialCanvas : BaseCanvas
     private TextController _tutorialText = null;
     [SerializeField]
     private GameObject _tutorialPanelParent = null;
+    [SerializeField]
+    private GameObject _nextButton = null;
+    [SerializeField]
+    private GameObject _shellsButton = null;
     [SerializeField]
     private GameObject[] _tutorialPanels;
 
@@ -108,6 +111,16 @@ public class TutorialCanvas : BaseCanvas
         if (_filter.activeSelf)
         {
             _filter.SetActive(false);
+        }
+        
+        // Hanger
+        if (_tutorialCount == 2)
+        {
+            _tutorialPanels[0].SetActive(true);
+        }
+        else if (_tutorialCount <= 4 && _tutorialPanels[0].activeSelf)
+        {
+            _tutorialPanels[0].SetActive(false);
         }
         // TODO
         if (_tutorialCount == 1234)
