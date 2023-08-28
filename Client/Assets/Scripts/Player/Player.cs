@@ -25,6 +25,8 @@ public class Player : CustomObject
     public Tank_Rotate TankRotate => _tankRotate;
 
     private Turret_Rotate _turretRotate = null;
+    private Turret_Attack _turretAttack = null;
+    public Turret_Attack TurretAttack => _turretAttack;
 
     private float _cameraHeight = -30;
     public float CameraHeight
@@ -98,11 +100,11 @@ public class Player : CustomObject
             KeyboardManager.Instance.AddKeyDownAction((KeyCode)((int)KeyCode.Alpha1 + (i)), () =>
             {
                 int index = dataIndex;
-                _informationCanvas.ShellToggleManager.ToggleList[index].isOn = true;
+                _informationCanvas.ShellToggleManager.TemplateList[index].isOn = true;
             });
         }
 
-        _informationCanvas.ShellToggleManager.ToggleList[0].isOn = true;
+        _informationCanvas.ShellToggleManager.TemplateList[0].isOn = true;
 
         if (shellEquipmentData._shellEquipmentList[0] == "")
         {
@@ -128,6 +130,7 @@ public class Player : CustomObject
         _tankMove = _tank.GetComponent<Tank_Move>(ComponentType.Move);
         _tankRotate = _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate);
         _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
+        _turretAttack = _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack);
 
         StartCoroutine(nameof(InputUpdateCoroutine));
     }
