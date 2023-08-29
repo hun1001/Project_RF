@@ -12,4 +12,6 @@ public static class EventKeyword
     public const string EnemyDie = "EnemyDie";
 
     public const string GiveReward = "GiveReward";
+
+    public const string NextTutorial = "NextTutorial";
 }

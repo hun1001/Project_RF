@@ -114,7 +114,7 @@ public class TutorialCanvas : BaseCanvas
 
     public void GameTutorialStart()
     {
-        Debug.Log("Test");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameTutorialScene");
     }
 
     public void NextTutorial()

@@ -1,5 +1,4 @@
-﻿using Item;
-using Event;
+﻿using Event;
 using Pool;
 using UnityEngine;
 
@@ -25,7 +24,6 @@ public class WaveManager : GameWay_Base
 
     public override void StageClear()
     {
-        
         EventManager.TriggerEvent("Clear");
         
         if(CurrentStage + 1 >= StageListSO.Stages.Length)

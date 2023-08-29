@@ -1,3 +1,4 @@
+using Event;
 using UnityEngine;
 
 public class GameTutorialCanvas : BaseCanvas
@@ -13,15 +14,17 @@ public class GameTutorialCanvas : BaseCanvas
     private GameObject _tutorialPanelParent = null;
     [SerializeField]
     private GameObject _nextButton = null;
+    [SerializeField]
+    private GameObject _shellHighLight = null;
 
     protected int _tutorialCount = 0;
 
     private void Awake()
     {
-        if (CanvasManager.ActiveCanvas == CanvasType)
-        {
-            CanvasManager.ChangeCanvas(CanvasType);
-        }
+        TutorialManager.Instance.GameTutorialStart();
+        EventManager.StartListening(EventKeyword.NextTutorial, NextTutorial);
+
+        _shellHighLight.SetActive(false);
 
         KeyboardManager.Instance.AddKeyDownAction(KeyCode.Escape, () =>
         {
@@ -37,7 +40,10 @@ public class GameTutorialCanvas : BaseCanvas
                 }
             }
         });
+    }
 
+    private void Start()
+    {
         TutorialStart();
     }
 
@@ -80,13 +86,47 @@ public class GameTutorialCanvas : BaseCanvas
         if (_tutorialCount == _textsSO.TutorialTexts.Length)
         {
             CanvasManager.ChangeCanvas(CanvasType.Information);
+            TutorialManager.Instance.TutorialWaveStart();
             return;
         }
         _tutorialText.SetText(_textsSO.TutorialTexts[_tutorialCount]);
 
         switch (_tutorialCount)
         {
-
+            case 5:
+                {
+                    _shellHighLight.SetActive(true);
+                    break;
+                }
+            case 6:
+                {
+                    _shellHighLight.SetActive(false);
+                    _nextButton.SetActive(false);
+                    TutorialManager.Instance.MovingTargetSpawn();
+                    break;
+                }
+            case 7:
+                {
+                    _nextButton.SetActive(true);
+                    break;
+                }
+            case 9:
+                {
+                    _shellHighLight.SetActive(true);
+                    break;
+                }
+            case 10:
+                {
+                    _shellHighLight.SetActive(false);
+                    _nextButton.SetActive(false);
+                    TutorialManager.Instance.TankDummySpawn();
+                    break;
+                }
+            case 11:
+                {
+                    _nextButton.SetActive(true);
+                    break;
+                }
         }
     }
 }

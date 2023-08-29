@@ -10,15 +10,6 @@ public class GameSceneCanvasManager : BaseSceneCanvasManager
         _activeCanvas = CanvasType.Information;
     }
 
-    public override void ChangeCanvas(CanvasType canvasType, CanvasType beforeCanvas)
-    {
-        base.ChangeCanvas(canvasType, beforeCanvas);
-        if (canvasType == CanvasType.GameTutorial)
-        {
-            GetCanvas(CanvasType.Information).Canvas.enabled = true;
-        }
-    }
-
     protected override void InputEscape()
     {
         if (_openDelay <= 0f)

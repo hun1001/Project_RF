@@ -23,7 +23,7 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
     private void Awake()
     {
         EventManager.StartListening(EventKeyword.EnemyDie, EnemyDie);
-
+        GameWayReset();
         SceneManager.sceneLoaded += (_, _) => GameWayReset();
     }
 

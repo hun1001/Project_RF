@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Event;
 using UnityEngine;
 using Util;
 
@@ -35,5 +34,38 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     public void TutorialSkip()
     {
         _isTutorial = false;
+    }
+
+    public void GameTutorialStart()
+    {
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TutorialScene)
+        {
+            WaveManager.Instance.gameObject.SetActive(false);
+        }
+    }
+
+    public void TankDummySpawn()
+    {
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TutorialScene)
+        {
+            var tank = SpawnManager.Instance.SpawnUnit("BT-5", new Vector3(22f, 25f, 0f), Quaternion.identity, GroupType.Enemy);
+            tank.GetComponent<Tank_Damage>().AddOnDeathAction(() => EventManager.TriggerEvent(EventKeyword.NextTutorial));
+        }
+    }
+
+    public void MovingTargetSpawn()
+    {
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TutorialScene)
+        {
+            GameObject.Find("MoveTarget").transform.GetChild(0).gameObject.SetActive(true);
+        }
+    }
+
+    public void TutorialWaveStart()
+    {
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TutorialScene)
+        {
+            WaveManager.Instance.gameObject.SetActive(true);
+        }
     }
 }
