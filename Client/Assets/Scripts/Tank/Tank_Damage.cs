@@ -24,8 +24,9 @@ public class Tank_Damage : Tank_Component
         _onDeathAction += action;
     }
 
-    public void ResetOnDeathAction()
+    public void ResetAction()
     {
+        _onDamageAction = null;
         _onDeathAction = null;
     }
 
@@ -41,9 +42,6 @@ public class Tank_Damage : Tank_Component
         _maxHealth = (Instance as Tank).TankData.HP;
         _currentHealth = _maxHealth;
         _amour = (Instance as Tank).TankData.Armour;
-
-        _onDamageAction = null;
-        _onDeathAction = null;
     }
 
     public void SetHP(float hp) => _currentHealth = hp > _maxHealth ? _maxHealth : hp < 0 ? 0 : hp;
