@@ -123,6 +123,11 @@ public class GameTutorialCanvas : BaseCanvas
                     _nextButton.SetActive(true);
                     break;
                 }
+            case 8:
+                {
+                    TutorialManager.Instance.TankDummySpawn();
+                    break;
+                }
             case 9:
                 {
                     _tutorialPanels[1].SetActive(true);
@@ -132,7 +137,6 @@ public class GameTutorialCanvas : BaseCanvas
                 {
                     _tutorialPanels[1].SetActive(false);
                     _nextButton.SetActive(false);
-                    TutorialManager.Instance.TankDummySpawn();
                     break;
                 }
             case 11:

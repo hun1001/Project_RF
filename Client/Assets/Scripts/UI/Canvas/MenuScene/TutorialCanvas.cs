@@ -33,10 +33,16 @@ public class TutorialCanvas : BaseCanvas
     private Image[] _shellImages = null;
     [SerializeField]
     private Sprite[] _shellSprites = null;
+    [SerializeField]
+    private GoodsTexts _menuGoodsText = null;
+    [SerializeField]
+    private GameObject _tankGameObject = null;
 
     [Header("TechTree UI")]
     [SerializeField]
     private GameObject _techTreeUI = null;
+    [SerializeField]
+    private GoodsTexts _techTreeGoodsText = null;
 
     private void Awake()
     {
@@ -49,6 +55,7 @@ public class TutorialCanvas : BaseCanvas
         _shellButtons[1].SetActive(false);
         _nextButton.SetActive(true);
         _skipPanel.SetActive(false);
+        _tankGameObject.SetActive(false);
         foreach (var obj in _tutorialPanels)
         {
             obj.SetActive(false);
@@ -103,12 +110,16 @@ public class TutorialCanvas : BaseCanvas
 
     public void TutorialStart()
     {
+        if (PlayerPrefs.GetInt("Tutorial", 0) == 1) return;
+
         _tutorialPanelParent.SetActive(true);
         _tutorialCount = 0;
         if (PlayerPrefs.GetInt("GameTutorial", 0) == 1)
         {
             TutorialManager.Instance.TechTreeTutorialStart();
             _tutorialCount = 16;
+            _menuGoodsText.SetGoodsTexts(50, 0);
+            _techTreeGoodsText.SetGoodsTexts(50, 0);
         }
         _tutorialText.SetText(_textsSO.TutorialTexts[_tutorialCount]);
 
@@ -219,7 +230,35 @@ public class TutorialCanvas : BaseCanvas
                 }
             case 17:
                 {
-
+                    _tutorialPanels[4].SetActive(true);
+                    _nextButton.SetActive(false);
+                    break;
+                }
+            case 18:
+                {
+                    _tutorialPanels[4].SetActive(false);
+                    _menuUI.SetActive(false);
+                    _techTreeUI.SetActive(true);
+                    _nextButton.SetActive(true);
+                    break;
+                }
+            case 19:
+                {
+                    _nextButton.SetActive(false);
+                    _tutorialPanels[5].SetActive(true);
+                    break;
+                }
+            case 20:
+                {
+                    _tutorialPanels[5].SetActive(false);
+                    _techTreeUI.SetActive(false);
+                    _nextButton.SetActive(true);
+                    _menuUI.SetActive(true);
+                    _tankGameObject.SetActive(true);
+                    TechTreeDataManager.AddTank(CountryType.USSR, "BT-7");
+                    FindObjectOfType<TankModelManager>().ChangeTankModel(Addressable.AddressablesManager.Instance.GetResource<GameObject>("BT-7").GetComponent<Tank>());
+                    _menuGoodsText.SetGoodsTexts(0, 0);
+                    _techTreeGoodsText.SetGoodsTexts(0, 0);
                     break;
                 }
         }
