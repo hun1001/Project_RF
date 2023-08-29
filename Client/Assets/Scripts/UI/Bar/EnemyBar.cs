@@ -9,21 +9,19 @@ public class EnemyBar : MonoBehaviour, IPoolReset
     private readonly static Vector3 _offset = Vector3.up * 3.5f + Vector3.back;
 
     [SerializeField]
+    private Canvas _canvas = null;
+
+    [SerializeField]
     private Image _valueImage = null;
 
     private float _maxValue = 0;
     private float _currentValue = 0;
 
-    private Transform cameraTransform = null;
-
-    private void Awake()
-    {
-        cameraTransform = Camera.main.transform;
-    }
+    private float _showTime = 0f;
 
     public void Show()
     {
-        gameObject.SetActive(true);
+        _showTime = 10;
     }
 
     public void Setting(float max, float cur = -1)
@@ -36,7 +34,7 @@ public class EnemyBar : MonoBehaviour, IPoolReset
 
         _valueImage.fillAmount = 1;
 
-        gameObject.SetActive(false);
+        _canvas.enabled = false;
     }
 
     public void ChangeValue(float value)
@@ -44,6 +42,12 @@ public class EnemyBar : MonoBehaviour, IPoolReset
         _currentValue += value;
         _currentValue = Mathf.Clamp(_currentValue, 0, _maxValue);
         _valueImage.fillAmount = _currentValue / _maxValue;
+    }
+
+    private void Update()
+    {
+        _canvas.enabled = _showTime > 0;
+        _showTime -= Time.deltaTime;
     }
 
     private void LateUpdate()
