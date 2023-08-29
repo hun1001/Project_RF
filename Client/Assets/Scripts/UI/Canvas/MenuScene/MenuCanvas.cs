@@ -38,8 +38,6 @@ public class MenuCanvas : BaseCanvas
     private RectTransform _topFrame = null;
     [SerializeField]
     private RectTransform _bottomFrame = null;
-    [SerializeField]
-    private RectTransform _hangerDownImage = null;
 
     private bool _isHide = false;
     private bool _isCameraHide = false;
