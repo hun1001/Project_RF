@@ -61,7 +61,12 @@ public class Player : CustomObject
         _tank = SpawnManager.Instance.SpawnUnit(PlayerDataManager.Instance.GetPlayerTankID(), transform.position, Quaternion.identity, GroupType.Player);
         _tank.tag = "Player";
 
-        MouseManager.Instance.OnMouseLeftButtonDown += _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).Fire;
+        _tankMove = _tank.GetComponent<Tank_Move>(ComponentType.Move);
+        _tankRotate = _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate);
+        _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
+        _turretAttack = _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack);
+
+        MouseManager.Instance.OnMouseLeftButtonDown += _turretAttack.Fire;
 
         MouseManager.Instance.OnMouseRightButtonUp += () => _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine).SetEnableLineRenderer(false);
         MouseManager.Instance.OnMouseRightButtonDown += () => _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine).SetEnableLineRenderer(true);
@@ -117,20 +122,15 @@ public class Player : CustomObject
 
         SetTankDamage();
 
-        _tank.GetComponent<Tank_Move>(ComponentType.Move).AddOnCrashAction((a) =>
+        _tankMove.AddOnCrashAction((a) =>
         {
             _cameraManager.CameraShake(a * 0.3f, _cameraCrashShakeValueSO.FrequencyGain, _cameraCrashShakeValueSO.Duration);
         });
 
-        _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).AddOnFireAction(() =>
+        _turretAttack.AddOnFireAction(() =>
         {
             _cameraManager.CameraShake(_cameraAttackShakeValueSO);
         });
-
-        _tankMove = _tank.GetComponent<Tank_Move>(ComponentType.Move);
-        _tankRotate = _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate);
-        _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
-        _turretAttack = _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack);
 
         StartCoroutine(nameof(InputUpdateCoroutine));
     }
