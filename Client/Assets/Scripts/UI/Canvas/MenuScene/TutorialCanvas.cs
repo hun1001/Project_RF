@@ -55,9 +55,16 @@ public class TutorialCanvas : BaseCanvas
 
         KeyboardManager.Instance.AddKeyDownAction(KeyCode.Escape, () =>
         {
-            if (CanvasManager.ActiveCanvas == CanvasType && TutorialManager.Instance.IsTutorial && _skipPanel.activeSelf == false)
+            if (CanvasManager.ActiveCanvas == CanvasType && TutorialManager.Instance.IsTutorial)
             {
-                OpenSkipPanel();
+                if (_skipPanel.activeSelf == false)
+                {
+                    OpenSkipPanel();
+                }
+                else
+                {
+                    TutorialNotSkip();
+                }
             }
         });
 

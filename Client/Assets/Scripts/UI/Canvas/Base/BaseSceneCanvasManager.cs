@@ -18,7 +18,7 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
     protected CanvasType _activeCanvas;
     public CanvasType ActiveCanvas => _activeCanvas;
 
-    private float _openDelay = 0f;
+    protected float _openDelay = 0f;
     public float OpenDelay => _openDelay;
 
     protected virtual void Awake()
@@ -43,33 +43,9 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
         }
     }
 
-    private void InputEscape()
+    protected virtual void InputEscape()
     {
-        if (_openDelay <= 0f)
-        {
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene && TutorialManager.Instance.IsTutorial == false)
-            {
-                if (_activeCanvas == CanvasType.Menu)
-                {
-                    ChangeCanvas(CanvasType.Setting, _activeCanvas);
-                }
-                else
-                {
-                    ChangeBeforeCanvas();
-                }
-            }
-            else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
-            {
-                if (_activeCanvas == CanvasType.Pause)
-                {
-                    ChangeCanvas(CanvasType.Information, _activeCanvas);
-                }
-                else if (_activeCanvas != CanvasType.GameOver)
-                {
-                    ChangeCanvas(CanvasType.Pause, _activeCanvas);
-                }
-            }
-        }
+        
     }
 
     private void OnApplicationPause(bool pause)

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Pool;
+using UnityEngine.EventSystems;
 
 public class Turret_Attack : Turret_Component
 {
@@ -37,6 +38,10 @@ public class Turret_Attack : Turret_Component
 
     public virtual void Fire()
     {
+        if (TutorialManager.Instance.IsTutorial && EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
         if (_isBurst)
         {
             if (_reloadingTime <= 0)

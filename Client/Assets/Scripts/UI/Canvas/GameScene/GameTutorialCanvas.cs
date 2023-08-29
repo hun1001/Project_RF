@@ -4,25 +4,41 @@ public class GameTutorialCanvas : BaseCanvas
 {
     [Header("Tutorial")]
     [SerializeField]
-    protected TutorialSO _textsSO = null;
+    private TutorialSO _textsSO = null;
     [SerializeField]
-    protected GameObject _skipPanel = null;
+    private GameObject _skipPanel = null;
     [SerializeField]
-    protected TextController _tutorialText = null;
+    private TextController _tutorialText = null;
     [SerializeField]
-    protected GameObject _tutorialPanelParent = null;
+    private GameObject _tutorialPanelParent = null;
+    [SerializeField]
+    private GameObject _nextButton = null;
 
     protected int _tutorialCount = 0;
 
     private void Awake()
     {
+        if (CanvasManager.ActiveCanvas == CanvasType)
+        {
+            CanvasManager.ChangeCanvas(CanvasType);
+        }
+
         KeyboardManager.Instance.AddKeyDownAction(KeyCode.Escape, () =>
         {
-            if (CanvasManager.ActiveCanvas == CanvasType && TutorialManager.Instance.IsTutorial && _skipPanel.activeSelf == false)
+            if (CanvasManager.ActiveCanvas == CanvasType && TutorialManager.Instance.IsTutorial)
             {
-                OpenSkipPanel();
+                if (_skipPanel.activeSelf == false)
+                {
+                    OpenSkipPanel();
+                }
+                else
+                {
+                    TutorialNotSkip();
+                }
             }
         });
+
+        TutorialStart();
     }
 
     public void OpenSkipPanel()
@@ -33,10 +49,9 @@ public class GameTutorialCanvas : BaseCanvas
 
     public void TutorialSkip()
     {
-        PlayButtonSound();
         _tutorialCount = 0;
         TutorialManager.Instance.TutorialSkip();
-        CanvasManager.ChangeCanvas(CanvasType.Menu);
+        OnHomeButton();
     }
 
     public void TutorialNotSkip()
@@ -44,17 +59,34 @@ public class GameTutorialCanvas : BaseCanvas
         PlayButtonSound();
         _skipPanel.SetActive(false);
         _tutorialPanelParent.SetActive(true);
+
+        if (_tutorialCount == 0)
+        {
+            TutorialStart();
+        }
     }
 
     public void TutorialStart()
     {
+        _tutorialPanelParent.SetActive(true);
         _tutorialCount = 0;
         _tutorialText.SetText(_textsSO.TutorialTexts[0]);
+        _nextButton.SetActive(true);
     }
 
     public void NextTutorial()
     {
         _tutorialCount++;
+        if (_tutorialCount == _textsSO.TutorialTexts.Length)
+        {
+            CanvasManager.ChangeCanvas(CanvasType.Information);
+            return;
+        }
         _tutorialText.SetText(_textsSO.TutorialTexts[_tutorialCount]);
+
+        switch (_tutorialCount)
+        {
+
+        }
     }
 }

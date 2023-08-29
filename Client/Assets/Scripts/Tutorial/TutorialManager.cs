@@ -12,6 +12,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     private void Awake()
     {
         //PlayerPrefs.SetInt("Tutorial", 0);
+        //_isTutorial = true;
         if (PlayerPrefs.GetInt("Tutorial", 0) == 0)
         {
             TutorialStart();
