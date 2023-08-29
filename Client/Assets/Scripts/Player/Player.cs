@@ -181,6 +181,7 @@ public class Player : CustomObject
         }
         else
         {
+            _tankMove.Move(0f);
             _wasControlled = false;
         }
 
