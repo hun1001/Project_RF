@@ -57,8 +57,6 @@ public class Turret_AimLine : Turret_Component
             }
         };
 
-        //_attackJoystick = FindObjectOfType<ControllerCanvas>().AttackJoystick;
-
         _lineRenderer.enabled = false;
     }
 
@@ -69,7 +67,7 @@ public class Turret_AimLine : Turret_Component
 
         var a = Turret.GetComponent<Turret_Attack>(ComponentType.Attack);
 
-        var rayData = Physics2D.Raycast(Turret.FirePoint.position, Turret.FirePoint.up, Turret.CurrentShell.Speed * 2f);
+        var rayData = Physics2D.Raycast(Turret.FirePoint.position, Turret.FirePoint.up, Turret.CurrentShell.Speed * 2f, 1 << LayerMask.NameToLayer("Tank") | 1 << LayerMask.NameToLayer("Wall"));
         if (a.ReloadingTime <= 0f)
         {
             Debug.DrawLine(Turret.FirePoint.position, Turret.FirePoint.position + Turret.FirePoint.up * Turret.CurrentShell.Speed * 2f, Color.red, 0.1f);

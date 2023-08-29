@@ -41,7 +41,7 @@ public class EnemyBar : MonoBehaviour, IPoolReset
 
     private void LateUpdate()
     {
-        transform.LookAt(cameraTransform);
+        transform.rotation = Quaternion.identity;
         transform.position = transform.parent.position + _offset;
     }
 
