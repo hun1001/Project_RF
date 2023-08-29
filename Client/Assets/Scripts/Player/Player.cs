@@ -28,6 +28,8 @@ public class Player : CustomObject
     private Turret_Attack _turretAttack = null;
     public Turret_Attack TurretAttack => _turretAttack;
 
+    private SubArmament _secondaryArmament = null;
+
     private float _cameraHeight = -30;
     public float CameraHeight
     {
@@ -65,6 +67,11 @@ public class Player : CustomObject
         _tankRotate = _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate);
         _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
         _turretAttack = _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack);
+        
+        if(_tank.TryGetSecondaryArmament(out _secondaryArmament))
+        {
+            
+        }
 
         MouseManager.Instance.OnMouseLeftButtonDown += _turretAttack.Fire;
 
@@ -130,7 +137,7 @@ public class Player : CustomObject
         _turretAttack.AddOnFireAction(() =>
         {
             _cameraManager.CameraShake(_cameraAttackShakeValueSO);
-        });
+        });        
 
         StartCoroutine(nameof(InputUpdateCoroutine));
     }
@@ -204,11 +211,6 @@ public class Player : CustomObject
         {
             OnPlayerDidNotAnyThing?.Invoke();
         }
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            _turretAttack.FireMachineGun();
-        }
     }
 
     private void SimpleControl()
@@ -245,11 +247,6 @@ public class Player : CustomObject
         {
             _tankMove.Stop();
             _wasControlled = false;
-        }
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            Tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).FireMachineGun();
         }
     }
 
