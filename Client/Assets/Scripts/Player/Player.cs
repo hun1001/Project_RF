@@ -204,6 +204,11 @@ public class Player : CustomObject
         {
             OnPlayerDidNotAnyThing?.Invoke();
         }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            _turretAttack.FireMachineGun();
+        }
     }
 
     private void SimpleControl()
@@ -236,13 +241,13 @@ public class Player : CustomObject
             _wasControlled = _wasControlled || false;
         }
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.F))
         {
             _tankMove.Stop();
             _wasControlled = false;
         }
 
-        if (Input.GetKey(KeyCode.F))
+        if (Input.GetKey(KeyCode.Space))
         {
             Tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack).FireMachineGun();
         }
