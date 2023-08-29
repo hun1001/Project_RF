@@ -28,7 +28,7 @@ public class Player : CustomObject
     private Turret_Attack _turretAttack = null;
     public Turret_Attack TurretAttack => _turretAttack;
 
-    private SubArmament _secondaryArmament = null;
+    private SubArmament _subArmament = null;
 
     private float _cameraHeight = -30;
     public float CameraHeight
@@ -68,9 +68,17 @@ public class Player : CustomObject
         _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
         _turretAttack = _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack);
         
-        if(_tank.TryGetSecondaryArmament(out _secondaryArmament))
+        if(_tank.TryGetSecondaryArmament(out _subArmament))
         {
-            
+            if (_subArmament.ActionType == SubArmamentKeyActionType.OnKeyHold)
+            {
+                KeyboardManager.Instance.AddKeyHoldAction(KeyCode.Space, _subArmament.Fire);
+            }
+            else if (_subArmament.ActionType == SubArmamentKeyActionType.OnKeyDownUp)
+            {
+                
+                KeyboardManager.Instance.AddKeyUpAction(KeyCode.Space, _subArmament.Fire);
+            }
         }
 
         MouseManager.Instance.OnMouseLeftButtonDown += _turretAttack.Fire;
