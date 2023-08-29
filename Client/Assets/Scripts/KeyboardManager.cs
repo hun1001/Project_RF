@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Util;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
+using System.Linq;
 
 public class KeyboardManager : MonoSingleton<KeyboardManager>
 {
@@ -13,36 +13,34 @@ public class KeyboardManager : MonoSingleton<KeyboardManager>
 
     private void Update()
     {
-        foreach (var item in keyDownAction)
+        keyDownAction?.Keys.ToList().ForEach(keyCode =>
         {
-            if (Input.GetKeyDown(item.Key))
+            if (Input.GetKeyDown(keyCode))
             {
-                item.Value?.Invoke();
+                keyDownAction[keyCode]?.Invoke();
             }
-        }
-    }
+        });
 
-    public void AddKeyDownAction(KeyCode keyCode, Action action)
-    {
-        if (keyDownAction.ContainsKey(keyCode))
+        keyUpAction?.Keys.ToList().ForEach(keyCode =>
         {
-            keyDownAction[keyCode] += action;
-            return;
-        }
+            if (Input.GetKeyUp(keyCode))
+            {
+                keyUpAction[keyCode]?.Invoke();
+            }
+        });
 
-        keyDownAction.Add(keyCode, action);
-    }
-
-    public void AddKeyUpAction(KeyCode keyCode, Action action)
-    {
-        if(keyUpAction.ContainsKey(keyCode))
+        keyHoldAction?.Keys.ToList().ForEach(keyCode =>
         {
-            keyUpAction[keyCode] += action;
-            return;
-        }
-
-        keyUpAction.Add(keyCode, action);
+            if (Input.GetKey(keyCode))
+            {
+                keyHoldAction[keyCode]?.Invoke();
+            }
+        });
     }
+
+    public void AddKeyDownAction(KeyCode keyCode, Action action) => AddKeyAction(ref keyDownAction, keyCode, action);
+
+    public void AddKeyUpAction(KeyCode keyCode, Action action) => AddKeyAction(ref keyUpAction, keyCode, action);
 
     public void AddKeyHoldAction(KeyCode keyCode, Action action) => AddKeyAction(ref keyHoldAction, keyCode, action);
 
