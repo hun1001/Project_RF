@@ -140,7 +140,7 @@ public class TutorialCanvas : BaseCanvas
     {
         _tutorialCount = 0;
         PlayerPrefs.SetInt("GameTutorial", 2);
-        TutorialManager.Instance.TutorialEnd();
+        TutorialManager.Instance.TutorialSkip();
         CanvasManager.ChangeCanvas(CanvasType.Menu);
     }
 
