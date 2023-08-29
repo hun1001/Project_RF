@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class TutorialCanvas : BaseCanvas
@@ -67,7 +68,10 @@ public class TutorialCanvas : BaseCanvas
                 }
             }
         });
+    }
 
+    private void Start()
+    {
         TutorialStart();
     }
 
@@ -101,13 +105,30 @@ public class TutorialCanvas : BaseCanvas
     {
         _tutorialPanelParent.SetActive(true);
         _tutorialCount = 0;
-        _tutorialText.SetText(_textsSO.TutorialTexts[0]);
+        if (PlayerPrefs.GetInt("GameTutorial", 0) == 1)
+        {
+            TutorialManager.Instance.TechTreeTutorialStart();
+            _tutorialCount = 16;
+        }
+        _tutorialText.SetText(_textsSO.TutorialTexts[_tutorialCount]);
+
+        if (PlayerDataManager.Instance.GetPlayerTankID() != "BT-5")
+        {
+            PlayerDataManager.Instance.SetPlayerTankID("BT-5");
+        }
+        if (_tutorialCount == 0)
+        {
+            ShellSaveManager.ShellEquip("BT-5", 0, "");
+            ShellSaveManager.ShellEquip("BT-5", 1, "");
+        }
+        
         _nextButton.SetActive(true);
     }
 
     public void TutorialEnd()
     {
         _tutorialCount = 0;
+        PlayerPrefs.SetInt("GameTutorial", 2);
         TutorialManager.Instance.TutorialEnd();
         CanvasManager.ChangeCanvas(CanvasType.Menu);
     }
@@ -168,6 +189,7 @@ public class TutorialCanvas : BaseCanvas
                     _shellButtons[0].SetActive(false);
                     _tutorialPanels[2].SetActive(false);
                     _shellImages[0].sprite = _shellSprites[0];
+                    ShellSaveManager.ShellEquip("BT-5", 0, "HE");
                     _nextButton.SetActive(true);
                     break;
                 }
@@ -186,12 +208,18 @@ public class TutorialCanvas : BaseCanvas
                     _tutorialPanels[2].SetActive(false);
                     _shellButtons[1].SetActive(false);
                     _shellImages[1].sprite = _shellSprites[1];
+                    ShellSaveManager.ShellEquip("BT-5", 1, "AP10");
                     break;
                 }
             case 15:
                 { 
                     _nextButton.SetActive(false);
                     _tutorialPanels[3].SetActive(true);
+                    break;
+                }
+            case 17:
+                {
+
                     break;
                 }
         }

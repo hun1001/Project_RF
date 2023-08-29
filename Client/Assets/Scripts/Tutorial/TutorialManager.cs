@@ -40,6 +40,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TutorialScene)
         {
+            _isTutorial = true;
             WaveManager.Instance.gameObject.SetActive(false);
         }
     }
@@ -67,5 +68,11 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         {
             WaveManager.Instance.gameObject.SetActive(true);
         }
+    }
+
+    public void TechTreeTutorialStart()
+    {
+        _isTutorial = true;
+        FindObjectOfType<BaseSceneCanvasManager>().ChangeCanvas(CanvasType.Tutorial);
     }
 }

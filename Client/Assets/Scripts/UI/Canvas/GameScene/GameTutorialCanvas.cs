@@ -15,7 +15,7 @@ public class GameTutorialCanvas : BaseCanvas
     [SerializeField]
     private GameObject _nextButton = null;
     [SerializeField]
-    private GameObject _shellHighLight = null;
+    private GameObject[] _tutorialPanels = null;
 
     protected int _tutorialCount = 0;
 
@@ -24,7 +24,10 @@ public class GameTutorialCanvas : BaseCanvas
         TutorialManager.Instance.GameTutorialStart();
         EventManager.StartListening(EventKeyword.NextTutorial, NextTutorial);
 
-        _shellHighLight.SetActive(false);
+        foreach (var obj in  _tutorialPanels)
+        {
+            obj.SetActive(false);
+        }
 
         KeyboardManager.Instance.AddKeyDownAction(KeyCode.Escape, () =>
         {
@@ -85,6 +88,10 @@ public class GameTutorialCanvas : BaseCanvas
         _tutorialCount++;
         if (_tutorialCount == _textsSO.TutorialTexts.Length)
         {
+            if (PlayerPrefs.GetInt("GameTutorial", 0) < 2)
+            {
+                PlayerPrefs.SetInt("GameTutorial", 1);
+            }
             CanvasManager.ChangeCanvas(CanvasType.Information);
             TutorialManager.Instance.TutorialWaveStart();
             return;
@@ -93,14 +100,20 @@ public class GameTutorialCanvas : BaseCanvas
 
         switch (_tutorialCount)
         {
+            case 4:
+                {
+                    _tutorialPanels[0].SetActive(true);
+                    break;
+                }
             case 5:
                 {
-                    _shellHighLight.SetActive(true);
+                    _tutorialPanels[0].SetActive(false);
+                    _tutorialPanels[1].SetActive(true);
                     break;
                 }
             case 6:
                 {
-                    _shellHighLight.SetActive(false);
+                    _tutorialPanels[1].SetActive(false);
                     _nextButton.SetActive(false);
                     TutorialManager.Instance.MovingTargetSpawn();
                     break;
@@ -112,12 +125,12 @@ public class GameTutorialCanvas : BaseCanvas
                 }
             case 9:
                 {
-                    _shellHighLight.SetActive(true);
+                    _tutorialPanels[1].SetActive(true);
                     break;
                 }
             case 10:
                 {
-                    _shellHighLight.SetActive(false);
+                    _tutorialPanels[1].SetActive(false);
                     _nextButton.SetActive(false);
                     TutorialManager.Instance.TankDummySpawn();
                     break;
