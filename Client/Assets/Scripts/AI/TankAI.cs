@@ -19,12 +19,11 @@ public class TankAI : BossAI_Base
 
     protected override void OnStart()
     {
-        TankDamage.ResetAction();
-
         TankDamage.AddOnDeathAction(() =>
         {
             EventManager.TriggerEvent(EventKeyword.EnemyDie);
             PoolManager.Get("Assets/Prefabs/RepairPack.prefab", Tank.transform.position + new Vector3(0, 0, -2f), Quaternion.identity);
+            TankMove.CurrentSpeed = 0;
             _moveTargetPosition = Vector3.zero;
         });
 

@@ -176,7 +176,7 @@ public class Player : CustomObject
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            _tankMove.Move(-0.1f);
+            _tankMove.Move(-0.4f);
             _wasControlled = true;
         }
         else
@@ -217,7 +217,7 @@ public class Player : CustomObject
 
         if (Input.GetKey(KeyCode.Q) && Input.GetKey(KeyCode.E))
         {
-            _tankMove.Move(-0.1f);
+            _tankMove.Move(-0.4f);
             _tankRotate.OnTurnStopAction?.Invoke();
             _wasControlled = true;
         }

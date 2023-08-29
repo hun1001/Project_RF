@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 
@@ -9,7 +8,15 @@ public class Tank_Move : Tank_Component
 {
     private float _maxSpeed = 0f;
     public float _currentSpeed = 0f;
-    public float CurrentSpeed => _currentSpeed;
+    public float CurrentSpeed
+    {
+        get => _currentSpeed;
+        set
+        {
+            _currentSpeed = value;
+            _currentSpeed = 0;
+        }
+    }
     private float _acceleration = 0f;
     private float _targetSpeed = 0f;
 
@@ -80,6 +87,7 @@ public class Tank_Move : Tank_Component
         }
 
         _currentSpeed = _collision || _stop ? 0f : _currentSpeed;
+        _currentSpeed = Mathf.Clamp(_currentSpeed, -_maxSpeed / 2, _maxSpeed);
         transform.Translate(Vector3.up * Time.deltaTime * _currentSpeed);
 
         if (_loadSoundDelay > 0f)

@@ -52,12 +52,8 @@ public abstract class BossAI_Base : MonoBehaviour
 
         _target = FindObjectOfType<Player>().Tank;
 
+        _tankDamage.ResetAction();
         _tankDamage.AddOnDeathAction(Pool);
-
-        //Bar hpBar = FindObjectOfType<InformationCanvas>().BossHpBar;
-        //hpBar.Setting(_tank.TankData.HP);
-
-        //_tankDamage.AddOnDamageAction(hpBar.ChangeValue);
 
         OnStart();
 
