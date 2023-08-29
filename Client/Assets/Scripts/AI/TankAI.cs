@@ -27,11 +27,20 @@ public class TankAI : BossAI_Base
             _moveTargetPosition = Vector3.zero;
         });
 
-        var hpBar = PoolManager.Get<EnemyBar>("EnemyBar", Tank.transform);
+        EnemyBar enemyBar = Tank.GetComponentInChildren<EnemyBar>();
 
-        hpBar.Setting(Tank.TankData.HP);
+        if (enemyBar != null)
+        {
+            enemyBar.PoolObjectReset();
+        }
+        else
+        {
+            enemyBar = PoolManager.Get<EnemyBar>("EnemyBar", Tank.transform);
+        }
 
-        TankDamage.AddOnDamageAction(hpBar.ChangeValue);
+        enemyBar.Setting(Tank.TankData.HP);
+
+        TankDamage.AddOnDamageAction(enemyBar.ChangeValue);
         TankMove.AddOnCrashAction((_) =>
         {
             _moveTargetPosition = Vector3.zero;
@@ -127,17 +136,17 @@ public class TankAI : BossAI_Base
             float dis = Vector3.Distance(Tank.transform.position, _navMeshPath.corners[index]);
             while (dis > 1f)
             {
-                if (dis < 20f)
-                {
-                    TankMove.Move(0.6f);
-                }
-                else if (dis < 10f)
+                if (dis < 10f)
                 {
                     TankMove.Move(0.4f);
                 }
+                else if (dis < 20f)
+                {
+                    TankMove.Move(0.6f);
+                }
                 else
                 {
-                    TankMove.Move(0.9f);
+                    TankMove.Move(1f);
                 }
 
                 TankRotate.Rotate((_navMeshPath.corners[index] - Tank.transform.position).normalized);

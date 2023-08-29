@@ -35,7 +35,7 @@ public class Bar : MonoBehaviour, IPoolReset
         }
 
         _maxValue = max;
-        if (cur < 0)
+        if (cur == -1)
         {
             _currentValue = _maxValue;
         }
@@ -48,6 +48,7 @@ public class Bar : MonoBehaviour, IPoolReset
     {
         _isSetting = false;
         _valueImage.fillAmount = 1f;
+        _beforeValueImage.fillAmount = 1f;
     }
 
     public void ChangeValue(float value)
