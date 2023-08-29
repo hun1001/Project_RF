@@ -8,6 +8,8 @@ using static System.Runtime.CompilerServices.RuntimeHelpers;
 public class KeyboardManager : MonoSingleton<KeyboardManager>
 {
     private Dictionary<KeyCode, Action> keyDownAction = new Dictionary<KeyCode, Action>();
+    private Dictionary<KeyCode, Action> keyUpAction = new Dictionary<KeyCode, Action>();
+    private Dictionary<KeyCode, Action> keyHoldAction = new Dictionary<KeyCode, Action>();
 
     void Update()
     {
@@ -31,6 +33,28 @@ public class KeyboardManager : MonoSingleton<KeyboardManager>
         keyDownAction.Add(keyCode, action);
     }
 
+    public void AddKeyUpAction(KeyCode keyCode, Action action)
+    {
+        if(keyUpAction.ContainsKey(keyCode))
+        {
+            keyUpAction[keyCode] += action;
+            return;
+        }
+
+        keyUpAction.Add(keyCode, action);
+    }
+
+    public void AddKeyHoldAction(KeyCode keyCode, Action action)
+    {
+        if(keyHoldAction.ContainsKey(keyCode))
+        {
+            keyHoldAction[keyCode] += action;
+            return;
+        }
+
+        keyHoldAction.Add(keyCode, action);
+    }
+
     public void AddKeyDownActionList(Action[] actions)
     {
         for(int i = 0; i < actions.Length; i++)
@@ -42,5 +66,7 @@ public class KeyboardManager : MonoSingleton<KeyboardManager>
     public void ClearKeyActions()
     {
         keyDownAction?.Clear();
+        keyUpAction?.Clear();
+        keyHoldAction?.Clear();
     }
 }
