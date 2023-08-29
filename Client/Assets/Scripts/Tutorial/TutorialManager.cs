@@ -25,12 +25,6 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         FindObjectOfType<BaseSceneCanvasManager>().ChangeCanvas(CanvasType.Tutorial);
     }
 
-    public void TutorialEnd()
-    {
-        _isTutorial = false;
-        PlayerPrefs.SetInt("Tutorial", 1);
-    }
-
     public void TutorialSkip()
     {
         _isTutorial = false;

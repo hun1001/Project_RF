@@ -51,14 +51,6 @@ public class GameOverCanvas : BaseCanvas
                 OnHomeButton();
             }
         });
-
-        //KeyboardManager.Instance.AddKeyDownAction(KeyCode.Escape, () =>
-        //{
-        //    if (CanvasManager.ActiveCanvas == CanvasType)
-        //    {
-        //        OnHomeButton();
-        //    }
-        //});
     }
 
     public override void OnOpenEvents()
@@ -118,6 +110,11 @@ public class GameOverCanvas : BaseCanvas
             _rewardValueTextController.SetText(rewardValue);
         }
 
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TutorialScene)
+        {
+            _rewardValueTextController.SetText(50);
+            yield break;
+        }
         EventManager.TriggerEvent(EventKeyword.GiveReward, rewardValue);
     }
 }
