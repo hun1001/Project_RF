@@ -21,6 +21,11 @@ public class EnemyBar : MonoBehaviour, IPoolReset
         cameraTransform = Camera.main.transform;
     }
 
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
     public void Setting(float max, float cur = -1)
     {
         _maxValue = max;
@@ -30,6 +35,8 @@ public class EnemyBar : MonoBehaviour, IPoolReset
         }
 
         _valueImage.fillAmount = 1;
+
+        gameObject.SetActive(false);
     }
 
     public void ChangeValue(float value)

@@ -42,6 +42,7 @@ public class TankAI : BossAI_Base
         enemyBar.Setting(Tank.TankData.HP);
 
         TankDamage.AddOnDamageAction(enemyBar.ChangeValue);
+        TankDamage.AddOnDamageAction((_) => enemyBar.Show());
         TankMove.AddOnCrashAction((_) =>
         {
             _moveTargetPosition = Vector3.zero;
