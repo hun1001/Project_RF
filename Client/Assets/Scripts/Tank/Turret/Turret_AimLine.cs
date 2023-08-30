@@ -4,7 +4,6 @@ using UnityEngine;
 public class Turret_AimLine : Turret_Component
 {
     private LineRenderer _lineRenderer = null;
-    //private Joystick _attackJoystick = null;
 
     private bool _isAim = false;
     public bool IsAim => _isAim;

@@ -28,7 +28,7 @@ public class Player : CustomObject
     private Turret_Attack _turretAttack = null;
     public Turret_Attack TurretAttack => _turretAttack;
 
-    private SubArmament _subArmament = null;
+    private BaseSubArmament _subArmament = null;
 
     private float _cameraHeight = -30;
     public float CameraHeight

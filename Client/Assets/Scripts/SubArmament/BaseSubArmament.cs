@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class SubArmament : MonoBehaviour
+public abstract class BaseSubArmament : MonoBehaviour
 {
     private Tank _tank = null;
     public Tank Tank => _tank;
@@ -10,7 +10,7 @@ public abstract class SubArmament : MonoBehaviour
     private Transform _firePoint = null;
     public Transform FirePoint => _firePoint;
 
-    public SubArmament Setting(Tank tank, Transform point)
+    public BaseSubArmament Setting(Tank tank, Transform point)
     {
         _tank = tank;
         _firePoint = point;

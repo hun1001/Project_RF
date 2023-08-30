@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MachineGun : SubArmament
+public class SubMachineGun : BaseSubArmament
 {
     public override SubArmamentKeyActionType ActionType => SubArmamentKeyActionType.OnKeyHold;
 

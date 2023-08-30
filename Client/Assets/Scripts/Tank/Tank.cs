@@ -26,19 +26,21 @@ public class Tank : CustomObject, IPoolReset
 
     public bool IsDead => _thisTankSO.HP <= 0;
 
-    private SubArmament _secondaryArmament = null;
-    public bool TryGetSecondaryArmament(out SubArmament secondaryArmament)
+    private BaseSubArmament _subArmament = null;
+    public bool TryGetSecondaryArmament(out BaseSubArmament secondaryArmament)
     {
-        secondaryArmament = _secondaryArmament;
-        return _hasSecondaryArmament;
+        secondaryArmament = _subArmament;
+        return _hasSubArmament;
     }
 
-    private bool _hasSecondaryArmament = false;
+    private bool _hasSubArmament = false;
 
-    public Tank SetTank(GroupType groupType, SubArmament secondaryArmament = null)
+    public Tank SetTank(GroupType groupType, BaseSubArmament secondaryArmament = null)
     {
-        _hasSecondaryArmament = secondaryArmament != null;
-        _secondaryArmament = secondaryArmament?.Setting(this, Turret.SecondFirePoint);
+        _hasSubArmament = secondaryArmament != null;
+        _subArmament = secondaryArmament?.Setting(this, Turret.SecondFirePoint);
+
+        _subArmament.transform.SetParent(this.transform);
 
         _groupType = groupType;
         return this;
