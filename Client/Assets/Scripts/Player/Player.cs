@@ -54,7 +54,7 @@ public class Player : CustomObject
 
     public Action OnPlayerDidNotAnyThing = null;
 
-    public ControlType controlType = ControlType.Simple;
+    public ControlType controlType = ControlType.Detail;
 
     protected override void Awake()
     {
@@ -76,7 +76,7 @@ public class Player : CustomObject
             }
             else if (_subArmament.ActionType == SubArmamentKeyActionType.OnKeyDownUp)
             {
-                
+                KeyboardManager.Instance.AddKeyDownAction(KeyCode.Space, _subArmament.Aim);
                 KeyboardManager.Instance.AddKeyUpAction(KeyCode.Space, _subArmament.Fire);
             }
         }

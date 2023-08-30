@@ -86,15 +86,6 @@ public class Turret_Attack : Turret_Component
         }
     }
 
-    public void FireMachineGun()
-    {
-        float atk = Turret.TurretData.AtkPower /10;
-        float pen = Turret.TurretData.PenetrationPower/10;
-
-        PoolManager.Get<Shell>("Bullet", Turret.FirePoint.position, Turret.FirePoint.rotation).SetShell(GetComponent<Tank>(), atk, pen);
-        PoolManager.Get("MuzzleFlash4", Turret.FirePoint.position, Turret.FirePoint.rotation);
-    }
-
     private void Update()
     {
         if (_reloadingTime > 0)

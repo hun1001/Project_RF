@@ -35,6 +35,10 @@ public class Turret : MonoBehaviour
         set => _firePoint = value;
     }
 
+    [SerializeField]
+    private Transform _secondFirePoint = null;
+    public Transform SecondFirePoint => _secondFirePoint ??= _firePoint;
+
     private Shell _currentShell = null;
     public Shell CurrentShell
     {
