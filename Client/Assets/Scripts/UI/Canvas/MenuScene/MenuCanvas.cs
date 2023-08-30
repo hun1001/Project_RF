@@ -59,10 +59,6 @@ public class MenuCanvas : BaseCanvas
     private GameObject _filterPanel = null;
 
     [SerializeField]
-    private Toggle[] _sortOrderToggles = null;
-    private bool _isSortOrder = false;
-
-    [SerializeField]
     private Toggle[] _countryFilterToggles = null;
     private bool[] _isCountryFilter = null;
 
@@ -601,23 +597,6 @@ public class MenuCanvas : BaseCanvas
         return list;
     }
 
-    public void OnSortOrder(bool isOrder)
-    {
-        _isSortOrder = isOrder;
-        PlayButtonSound();
-
-        if (isOrder)
-        {
-            _sortOrderToggles[1].isOn = true;
-        }
-        else
-        {
-            _sortOrderToggles[0].isOn = true;
-        }
-
-        HangerSort();
-    }
-
     public void OnFilterOpen()
     {
         PlayButtonSound();
@@ -635,14 +614,7 @@ public class MenuCanvas : BaseCanvas
             // 같은 타입일 때만 비교하여 정렬
             if (tankA.TankSO.CountryType == tankB.TankSO.CountryType)
             {
-                if (_isSortOrder)
-                {
-                    return tankA.TankSO.TankTier < tankB.TankSO.TankTier;
-                }
-                else
-                {
-                    return tankA.TankSO.TankTier > tankB.TankSO.TankTier;
-                }
+                return tankA.TankSO.TankTier < tankB.TankSO.TankTier;
             }
         }
 
