@@ -14,9 +14,12 @@ public class Shell_Collision : Shell_Component
 
     private Shell_Sound _shellSound;
 
+    private string _shellExplosionEffectAddress = string.Empty;
+
     private void Awake()
     {
         (Instance as Shell).TryGetComponent(out _shellSound);
+        _shellExplosionEffectAddress = (Instance as Shell).ShellExplosionEffectAddress;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -66,24 +69,8 @@ public class Shell_Collision : Shell_Component
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            //normalVector = collision.contacts[0].normal;
-            //incidentVector = -transform.up;
-
-            //angle = (int)Vector2.Angle(incidentVector, normalVector);
-            //angle %= 180;
-
-            //if (angle < 90 && angle >= 60)
-            //{
-            //    reflectionDir = Vector2.Reflect(-incidentVector, normalVector);
-
-            //    transform.up = reflectionDir;
-            //    _shellSound.PlaySound(SoundType.Ricochet, AudioMixerType.Sfx);
-            //}
-            //else
-            {
-                PoolManager.Get("Explosion_APHE_01", transform.position, transform.rotation);
-                PoolManager.Pool(Instance.ID, gameObject);
-            }
+            PoolManager.Get(_shellExplosionEffectAddress, transform.position, transform.rotation);
+            PoolManager.Pool(Instance.ID, gameObject);        
         }
     }
 }

@@ -19,6 +19,10 @@ public class Shell : CustomObject, IPoolReset
     private SoundBoxSO _shellSound = null;
     public SoundBoxSO ShellSound => _shellSound;
 
+    [SerializeField]
+    private string _shellExplosionEffectAddress = string.Empty;
+    public string ShellExplosionEffectAddress => _shellExplosionEffectAddress;
+
     public float Speed => _shellSO.Speed;
 
     private float _damage = 0;
