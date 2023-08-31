@@ -26,41 +26,6 @@ namespace Item
         {
             _player = GameObject.FindWithTag("Player");
             Tank _playerTank = _player.GetComponent<Tank>();
-
-            //int itemIdx = 0;
-            // Passive
-            // foreach (var itemID in _passiveItemEquipmentData._itemEquipmentList)
-            // {
-            //     if (itemID != "")
-            //     {
-            //         itemIdx = _passiveItemEquipmentData._itemEquipmentList.IndexOf(itemID) + 1;
-            //         if (itemIdx > _playerTank.TankSO.PassiveItemInventorySize) continue;
-            //         var item = PoolManager.Get<Passive_Item>(itemID, _player.transform);
-            //         item.ItemEquip();
-            //     }
-            // }
-
-            //int activeIdx = 1;
-            //// Active
-            //foreach (var itemID in _activeItemEquipmentData._itemEquipmentList)
-            //{
-            //    if (itemID != "")
-            //    {
-            //        itemIdx = _activeItemEquipmentData._itemEquipmentList.IndexOf(itemID) + 1;
-            //        if(itemIdx > _playerTank.TankSO.ActiveItemInventorySize)
-            //        {
-            //            _controllerCanvas.ButtonGroup.SetButton(activeIdx, null, false);
-            //            continue;
-            //        }
-            //        var item = PoolManager.Get<Active_Item>(itemID, _player.transform);
-            //        item.ItemEquip(activeIdx);
-            //    }
-            //    else
-            //    {
-            //        _controllerCanvas.ButtonGroup.SetButton(activeIdx, null, false);
-            //    }
-            //    activeIdx++;
-            //}
         }
     }
 }

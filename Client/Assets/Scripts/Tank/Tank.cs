@@ -40,7 +40,7 @@ public class Tank : CustomObject, IPoolReset
         _hasSubArmament = secondaryArmament != null;
         _subArmament = secondaryArmament?.Setting(this, Turret.SecondFirePoint);
 
-        _subArmament.transform.SetParent(this.transform);
+        _subArmament?.transform.SetParent(this.transform);
 
         _groupType = groupType;
         return this;
