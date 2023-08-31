@@ -13,4 +13,5 @@ public enum CanvasType
     Pause,
     Tutorial,
     GameTutorial,
+    UpgradeSelect,
 }
