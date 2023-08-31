@@ -60,11 +60,15 @@ public class MenuCanvas : BaseCanvas
 
     [SerializeField]
     private Toggle[] _countryFilterToggles = null;
-    private bool[] _isCountryFilter = null;
+    private List<bool> _isCountryFilter = null;
 
     [SerializeField]
     private Toggle[] _tankTypeFilterToggles = null;
-    private bool[] _isTankTypeFilter = null;
+    private List<bool> _isTankTypeFilter = null;
+
+    [SerializeField]
+    private Toggle[] _tankTierFilterToggles = null;
+    private List<bool> _isTankTierFilter = null;
 
     [Header("Buttons")]
     [SerializeField]
@@ -92,45 +96,7 @@ public class MenuCanvas : BaseCanvas
 
         EventManager.StartListening(EventKeyword.MenuCameraMove, CameraUIHide);
 
-        _isCountryFilter = new bool[_countryFilterToggles.Length];
-        for (int i = 0; i < _countryFilterToggles.Length; i++)
-        {
-            int index = i;
-            _countryFilterToggles[index].onValueChanged.AddListener((isOn) =>
-            {
-                if (isOn)
-                {
-                    PlayButtonSound();
-                    _isCountryFilter[index] = true;
-                }
-                else
-                {
-                    _isCountryFilter[index] = false;
-                }
-
-                HangerFilter();
-            });
-        }
-
-        _isTankTypeFilter = new bool[_tankTypeFilterToggles.Length];
-        for (int i = 0; i < _tankTypeFilterToggles.Length; i++)
-        {
-            int index = i;
-            _tankTypeFilterToggles[index].onValueChanged.AddListener((isOn) =>
-            {
-                if (isOn)
-                {
-                    PlayButtonSound();
-                    _isTankTypeFilter[index] = true;
-                }
-                else
-                {
-                    _isTankTypeFilter[index] = false;
-                }
-
-                HangerFilter();
-            });
-        }
+        FilterInit();
     }
 
     private void Start()
@@ -479,6 +445,70 @@ public class MenuCanvas : BaseCanvas
         }
     }
 
+    private void FilterInit()
+    {
+        _isCountryFilter = new List<bool>();
+        for (int i = 0; i < _countryFilterToggles.Length; i++)
+        {
+            int index = i;
+            _isCountryFilter.Add(false);
+            _countryFilterToggles[index].onValueChanged.AddListener((isOn) =>
+            {
+                if (isOn)
+                {
+                    PlayButtonSound();
+                    _isCountryFilter[index] = true;
+                }
+                else
+                {
+                    _isCountryFilter[index] = false;
+                }
+
+                HangerFilter();
+            });
+        }
+
+        _isTankTypeFilter = new List<bool>();
+        for (int i = 0; i < _tankTypeFilterToggles.Length; i++)
+        {
+            int index = i;
+            _tankTypeFilterToggles[index].onValueChanged.AddListener((isOn) =>
+            {
+                if (isOn)
+                {
+                    PlayButtonSound();
+                    _isTankTypeFilter[index] = true;
+                }
+                else
+                {
+                    _isTankTypeFilter[index] = false;
+                }
+
+                HangerFilter();
+            });
+        }
+
+        _isTankTierFilter = new List<bool>();
+        for (int i = 0; i < _tankTierFilterToggles.Length; i++)
+        {
+            int index = i;
+            _tankTierFilterToggles[index].onValueChanged.AddListener((isOn) =>
+            {
+                if (isOn)
+                {
+                    PlayButtonSound();
+                    _isTankTierFilter[index] = true;
+                }
+                else
+                {
+                    _isTankTierFilter[index] = false;
+                }
+
+                HangerFilter();
+            });
+        }
+    }
+
     private void HangerSort()
     {
         _hangerList.Clear();
@@ -497,21 +527,19 @@ public class MenuCanvas : BaseCanvas
     {
         int countryIndex = -1;
         int typeIndex = -1;
-        for (int i = 0; i < _isCountryFilter.Length; i++)
+        int tierIndex = -1;
+
+        if (_isCountryFilter.Contains(true))
         {
-            if (_isCountryFilter[i])
-            {
-                countryIndex = i;
-                break;
-            }
+            countryIndex = _isCountryFilter.IndexOf(true);
         }
-        for (int i = 0; i < _isTankTypeFilter.Length; i++)
+        if (_isTankTypeFilter.Contains(true))
         {
-            if (_isTankTypeFilter[i])
-            {
-                typeIndex = i;
-                break;
-            }
+            countryIndex = _isTankTypeFilter.IndexOf(true);
+        }
+        if (_isTankTierFilter.Contains(true))
+        {
+            tierIndex = _isTankTierFilter.IndexOf(true);
         }
 
         // 둘다 비활성화
