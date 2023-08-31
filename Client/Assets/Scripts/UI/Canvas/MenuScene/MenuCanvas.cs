@@ -44,6 +44,8 @@ public class MenuCanvas : BaseCanvas
 
     [Header("Hanger")]
     [SerializeField]
+    private GameObject _hangerObject = null;
+    [SerializeField]
     private Transform _hangerContent = null;
     [SerializeField]
     private GameObject _tankTemplate = null;
@@ -250,6 +252,13 @@ public class MenuCanvas : BaseCanvas
     #endregion
 
     #region Hanger
+    public void OpenHanger()
+    {
+        PlayButtonSound();
+
+        _hangerObject.SetActive(!_hangerObject.activeSelf);
+    }
+
     private void HangerUpdate()
     {
         TechTreeProgress ussrData = TechTreeDataManager.GetTechTreeProgress(CountryType.USSR);
@@ -472,6 +481,7 @@ public class MenuCanvas : BaseCanvas
         for (int i = 0; i < _tankTypeFilterToggles.Length; i++)
         {
             int index = i;
+            _isTankTypeFilter.Add(false);
             _tankTypeFilterToggles[index].onValueChanged.AddListener((isOn) =>
             {
                 if (isOn)
@@ -492,6 +502,7 @@ public class MenuCanvas : BaseCanvas
         for (int i = 0; i < _tankTierFilterToggles.Length; i++)
         {
             int index = i;
+            _isTankTierFilter.Add(false);
             _tankTierFilterToggles[index].onValueChanged.AddListener((isOn) =>
             {
                 if (isOn)
@@ -535,15 +546,15 @@ public class MenuCanvas : BaseCanvas
         }
         if (_isTankTypeFilter.Contains(true))
         {
-            countryIndex = _isTankTypeFilter.IndexOf(true);
+            typeIndex = _isTankTypeFilter.IndexOf(true);
         }
         if (_isTankTierFilter.Contains(true))
         {
             tierIndex = _isTankTierFilter.IndexOf(true);
         }
 
-        // 둘다 비활성화
-        if (countryIndex < 0 && typeIndex < 0)
+        // 모두 비활성화
+        if (countryIndex < 0 && typeIndex < 0 && tierIndex < 0)
         {
             for (int i = 0; i < _hangerList.Count; i++)
             {
@@ -551,7 +562,7 @@ public class MenuCanvas : BaseCanvas
             }
         }
         // 타입 필터
-        else if (typeIndex >= 0 && countryIndex < 0)
+        else if (typeIndex >= 0 && countryIndex < 0 && tierIndex < 0)
         {
             for (int i = 0; i < _hangerList.Count; i++)
             {
@@ -568,7 +579,7 @@ public class MenuCanvas : BaseCanvas
             }
         }
         // 나라 필터
-        else if (countryIndex >= 0 && typeIndex < 0)
+        else if (countryIndex >= 0 && typeIndex < 0 && tierIndex < 0)
         {
             for (int i = 0; i < _hangerList.Count; i++)
             {
@@ -584,14 +595,82 @@ public class MenuCanvas : BaseCanvas
                 }
             }
         }
-        // 둘다 필터
-        else
+        // 티어 필터
+        else if (tierIndex >= 0 && typeIndex < 0 && countryIndex < 0)
+        {
+            for (int i = 0; i < _hangerList.Count; i++)
+            {
+                Tank tank = AddressablesManager.Instance.GetResource<GameObject>(_hangerList[i].name).GetComponent<Tank>();
+
+                if (tank.TankSO.TankTier == tierIndex + 1)
+                {
+                    _hangerList[i].SetActive(true);
+                }
+                else
+                {
+                    _hangerList[i].SetActive(false);
+                }
+            }
+        }
+        // 나라, 타입 필터
+        else if (countryIndex >= 0 && typeIndex >= 0 && tierIndex < 0)
         {
             for (int i = 0; i < _hangerList.Count; i++)
             {
                 Tank tank = AddressablesManager.Instance.GetResource<GameObject>(_hangerList[i].name).GetComponent<Tank>();
 
                 if (tank.TankSO.CountryType == (CountryType)(countryIndex + 1) && tank.TankSO.TankType == (TankType)typeIndex)
+                {
+                    _hangerList[i].SetActive(true);
+                }
+                else
+                {
+                    _hangerList[i].SetActive(false);
+                }
+            }
+        }
+        // 나라, 티어 필터
+        else if (countryIndex >= 0 && typeIndex < 0 && tierIndex >= 0)
+        {
+            for (int i = 0; i < _hangerList.Count; i++)
+            {
+                Tank tank = AddressablesManager.Instance.GetResource<GameObject>(_hangerList[i].name).GetComponent<Tank>();
+
+                if (tank.TankSO.CountryType == (CountryType)(countryIndex + 1) && tank.TankSO.TankTier == tierIndex + 1)
+                {
+                    _hangerList[i].SetActive(true);
+                }
+                else
+                {
+                    _hangerList[i].SetActive(false);
+                }
+            }
+        }
+        // 티어, 타입 필터
+        else if (countryIndex < 0 && typeIndex >= 0 && tierIndex >= 0)
+        {
+            for (int i = 0; i < _hangerList.Count; i++)
+            {
+                Tank tank = AddressablesManager.Instance.GetResource<GameObject>(_hangerList[i].name).GetComponent<Tank>();
+
+                if (tank.TankSO.TankType == (TankType)typeIndex && tank.TankSO.TankTier == tierIndex + 1)
+                {
+                    _hangerList[i].SetActive(true);
+                }
+                else
+                {
+                    _hangerList[i].SetActive(false);
+                }
+            }
+        }
+        // 셋다 필터
+        else
+        {
+            for (int i = 0; i < _hangerList.Count; i++)
+            {
+                Tank tank = AddressablesManager.Instance.GetResource<GameObject>(_hangerList[i].name).GetComponent<Tank>();
+
+                if (tank.TankSO.CountryType == (CountryType)(countryIndex + 1) && tank.TankSO.TankType == (TankType)typeIndex && tank.TankSO.TankTier == tierIndex + 1)
                 {
                     _hangerList[i].SetActive(true);
                 }
@@ -642,7 +721,7 @@ public class MenuCanvas : BaseCanvas
             // 같은 타입일 때만 비교하여 정렬
             if (tankA.TankSO.CountryType == tankB.TankSO.CountryType)
             {
-                return tankA.TankSO.TankTier < tankB.TankSO.TankTier;
+                return tankA.TankSO.TankTier > tankB.TankSO.TankTier;
             }
         }
 
