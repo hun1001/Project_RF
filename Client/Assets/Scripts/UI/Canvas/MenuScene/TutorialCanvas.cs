@@ -26,8 +26,6 @@ public class TutorialCanvas : BaseCanvas
     [SerializeField]
     private GameObject _shellList = null;
     [SerializeField]
-    private GameObject _filter = null;
-    [SerializeField]
     private GameObject[] _shellButtons = null;
     [SerializeField]
     private Image[] _shellImages = null;
@@ -48,14 +46,13 @@ public class TutorialCanvas : BaseCanvas
     {
         _menuUI.SetActive(true);
         _shellList.SetActive(false);
-        _filter.SetActive(false);
         _techTreeUI.SetActive(false);
         _tutorialPanelParent.SetActive(false);
         _shellButtons[0].SetActive(false);
         _shellButtons[1].SetActive(false);
         _nextButton.SetActive(true);
         _skipPanel.SetActive(false);
-        _tankGameObject.SetActive(false);
+        //_tankGameObject.SetActive(false);
         foreach (var obj in _tutorialPanels)
         {
             obj.SetActive(false);
@@ -254,7 +251,7 @@ public class TutorialCanvas : BaseCanvas
                     _techTreeUI.SetActive(false);
                     _nextButton.SetActive(true);
                     _menuUI.SetActive(true);
-                    _tankGameObject.SetActive(true);
+                    //_tankGameObject.SetActive(true);
                     TechTreeDataManager.AddTank(CountryType.USSR, "BT-7");
                     FindObjectOfType<TankModelManager>().ChangeTankModel(Addressable.AddressablesManager.Instance.GetResource<GameObject>("BT-7").GetComponent<Tank>());
                     _menuGoodsText.SetGoodsTexts(0, 0);
