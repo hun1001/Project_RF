@@ -35,6 +35,10 @@ public class TutorialCanvas : BaseCanvas
     private GoodsTexts _menuGoodsText = null;
     [SerializeField]
     private GameObject _tankGameObject = null;
+    [SerializeField]
+    private GameObject _hanger = null;
+    [SerializeField]
+    private TextController[] _tankInfos = null;
 
     [Header("TechTree UI")]
     [SerializeField]
@@ -44,15 +48,6 @@ public class TutorialCanvas : BaseCanvas
 
     private void Awake()
     {
-        _menuUI.SetActive(true);
-        _shellList.SetActive(false);
-        _techTreeUI.SetActive(false);
-        _tutorialPanelParent.SetActive(false);
-        _shellButtons[0].SetActive(false);
-        _shellButtons[1].SetActive(false);
-        _nextButton.SetActive(true);
-        _skipPanel.SetActive(false);
-        //_tankGameObject.SetActive(false);
         foreach (var obj in _tutorialPanels)
         {
             obj.SetActive(false);
@@ -129,7 +124,10 @@ public class TutorialCanvas : BaseCanvas
             ShellSaveManager.ShellEquip("BT-5", 0, "");
             ShellSaveManager.ShellEquip("BT-5", 1, "");
         }
-        
+
+        _tankInfos[0].SetText("I");
+        _tankInfos[1].SetText("BT-5");
+
         _nextButton.SetActive(true);
     }
 
@@ -162,11 +160,13 @@ public class TutorialCanvas : BaseCanvas
             case 2:
                 {
                     _tutorialPanels[0].SetActive(true);
+                    _hanger.SetActive(true);
                     break;
                 }
             case 4:
                 {
                     _tutorialPanels[0].SetActive(false);
+                    _hanger.SetActive(false);
                     break;
                 }
 
@@ -251,7 +251,9 @@ public class TutorialCanvas : BaseCanvas
                     _techTreeUI.SetActive(false);
                     _nextButton.SetActive(true);
                     _menuUI.SetActive(true);
-                    //_tankGameObject.SetActive(true);
+                    _tankGameObject.SetActive(true);
+                    _tankInfos[0].SetText("II");
+                    _tankInfos[1].SetText("BT-7");
                     TechTreeDataManager.AddTank(CountryType.USSR, "BT-7");
                     FindObjectOfType<TankModelManager>().ChangeTankModel(Addressable.AddressablesManager.Instance.GetResource<GameObject>("BT-7").GetComponent<Tank>());
                     _menuGoodsText.SetGoodsTexts(0, 0);
