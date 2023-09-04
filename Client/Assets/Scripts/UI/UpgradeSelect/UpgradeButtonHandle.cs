@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class UpgradeButtonHandle : MonoBehaviour
 {
-    [SerializeField]
-    private Button _button = null;
+    //[SerializeField]
+    //private Button _button = null;
 
 
 }

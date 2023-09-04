@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class UpgradeSelectHandle : MonoBehaviour
 {
-    [SerializeField]
-    private UpgradeButtonHandle _upgradeButtonTemplate = null;
+    //[SerializeField]
+    //private UpgradeButtonHandle _upgradeButtonTemplate = null;
 
     public void Setting()
     {
