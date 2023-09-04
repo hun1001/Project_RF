@@ -63,7 +63,7 @@ public class Shell_Collision : Shell_Component
             else
             {
                 collision.gameObject.GetComponent<Tank_Damage>()?.Damaged((Instance as Shell).Damage, (Instance as Shell).Penetration, collision.contacts[0].point, transform.up);
-                PoolManager.Get("TankExplosion_01", transform.position, transform.rotation);
+                PoolManager.Get(_shellExplosionEffectAddress, transform.position, transform.rotation);
                 PoolManager.Pool(Instance.ID, gameObject);
             }
         }
