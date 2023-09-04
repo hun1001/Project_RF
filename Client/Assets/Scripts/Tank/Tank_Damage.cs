@@ -105,7 +105,6 @@ public class Tank_Damage : Tank_Component
         GameObject destroyTank = PoolManager.Get("Destroyed_Tank", transform.position, transform.rotation);
 
         PoolManager.Get("BrickImpact", new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity);
-        PoolManager.Get("TankDeathEffect", transform.position, Quaternion.Euler(-90, 0, 0));
         EventManager.TriggerEvent(gameObject.GetInstanceID().ToString());
 
         (Instance as Tank).GetComponent<Tank_Move>(ComponentType.Move)._currentSpeed = 0;

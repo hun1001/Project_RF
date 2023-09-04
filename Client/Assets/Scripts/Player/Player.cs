@@ -5,6 +5,7 @@ using Addressable;
 using System.Linq;
 using Event;
 using System;
+using Pool;
 
 public class Player : CustomObject
 {
@@ -287,8 +288,14 @@ public class Player : CustomObject
         {
             _tank.GetComponent<Tank_Move>(ComponentType.Move).SetEnableMove(false);
             StopCoroutine(nameof(InputUpdateCoroutine));
-            //_attackJoystick.ClearOnPointerUpAction();
+            StartCoroutine(nameof(DeathEffectCoroutine));
             EventManager.TriggerEvent(EventKeyword.PlayerDead);
         });
+    }
+
+    private IEnumerator DeathEffectCoroutine()
+    {
+        yield return new WaitForSeconds(1);
+        PoolManager.Get("TankDeathEffect", transform.position, Quaternion.Euler(0, 0, 0));
     }
 }
