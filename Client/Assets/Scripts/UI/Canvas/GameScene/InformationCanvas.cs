@@ -54,4 +54,13 @@ public class InformationCanvas : BaseCanvas
         _tankInfoUI.UpdateTankBodyRotate(_player.Tank.transform.rotation);
         _tankInfoUI.UpdateTankTurretRotate(_player.Tank.Turret.TurretTransform.rotation);
     }
+
+    public override void OnOpenEvents()
+    {
+        base.OnOpenEvents();
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+        }
+    }
 }

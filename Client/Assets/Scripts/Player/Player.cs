@@ -81,7 +81,13 @@ public class Player : CustomObject
             }
         }
 
-        MouseManager.Instance.OnMouseLeftButtonDown += _turretAttack.Fire;
+        MouseManager.Instance.OnMouseLeftButtonDown += () =>
+        {
+            if (Time.timeScale > 0)
+            {
+                _turretAttack.Fire();
+            }
+        };
 
         MouseManager.Instance.OnMouseRightButtonUp += () => _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine).SetEnableLineRenderer(false);
         MouseManager.Instance.OnMouseRightButtonDown += () => _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine).SetEnableLineRenderer(true);
