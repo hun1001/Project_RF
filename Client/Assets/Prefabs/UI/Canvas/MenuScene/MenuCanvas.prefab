@@ -9973,13 +9973,14 @@ GameObject:
   - component: {fileID: 4767319145743213112}
   - component: {fileID: 2994521922430461207}
   - component: {fileID: 3043716684469526828}
+  - component: {fileID: 1051328869210323799}
   m_Layer: 0
   m_Name: SATReplacement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6505391296274349778
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10075,6 +10076,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AllowSwitchOff: 0
+--- !u!114 &1051328869210323799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6294125451392754105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8b673596cd852e41aa1c81de92d0896, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _satToggleTamplate: {fileID: 8191642558795821365}
 --- !u!1 &6303807661691580516
 GameObject:
   m_ObjectHideFlags: 0
@@ -14586,13 +14600,14 @@ GameObject:
   m_Component:
   - component: {fileID: 9098148571824127602}
   - component: {fileID: 4369919277529992662}
+  - component: {fileID: 8191642558795821365}
   m_Layer: 0
   m_Name: SATToggleTamplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9098148571824127602
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14609,10 +14624,10 @@ RectTransform:
   - {fileID: 1634244950214792392}
   m_Father: {fileID: 6505391296274349778}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 254, y: -152}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4369919277529992662
 MonoBehaviour:
@@ -14657,11 +14672,24 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4038740039164090249}
   toggleTransition: 1
   graphic: {fileID: 9142074794398754143}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 3043716684469526828}
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &8191642558795821365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8762202250012691945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fce42b5b2f6e23a43943e1e04c86db43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _satText: {fileID: 5168335391593832588}
 --- !u!1 &8773521163357817383
 GameObject:
   m_ObjectHideFlags: 0
