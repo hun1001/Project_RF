@@ -16,8 +16,8 @@ public class InformationCanvas : BaseCanvas
 
     [Header("Shell")]
     [SerializeField]
-    private ToggleGroupManager shellToggleManager = null;
-    public ToggleGroupManager ShellToggleManager => shellToggleManager;
+    private ShellToggleGroupManager shellToggleManager = null;
+    public ShellToggleGroupManager ShellToggleManager => shellToggleManager;
 
     [SerializeField]
     private TMP_Text _speedText = null;

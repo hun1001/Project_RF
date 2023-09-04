@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class ToggleGroupManager : ToggleGroup
+public class ShellToggleGroupManager : ToggleGroup
 {
     [SerializeField]
     private Toggle _templateToggle = null;
