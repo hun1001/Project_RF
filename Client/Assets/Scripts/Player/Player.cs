@@ -296,6 +296,6 @@ public class Player : CustomObject
     private IEnumerator DeathEffectCoroutine()
     {
         yield return new WaitForSeconds(1);
-        PoolManager.Get("TankDeathEffect", transform.position, Quaternion.Euler(0, 0, 0));
+        PoolManager.Get("TankDeathEffect", Tank.transform.position, Quaternion.Euler(0, 0, 0));
     }
 }
