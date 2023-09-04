@@ -21,7 +21,6 @@ public class GameTutorialCanvas : BaseCanvas
 
     private void Awake()
     {
-        TutorialManager.Instance.GameTutorialStart();
         EventManager.StartListening(EventKeyword.NextTutorial, NextTutorial);
 
         foreach (var obj in  _tutorialPanels)
@@ -47,6 +46,7 @@ public class GameTutorialCanvas : BaseCanvas
 
     private void Start()
     {
+        TutorialManager.Instance.GameTutorialStart();
         TutorialStart();
     }
 

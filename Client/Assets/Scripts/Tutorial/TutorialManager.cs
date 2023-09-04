@@ -8,21 +8,9 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     private bool _isTutorial = false;
     public bool IsTutorial => _isTutorial;
 
-    private void Awake()
-    {
-        //PlayerPrefs.SetInt("Tutorial", 0);
-        //_isTutorial = true;
-        if (PlayerPrefs.GetInt("Tutorial", 0) == 0)
-        {
-            TutorialStart();
-        }
-    }
-
     public void TutorialStart()
     {
         _isTutorial = true;
-
-        FindObjectOfType<BaseSceneCanvasManager>().ChangeCanvas(CanvasType.Tutorial);
     }
 
     public void TutorialSkip()
@@ -37,6 +25,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         {
             _isTutorial = true;
             WaveManager.Instance.gameObject.SetActive(false);
+            FindObjectOfType<BaseSceneCanvasManager>().ChangeCanvas(CanvasType.GameTutorial);
         }
     }
 
@@ -63,11 +52,5 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         {
             WaveManager.Instance.gameObject.SetActive(true);
         }
-    }
-
-    public void TechTreeTutorialStart()
-    {
-        _isTutorial = true;
-        FindObjectOfType<BaseSceneCanvasManager>().ChangeCanvas(CanvasType.Tutorial);
     }
 }

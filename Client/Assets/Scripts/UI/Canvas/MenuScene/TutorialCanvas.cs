@@ -103,12 +103,14 @@ public class TutorialCanvas : BaseCanvas
     public void TutorialStart()
     {
         if (PlayerPrefs.GetInt("Tutorial", 0) == 1) return;
-
+        
         _tutorialPanelParent.SetActive(true);
         _tutorialCount = 0;
+        TutorialManager.Instance.TutorialStart();
+        CanvasManager.ChangeCanvas(CanvasType.Tutorial);
+
         if (PlayerPrefs.GetInt("GameTutorial", 0) == 1)
         {
-            TutorialManager.Instance.TechTreeTutorialStart();
             _tutorialCount = 16;
             _menuGoodsText.SetGoodsTexts(50, 0);
             _techTreeGoodsText.SetGoodsTexts(50, 0);

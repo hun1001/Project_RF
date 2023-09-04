@@ -5,7 +5,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public abstract class BaseSceneCanvasManager : MonoBehaviour
 {
-    private Dictionary<CanvasType, BaseCanvas> _canvasDictionary = new Dictionary<CanvasType, BaseCanvas>();
+    protected Dictionary<CanvasType, BaseCanvas> _canvasDictionary = new Dictionary<CanvasType, BaseCanvas>();
     private Stack<CanvasType> _beforeCanvasStack = new Stack<CanvasType>();
     public CanvasType BeforeCanvas
     {
@@ -80,7 +80,7 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
             else if (canvas.Key == beforeCanvas)
                 canvas.Value.OnCloseEvents();
         }
-
+        
         _openDelay = 0.1f;
         _activeCanvas = canvasType;
     }

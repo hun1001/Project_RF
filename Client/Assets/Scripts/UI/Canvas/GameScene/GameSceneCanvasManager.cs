@@ -27,4 +27,13 @@ public class GameSceneCanvasManager : BaseSceneCanvasManager
             }
         }
     }
+
+    public override void ChangeCanvas(CanvasType canvasType, CanvasType beforeCanvas = CanvasType.Base)
+    {
+        base.ChangeCanvas(canvasType, beforeCanvas);
+        if (canvasType == CanvasType.GameTutorial)
+        {
+            _canvasDictionary[CanvasType.Information].Canvas.enabled = true;
+        }
+    }
 }
