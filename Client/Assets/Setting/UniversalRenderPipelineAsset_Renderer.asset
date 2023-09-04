@@ -15,9 +15,8 @@ MonoBehaviour:
   debugShaders:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7, type: 3}
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
-  m_RendererFeatures:
-  - {fileID: 7037630049009102501}
-  m_RendererFeatureMap: a56ecd1b3eafaa61
+  m_RendererFeatures: []
+  m_RendererFeatureMap: 
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -76,25 +75,6 @@ MonoBehaviour:
     downsample: 2
     copyToFramebuffer: 0
     targetName: _blurTexture
---- !u!114 &7037630049009102501
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2248a43e8a80bbc48a34e7c519728fc7, type: 3}
-  m_Name: Posterize
-  m_EditorClassIdentifier: 
-  m_Active: 0
-  settings:
-    Event: 550
-    blitMaterial: {fileID: 2100000, guid: c40aedec92ebb6e4599d34c040f5fcbc, type: 2}
-    blitMaterialPassIndex: 0
-    destination: 0
-    textureId: _BlitPassTexture
 --- !u!114 &7971714059123573081
 MonoBehaviour:
   m_ObjectHideFlags: 0
