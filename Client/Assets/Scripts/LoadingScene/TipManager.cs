@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class TipManager : MonoBehaviour
 {
@@ -13,10 +14,20 @@ public class TipManager : MonoBehaviour
 
     private void Awake()
     {
-        tipSOList = AddressablesManager.Instance.GetLabelResources<TipSO>("Tip").ToList<TipSO>();
+        tipSOList = AddressablesManager.Instance.GetLabelResources<TipSO>("Tip").ToList();
     }
 
-    private void Start()
+    private void Start() => SetRandomTipText();
+
+    private void Update()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            SetRandomTipText();
+        }
+    }
+
+    private void SetRandomTipText()
     {
         _tipText.text = tipSOList[Random.Range(0, tipSOList.Count)].tipText;
     }
