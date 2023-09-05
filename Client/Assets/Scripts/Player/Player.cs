@@ -1,11 +1,10 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using Addressable;
-using System.Linq;
 using Event;
 using System;
 using Pool;
+using System.Collections.Generic;
 
 public class Player : CustomObject
 {
@@ -100,23 +99,21 @@ public class Player : CustomObject
         audioListener.localPosition = Vector3.zero;
 
         ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
-        int shellCnt = shellEquipmentData._shellEquipmentList.Count;
-        if (shellEquipmentData._shellEquipmentList.Contains(""))
-        {
-            shellCnt--;
-        }
+        int shellCnt = 0;
 
+        List<Action> actionList = new List<Action>();
         for (int i = 0; i < shellEquipmentData._shellEquipmentList.Count; i++)
         {
             int dataIndex = i;
             if (shellEquipmentData._shellEquipmentList[dataIndex] == "")
             {
+                shellCnt++;
                 continue;
             }
-
+            int emptyCnt = shellCnt;
             Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[dataIndex]).GetComponent<Shell>();
 
-            _informationCanvas.ShellToggleManager.AddToggle(dataIndex, shell.ID, shell.ShellSprite, (inOn) =>
+            _informationCanvas.ShellToggleManager.AddToggle(dataIndex - shellCnt, shell.ID, shell.ShellSprite, (inOn) =>
             {
                 if (inOn)
                 {
@@ -124,12 +121,15 @@ public class Player : CustomObject
                 }
             });
 
-            KeyboardManager.Instance.AddKeyDownAction((KeyCode)((int)KeyCode.Alpha1 + (i)), () =>
+            actionList.Add(() =>
             {
                 int index = dataIndex;
-                _informationCanvas.ShellToggleManager.TemplateList[index].isOn = true;
+                int cnt = emptyCnt;
+                _informationCanvas.ShellToggleManager.TemplateList[index - cnt].isOn = true;
             });
         }
+        Action[] actions = actionList.ToArray();
+        KeyboardManager.Instance.AddKeyDownActionList(actions);
 
         _informationCanvas.ShellToggleManager.TemplateList[0].isOn = true;
 
