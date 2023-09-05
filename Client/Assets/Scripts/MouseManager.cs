@@ -46,7 +46,7 @@ public class MouseManager : MonoSingleton<MouseManager>
         MouseDir = mouseDir.normalized;
         MouseMagnitude = mouseDir.magnitude;
 
-        if (SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene)
+        if (SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || SceneManager.GetActiveScene().buildIndex == (int)SceneType.TutorialScene)
         {
             Camera.main.GetComponent<CameraManager>().CameraZoom(-Input.mouseScrollDelta.y * _mouseScrollSensitive);
 
