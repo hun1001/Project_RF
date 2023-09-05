@@ -7,22 +7,22 @@ public class Bar : MonoBehaviour, IPoolReset
 {
     [Header("Animation")]
     [SerializeField]
-    protected float _animationStartDelay = 0f;
+    private float _animationStartDelay = 0f;
 
     private bool _isSetting = false;
 
     [Header("UI")]
     [SerializeField]
-    protected Image _beforeValueImage = null;
+    private Image _beforeValueImage = null;
 
     [SerializeField]
-    protected Image _valueImage = null;
+    private Image _valueImage = null;
 
     [SerializeField]
-    protected TextMeshProUGUI _valueText = null;
+    private Text _valueText = null;
 
-    protected float _maxValue = 0;
-    protected float _currentValue = 0;
+    private float _maxValue = 0;
+    private float _currentValue = 0;
 
     private bool _isChangingBeforeBar = false;
 

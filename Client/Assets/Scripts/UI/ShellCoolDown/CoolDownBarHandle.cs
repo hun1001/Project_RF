@@ -9,7 +9,7 @@ public class CoolDownBarHandle : MonoBehaviour
     private Image _coolDownBar = null;
     
     [SerializeField]
-    private TMP_Text _coolTimeText = null;
+    private Text _coolTimeText = null;
 
     private float _maxCoolTime = 0;
     private float _coolTime = 0;
