@@ -113,6 +113,7 @@ namespace Pool
                 GameObject g = GameObject.Instantiate(prefab);
                 item = g;
             }
+
             item.gameObject.SetActive(active);
             return item;
         }

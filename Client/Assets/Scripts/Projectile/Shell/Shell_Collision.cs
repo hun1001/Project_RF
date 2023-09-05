@@ -18,20 +18,20 @@ public class Shell_Collision : Shell_Component
 
     private void Awake()
     {
-        (Instance as Shell).TryGetComponent(out _shellSound);
-        _shellExplosionEffectAddress = (Instance as Shell).ShellExplosionEffectAddress;
+        Shell.TryGetComponent(out _shellSound);
+        _shellExplosionEffectAddress = Shell.ShellExplosionEffectAddress;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Tank"))
         {
-            if ((Instance as Shell).Owner == collision.gameObject.GetComponent<CustomObject>())
+            if (Shell.Owner == collision.gameObject.GetComponent<CustomObject>())
             {
                 return;
             }
 
-            pt = (Instance as Shell).Owner as Tank;
+            pt = Shell.Owner as Tank;
             et = collision.gameObject.GetComponent<Tank>();
 
             if (pt != null && et != null)
@@ -62,7 +62,7 @@ public class Shell_Collision : Shell_Component
             }
             else
             {
-                collision.gameObject.GetComponent<Tank_Damage>()?.Damaged((Instance as Shell).Damage, (Instance as Shell).Penetration, collision.contacts[0].point, transform.up);
+                collision.gameObject.GetComponent<Tank_Damage>()?.Damaged(Shell.Damage, Shell.Penetration, collision.contacts[0].point, transform.up);
                 PoolManager.Get(_shellExplosionEffectAddress, transform.position, transform.rotation);
                 PoolManager.Pool(Instance.ID, gameObject);
             }
