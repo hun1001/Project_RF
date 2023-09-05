@@ -20,7 +20,7 @@ public class InformationCanvas : BaseCanvas
     private TMP_Text _speedText = null;
 
     [SerializeField]
-    private TankInfoUI _tankInfoUI = null;
+    private GameTankInfoUI _tankInfoUI = null;
 
     private void Awake()
     {

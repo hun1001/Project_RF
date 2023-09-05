@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class TankInfoUI : MonoBehaviour
+public class GameTankInfoUI : MonoBehaviour
 {
     [SerializeField]
     private TankDirectionUIHandle _tankDirUIHandle = null;

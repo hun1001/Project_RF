@@ -2203,7 +2203,7 @@ GameObject:
   - component: {fileID: 7314750276811669813}
   - component: {fileID: 1646802035694168478}
   m_Layer: 0
-  m_Name: TankTypeImage (1)
+  m_Name: TankCountryImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10170,6 +10170,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2136440922841370857}
+  - component: {fileID: 3948335434653389899}
   m_Layer: 0
   m_Name: TankInfo
   m_TagString: Untagged
@@ -10200,6 +10201,28 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -161}
   m_SizeDelta: {x: 152, y: 16}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &3948335434653389899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6292569898913695286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a2b24cd901f469449ca855350ed7deb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tankCountryImage: {fileID: 1646802035694168478}
+  _tankTypeImage: {fileID: 4284701469795999941}
+  _tankTierText: {fileID: 9150119612125509610}
+  _tankNameText: {fileID: 3097252790224166244}
+  _countrySprites:
+  - {fileID: 21300000, guid: 15246ff0ad9ffb64791ef66f7b94b184, type: 3}
+  - {fileID: 21300000, guid: 58de5a8e7b4cb7f4d9f88c170e667656, type: 3}
+  - {fileID: 21300000, guid: 5b50e59b16ac2f145951e83acfc87a1e, type: 3}
+  - {fileID: 21300000, guid: c721ebac3ee390f40988e45b6736d6fb, type: 3}
+  - {fileID: 21300000, guid: dc7e5a65be03ce14ebafadc6651521e2, type: 3}
 --- !u!1 &6294125451392754105
 GameObject:
   m_ObjectHideFlags: 0
@@ -12297,9 +12320,7 @@ MonoBehaviour:
   _canvasType: 3
   _buttonSound: {fileID: 8300000, guid: aa446170c0b767240a04a774224a262e, type: 3}
   _goodsTexts: {fileID: 884985262314378950}
-  _tankTypeImage: {fileID: 4284701469795999941}
-  _tankTierText: {fileID: 9150119612125509610}
-  _tankNameText: {fileID: 3097252790224166244}
+  _menuTankInfoUI: {fileID: 3948335434653389899}
   _shellImages:
   - {fileID: 7989954503320813633}
   - {fileID: 1837999509611644441}

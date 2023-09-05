@@ -13,13 +13,9 @@ public class MenuCanvas : BaseCanvas
     [SerializeField]
     private GoodsTexts _goodsTexts = null;
 
-    [Header("CurrentTank")]
+    [Header("CurrentTankInfo")]
     [SerializeField]
-    private Image _tankTypeImage = null;
-    [SerializeField]
-    private TextController _tankTierText = null;
-    [SerializeField]
-    private TextController _tankNameText = null;
+    private MenuTankInfoUI _menuTankInfoUI = null;
 
     [Header("Shell")]
     [SerializeField]
@@ -193,12 +189,8 @@ public class MenuCanvas : BaseCanvas
     public void CurrentTankInfoUpdate()
     {
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
-        Tank tank = AddressablesManager.Instance.GetResource<GameObject>(_currentTankID).GetComponent<Tank>();
-        TechTree techTree = FindObjectOfType<TechTree>();
 
-        _tankTypeImage.sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
-        _tankTierText.SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
-        _tankNameText.SetText(_currentTankID);
+        _menuTankInfoUI.CurrentTankInfoUpdate();
 
         _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(true);
     }
@@ -775,42 +767,12 @@ public class MenuCanvas : BaseCanvas
         EventManager.ClearEvent();
     }
 
-    //public void OnServerButton()
-    //{
-    //    PlayButtonSound();
-
-    //    if (ShellEmptyCheck())
-    //    {
-    //        WarningShellEmpty();
-    //        return;
-    //    }
-
-    //    _serverButton.interactable = false;
-    //    ServerManager.Instance.ConnectToServer();
-    //    EventManager.ClearEvent();
-    //    KeyboardManager.Instance.ClearKeyActions();
-    //}
-
-    //public void OnModeButton()
-    //{
-    //    CanvasManager.ChangeCanvas(CanvasType.Mode, CanvasType);
-
-    //    PlayButtonSound();
-    //}
-
     public void OnSettingButton()
     {
         CanvasManager.ChangeCanvas(CanvasType.Setting, CanvasType);
 
         PlayButtonSound();
     }
-
-    //public void OnShopButton()
-    //{
-    //    CanvasManager.ChangeCanvas(CanvasType.Shop, CanvasType);
-
-    //    PlayButtonSound();
-    //}
 
     public void OnTechTreeButton()
     {
@@ -862,8 +824,8 @@ public class MenuCanvas : BaseCanvas
             {
                 _isCameraHide = true;
 
-                _topFrame.DOAnchorPosY(82f, 0.25f);
-                _bottomFrame.DOAnchorPosY(-102f, 0.25f);
+                _topFrame.DOAnchorPosY(60f, 0.25f);
+                _bottomFrame.DOAnchorPosY(-330f, 0.25f);
             }
             else
             {
@@ -876,7 +838,11 @@ public class MenuCanvas : BaseCanvas
 
         if (_filterPanel.activeSelf)
         {
-            OnFilterOpen();
+            _filterPanel.SetActive(false);
+        }
+        if (_hangerObject.activeSelf)
+        {
+            _hangerObject.SetActive(false);
         }
     }
     #endregion
