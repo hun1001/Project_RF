@@ -8,6 +8,8 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     private bool _isTutorial = false;
     public bool IsTutorial => _isTutorial;
 
+    private GameObject _waveManager = null;
+
     public void TutorialStart()
     {
         _isTutorial = true;
@@ -24,7 +26,8 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TutorialScene)
         {
             _isTutorial = true;
-            FindObjectOfType<WaveManager>().gameObject.SetActive(false);
+            _waveManager = FindObjectOfType<WaveManager>().gameObject;
+            _waveManager.SetActive(false);
             FindObjectOfType<BaseSceneCanvasManager>().ChangeCanvas(CanvasType.GameTutorial);
         }
     }
@@ -50,7 +53,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.TutorialScene)
         {
-            FindObjectOfType<WaveManager>().gameObject.SetActive(true);
+            _waveManager.SetActive(true);
         }
     }
 }
