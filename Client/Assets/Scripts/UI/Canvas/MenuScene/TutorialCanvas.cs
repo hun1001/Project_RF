@@ -143,7 +143,7 @@ public class TutorialCanvas : BaseCanvas
 
     public void GameTutorialStart()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("GameTutorialScene");
+        SceneController.ChangeScene("GameTutorialScene");
     }
 
     public void NextTutorial()

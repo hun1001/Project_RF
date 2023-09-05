@@ -108,7 +108,7 @@ public class ModeCanvas : BaseCanvas
         }
 
         Time.timeScale = 1;
-        SceneManager.LoadScene("GameScene");
+        SceneController.ChangeScene("GameScene");
         Pool.PoolManager.DeleteAllPool();
         EventManager.ClearEvent();
     }
@@ -124,7 +124,7 @@ public class ModeCanvas : BaseCanvas
         }
 
         Time.timeScale = 1;
-        SceneManager.LoadScene("StageTestScene");
+        SceneController.ChangeScene("StageTestScene");
         Pool.PoolManager.DeleteAllPool();
         EventManager.ClearEvent();
     }
@@ -140,7 +140,7 @@ public class ModeCanvas : BaseCanvas
         }
 
         Time.timeScale = 1;
-        SceneManager.LoadScene("TrainingScene");
+        SceneController.ChangeScene("TrainingScene");
         Pool.PoolManager.DeleteAllPool();
         EventManager.ClearEvent();
     }
