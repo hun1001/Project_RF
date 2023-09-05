@@ -1,9 +1,5 @@
-using Event;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InformationCanvas : BaseCanvas
 {
@@ -18,6 +14,7 @@ public class InformationCanvas : BaseCanvas
     [SerializeField]
     private ShellToggleGroupManager shellToggleManager = null;
     public ShellToggleGroupManager ShellToggleManager => shellToggleManager;
+    private int _magazineSize = 0;
 
     [SerializeField]
     private TMP_Text _speedText = null;
@@ -41,10 +38,30 @@ public class InformationCanvas : BaseCanvas
         _player.TankMove.OnForwardAction += _tankInfoUI.Forward;
         _player.TankMove.OnBackwardAction += _tankInfoUI.Backward;
 
-        _player.TurretAttack.AddOnFireAction(() =>
+        if (_player.Tank.Turret.TurretData.IsBurst)
         {
-            shellToggleManager.CurrentCoolDownHandle.SetCoolDown(_player.Tank.Turret.TurretData.ReloadTime);
-        });
+            _magazineSize = _player.Tank.Turret.TurretData.BurstData.MagazineSize;
+            _player.TurretAttack.AddOnFireAction(() =>
+            {
+                if (--_magazineSize <= 0)
+                {
+                    _magazineSize = _player.Tank.Turret.TurretData.BurstData.MagazineSize;
+                    shellToggleManager.CurrentCoolDownHandle.SetCoolDown(_player.Tank.Turret.TurretData.ReloadTime);
+                }
+                else
+                {
+                    shellToggleManager.CurrentCoolDownHandle.SetCoolDown(_player.Tank.Turret.TurretData.BurstData.BurstReloadTime);
+                }
+            });
+        }
+        else
+        {
+            _player.TurretAttack.AddOnFireAction(() =>
+            {
+                shellToggleManager.CurrentCoolDownHandle.SetCoolDown(_player.Tank.Turret.TurretData.ReloadTime);
+            });
+        }
+        
     }
 
     private void Update()
