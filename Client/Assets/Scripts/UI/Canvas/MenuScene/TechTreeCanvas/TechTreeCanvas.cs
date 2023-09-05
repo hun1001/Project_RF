@@ -191,10 +191,14 @@ public class TechTreeCanvas : BaseCanvas
                         _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
                         _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.AddListener(() =>
                         {
-                            TechTreeDataManager.AddTank(_techTree.TechTreeSO[index].CountryType, _techTree.TechTreeSO[index][jIndex, lIndex].ID);
-                            tNC.IsTankLocked = false;
-                            _tankInformation.SetActive(false);
                             PlayButtonSound();
+
+                            if (GoodsManager.DecreaseFreeGoods((int)_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.Price))
+                            {
+                                TechTreeDataManager.AddTank(_techTree.TechTreeSO[index].CountryType, _techTree.TechTreeSO[index][jIndex, lIndex].ID);
+                                tNC.IsTankLocked = false;
+                                _tankInformation.SetActive(false);
+                            }
                         });
                     });
 
