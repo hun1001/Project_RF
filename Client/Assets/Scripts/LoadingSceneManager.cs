@@ -22,19 +22,11 @@ public class LoadingSceneManager : MonoBehaviour
         AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
         op.allowSceneActivation = false;
         float timer = 0.0f;
-        while (!op.isDone)
+        while (!op.isDone&&timer<=3)
         {
             yield return null;
             timer += Time.deltaTime;
-            if (op.progress < 0.9f)
-            {
-            }
-            else
-            {
-                op.allowSceneActivation = true;
-                yield break;
-            }
         }
+        op.allowSceneActivation = true;
     }
-
 }
