@@ -1,6 +1,10 @@
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEditor;
@@ -9,8 +13,8 @@ namespace CustomEditorWindow.SheetDataToSO
 {
     public class SheetDataToSO : EditorWindow
     {
-        private readonly string[] _dataType = new string[] { "Tank", "Turret", "Shell" };
-        private readonly string[] _dataUrlKey = new string[] { "1Sph3_eEfKFAfOT_EEN2-XzM9RK7mrly_9FTFSueqgSo", "1mUDMYbdVgwLQDmMQb2mB6kYl4SzZdbGfOmiaQ9Ww0g4", "16lDqvKtl8077CH5PHDAzojDuWebBP8FXb_VVmwf88J0" };
+        private readonly string[] _dataType = new string[] { "Tank", "Turret", "Shell", "Tip" };
+        private readonly string[] _dataUrlKey = new string[] { "1Sph3_eEfKFAfOT_EEN2-XzM9RK7mrly_9FTFSueqgSo", "1mUDMYbdVgwLQDmMQb2mB6kYl4SzZdbGfOmiaQ9Ww0g4", "16lDqvKtl8077CH5PHDAzojDuWebBP8FXb_VVmwf88J0", "1q9cJgNMmeD26cN2W1D78cG-LoPnsjSMkxWXqPQ7Ggkk" };
         private int _dataTypeIndex = 0;
 
         private const string SheetAPI = "/export?format=tsv";
@@ -181,6 +185,36 @@ namespace CustomEditorWindow.SheetDataToSO
                             {
                                 AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Shell/" + data[0].ToString() + "_ShellSO.asset");
                             }
+                            EditorUtility.SetDirty(asset);
+                        }
+                        break;
+                    case "Tip":
+                        for(int i = 1;i<lines.Length;++i)
+                        {
+                            string[] data = lines[i].Split('\t');
+
+                            TipSO asset;
+                            isExist = File.Exists("Assets/ScriptableObjects/Tip/TipSO" + data[1].ToString() + ".asset");
+
+                            if (isExist)
+                            {
+                                asset = AssetDatabase.LoadAssetAtPath<TipSO>("Assets/ScriptableObjects/Tip/TipSO" + data[1].ToString() + ".asset");
+                            }
+                            else
+                            {
+                                asset = ScriptableObject.CreateInstance<TipSO>();
+                            }
+
+                            asset.tipID = int.Parse(data[1]);
+                            asset.tipText = data[2];
+
+                            if (isExist == false)
+                            {
+                                AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Tip/TipSO" + data[1].ToString() + ".asset");
+                            }
+
+                            
+
                             EditorUtility.SetDirty(asset);
                         }
                         break;
