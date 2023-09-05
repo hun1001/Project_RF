@@ -193,12 +193,14 @@ namespace CustomEditorWindow.SheetDataToSO
                         {
                             string[] data = lines[i].Split('\t');
 
+                            string path = "Assets/ScriptableObjects/Tip/TipSO" + data[1].ToString() + ".asset";
+
                             TipSO asset;
-                            isExist = File.Exists("Assets/ScriptableObjects/Tip/TipSO" + data[1].ToString() + ".asset");
+                            isExist = File.Exists(path);
 
                             if (isExist)
                             {
-                                asset = AssetDatabase.LoadAssetAtPath<TipSO>("Assets/ScriptableObjects/Tip/TipSO" + data[1].ToString() + ".asset");
+                                asset = AssetDatabase.LoadAssetAtPath<TipSO>(path);
                             }
                             else
                             {
@@ -210,10 +212,25 @@ namespace CustomEditorWindow.SheetDataToSO
 
                             if (isExist == false)
                             {
-                                AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Tip/TipSO" + data[1].ToString() + ".asset");
+                                AssetDatabase.CreateAsset(asset, path);
                             }
 
-                            
+                            AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+
+                            AddressableAssetGroup group = settings.FindGroup("Tip");
+                            if(group == null)
+                            {
+                                group = settings.CreateGroup("Tip", false, false, false, null);
+                            }
+
+                            AddressableAssetEntry entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID(path.ToString()), group);
+
+                            entry.SetAddress("TipSO" + data[1].ToString());
+                            entry.SetLabel("Tip", true);
+
+                            settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entry, true);
+
+                            AssetDatabase.SaveAssets();
 
                             EditorUtility.SetDirty(asset);
                         }
