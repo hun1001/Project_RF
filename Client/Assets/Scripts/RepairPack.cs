@@ -14,7 +14,7 @@ public class RepairPack : MonoBehaviour
             if(tank == FindObjectOfType<Player>().Tank)
             {
                 tank.GetComponent<Tank_Damage>().Repair(20f);
-                PoolManager.Pool("Assets/Prefabs/RepairPack.prefab", gameObject);
+                PoolManager.Pool("RepairPack", gameObject);
             }
         }
     }
