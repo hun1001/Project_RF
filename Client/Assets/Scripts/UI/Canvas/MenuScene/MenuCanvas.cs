@@ -291,7 +291,6 @@ public class MenuCanvas : BaseCanvas
                 _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
-                //GearCheck();
                 ShellCheck();
             });
         }
@@ -328,7 +327,6 @@ public class MenuCanvas : BaseCanvas
                 _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
-                //GearCheck();
                 ShellCheck();
             });
         }
@@ -365,7 +363,6 @@ public class MenuCanvas : BaseCanvas
                 _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
-                //GearCheck();
                 ShellCheck();
             });
         }
@@ -402,7 +399,6 @@ public class MenuCanvas : BaseCanvas
                 _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
-                //GearCheck();
                 ShellCheck();
             });
         }
@@ -439,7 +435,6 @@ public class MenuCanvas : BaseCanvas
                 _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
-                //GearCheck();
                 ShellCheck();
             });
         }
