@@ -757,7 +757,7 @@ public class MenuCanvas : BaseCanvas
 
         _startButton.interactable = false;
         Time.timeScale = 1;
-        SceneManager.LoadScene("GameScene");
+        SceneController.ChangeScene("GameScene");
         Pool.PoolManager.DeleteAllPool();
         EventManager.ClearEvent();
     }
