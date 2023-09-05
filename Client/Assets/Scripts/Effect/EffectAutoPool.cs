@@ -5,7 +5,7 @@ using Pool;
 
 public class EffectAutoPool : AutoPool
 {
-    private List<ParticleSystem> _effectList = new List<ParticleSystem>();
+    protected List<ParticleSystem> _effectList = new List<ParticleSystem>();
 
     private void Awake() => GetAllParticleSystem();
 
