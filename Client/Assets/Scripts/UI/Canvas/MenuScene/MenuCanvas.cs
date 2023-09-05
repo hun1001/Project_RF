@@ -219,7 +219,7 @@ public class MenuCanvas : BaseCanvas
     {
         ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
 
-        return shellEquipmentData._shellEquipmentList[0] == "" && shellEquipmentData._shellEquipmentList[1] == "";
+        return shellEquipmentData._shellEquipmentList[0] == "" && shellEquipmentData._shellEquipmentList[1] == "" && shellEquipmentData._shellEquipmentList[2] == "";
     }
 
     private void WarningShellEmpty()
