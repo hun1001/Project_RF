@@ -11,9 +11,6 @@ public class ShellToggleGroupManager : ToggleGroup
     private List<ShellTemplateHandle> _templateList = new List<ShellTemplateHandle>();
     public List<ShellTemplateHandle> TemplateList => _templateList;
 
-    public CoolDownBarHandle CurrentCoolDownHandle => _templateList.Find(x => x.isOn).CoolDownBarHandle;
-
-
     public void AddToggle(int shellNumber, string shellName, Sprite shellSprite, UnityAction<bool> unityAction)
     {
         var toggleHandle = Instantiate(_templateToggle, transform).GetComponent<ShellTemplateHandle>();
@@ -21,5 +18,13 @@ public class ShellToggleGroupManager : ToggleGroup
 
         toggleHandle.SetShellTemplate(shellNumber, shellName, shellSprite, unityAction);
         _templateList.Add(toggleHandle);
+    }
+
+    public void SetCoolDown(float coolDown)
+    {
+        foreach (var template in _templateList)
+        {
+            template.CoolDownBarHandle.SetCoolDown(coolDown);
+        }
     }
 }

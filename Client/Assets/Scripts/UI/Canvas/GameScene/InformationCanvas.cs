@@ -46,11 +46,11 @@ public class InformationCanvas : BaseCanvas
                 if (--_magazineSize <= 0)
                 {
                     _magazineSize = _player.Tank.Turret.TurretData.BurstData.MagazineSize;
-                    shellToggleManager.CurrentCoolDownHandle.SetCoolDown(_player.Tank.Turret.TurretData.ReloadTime);
+                    shellToggleManager.SetCoolDown(_player.Tank.Turret.TurretData.ReloadTime);
                 }
                 else
                 {
-                    shellToggleManager.CurrentCoolDownHandle.SetCoolDown(_player.Tank.Turret.TurretData.BurstData.BurstReloadTime);
+                    shellToggleManager.SetCoolDown(_player.Tank.Turret.TurretData.BurstData.BurstReloadTime);
                 }
             });
         }
@@ -58,7 +58,7 @@ public class InformationCanvas : BaseCanvas
         {
             _player.TurretAttack.AddOnFireAction(() =>
             {
-                shellToggleManager.CurrentCoolDownHandle.SetCoolDown(_player.Tank.Turret.TurretData.ReloadTime);
+                shellToggleManager.SetCoolDown(_player.Tank.Turret.TurretData.ReloadTime);
             });
         }
         
