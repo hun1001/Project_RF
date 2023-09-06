@@ -1,22 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using TMPro;
 using UnityEngine.Audio;
 using System;
 
 public class SettingCanvas : BaseCanvas
 {
-    [Header("Frame")]
-    [SerializeField]
-    private RectTransform _backGround;
-    [SerializeField]
-    private RectTransform _frame;
-    [SerializeField]
-    private TextMeshProUGUI[] _frameTexts;
-    [SerializeField]
-    private Toggle[] _toggles;
-
     [Header("Audio")]
     [SerializeField]
     private AudioMixer _audioMixer;
@@ -25,7 +14,6 @@ public class SettingCanvas : BaseCanvas
     private struct Bgm
     {
         public Transform _bgmSwitch;
-        public Toggle _bgmMuteToggle;
         public Slider _bgmSlider;
         [HideInInspector]
         public bool _isBgmMinusDown;
@@ -42,7 +30,6 @@ public class SettingCanvas : BaseCanvas
     private struct Sfx
     {
         public Transform _sfxSwitch;
-        public Toggle _sfxMuteToggle;
         public Slider _sfxSlider;
         [HideInInspector]
         public bool _isSfxMinusDown;
@@ -116,43 +103,42 @@ public class SettingCanvas : BaseCanvas
     //}
 
     /// <summary> 프레임 바꾸는 함수 </summary>
-    public void OnChangeFrame(int idx)
-    {
-        if (_toggles[idx].isOn == true) return;
-        switch (idx)
-        {
-            case 0:
-                {
-                    _toggles[idx].isOn = true;
-                    _frameTexts[idx].color = Color.black;
+    //public void OnChangeFrame(int idx)
+    //{
+    //    if (_toggles[idx].isOn == true) return;
+    //    switch (idx)
+    //    {
+    //        case 0:
+    //            {
+    //                _toggles[idx].isOn = true;
+    //                _frameTexts[idx].color = Color.black;
 
-                    _changeFrameSequence.Kill();
-                    _changeFrameSequence = DOTween.Sequence()
-                    .Append(_frame.DOAnchorPosY(250f, 0.7f));
+    //                _changeFrameSequence.Kill();
+    //                _changeFrameSequence = DOTween.Sequence()
+    //                .Append(_frame.DOAnchorPosY(250f, 0.7f));
 
-                    _toggles[1].isOn = false;
-                    _frameTexts[1].color = Color.white;
-                }
-                break;
-            case 1:
-                {
-                    _toggles[idx].isOn = true;
-                    _frameTexts[idx].color = Color.black;
+    //                _toggles[1].isOn = false;
+    //                _frameTexts[1].color = Color.white;
+    //            }
+    //            break;
+    //        case 1:
+    //            {
+    //                _toggles[idx].isOn = true;
+    //                _frameTexts[idx].color = Color.black;
 
-                    _changeFrameSequence.Kill();
-                    _changeFrameSequence = DOTween.Sequence()
-                    .Append(_frame.DOAnchorPosY(770f, 0.7f));
+    //                _changeFrameSequence.Kill();
+    //                _changeFrameSequence = DOTween.Sequence()
+    //                .Append(_frame.DOAnchorPosY(770f, 0.7f));
 
-                    _toggles[0].isOn = false;
-                    _frameTexts[0].color = Color.white;
-                }
-                break;
-            default:
-                break;
-        }
-    }
+    //                _toggles[0].isOn = false;
+    //                _frameTexts[0].color = Color.white;
+    //            }
+    //            break;
+    //        default:
+    //            break;
+    //    }
+    //}
 
-    #region Normal
     #region Audio
     #region BGM
     /// <summary> BGM을 ON/OFF하는 함수 </summary>
@@ -179,14 +165,6 @@ public class SettingCanvas : BaseCanvas
     {
         SoundManager.Instance.BgmVolume = value;
         _audioMixer.SetFloat("BGM", value);
-        if (value <= -20f)
-        {
-            _bgm._bgmMuteToggle.isOn = false;
-        }
-        else if (Bgm._isBgmOn == false)
-        {
-            _bgm._bgmMuteToggle.isOn = true;
-        }
     }
 
     /// <summary> BGM 볼륨 줄이는 함수 </summary>
@@ -235,14 +213,6 @@ public class SettingCanvas : BaseCanvas
     {
         SoundManager.Instance.SfxVolume = value;
         _audioMixer.SetFloat("SFX", value);
-        if (value <= -20f)
-        {
-            _sfx._sfxMuteToggle.isOn = false;
-        }
-        else if (Sfx._isSfxOn == false)
-        {
-            _sfx._sfxMuteToggle.isOn = true;
-        }
     }
 
     /// <summary> SFX 볼륨 줄이는 함수 </summary>
@@ -264,7 +234,6 @@ public class SettingCanvas : BaseCanvas
     {
         _sfx._isSfxPlusDown = false;
     }
-    #endregion
     #endregion
     #endregion
 }
