@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.EventSystems;
@@ -10,6 +8,7 @@ public class MenuSceneCameraManager : MonoBehaviour
     private CinemachineFreeLook _cam;
 
     private bool _isOnUI;
+    private bool _isMouseClick = false;
 
     private void Awake()
     {
@@ -26,15 +25,17 @@ public class MenuSceneCameraManager : MonoBehaviour
             _cam.m_YAxis.m_InputAxisName = "Mouse Y";
 
             _cam.m_YAxis.m_InvertInput = true;
+            _isMouseClick = true;
 
             EventManager.TriggerEvent(EventKeyword.MenuCameraMove, false);
         }
-        if (Input.GetMouseButtonUp(0) && _isOnUI == false)
+        if (Input.GetMouseButtonUp(0) && _isMouseClick)
         {
             _cam.m_XAxis.m_InputAxisName = "";
             _cam.m_YAxis.m_InputAxisName = "";
 
             _cam.m_YAxis.m_InvertInput = false;
+            _isMouseClick = false;
 
             _cam.m_XAxis.m_InputAxisValue = 0f;
             _cam.m_YAxis.m_InputAxisValue = 0f;
