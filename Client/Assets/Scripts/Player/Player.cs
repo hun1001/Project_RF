@@ -152,8 +152,13 @@ public class Player : CustomObject
         _turretAttack.AddOnFireAction(() =>
         {
             _cameraManager.CameraShake(_cameraAttackShakeValueSO);
-        });        
+        });
 
+        EventManager.StartListening(EventKeyword.ChangeControlType, (a) => ChangeControlType(a));
+
+        int controlTypeSetting = PlayerPrefs.GetInt("ControlType", 0);
+        controlType = (ControlType)controlTypeSetting;
+        
         StartCoroutine(nameof(InputUpdateCoroutine));
     }
 
@@ -163,6 +168,12 @@ public class Player : CustomObject
     }
 
     private bool _wasControlled = true;
+
+    private void ChangeControlType(object[] obj)
+    {
+        int controlTypeSetting = (int)obj[0];
+        controlType = (ControlType)controlTypeSetting;
+    }
 
     private IEnumerator InputUpdateCoroutine()
     {
