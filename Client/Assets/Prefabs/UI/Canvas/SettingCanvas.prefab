@@ -403,13 +403,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 392566217596569104}
   m_HandleRect: {fileID: 7743426373420818151}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: -40
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.62
+  m_Value: -27.8
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 49040023661099170}
+        m_TargetAssemblyTypeName: SettingCanvas, Assembly-CSharp
+        m_MethodName: OnBgmSlider
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1443727819306607157
 GameObject:
   m_ObjectHideFlags: 0
@@ -2356,27 +2368,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvasType: 2
   _buttonSound: {fileID: 8300000, guid: aa446170c0b767240a04a774224a262e, type: 3}
-  _backGround: {fileID: 0}
-  _frame: {fileID: 0}
-  _frameTexts:
-  - {fileID: 0}
-  - {fileID: 0}
-  _toggles:
-  - {fileID: 0}
-  - {fileID: 0}
   _audioMixer: {fileID: 24100000, guid: daf9fd514ace9c04b97725054a46e235, type: 2}
-  _bgm:
-    _bgmSwitch: {fileID: 0}
-    _bgmMuteToggle: {fileID: 0}
-    _bgmSlider: {fileID: 0}
-    _isBgmMinusDown: 0
-    _isBgmPlusDown: 0
-  _sfx:
-    _sfxSwitch: {fileID: 0}
-    _sfxMuteToggle: {fileID: 0}
-    _sfxSlider: {fileID: 0}
-    _isSfxMinusDown: 0
-    _isSfxPlusDown: 0
+  _masterSlider: {fileID: 796936252747461892}
+  _bgmSlider: {fileID: 8428043140988292458}
+  _sfxSlider: {fileID: 6887495177641845940}
 --- !u!1 &4997795911715400314
 GameObject:
   m_ObjectHideFlags: 0
@@ -4118,13 +4113,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 4114012605839864479}
   m_HandleRect: {fileID: 1638522649256504740}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: -40
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.62
+  m_Value: -21.4
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8087500796324655265
 GameObject:
   m_ObjectHideFlags: 0
@@ -4208,10 +4215,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 7016419241294044846}
   m_HandleRect: {fileID: 1509716958997406495}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: -40
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.62
+  m_Value: -29.1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
