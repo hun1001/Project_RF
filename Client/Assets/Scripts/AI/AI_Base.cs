@@ -4,7 +4,7 @@ using UnityEngine;
 using Event;
 using Pool;
 
-public abstract class BossAI_Base : MonoBehaviour
+public abstract class AI_Base : MonoBehaviour
 {
     [SerializeField]
     private Tank _tank = null;
