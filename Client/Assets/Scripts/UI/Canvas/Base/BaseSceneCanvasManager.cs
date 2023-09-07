@@ -39,7 +39,7 @@ public abstract class BaseSceneCanvasManager : MonoBehaviour
     {
         if(_openDelay > 0f)
         {
-            _openDelay -= Time.deltaTime;
+            _openDelay -= Time.unscaledDeltaTime;
         }
     }
 

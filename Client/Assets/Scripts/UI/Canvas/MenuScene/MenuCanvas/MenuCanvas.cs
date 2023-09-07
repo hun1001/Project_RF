@@ -174,6 +174,7 @@ public class MenuCanvas : BaseCanvas
         _isShellOpen = false;
         _isHide = false;
 
+        _hangerObject.SetActive(false);
         _filterPanel.SetActive(false);
         _shellReplacement.SetActive(false);
 

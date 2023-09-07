@@ -31,20 +31,7 @@ public class GameTutorialCanvas : BaseCanvas
             obj.SetActive(false);
         }
 
-        KeyboardManager.Instance.AddKeyDownAction(KeyCode.Escape, () =>
-        {
-            if (CanvasManager.ActiveCanvas == CanvasType && TutorialManager.Instance.IsTutorial)
-            {
-                if (_skipPanel.activeSelf == false)
-                {
-                    OpenSkipPanel();
-                }
-                else
-                {
-                    TutorialNotSkip();
-                }
-            }
-        });
+        AddInputAction();
     }
 
     private void Start()
@@ -64,6 +51,24 @@ public class GameTutorialCanvas : BaseCanvas
                 _textButton.SetActive(false);
             }
         }
+    }
+
+    protected override void AddInputAction()
+    {
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.Escape, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType && TutorialManager.Instance.IsTutorial)
+            {
+                if (_skipPanel.activeSelf == false)
+                {
+                    OpenSkipPanel();
+                }
+                else
+                {
+                    TutorialNotSkip();
+                }
+            }
+        });
     }
 
     public void OpenSkipPanel()
