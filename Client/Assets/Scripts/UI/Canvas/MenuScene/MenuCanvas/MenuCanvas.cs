@@ -248,6 +248,7 @@ public class MenuCanvas : BaseCanvas
         PlayButtonSound();
 
         _hangerObject.SetActive(!_hangerObject.activeSelf);
+        _filterPanel.SetActive(!_filterPanel.activeSelf);
     }
 
     private void HangerUpdate()
