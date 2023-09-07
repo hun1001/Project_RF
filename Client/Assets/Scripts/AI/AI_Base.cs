@@ -1,7 +1,5 @@
-using System.Collections;
 using UnityEngine.AI;
 using UnityEngine;
-using Event;
 using Pool;
 
 public abstract class AI_Base : MonoBehaviour

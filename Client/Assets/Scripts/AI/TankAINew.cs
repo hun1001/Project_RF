@@ -80,12 +80,45 @@ public class TankAINew : AI_Base
 
     private void Move()
     {
-        
+        Vector3 dir = Vector3.zero;
+        float distance = 0f;
+
+        for(int i = 0; i < _navMeshPath.corners.Length; i++)
+        {
+            dir = (_navMeshPath.corners[i] - Tank.transform.position).normalized;
+
+            while (!(Tank.transform.rotation == Quaternion.LookRotation(dir)))
+            {
+                TankRotate.Rotate(dir);
+            }
+
+            distance = Vector3.Distance(Tank.transform.position, _navMeshPath.corners[i]);
+            while(distance > 5f)
+            {
+                TankMove.Move(1f);
+                distance = Vector3.Distance(Tank.transform.position, _navMeshPath.corners[i]);
+            }
+
+            while(TankMove.CurrentSpeed == 0)
+            {
+                TankMove.Stop();
+            }
+        }
     }
 
     private void SetMoveTargetPosition()
     {
+        bool isCanMove = false;
+        Vector3 randomNextPosition = Vector3.zero;
+        NavMeshHit hit;
 
+        do
+        {
+            randomNextPosition = Target.transform.position + Random.insideUnitSphere * 30f;
+            isCanMove = NavMesh.SamplePosition(randomNextPosition, out hit, 30f, NavMesh.AllAreas);
+        }while (isCanMove);
+
+        NavMesh.CalculatePath(Tank.transform.position, hit.position, NavMesh.AllAreas, _navMeshPath);
     }
 
     private bool IsTargetAim()
