@@ -144,7 +144,7 @@ public class TankAINew : AI_Base
         Vector3 dir = (Target.transform.position - Tank.transform.position);
         TurretRotate.Rotate(dir.normalized);
 
-        return TurretAimLine.IsAim;
+        return TurretAimLine.IsAim && dir.magnitude <= 20f;
     }
 
     private void Fire()
