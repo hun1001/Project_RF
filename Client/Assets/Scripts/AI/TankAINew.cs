@@ -81,7 +81,7 @@ public class TankAINew : AI_Base
 
     private void Move()
     {
-        if(Tank.transform.position == _currentTargetPosition)
+        if(Vector3.Distance(_currentTargetPosition, Tank.transform.position) < 2f)
         {
             if(_pathQueue.Count > 0)
             {
@@ -96,7 +96,15 @@ public class TankAINew : AI_Base
 
         Vector3 dir = (_currentTargetPosition - Tank.transform.position);
 
-        TankMove.Move(1f);
+        if(dir.magnitude < 10f)
+        {
+            TankMove.Move(0.1f);
+        }
+        else
+        {
+            TankMove.Move(1f);
+        }
+
         TankRotate.Rotate(dir.normalized);
     }
 
@@ -133,14 +141,8 @@ public class TankAINew : AI_Base
 
     private bool IsTargetAim()
     {
-        float timer = 0f;
         Vector3 dir = (Target.transform.position - Tank.transform.position);
-
-        while (!TurretAimLine.IsAim && timer < 5f)
-        {
-            TurretRotate.Rotate(dir.normalized);
-            timer += Time.deltaTime;
-        }
+        TurretRotate.Rotate(dir.normalized);
 
         return TurretAimLine.IsAim;
     }
