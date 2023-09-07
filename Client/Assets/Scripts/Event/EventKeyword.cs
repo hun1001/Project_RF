@@ -14,4 +14,6 @@ public static class EventKeyword
     public const string GiveReward = "GiveReward";
 
     public const string NextTutorial = "NextTutorial";
+
+    public const string ChangeControlType = "ChangeControlType";
 }
