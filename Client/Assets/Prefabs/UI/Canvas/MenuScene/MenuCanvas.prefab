@@ -4679,6 +4679,7 @@ GameObject:
   - component: {fileID: 9034125156344669949}
   - component: {fileID: 4255889466220045691}
   - component: {fileID: 4415632338397547692}
+  - component: {fileID: 2298183576952483509}
   m_Layer: 0
   m_Name: Hanger
   m_TagString: Untagged
@@ -4775,6 +4776,46 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2298183576952483509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2403965827161537482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70513d3b4a903d947a4f7a65db366628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonSound: {fileID: 8300000, guid: aa446170c0b767240a04a774224a262e, type: 3}
+  _hangerObject: {fileID: 2403965827161537482}
+  _hangerContent: {fileID: 7407330021296747899}
+  _tankTemplate: {fileID: 4102528591237320001, guid: e6b1796d30808b94599b5428a727b09d, type: 3}
+  _flagSprites:
+  - {fileID: 21300000, guid: 15246ff0ad9ffb64791ef66f7b94b184, type: 3}
+  - {fileID: 21300000, guid: 58de5a8e7b4cb7f4d9f88c170e667656, type: 3}
+  - {fileID: 21300000, guid: 5b50e59b16ac2f145951e83acfc87a1e, type: 3}
+  - {fileID: 21300000, guid: c721ebac3ee390f40988e45b6736d6fb, type: 3}
+  - {fileID: 21300000, guid: dc7e5a65be03ce14ebafadc6651521e2, type: 3}
+  _countryFilterToggles:
+  - {fileID: 4192568892470790024}
+  - {fileID: 5800132694173426631}
+  - {fileID: 6218208003163642327}
+  - {fileID: 6843025983193659312}
+  - {fileID: 1707186489762127025}
+  _tankTypeFilterToggles:
+  - {fileID: 5847948269832625994}
+  - {fileID: 1987225068446561728}
+  - {fileID: 6644876199005206445}
+  - {fileID: 2724749927075467602}
+  _tankTierFilterToggles:
+  - {fileID: 1610596850916033735}
+  - {fileID: 7850398476086808109}
+  - {fileID: 5504643579206133310}
+  - {fileID: 4990907867075954055}
+  - {fileID: 837140744568722972}
+  - {fileID: 5015654260275874919}
 --- !u!1 &2405020048218508702
 GameObject:
   m_ObjectHideFlags: 0
@@ -14222,33 +14263,7 @@ MonoBehaviour:
   _shellReplacement: {fileID: 8134023788602130137}
   _topFrame: {fileID: 5937752492589452548}
   _bottomFrame: {fileID: 7578133760568828394}
-  _hangerObject: {fileID: 2403965827161537482}
-  _hangerContent: {fileID: 7407330021296747899}
-  _tankTemplate: {fileID: 4102528591237320001, guid: e6b1796d30808b94599b5428a727b09d, type: 3}
-  _flagSprites:
-  - {fileID: 21300000, guid: c4118210de7d0d2449448a52c6dd9192, type: 3}
-  - {fileID: 21300000, guid: 0402ed28511f4db4aa0504162573ea56, type: 3}
-  - {fileID: 21300000, guid: 8262e9605c2852d4ba86dd91bd592c53, type: 3}
-  - {fileID: 21300000, guid: 2188453645ca1c749b892f957d938bba, type: 3}
-  - {fileID: 21300000, guid: d6a58873fa64b9240808328ca96dbf4a, type: 3}
-  _countryFilterToggles:
-  - {fileID: 4192568892470790024}
-  - {fileID: 5800132694173426631}
-  - {fileID: 6218208003163642327}
-  - {fileID: 6843025983193659312}
-  - {fileID: 1707186489762127025}
-  _tankTypeFilterToggles:
-  - {fileID: 5847948269832625994}
-  - {fileID: 1987225068446561728}
-  - {fileID: 6644876199005206445}
-  - {fileID: 2724749927075467602}
-  _tankTierFilterToggles:
-  - {fileID: 1610596850916033735}
-  - {fileID: 7850398476086808109}
-  - {fileID: 5504643579206133310}
-  - {fileID: 4990907867075954055}
-  - {fileID: 837140744568722972}
-  - {fileID: 5015654260275874919}
+  _hangerHandle: {fileID: 2298183576952483509}
   _startButton: {fileID: 2027850423893356214}
   _warningPanel: {fileID: 4047251024050001166}
   _keyGuidePanel: {fileID: 4136512811702945152}
