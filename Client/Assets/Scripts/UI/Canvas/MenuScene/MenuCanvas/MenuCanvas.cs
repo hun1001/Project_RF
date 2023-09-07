@@ -4,7 +4,6 @@ using Event;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuCanvas : BaseCanvas
@@ -35,7 +34,6 @@ public class MenuCanvas : BaseCanvas
     private RectTransform _bottomFrame = null;
 
     private bool _isHide = false;
-    private bool _isCameraHide = false;
 
     [Header("Hanger")]
     [SerializeField]
@@ -52,9 +50,6 @@ public class MenuCanvas : BaseCanvas
     private List<GameObject> _hangerList = new List<GameObject>();
 
     [Header("Filter")]
-    [SerializeField]
-    private GameObject _filterPanel = null;
-
     [SerializeField]
     private Toggle[] _countryFilterToggles = null;
     private List<bool> _isCountryFilter = null;
@@ -116,56 +111,6 @@ public class MenuCanvas : BaseCanvas
         HangerUpdate();
         CurrentTankInfoUpdate();
         HangerSort();
-
-        AddInputAction();
-    }
-
-    protected override void AddInputAction()
-    {
-        KeyboardManager.Instance.AddKeyDownAction(KeyCode.F, () =>
-        {
-            if (CanvasManager.ActiveCanvas == CanvasType)
-            {
-                if (_isShellOpen)
-                {
-                    OnOpenShell();
-                    return;
-                }
-
-                if (_isCameraHide == false)
-                {
-                    OnFilterOpen();
-                }
-            }
-        });
-
-        KeyboardManager.Instance.AddKeyDownAction(KeyCode.T, () =>
-        {
-            if (CanvasManager.ActiveCanvas == CanvasType)
-            {
-                if (_isShellOpen)
-                {
-                    OnOpenShell();
-                    return;
-                }
-
-                OnTechTreeButton();
-            }
-        });
-
-        KeyboardManager.Instance.AddKeyDownAction(KeyCode.S, () =>
-        {
-            if (CanvasManager.ActiveCanvas == CanvasType)
-            {
-                if (_isShellOpen)
-                {
-                    OnOpenShell();
-                    return;
-                }
-
-                OnStartButton();
-            }
-        });
     }
 
     public override void OnOpenEvents()
@@ -175,7 +120,6 @@ public class MenuCanvas : BaseCanvas
         _isHide = false;
 
         _hangerObject.SetActive(false);
-        _filterPanel.SetActive(false);
         _shellReplacement.SetActive(false);
 
         _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
@@ -249,7 +193,6 @@ public class MenuCanvas : BaseCanvas
         PlayButtonSound();
 
         _hangerObject.SetActive(!_hangerObject.activeSelf);
-        _filterPanel.SetActive(!_filterPanel.activeSelf);
     }
 
     private void HangerUpdate()
@@ -692,13 +635,6 @@ public class MenuCanvas : BaseCanvas
         return list;
     }
 
-    public void OnFilterOpen()
-    {
-        PlayButtonSound();
-
-        _filterPanel.SetActive(!_filterPanel.activeSelf);
-    }
-
     private bool ShouldSwap(string a, string b)
     {
         Tank tankA = AddressablesManager.Instance.GetResource<GameObject>(a).GetComponent<Tank>();
@@ -819,24 +755,16 @@ public class MenuCanvas : BaseCanvas
         {
             if (_isHide == false)
             {
-                _isCameraHide = true;
-
                 _topFrame.DOAnchorPosY(60f, 0.25f);
                 _bottomFrame.DOAnchorPosY(-330f, 0.25f);
             }
             else
             {
-                _isCameraHide = false;
-
                 _topFrame.DOAnchorPosY(0f, 0.25f);
                 _bottomFrame.DOAnchorPosY(0f, 0.25f);
             }
         });
 
-        if (_filterPanel.activeSelf)
-        {
-            _filterPanel.SetActive(false);
-        }
         if (_hangerObject.activeSelf)
         {
             _hangerObject.SetActive(false);
