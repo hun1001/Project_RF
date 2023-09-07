@@ -1,5 +1,6 @@
 ﻿using Event;
 using Pool;
+using System.Collections;
 using UnityEngine;
 
 public class WaveManager : GameWay_Base
@@ -33,6 +34,12 @@ public class WaveManager : GameWay_Base
         }
 
         CurrentStage++;
+        StartCoroutine(SpawnCoroutine());
+    }
+
+    private IEnumerator SpawnCoroutine()
+    {
+        yield return new WaitForSeconds(3f);
         Spawn();
     }
 }
