@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class TutorialCanvas : BaseCanvas
@@ -16,9 +15,12 @@ public class TutorialCanvas : BaseCanvas
     [SerializeField]
     private GameObject _nextButton = null;
     [SerializeField]
+    private GameObject _textButton = null;
+    [SerializeField]
     private GameObject[] _tutorialPanels;
 
     private int _tutorialCount = 0;
+    private float _textDuration = 0f;
 
     [Header("Menu UI")]
     [SerializeField]
@@ -52,7 +54,7 @@ public class TutorialCanvas : BaseCanvas
         {
             obj.SetActive(false);
         }
-
+        
         KeyboardManager.Instance.AddKeyDownAction(KeyCode.Escape, () =>
         {
             if (CanvasManager.ActiveCanvas == CanvasType && TutorialManager.Instance.IsTutorial)
@@ -72,6 +74,19 @@ public class TutorialCanvas : BaseCanvas
     private void Start()
     {
         TutorialStart();
+    }
+
+    private void Update()
+    {
+        if (_textDuration > 0f)
+        {
+            _textDuration -= Time.deltaTime;
+
+            if (_textDuration <= 0f)
+            {
+                _textButton.SetActive(false);
+            }
+        }
     }
 
     public void OpenSkipPanel()
@@ -146,6 +161,13 @@ public class TutorialCanvas : BaseCanvas
         SceneController.ChangeScene("GameTutorialScene");
     }
 
+    public void TextCancel()
+    {
+        _tutorialText.SetText(_textsSO.TutorialTexts[_tutorialCount]);
+        _textDuration = 0f;
+        _textButton.SetActive(false);
+    }
+
     public void NextTutorial()
     {
         _tutorialCount++;
@@ -154,7 +176,10 @@ public class TutorialCanvas : BaseCanvas
             TutorialEnd();
             return;
         }
-        _tutorialText.SetText(_textsSO.TutorialTexts[_tutorialCount]);
+
+        _textDuration = _textsSO.TutorialTexts[_tutorialCount].Length * 0.025f;
+        _tutorialText.Typing(_textsSO.TutorialTexts[_tutorialCount], _textDuration);
+        _textButton.SetActive(true);
 
         switch (_tutorialCount)
         {

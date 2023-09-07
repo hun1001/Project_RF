@@ -15,9 +15,12 @@ public class GameTutorialCanvas : BaseCanvas
     [SerializeField]
     private GameObject _nextButton = null;
     [SerializeField]
+    private GameObject _textButton = null;
+    [SerializeField]
     private GameObject[] _tutorialPanels = null;
 
-    protected int _tutorialCount = 0;
+    private int _tutorialCount = 0;
+    private float _textDuration = 0f;
 
     private void Awake()
     {
@@ -48,6 +51,19 @@ public class GameTutorialCanvas : BaseCanvas
     {
         TutorialManager.Instance.GameTutorialStart();
         TutorialStart();
+    }
+
+    private void Update()
+    {
+        if (_textDuration > 0f)
+        {
+            _textDuration -= Time.deltaTime;
+
+            if (_textDuration <= 0f)
+            {
+                _textButton.SetActive(false);
+            }
+        }
     }
 
     public void OpenSkipPanel()
@@ -83,6 +99,13 @@ public class GameTutorialCanvas : BaseCanvas
         _nextButton.SetActive(true);
     }
 
+    public void TextCancel()
+    {
+        _tutorialText.SetText(_textsSO.TutorialTexts[_tutorialCount]);
+        _textDuration = 0f;
+        _textButton.SetActive(false);
+    }
+
     public void NextTutorial()
     {
         _tutorialCount++;
@@ -96,7 +119,10 @@ public class GameTutorialCanvas : BaseCanvas
             TutorialManager.Instance.TutorialWaveStart();
             return;
         }
-        _tutorialText.SetText(_textsSO.TutorialTexts[_tutorialCount]);
+
+        _textDuration = _textsSO.TutorialTexts[_tutorialCount].Length * 0.025f;
+        _tutorialText.Typing(_textsSO.TutorialTexts[_tutorialCount], _textDuration);
+        _textButton.SetActive(true);
 
         switch (_tutorialCount)
         {
