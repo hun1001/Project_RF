@@ -7,8 +7,6 @@ using UnityEngine.AI;
 
 public class TankAINew : AI_Base
 {
-    private Vector3 _moveTargetPosition = Vector3.zero;
-
     string _id = string.Empty;
 
     public void Init(string id)
@@ -26,7 +24,6 @@ public class TankAINew : AI_Base
             PoolManager.Get("RepairPack", Tank.transform.position + new Vector3(0, 0, -2f), Quaternion.identity);
             PoolManager.Get("TankDeathEffect", Tank.transform.position, Quaternion.Euler(0, 0, 0));
             TankMove.CurrentSpeed = 0;
-            _moveTargetPosition = Vector3.zero;
         });
 
         EnemyBar enemyBar = Tank.GetComponentInChildren<EnemyBar>();
@@ -44,10 +41,6 @@ public class TankAINew : AI_Base
 
         TankDamage.AddOnDamageAction(enemyBar.ChangeValue);
         TankDamage.AddOnDamageAction((_) => enemyBar.Show());
-        TankMove.AddOnCrashAction((_) =>
-        {
-            _moveTargetPosition = Vector3.zero;
-        });
     }
 
     protected override Tank TankSpawn()
@@ -61,63 +54,47 @@ public class TankAINew : AI_Base
 
         RootNode rootNode = null;
 
-        SequenceNode sequenceNode = null;
+        SelectorNode selectorNode = null;
 
+        SequenceNode moveSequenceNode = null;
+        ExecutionNode setMoveTargetPositionExcutionNode = null;
+        ExecutionNode moveExcutionNode = null;
 
+        ConditionalNode targetAimConditionNode = null;
+        ExecutionNode fireExecutionNode = null;
+
+        fireExecutionNode = new ExecutionNode(Fire);
+        targetAimConditionNode = new ConditionalNode(IsTargetAim, fireExecutionNode);
+
+        moveExcutionNode = new ExecutionNode(Move);
+        setMoveTargetPositionExcutionNode = new ExecutionNode(SetMoveTargetPosition);
+
+        moveSequenceNode = new SequenceNode(setMoveTargetPositionExcutionNode, moveExcutionNode);
+
+        selectorNode = new SelectorNode(targetAimConditionNode, moveSequenceNode);
 
         behaviorTree = new BehaviorTree(rootNode);
 
         return behaviorTree;
     }
 
-    private void Move(Vector3 position)
+    private void Move()
     {
-        if (NavMesh.CalculatePath(Tank.transform.position, position, NavMesh.AllAreas, _navMeshPath))
-        {
-            StartCoroutine(MoveTarget(0, _navMeshPath.corners.Length));
-
-            for (int i = 0; i < _navMeshPath.corners.Length - 1; i++)
-            {
-                Debug.DrawLine(_navMeshPath.corners[i], _navMeshPath.corners[i + 1], Color.red, 5f);
-            }
-        }
-        else
-        {
-            _moveTargetPosition = Vector3.zero;
-        }
+        
     }
 
-    private IEnumerator MoveTarget(int index, int pathLength)
+    private void SetMoveTargetPosition()
     {
-        if (index < pathLength)
-        {
-            float dis = Vector3.Distance(Tank.transform.position, _navMeshPath.corners[index]);
-            while (dis > 5f)
-            {
-                if (dis < 10f)
-                {
-                    TankMove.Move(0.4f);
-                }
-                else if (dis < 20f)
-                {
-                    TankMove.Move(0.6f);
-                }
-                else
-                {
-                    TankMove.Move(1f);
-                }
 
-                TankRotate.Rotate((_navMeshPath.corners[index] - Tank.transform.position).normalized);
-                dis = Vector3.Distance(Tank.transform.position, _navMeshPath.corners[index]);
-                yield return null;
-            }
-
-            StartCoroutine(MoveTarget(index + 1, pathLength));
-        }
     }
 
-    private void Attack()
+    private bool IsTargetAim()
     {
-        Tank.Turret.GetComponent<Turret_Attack>().Fire();
+        return true;
+    }
+
+    private void Fire()
+    {
+
     }
 }
