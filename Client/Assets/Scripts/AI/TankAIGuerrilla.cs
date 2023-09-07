@@ -4,7 +4,7 @@ using Pool;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class TankAILegacy : AI_Base
+public class TankAIGuerrilla : AI_Base
 {
     private Vector3 _moveTargetPosition = Vector3.zero;
 

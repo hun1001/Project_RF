@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class TankAINew : AI_Base
+public class TankAIDiversion : AI_Base
 {
     string _id = string.Empty;
     private Queue<Vector3> _pathQueue = new Queue<Vector3>();

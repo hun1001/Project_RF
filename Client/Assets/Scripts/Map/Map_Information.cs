@@ -13,8 +13,6 @@ namespace Map
 
         private int _beforeIndex = 0;
 
-        /// <summary> 적 생성 위치를 랜덤으로 반환하는 함수 </summary>
-        /// <returns> 적 생성 위치 </returns>
         public Vector3 RandomSpawnPoint()
         {
             int index = Random.Range(0, SpawnPoints.Length);
