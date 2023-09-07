@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class TipManager : MonoBehaviour
 {
@@ -45,7 +44,7 @@ public class TipManager : MonoBehaviour
         {
             beforeTipText.RemoveAt(0);
         }
-        Debug.Log("TipText: " + randomTipText);
+
         return randomTipText;
     }
 }
