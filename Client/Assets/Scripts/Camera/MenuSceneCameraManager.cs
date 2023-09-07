@@ -42,8 +42,10 @@ public class MenuSceneCameraManager : MonoBehaviour
 
             EventManager.TriggerEvent(EventKeyword.MenuCameraMove, true);
         }
-
-        _cam.m_Lens.FieldOfView += -Input.GetAxis("Mouse ScrollWheel") * 10;
-        _cam.m_Lens.FieldOfView = Mathf.Clamp(_cam.m_Lens.FieldOfView, 15, 40);
+        if (_isOnUI == false)
+        {
+            _cam.m_Lens.FieldOfView += -Input.GetAxis("Mouse ScrollWheel") * 10;
+            _cam.m_Lens.FieldOfView = Mathf.Clamp(_cam.m_Lens.FieldOfView, 15, 40);
+        }
     }
 }
