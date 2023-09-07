@@ -123,8 +123,9 @@ public class Tank_Move : Tank_Component
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") && CheckCrashBack(collision.contacts[0].point) == true)
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))// && CheckCrashBack(collision.contacts[0].point) == true)
         {
+            TankRebound(collision.contacts[0].normal);
             _onCrash?.Invoke(_currentSpeed);
             _tankSound.PlaySound(SoundType.TankImpact, AudioMixerType.Sfx, 0.7f);
 
@@ -151,15 +152,15 @@ public class Tank_Move : Tank_Component
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Wall") && CheckCrashBack(other.contacts[0].point))
-        {
-            _collision = true;
-            _currentSpeed = 0;
-        }
-        else
-        {
-            _collision = false;
-        }
+        //if (other.gameObject.layer == LayerMask.NameToLayer("Wall") && CheckCrashBack(other.contacts[0].point))
+        //{
+        //    _collision = true;
+        //    _currentSpeed = 0;
+        //}
+        //else
+        //{
+        //    _collision = false;
+        //}
     }
 
     private void OnCollisionExit2D(Collision2D other)
