@@ -45,7 +45,7 @@ public abstract class AI_Base : MonoBehaviour
         _tankDamage = _tank.GetComponent<Tank_Damage>(ComponentType.Damage);
 
         _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
-        _turretAttack = _tank.Turret.GetComponent<BossTurret_Attack>(ComponentType.Attack);
+        _turretAttack = _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack);
         _turretAimLine = _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine);
 
         _target = FindObjectOfType<Player>().Tank;

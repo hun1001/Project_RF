@@ -1,13 +1,12 @@
 using Event;
 using Pool;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class TankAINew : AI_Base
 {
     string _id = string.Empty;
+    private bool _isSettingDefinition;
 
     public void Init(string id)
     {
@@ -56,8 +55,7 @@ public class TankAINew : AI_Base
 
         SelectorNode selectorNode = null;
 
-        SequenceNode moveSequenceNode = null;
-        ExecutionNode setMoveTargetPositionExcutionNode = null;
+        ConditionalNode setMoveTargetPositionExcutionNode = null;
         ExecutionNode moveExcutionNode = null;
 
         ConditionalNode targetAimConditionNode = null;
@@ -67,11 +65,11 @@ public class TankAINew : AI_Base
         targetAimConditionNode = new ConditionalNode(IsTargetAim, fireExecutionNode);
 
         moveExcutionNode = new ExecutionNode(Move);
-        setMoveTargetPositionExcutionNode = new ExecutionNode(SetMoveTargetPosition);
+        setMoveTargetPositionExcutionNode = new ConditionalNode(SetMoveTargetPosition, moveExcutionNode);
 
-        moveSequenceNode = new SequenceNode(setMoveTargetPositionExcutionNode, moveExcutionNode);
+        selectorNode = new SelectorNode(targetAimConditionNode, setMoveTargetPositionExcutionNode);
 
-        selectorNode = new SelectorNode(targetAimConditionNode, moveSequenceNode);
+        rootNode = new RootNode(selectorNode);
 
         behaviorTree = new BehaviorTree(rootNode);
 
@@ -83,51 +81,49 @@ public class TankAINew : AI_Base
         Vector3 dir = Vector3.zero;
         float distance = 0f;
 
-        for(int i = 0; i < _navMeshPath.corners.Length; i++)
+        Debug.Log("Move " + _navMeshPath.corners.Length);
+
+        for(int i = 0; i < _navMeshPath.corners.Length - 1; i++)
         {
-            dir = (_navMeshPath.corners[i] - Tank.transform.position).normalized;
-
-            while (!(Tank.transform.rotation == Quaternion.LookRotation(dir)))
-            {
-                TankRotate.Rotate(dir);
-            }
-
-            distance = Vector3.Distance(Tank.transform.position, _navMeshPath.corners[i]);
-            while(distance > 5f)
-            {
-                TankMove.Move(1f);
-                distance = Vector3.Distance(Tank.transform.position, _navMeshPath.corners[i]);
-            }
-
-            while(TankMove.CurrentSpeed == 0)
-            {
-                TankMove.Stop();
-            }
+            Debug.DrawLine(_navMeshPath.corners[i], _navMeshPath.corners[i+1], Color.red, 5f);
         }
     }
 
-    private void SetMoveTargetPosition()
+    private bool SetMoveTargetPosition()
     {
+        if(Vector3.Distance(Tank.transform.position, Target.transform.position) <= 30)
+        {
+            return false;
+        }
+
         bool isCanMove = false;
         Vector3 randomNextPosition = Vector3.zero;
-        NavMeshHit hit;
 
         do
         {
             randomNextPosition = Target.transform.position + Random.insideUnitSphere * 30f;
-            isCanMove = NavMesh.SamplePosition(randomNextPosition, out hit, 30f, NavMesh.AllAreas);
-        }while (isCanMove);
+            isCanMove = NavMesh.CalculatePath(Tank.transform.position, randomNextPosition, NavMesh.AllAreas, _navMeshPath);
+        } while (!isCanMove);
 
-        NavMesh.CalculatePath(Tank.transform.position, hit.position, NavMesh.AllAreas, _navMeshPath);
+        return true;
     }
 
     private bool IsTargetAim()
     {
-        return true;
+        float timer = 0f;
+        Vector3 dir = (Target.transform.position - Tank.transform.position);
+
+        while (!TurretAimLine.IsAim && timer < 5f)
+        {
+            TurretRotate.Rotate(dir.normalized);
+            timer += Time.deltaTime;
+        }
+
+        return TurretAimLine.IsAim;
     }
 
     private void Fire()
     {
-
+        TurretAttack.Fire();
     }
 }
