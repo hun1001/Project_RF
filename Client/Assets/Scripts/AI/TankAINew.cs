@@ -1,12 +1,15 @@
 using Event;
 using Pool;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class TankAINew : AI_Base
 {
     string _id = string.Empty;
-    private bool _isSettingDefinition;
+    private Queue<Vector3> _pathQueue = new Queue<Vector3>();
+    private Vector3 _currentTargetPosition = Vector3.zero;
 
     public void Init(string id)
     {
@@ -78,20 +81,33 @@ public class TankAINew : AI_Base
 
     private void Move()
     {
-        Vector3 dir = Vector3.zero;
-        float distance = 0f;
-
-        Debug.Log("Move " + _navMeshPath.corners.Length);
-
-        for(int i = 0; i < _navMeshPath.corners.Length - 1; i++)
+        if(Tank.transform.position == _currentTargetPosition)
         {
-            Debug.DrawLine(_navMeshPath.corners[i], _navMeshPath.corners[i+1], Color.red, 5f);
+            if(_pathQueue.Count > 0)
+            {
+                _currentTargetPosition = _pathQueue.Dequeue();
+            }
+            else
+            {
+                _pathQueue.Clear();
+                return;
+            }
         }
+
+        Vector3 dir = (_currentTargetPosition - Tank.transform.position);
+
+        TankMove.Move(1f);
+        TankRotate.Rotate(dir.normalized);
     }
 
     private bool SetMoveTargetPosition()
     {
-        if(Vector3.Distance(Tank.transform.position, Target.transform.position) <= 30)
+        if (_pathQueue.Count > 0)
+        {
+            return true;
+        }
+
+        if (Vector3.Distance(Tank.transform.position, Target.transform.position) > 10 && TurretAimLine.IsAim)
         {
             return false;
         }
@@ -101,9 +117,16 @@ public class TankAINew : AI_Base
 
         do
         {
-            randomNextPosition = Target.transform.position + Random.insideUnitSphere * 30f;
+            randomNextPosition = Target.transform.position + Random.insideUnitSphere * 15;
             isCanMove = NavMesh.CalculatePath(Tank.transform.position, randomNextPosition, NavMesh.AllAreas, _navMeshPath);
         } while (!isCanMove);
+
+        for (int i = 0; i < _navMeshPath.corners.Length; ++i)
+        {
+            _pathQueue.Enqueue(_navMeshPath.corners[i]);
+        }
+
+        _currentTargetPosition = _pathQueue.Dequeue();
 
         return true;
     }
