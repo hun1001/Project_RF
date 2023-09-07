@@ -136,7 +136,7 @@ public class TankAILegacy : AI_Base
         if (index < pathLength)
         {
             float dis = Vector3.Distance(Tank.transform.position, _navMeshPath.corners[index]);
-            while (dis > 1f)
+            while (dis > 2.5f)
             {
                 if (dis < 10f)
                 {

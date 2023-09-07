@@ -61,54 +61,9 @@ public class TankAINew : AI_Base
 
         RootNode rootNode = null;
 
-        SelectorNode selectorNode = null;
-
-        SequenceNode tankMoveSequenceNode = null;
-        ConditionalNode checkAroundTarget = null;
-        ExecutionNode move2Target = null;
-
-        SequenceNode tankAttackSequenceNode = null;
-        ConditionalNode checkTargetInAim = null;
-        ExecutionNode atk2Target = null;
-
-        move2Target = new ExecutionNode(() =>
-        {
-            _moveTargetPosition = Target.transform.position + (Random.insideUnitSphere * 20f);
-            _moveTargetPosition.z = 0f;
-            Move(_moveTargetPosition);
-        });
-
-        atk2Target = new ExecutionNode(() =>
-        {
-            Attack();
-        });
-
-        checkAroundTarget = new ConditionalNode(() =>
-        {
-            if (_moveTargetPosition == Vector3.zero || Vector3.Distance(Tank.transform.position, _moveTargetPosition) < 15f)
-            {
-                StopAllCoroutines();
-                _navMeshPath.ClearCorners();
-                return true;
-            }
-
-            return false;
-        }, move2Target);
+        SequenceNode sequenceNode = null;
 
 
-        checkTargetInAim = new ConditionalNode(() =>
-        {
-            TurretRotate.Rotate((Target.transform.position - Tank.transform.position).normalized);
-
-            return TurretAimLine.IsAim;
-        }, atk2Target);
-
-        tankMoveSequenceNode = new SequenceNode(checkAroundTarget);
-        tankAttackSequenceNode = new SequenceNode(checkTargetInAim);
-
-        selectorNode = new SelectorNode(tankMoveSequenceNode, tankAttackSequenceNode);
-
-        rootNode = new RootNode(selectorNode);
 
         behaviorTree = new BehaviorTree(rootNode);
 
@@ -137,7 +92,7 @@ public class TankAINew : AI_Base
         if (index < pathLength)
         {
             float dis = Vector3.Distance(Tank.transform.position, _navMeshPath.corners[index]);
-            while (dis > 1f)
+            while (dis > 5f)
             {
                 if (dis < 10f)
                 {
