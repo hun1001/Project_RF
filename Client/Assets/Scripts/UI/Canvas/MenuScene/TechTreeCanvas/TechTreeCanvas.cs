@@ -30,9 +30,6 @@ public class TechTreeCanvas : BaseCanvas
     private ScrollRect _scrollRect = null;
 
     [SerializeField]
-    private TextController _countryTextController = null;
-
-    [SerializeField]
     private GameObject _tankInformation = null;
     [SerializeField]
     private GameObject _tankInformationPanel = null;
@@ -118,8 +115,6 @@ public class TechTreeCanvas : BaseCanvas
 
     private void SetTechTree(int index)
     {
-        _countryTextController.SetText(_techTree.TechTreeSO[index].CountryType.ToString());
-
         ResetTankNode();
         _tankTierLine.ResetTierLine();
 
