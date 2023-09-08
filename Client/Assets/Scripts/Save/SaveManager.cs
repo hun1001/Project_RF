@@ -35,5 +35,18 @@ public static class SaveManager
         return JsonUtility.FromJson<T>(json);
     }
 
+    public static void DeleteAllSaveData()
+    {
+        DirectoryInfo di = new DirectoryInfo(_savePath);
+        foreach (FileInfo file in di.GetFiles())
+        {
+            file.Delete();
+        }
+        foreach (DirectoryInfo dir in di.GetDirectories())
+        {
+            dir.Delete(true);
+        }
+    }
+
     public static bool WasSaved(string key) => File.Exists(_savePath + key + ".json");
 }

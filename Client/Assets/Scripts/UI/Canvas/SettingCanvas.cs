@@ -66,6 +66,12 @@ public class SettingCanvas : BaseCanvas
         }
     }
 
+    public void OnClickResetButton()
+    {
+        PlayerPrefs.DeleteAll();
+        SaveManager.DeleteAllSaveData();
+    }
+
     #region Audio
     public void OnMasterSlider(float value)
     {
