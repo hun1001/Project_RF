@@ -9,6 +9,8 @@ public class TutorialCanvas : BaseCanvas
     [SerializeField]
     private GameObject _skipPanel = null;
     [SerializeField]
+    private GameObject _textArea = null;
+    [SerializeField]
     private TextController _tutorialText = null;
     [SerializeField]
     private GameObject _tutorialPanelParent = null;
@@ -67,7 +69,7 @@ public class TutorialCanvas : BaseCanvas
     {
         if (_textDuration > 0f)
         {
-            _textDuration -= Time.deltaTime;
+            _textDuration -= Time.unscaledDeltaTime;
 
             if (_textDuration <= 0f)
             {
@@ -164,6 +166,11 @@ public class TutorialCanvas : BaseCanvas
     public void GameTutorialStart()
     {
         SceneController.ChangeScene("GameTutorialScene");
+    }
+
+    private void CreateTextArea(float weith, float height)
+    {
+
     }
 
     public void TextCancel()
