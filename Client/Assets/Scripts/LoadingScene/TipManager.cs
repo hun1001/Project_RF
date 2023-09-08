@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Util;
 
-public class TipManager : MonoBehaviour
+public class TipManager : MonoSingleton<TipManager>
 {
-    [SerializeField]
-    private Text _tipText = null;
-
     private List<TipSO> tipSOList = new List<TipSO>();
     private List<string> beforeTipText = new List<string>();
 
@@ -17,22 +15,7 @@ public class TipManager : MonoBehaviour
         tipSOList = AddressablesManager.Instance.GetLabelResources<TipSO>("Tip").ToList();
     }
 
-    private void Start() => SetRandomTipText();
-
-    private void Update()
-    {
-        if(Input.GetMouseButtonDown(0))
-        {
-            SetRandomTipText();
-        }
-    }
-
-    private void SetRandomTipText()
-    {
-        _tipText.text = GetRandomTipText();
-    }
-
-    private string GetRandomTipText()
+    public string GetRandomTipText()
     {
         string randomTipText = tipSOList[Random.Range(0, tipSOList.Count)].tipText;
         while (beforeTipText.Contains(randomTipText))

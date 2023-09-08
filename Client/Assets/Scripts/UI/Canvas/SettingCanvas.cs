@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using Event;
+using UnityEditor;
 
 public class SettingCanvas : BaseCanvas
 {
@@ -71,7 +72,11 @@ public class SettingCanvas : BaseCanvas
         PlayerPrefs.DeleteAll();
         SaveManager.DeleteAllSaveData();
 
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false;
+#else
         Application.Quit();
+#endif
     }
 
     #region Audio
