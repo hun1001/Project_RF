@@ -70,6 +70,8 @@ public class SettingCanvas : BaseCanvas
     {
         PlayerPrefs.DeleteAll();
         SaveManager.DeleteAllSaveData();
+
+        Application.Quit();
     }
 
     #region Audio
