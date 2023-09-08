@@ -1,7 +1,6 @@
 ﻿using Addressable;
 using DG.Tweening;
 using Event;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -78,6 +77,7 @@ public class MenuCanvas : BaseCanvas
 
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
 
+        EventManager.StartListening(EventKeyword.ShellReplacement, CurrentTankInfoUpdate);
         EventManager.StartListening(EventKeyword.ShellReplacement, ShellCheck);
 
         ShellCheck();
@@ -167,8 +167,6 @@ public class MenuCanvas : BaseCanvas
 
         _hangerHandle.OpenHanger();
     }
-
-
     #endregion
 
     #region Buttons
