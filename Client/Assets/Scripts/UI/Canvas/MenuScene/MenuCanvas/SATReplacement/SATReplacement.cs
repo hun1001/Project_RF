@@ -15,11 +15,6 @@ public class SATReplacement : MonoBehaviour
 
     private void SATSetting()
     {
-        var sats = AddressablesManager.Instance.GetLabelResources<TipSO>("Tip");
-
-        foreach (var sat in sats)
-        {
-            Debug.Log(sat.name);
-        }
+        
     }
 }
