@@ -5,7 +5,7 @@ using UnityEngine;
 public class TechTreeCountryToggles : MonoBehaviour
 {
     [SerializeField]
-    private ShellToggleGroupManager _toggleGroupManager = null;
+    private ShellToggleGroupSATManager _toggleGroupManager = null;
 
     [SerializeField]
     private GameObject _countryToggleTemplate = null;

@@ -12,8 +12,8 @@ public class InformationCanvas : BaseCanvas
 
     [Header("Shell")]
     [SerializeField]
-    private ShellToggleGroupManager shellToggleManager = null;
-    public ShellToggleGroupManager ShellToggleManager => shellToggleManager;
+    private ShellToggleGroupSATManager shellToggleManager = null;
+    public ShellToggleGroupSATManager ShellToggleManager => shellToggleManager;
     private int _magazineSize = 0;
 
     [SerializeField]

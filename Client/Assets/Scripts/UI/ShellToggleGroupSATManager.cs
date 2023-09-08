@@ -3,10 +3,13 @@ using UnityEngine.Events;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class ShellToggleGroupManager : ToggleGroup
+public class ShellToggleGroupSATManager : ToggleGroup
 {
     [SerializeField]
     private Toggle _templateToggle = null;
+
+    [SerializeField]
+    private SATInformationHandle _satInformationHandle = null;
 
     private List<ShellTemplateHandle> _templateList = new List<ShellTemplateHandle>();
     public List<ShellTemplateHandle> TemplateList => _templateList;
