@@ -9,6 +9,12 @@ public class LoadingCanvas : MonoBehaviour
     [SerializeField]
     private Text _tipText = null;
 
+    private void Start()
+    {
+        SetRandomTipText();
+    }
+
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
