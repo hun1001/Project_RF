@@ -1,18 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoadingCanvas : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private Text _tipText = null;
+
+    private void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            SetRandomTipText();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SetRandomTipText()
     {
-        
+        _tipText.text = TipManager.Instance.GetRandomTipText();
     }
 }
