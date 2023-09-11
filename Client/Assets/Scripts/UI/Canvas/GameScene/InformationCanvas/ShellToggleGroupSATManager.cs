@@ -34,6 +34,5 @@ public class ShellToggleGroupSATManager : ToggleGroup
     public void SetSAT(BaseSubArmament sat)
     {
         _satInformationHandle.Setting(sat);
-        transform.SetParent(transform.parent);
     }
 }

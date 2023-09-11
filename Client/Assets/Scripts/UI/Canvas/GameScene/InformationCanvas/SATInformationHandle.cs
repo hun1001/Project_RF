@@ -15,7 +15,9 @@ public class SATInformationHandle : MonoBehaviour
 
     public void Setting(BaseSubArmament sat)
     {
+        (transform as RectTransform).SetAsLastSibling();
         gameObject.SetActive(true);
+
         _subArmament = sat;
         _satIconImage.sprite = _subArmament.Icon;
 
