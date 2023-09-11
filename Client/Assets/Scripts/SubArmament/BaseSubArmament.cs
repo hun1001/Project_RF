@@ -4,6 +4,10 @@ using UnityEngine;
 
 public abstract class BaseSubArmament : MonoBehaviour
 {
+    [SerializeField]
+    private Sprite _icon = null;
+    public Sprite Icon => _icon;
+
     private Tank _tank = null;
     public Tank Tank => _tank;
 

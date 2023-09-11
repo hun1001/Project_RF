@@ -23,7 +23,7 @@ public class SATReplacement : MonoBehaviour
         foreach (var sat in satList)
         {
             var satToggle = Instantiate(_satToggleTamplate, _satTransform);
-            satToggle.SetText(sat.name);
+            satToggle.Setting(sat.name);
             satToggle.gameObject.SetActive(true);
         }
     }

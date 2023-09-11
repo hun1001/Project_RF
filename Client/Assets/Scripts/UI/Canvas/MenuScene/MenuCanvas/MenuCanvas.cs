@@ -31,6 +31,9 @@ public class MenuCanvas : BaseCanvas
     [SerializeField]
     private SATReplacement _satReplacement = null;
 
+    [SerializeField]
+    private Image _satImage = null;
+
     [Header("Animation")]
     [SerializeField]
     private RectTransform _topFrame = null;
@@ -105,6 +108,7 @@ public class MenuCanvas : BaseCanvas
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
 
         EventManager.StartListening(EventKeyword.ShellReplacement, ShellCheck);
+        EventManager.StartListening(EventKeyword.SATReplacement, SATCheck);
 
         ShellCheck();
         HangerUpdate();
@@ -134,6 +138,11 @@ public class MenuCanvas : BaseCanvas
 
         _menuTankInfoUI.CurrentTankInfoUpdate();
         _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(true);
+    }
+
+    private void SATCheck()
+    {
+        _satImage.sprite = AddressablesManager.Instance.GetResource<GameObject>(SATSaveManager.SATID).GetComponent<BaseSubArmament>().Icon;
     }
 
     #region Shell

@@ -3,6 +3,7 @@ public static class EventKeyword
     public const string MenuCameraMove = "MenuCameraMove";
     public const string TankReplacement = "TankReplacement";
     public const string ShellReplacement = "ShellReplacement";
+    public const string SATReplacement = "SATReplacement";
 
     public const string BossClear = "BossClear";
     public const string StageClear = "StageClear";
