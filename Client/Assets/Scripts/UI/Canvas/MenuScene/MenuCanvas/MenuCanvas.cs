@@ -142,7 +142,16 @@ public class MenuCanvas : BaseCanvas
 
     private void SATCheck()
     {
-        _satImage.sprite = AddressablesManager.Instance.GetResource<GameObject>(SATSaveManager.SATID).GetComponent<BaseSubArmament>().Icon;
+        string satID = SATSaveManager.SATID;
+
+        if (satID == string.Empty)
+        {
+            _satImage.sprite = _plusSprite;
+        }
+        else
+        {
+            _satImage.sprite = AddressablesManager.Instance.GetResource<GameObject>(SATSaveManager.SATID).GetComponent<BaseSubArmament>().Icon;
+        }
     }
 
     #region Shell

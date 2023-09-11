@@ -1,3 +1,4 @@
+using Event;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
@@ -16,6 +17,17 @@ public class SATToggleTamplateHandle : MonoBehaviour
     {
         _satText.text = text;
 
-
+        _satToggle.onValueChanged.AddListener((isOn) =>
+        {
+            if(isOn)
+            {
+                SATSaveManager.SetSAT(text);
+            }
+            else
+            {
+                SATSaveManager.SetSAT(string.Empty);
+            }
+            EventManager.TriggerEvent(EventKeyword.SATReplacement);
+        });
     }
 }
