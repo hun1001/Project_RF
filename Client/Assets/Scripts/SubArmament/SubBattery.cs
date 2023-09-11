@@ -8,6 +8,7 @@ public class SubBattery : BaseSubArmament
     private LineRenderer _lineRenderer = null;
 
     public override SubArmamentKeyActionType ActionType => SubArmamentKeyActionType.OnKeyDownUp;
+    public override SATSO GetSATSO() => _satSO;
 
     public override void Aim()
     {
@@ -17,7 +18,7 @@ public class SubBattery : BaseSubArmament
         _lineRenderer.SetPosition(1, FirePoint.position + Vector3.up * 50f);
     }
 
-    public override void Fire()
+    protected override void OnFire()
     {
         _lineRenderer.enabled = false;
 

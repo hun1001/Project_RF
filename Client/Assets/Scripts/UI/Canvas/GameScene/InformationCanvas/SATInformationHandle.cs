@@ -17,7 +17,37 @@ public class SATInformationHandle : MonoBehaviour
     {
         gameObject.SetActive(true);
         _subArmament = sat;
-
         _satIconImage.sprite = _subArmament.Icon;
+
+        sat.AddOnFireAction(OnFire);
+        sat.AddOnReloadAction(OnReload);
+    }
+
+    private void OnFire()
+    {
+        _fillValueImage.fillAmount = (float)_subArmament.CurretBeltCapacity / _subArmament.GetSATSO().BeltCapacity;
+    }
+
+    private void OnReload()
+    {
+        StartCoroutine(ReloadImageFillCoroutine());
+    }
+
+    private IEnumerator ReloadImageFillCoroutine()
+    {
+        _fillValueImage.fillAmount = 0f;
+        _fillValueImage.color = new Color(1f, 0f, 0f, 0.12f);
+
+        float time = 0f;
+
+        while (time < _subArmament.GetSATSO().ReloadTime)
+        {
+            _fillValueImage.fillAmount = time / _subArmament.GetSATSO().ReloadTime;
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        _fillValueImage.fillAmount = 1f;
+        _fillValueImage.color = new Color(1f, 1f, 1f, 0.12f);
     }
 }
