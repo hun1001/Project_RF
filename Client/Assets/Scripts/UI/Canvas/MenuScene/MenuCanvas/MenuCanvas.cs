@@ -27,6 +27,10 @@ public class MenuCanvas : BaseCanvas
     private string _currentTankID;
     private ShellEquipmentData _shellEquipmentDataDict;
 
+    [Header("SAT")]
+    [SerializeField]
+    private SATReplacement _satReplacement = null;
+
     [Header("Animation")]
     [SerializeField]
     private RectTransform _topFrame = null;
@@ -726,6 +730,12 @@ public class MenuCanvas : BaseCanvas
             _isShellOpen = true;
             _shellReplacement.SetActive(true);
         }
+    }
+
+    public void OnClickSAT()
+    {
+        PlayButtonSound();
+        _satReplacement.SetActive(!_satReplacement.ActiveSelf);
     }
 
     public void OnGuideOpen()
