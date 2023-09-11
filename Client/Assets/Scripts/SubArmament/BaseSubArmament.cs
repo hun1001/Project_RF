@@ -25,11 +25,10 @@ public abstract class BaseSubArmament : MonoBehaviour
     private Action _onReloadStartAction = null;
     public void AddOnReloadAction(Action action) => _onReloadStartAction += action;
 
-    private Action _onReloadEndAction = null;
-    public void AddOnReloadEndAction(Action action) => _onReloadEndAction += action;
-
     private int _curretBeltCapacity = 0;
     public int CurretBeltCapacity => _curretBeltCapacity;
+
+    private bool _isReloading = false;
 
     public BaseSubArmament Setting(Tank tank, Transform point)
     {
@@ -51,6 +50,7 @@ public abstract class BaseSubArmament : MonoBehaviour
             Reload();
             return;
         }
+
         --_curretBeltCapacity;
 
         _onFireAction?.Invoke();
@@ -61,14 +61,20 @@ public abstract class BaseSubArmament : MonoBehaviour
 
     private void Reload()
     {
+        if (_isReloading)
+        {
+            return;
+        }
         StartCoroutine(ReloadCoroutine());
     }
 
     private IEnumerator ReloadCoroutine()
     {
         _onReloadStartAction?.Invoke();
+        _isReloading = true;
         yield return new WaitForSeconds(GetSATSO().ReloadTime);
         _curretBeltCapacity = GetSATSO().BeltCapacity;
         _onReloadEndAction?.Invoke();
+        _isReloading = false;
     }
 }
