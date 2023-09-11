@@ -23,6 +23,7 @@ public class TutorialCanvas : BaseCanvas
 
     private int _tutorialCount = 0;
     private float _textDuration = 0f;
+    private bool _isCanRetrun = true;
 
     [Header("Menu UI")]
     [SerializeField]
@@ -94,6 +95,21 @@ public class TutorialCanvas : BaseCanvas
                 }
             }
         });
+
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.Return, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType && TutorialManager.Instance.IsTutorial)
+            {
+                if (_textDuration > 0f)
+                {
+                    TextCancel();
+                }
+                else if (_isCanRetrun)
+                {
+                    NextTutorial();
+                }
+            }
+        });
     }
 
     public void OpenSkipPanel()
@@ -120,7 +136,8 @@ public class TutorialCanvas : BaseCanvas
     private void TutorialStart()
     {
         if (PlayerPrefs.GetInt("Tutorial", 0) == 1) return;
-        
+
+        _isCanRetrun = true;
         _tutorialPanelParent.SetActive(true);
         _tutorialCount = 0;
         TutorialManager.Instance.TutorialStart();
@@ -204,6 +221,7 @@ public class TutorialCanvas : BaseCanvas
                 {
                     _tutorialPanels[1].SetActive(true);
                     _nextButton.SetActive(false);
+                    _isCanRetrun = false;
                     break;
                 }
             case 6:
@@ -212,12 +230,14 @@ public class TutorialCanvas : BaseCanvas
                     _tutorialPanels[1].SetActive(false);
                     _tutorialPanels[2].SetActive(true);
                     _nextButton.SetActive(true);
+                    _isCanRetrun = true;
                     break;
                 }
             case 7:
                 {
                     _nextButton.SetActive(false);
                     _shellButtons[0].SetActive(true);
+                    _isCanRetrun = false;
                     break;
                 }
             case 8:
@@ -228,6 +248,7 @@ public class TutorialCanvas : BaseCanvas
                     _shellImages[0].sprite = _shellSprites[0];
                     ShellSaveManager.ShellEquip("BT-5", 0, "HE");
                     _nextButton.SetActive(true);
+                    _isCanRetrun = true;
                     break;
                 }
             case 11:
@@ -236,6 +257,7 @@ public class TutorialCanvas : BaseCanvas
                     _nextButton.SetActive(false);
                     _tutorialPanels[2].SetActive(true);
                     _shellButtons[1].SetActive(true);
+                    _isCanRetrun = false;
                     break;
                 }
             case 12:
@@ -246,18 +268,21 @@ public class TutorialCanvas : BaseCanvas
                     _shellButtons[1].SetActive(false);
                     _shellImages[1].sprite = _shellSprites[1];
                     ShellSaveManager.ShellEquip("BT-5", 1, "AP10");
+                    _isCanRetrun = true;
                     break;
                 }
             case 15:
                 { 
                     _nextButton.SetActive(false);
                     _tutorialPanels[3].SetActive(true);
+                    _isCanRetrun = false;
                     break;
                 }
             case 17:
                 {
                     _tutorialPanels[4].SetActive(true);
                     _nextButton.SetActive(false);
+                    _isCanRetrun = false;
                     break;
                 }
             case 18:
@@ -266,12 +291,14 @@ public class TutorialCanvas : BaseCanvas
                     _menuUI.SetActive(false);
                     _techTreeUI.SetActive(true);
                     _nextButton.SetActive(true);
+                    _isCanRetrun = true;
                     break;
                 }
             case 19:
                 {
                     _nextButton.SetActive(false);
                     _tutorialPanels[5].SetActive(true);
+                    _isCanRetrun = false;
                     break;
                 }
             case 20:
@@ -287,6 +314,7 @@ public class TutorialCanvas : BaseCanvas
                     FindObjectOfType<TankModelManager>().ChangeTankModel(Addressable.AddressablesManager.Instance.GetResource<GameObject>("BT-7").GetComponent<Tank>());
                     _menuGoodsText.SetGoodsTexts(0, 0);
                     _techTreeGoodsText.SetGoodsTexts(0, 0);
+                    _isCanRetrun = true;
                     break;
                 }
         }
