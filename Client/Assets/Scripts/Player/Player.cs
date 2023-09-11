@@ -61,7 +61,12 @@ public class Player : CustomObject
         base.Awake();
         Camera.main.TryGetComponent(out _cameraManager);
 
-        var sat = PoolManager.Get<BaseSubArmament>(SATSaveManager.SATID);
+        BaseSubArmament sat = null;
+
+        if (SATSaveManager.SATID != null)
+        {
+            sat = PoolManager.Get<BaseSubArmament>(SATSaveManager.SATID);
+        }
 
         _tank = SpawnManager.Instance.SpawnUnit(PlayerDataManager.Instance.GetPlayerTankID(), transform.position, Quaternion.identity, GroupType.Player, sat);
         _tank.tag = "Player";
