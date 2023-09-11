@@ -73,7 +73,7 @@ public class Player : CustomObject
         
         if(_tank.TryGetSecondaryArmament(out _subArmament))
         {
-            _informationCanvas.ShellToggleManager.SetSAT();
+            _informationCanvas.ShellToggleManager.SetSAT(_subArmament);
 
             if (_subArmament.ActionType == SubArmamentKeyActionType.OnKeyHold)
             {
