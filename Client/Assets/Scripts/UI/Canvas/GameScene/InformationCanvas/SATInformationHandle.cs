@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SATInformationHandle : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private Image _satIconImage = null;
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField]
+    private Image _fillValueImage = null;
+
+    private BaseSubArmament _subArmament = null;
+
+    public void Setting(BaseSubArmament sat)
     {
-        
+        gameObject.SetActive(true);
+        _subArmament = sat;
+
+        _satIconImage.sprite = _subArmament.Icon;
     }
 }

@@ -73,6 +73,8 @@ public class Player : CustomObject
         
         if(_tank.TryGetSecondaryArmament(out _subArmament))
         {
+            _informationCanvas.ShellToggleManager.SetSAT();
+
             if (_subArmament.ActionType == SubArmamentKeyActionType.OnKeyHold)
             {
                 KeyboardManager.Instance.AddKeyHoldAction(KeyCode.Space, _subArmament.Fire);

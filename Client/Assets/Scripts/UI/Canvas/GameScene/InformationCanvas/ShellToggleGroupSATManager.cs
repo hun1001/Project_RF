@@ -30,4 +30,9 @@ public class ShellToggleGroupSATManager : ToggleGroup
             template.CoolDownBarHandle.SetCoolDown(coolDown);
         }
     }
+
+    public void SetSAT(BaseSubArmament sat)
+    {
+        _satInformationHandle.Setting(sat);
+    }
 }
