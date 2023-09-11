@@ -217,11 +217,7 @@ namespace CustomEditorWindow.SheetDataToSO
 
                             AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
 
-                            AddressableAssetGroup group = settings.FindGroup("Tip");
-                            if(group == null)
-                            {
-                                group = settings.CreateGroup("Tip", false, false, false, null);
-                            }
+                            AddressableAssetGroup group = settings.FindGroup("Default Local Group");
 
                             AddressableAssetEntry entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID(path.ToString()), group);
 

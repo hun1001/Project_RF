@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+using Event;
+using Pool;
 using static UnityEngine.SceneManagement.SceneManager;
 
 public static class SceneController 
@@ -10,6 +8,10 @@ public static class SceneController
 
     public static void ChangeScene(string sceneName)
     {
+        PoolManager.DeleteAllPool();
+        EventManager.ClearEvent();
+        MouseManager.Instance.ClearMouseButtonAction();
+
         LoadingSceneManager.NextScene(sceneName);
         LoadScene(_loadingSceneName);
     }

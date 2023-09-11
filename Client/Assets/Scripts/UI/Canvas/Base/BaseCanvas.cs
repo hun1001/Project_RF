@@ -56,9 +56,6 @@ public abstract class BaseCanvas : MonoBehaviour, IButtonSound
         {
             Time.timeScale = 1;
             SceneController.ChangeScene("MenuScene");
-            EventManager.ClearEvent();
-            PoolManager.DeleteAllPool();
-            MouseManager.Instance.ClearMouseButtonAction();
         }
     }
 

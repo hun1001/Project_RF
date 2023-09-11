@@ -109,8 +109,6 @@ public class ModeCanvas : BaseCanvas
 
         Time.timeScale = 1;
         SceneController.ChangeScene("GameScene");
-        Pool.PoolManager.DeleteAllPool();
-        EventManager.ClearEvent();
     }
 
     public void OnStageMode()
@@ -125,8 +123,6 @@ public class ModeCanvas : BaseCanvas
 
         Time.timeScale = 1;
         SceneController.ChangeScene("StageTestScene");
-        Pool.PoolManager.DeleteAllPool();
-        EventManager.ClearEvent();
     }
 
     public void OnTrainingRoom()
