@@ -74,7 +74,6 @@ public abstract class BaseSubArmament : MonoBehaviour
         _isReloading = true;
         yield return new WaitForSeconds(GetSATSO().ReloadTime);
         _curretBeltCapacity = GetSATSO().BeltCapacity;
-        _onReloadEndAction?.Invoke();
         _isReloading = false;
     }
 }
