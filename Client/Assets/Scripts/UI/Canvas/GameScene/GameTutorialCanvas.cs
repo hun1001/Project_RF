@@ -17,6 +17,8 @@ public class GameTutorialCanvas : BaseCanvas
     [SerializeField]
     private GameObject _textButton = null;
     [SerializeField]
+    private RectTransform _textArea = null;
+    [SerializeField]
     private GameObject[] _tutorialPanels = null;
 
     private int _tutorialCount = 0;
@@ -91,7 +93,7 @@ public class GameTutorialCanvas : BaseCanvas
         _tutorialPanelParent.SetActive(true);
     }
 
-    public void TutorialStart()
+    private void TutorialStart()
     {
         _tutorialPanelParent.SetActive(true);
         _tutorialCount = 0;

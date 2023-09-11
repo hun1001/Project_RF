@@ -22953,7 +22953,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3852085517208461399}
   m_Layer: 0
-  m_Name: Panels
+  m_Name: HighlightPanels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26246,6 +26246,7 @@ MonoBehaviour:
   _tutorialPanelParent: {fileID: 911226797186965269}
   _nextButton: {fileID: 1424817468677537122}
   _textButton: {fileID: 6460885433572737356}
+  _textArea: {fileID: 6532506446649556029}
   _tutorialPanels:
   - {fileID: 7838716425157152088}
   - {fileID: 6899025711087298108}
@@ -30136,7 +30137,7 @@ GameObject:
   - component: {fileID: 8548963375520441772}
   - component: {fileID: 5803984313670596035}
   m_Layer: 0
-  m_Name: TextBackGround
+  m_Name: TextArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30157,10 +30158,10 @@ RectTransform:
   - {fileID: 6029716472689083636}
   m_Father: {fileID: 5942599775912715371}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 300}
+  m_SizeDelta: {x: 1920, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8548963375520441772
 CanvasRenderer:
