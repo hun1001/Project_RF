@@ -22,8 +22,11 @@ public abstract class BaseSubArmament : MonoBehaviour
     private Action _onFireAction = null;
     public void AddOnFireAction(Action action) => _onFireAction += action;
 
-    private Action _onReloadAction = null;
-    public void AddOnReloadAction(Action action) => _onReloadAction += action;
+    private Action _onReloadStartAction = null;
+    public void AddOnReloadAction(Action action) => _onReloadStartAction += action;
+
+    private Action _onReloadEndAction = null;
+    public void AddOnReloadEndAction(Action action) => _onReloadEndAction += action;
 
     private int _curretBeltCapacity = 0;
     public int CurretBeltCapacity => _curretBeltCapacity;
@@ -59,12 +62,13 @@ public abstract class BaseSubArmament : MonoBehaviour
     private void Reload()
     {
         StartCoroutine(ReloadCoroutine());
-        _onReloadAction?.Invoke();
     }
 
     private IEnumerator ReloadCoroutine()
     {
+        _onReloadStartAction?.Invoke();
         yield return new WaitForSeconds(GetSATSO().ReloadTime);
         _curretBeltCapacity = GetSATSO().BeltCapacity;
+        _onReloadEndAction?.Invoke();
     }
 }

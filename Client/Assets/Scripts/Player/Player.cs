@@ -71,21 +71,6 @@ public class Player : CustomObject
         _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
         _turretAttack = _tank.Turret.GetComponent<Turret_Attack>(ComponentType.Attack);
         
-        if(_tank.TryGetSecondaryArmament(out _subArmament))
-        {
-            _informationCanvas.ShellToggleManager.SetSAT(_subArmament);
-
-            if (_subArmament.ActionType == SubArmamentKeyActionType.OnKeyHold)
-            {
-                KeyboardManager.Instance.AddKeyHoldAction(KeyCode.Space, _subArmament.Fire);
-            }
-            else if (_subArmament.ActionType == SubArmamentKeyActionType.OnKeyDownUp)
-            {
-                KeyboardManager.Instance.AddKeyDownAction(KeyCode.Space, _subArmament.Aim);
-                KeyboardManager.Instance.AddKeyUpAction(KeyCode.Space, _subArmament.Fire);
-            }
-        }
-
         MouseManager.Instance.OnMouseLeftButtonDown += () =>
         {
             if (Time.timeScale > 0)
@@ -135,6 +120,21 @@ public class Player : CustomObject
         }
         Action[] actions = actionList.ToArray();
         KeyboardManager.Instance.AddKeyDownActionList(actions);
+
+        if (_tank.TryGetSecondaryArmament(out _subArmament))
+        {
+            _informationCanvas.ShellToggleManager.SetSAT(_subArmament);
+
+            if (_subArmament.ActionType == SubArmamentKeyActionType.OnKeyHold)
+            {
+                KeyboardManager.Instance.AddKeyHoldAction(KeyCode.Space, _subArmament.Fire);
+            }
+            else if (_subArmament.ActionType == SubArmamentKeyActionType.OnKeyDownUp)
+            {
+                KeyboardManager.Instance.AddKeyDownAction(KeyCode.Space, _subArmament.Aim);
+                KeyboardManager.Instance.AddKeyUpAction(KeyCode.Space, _subArmament.Fire);
+            }
+        }
 
         _informationCanvas.ShellToggleManager.TemplateList[0].isOn = true;
 
