@@ -63,7 +63,7 @@ public class Player : CustomObject
 
         BaseSubArmament sat = null;
 
-        if (SATSaveManager.SATID != null)
+        if (SATSaveManager.SATID != null && SATSaveManager.SATID != string.Empty)
         {
             sat = PoolManager.Get<BaseSubArmament>(SATSaveManager.SATID);
         }
