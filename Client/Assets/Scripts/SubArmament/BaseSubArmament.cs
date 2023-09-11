@@ -43,7 +43,7 @@ public abstract class BaseSubArmament : MonoBehaviour
     public abstract SubArmamentKeyActionType ActionType { get; }
 
     public virtual void Aim() { }
-    public void Fire()
+    public virtual void Fire()
     {
         if (_curretBeltCapacity <= 0)
         {
@@ -52,7 +52,6 @@ public abstract class BaseSubArmament : MonoBehaviour
         }
 
         --_curretBeltCapacity;
-
         _onFireAction?.Invoke();
         OnFire();
     }
