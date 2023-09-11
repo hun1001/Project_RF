@@ -44,7 +44,7 @@ public class GameTutorialCanvas : BaseCanvas
     {
         if (_textDuration > 0f)
         {
-            _textDuration -= Time.deltaTime;
+            _textDuration -= Time.unscaledDeltaTime;
 
             if (_textDuration <= 0f)
             {
@@ -89,11 +89,6 @@ public class GameTutorialCanvas : BaseCanvas
         PlayButtonSound();
         _skipPanel.SetActive(false);
         _tutorialPanelParent.SetActive(true);
-
-        if (_tutorialCount == 0)
-        {
-            TutorialStart();
-        }
     }
 
     public void TutorialStart()
