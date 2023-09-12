@@ -179,7 +179,7 @@ public class TechTreeCanvas : BaseCanvas
                 if (CanvasManager.ActiveCanvas == CanvasType)
                 {
                     _tankInformation.SetActive(false);
-                    SetTechTree(idx);
+                    _countryToggleGroup.ChangeToggleValue(idx);
                 }
             };
         }
