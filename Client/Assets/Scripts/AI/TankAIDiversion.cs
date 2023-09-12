@@ -113,13 +113,6 @@ public class TankAIDiversion : AI_Base
             return false;
         }
 
-        SettingPath();
-
-        return true;
-    }
-
-    private void SettingPath()
-    {
         bool isCanMove = false;
         Vector3 randomNextPosition = Vector3.zero;
 
@@ -131,12 +124,19 @@ public class TankAIDiversion : AI_Base
             isCanMove = NavMesh.CalculatePath(Tank.transform.position, randomNextPosition, NavMesh.AllAreas, _navMeshPath);
         } while (!isCanMove);
 
+        for(int i = 0;i<_navMeshPath.corners.Length - 1;++i)
+        {
+            Debug.DrawLine(_navMeshPath.corners[i], _navMeshPath.corners[i + 1], Color.green, 10f);
+        }
+
         for (int i = 0; i < _navMeshPath.corners.Length; ++i)
         {
             _pathQueue.Enqueue(_navMeshPath.corners[i]);
         }
 
         _currentTargetPosition = _pathQueue.Dequeue();
+
+        return true;
     }
 
     private bool IsTargetAim()
