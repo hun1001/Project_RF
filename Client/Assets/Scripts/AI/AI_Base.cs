@@ -34,7 +34,7 @@ public abstract class AI_Base : MonoBehaviour
 
     private bool _isUpdate = false;
 
-    protected virtual void Init()
+    public virtual void Init(string id)
     {
         _navMeshPath = new NavMeshPath();
 
