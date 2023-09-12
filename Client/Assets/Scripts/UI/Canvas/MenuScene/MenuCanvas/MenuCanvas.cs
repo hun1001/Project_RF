@@ -94,6 +94,8 @@ public class MenuCanvas : BaseCanvas
         _warningPanel.gameObject.SetActive(false);
 
         EventManager.StartListening(EventKeyword.MenuCameraMove, CameraUIHide);
+        EventManager.StartListening(EventKeyword.ShellReplacement, ShellCheck);
+        EventManager.StartListening(EventKeyword.SATReplacement, SATCheck);
 
         HangerInit();
         FilterInit();
@@ -106,9 +108,6 @@ public class MenuCanvas : BaseCanvas
         _isShellOpen = false;
 
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
-
-        EventManager.StartListening(EventKeyword.ShellReplacement, ShellCheck);
-        EventManager.StartListening(EventKeyword.SATReplacement, SATCheck);
 
         ShellCheck();
         HangerUpdate();
