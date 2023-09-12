@@ -110,6 +110,7 @@ public class MenuCanvas : BaseCanvas
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
 
         ShellCheck();
+        SATCheck();
         HangerUpdate();
         CurrentTankInfoUpdate();
         HangerSort();
