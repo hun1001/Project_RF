@@ -68,20 +68,20 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
             {
                 _shellDict[_shells[idx].ID].SetActive(true);
 
-                _shellDict[_shells[idx].ID].transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = dmg / 1500f;
-                _shellDict[_shells[idx].ID].transform.GetChild(2).GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = pen / 500f;
+                //_shellDict[_shells[idx].ID].transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = dmg / 1500f;
+                //_shellDict[_shells[idx].ID].transform.GetChild(2).GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = pen / 500f;
 
-                _shellDict[_shells[idx].ID].transform.GetChild(3).GetChild(0).GetComponent<TMP_Text>().text = dmg.ToString();
-                _shellDict[_shells[idx].ID].transform.GetChild(3).GetChild(1).GetComponent<TMP_Text>().text = pen.ToString();
+                //_shellDict[_shells[idx].ID].transform.GetChild(3).GetChild(0).GetComponent<TMP_Text>().text = dmg.ToString();
+                //_shellDict[_shells[idx].ID].transform.GetChild(3).GetChild(1).GetComponent<TMP_Text>().text = pen.ToString();
 
                 if (_shellEquipmentData._shellEquipmentList.Contains(_shells[i].ID))
                 {
-                    _shellDict[_shells[idx].ID].transform.GetChild(4).GetComponent<Toggle>().isOn = true;
+                    _shellDict[_shells[idx].ID].transform.GetChild(0).GetComponent<Toggle>().isOn = true;
                     _shellEquipDict.Add(_shellEquipmentData._shellEquipmentList.IndexOf(_shells[idx].ID), _shells[idx]);
                 }
                 else
                 {
-                    _shellDict[_shells[i].ID].transform.GetChild(4).GetComponent<Toggle>().isOn = false;
+                    _shellDict[_shells[i].ID].transform.GetChild(0).GetComponent<Toggle>().isOn = false;
                 }
 
                 continue;
@@ -91,25 +91,25 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
             _shellDict.Add(_shells[idx].ID, obj);
             obj.SetActive(true);
 
-            obj.transform.GetChild(0).GetComponent<Image>().sprite = _shells[idx].ShellSprite;
-            Transform informations = obj.transform.GetChild(1);
-            informations.GetChild(0).GetComponent<TextController>().SetText(_shells[idx].ID);
+            obj.transform.GetChild(1).GetComponent<Image>().sprite = _shells[idx].ShellSprite;
+            //Transform informations = obj.transform.GetChild(1);
+            obj.transform.GetChild(2).GetComponent<TextController>().SetText(_shells[idx].ID);
 
             // Bar
-            Transform bars = obj.transform.GetChild(2);
-            bars.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = dmg / 1500f;
-            bars.GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = pen / 500f;
-            bars.GetChild(2).GetChild(0).GetComponent<Image>().fillAmount = _shells[idx].Speed / 140f;
-            bars.GetChild(3).GetChild(0).GetComponent<Image>().fillAmount = _shells[idx].ShellSO.RicochetAngle / 90f;
+            //Transform bars = obj.transform.GetChild(2);
+            //bars.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = dmg / 1500f;
+            //bars.GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = pen / 500f;
+            //bars.GetChild(2).GetChild(0).GetComponent<Image>().fillAmount = _shells[idx].Speed / 140f;
+            //bars.GetChild(3).GetChild(0).GetComponent<Image>().fillAmount = _shells[idx].ShellSO.RicochetAngle / 90f;
 
             // Value Text
-            Transform values = obj.transform.GetChild(3);
-            values.GetChild(0).GetComponent<TMP_Text>().text = dmg.ToString();
-            values.GetChild(1).GetComponent<TMP_Text>().text = pen.ToString();
-            values.GetChild(2).GetComponent<TMP_Text>().text = _shells[idx].Speed.ToString();
-            values.GetChild(3).GetComponent<TMP_Text>().text = _shells[idx].ShellSO.RicochetAngle.ToString();
+            //Transform values = obj.transform.GetChild(3);
+            //values.GetChild(0).GetComponent<TMP_Text>().text = dmg.ToString();
+            //values.GetChild(1).GetComponent<TMP_Text>().text = pen.ToString();
+            //values.GetChild(2).GetComponent<TMP_Text>().text = _shells[idx].Speed.ToString();
+            //values.GetChild(3).GetComponent<TMP_Text>().text = _shells[idx].ShellSO.RicochetAngle.ToString();
 
-            Toggle toggle = _shellDict[_shells[idx].ID].transform.GetChild(4).GetComponent<Toggle>();
+            Toggle toggle = _shellDict[_shells[idx].ID].transform.GetChild(0).GetComponent<Toggle>();
             if (_shellEquipmentData._shellEquipmentList.Contains(_shells[idx].ID))
             {
                 toggle.isOn = true;
@@ -119,7 +119,7 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
                 toggle.isOn = false;
             }
 
-            obj.transform.GetChild(5).GetComponent<Button>().onClick.AddListener(() =>
+            obj.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
             {
                 PlayButtonSound();
                 _shellEquipmentData = ShellSaveManager.GetShellEquipment(_currentTankID);
