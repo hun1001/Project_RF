@@ -16,6 +16,9 @@ public abstract class BaseSubArmament : MonoBehaviour
     public Sprite Icon => _icon;
 
     [SerializeField]
+    protected Shell _shell = null;
+
+    [SerializeField]
     private AudioClip _fireAudioClip = null;
 
     private Tank _tank = null;
