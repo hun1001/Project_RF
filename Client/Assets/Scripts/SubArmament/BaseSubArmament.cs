@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Pool;
+using UnityEngine.Rendering;
 
 public abstract class BaseSubArmament : MonoBehaviour
 {
@@ -12,6 +14,9 @@ public abstract class BaseSubArmament : MonoBehaviour
     [SerializeField]
     private Sprite _icon = null;
     public Sprite Icon => _icon;
+
+    [SerializeField]
+    private AudioClip _fireAudioClip = null;
 
     private Tank _tank = null;
     public Tank Tank => _tank;
@@ -53,6 +58,7 @@ public abstract class BaseSubArmament : MonoBehaviour
 
         --_curretBeltCapacity;
         _onFireAction?.Invoke();
+        PlayFireSound();
         OnFire();
     }
 
@@ -74,5 +80,14 @@ public abstract class BaseSubArmament : MonoBehaviour
         yield return new WaitForSeconds(GetSATSO().ReloadTime);
         _curretBeltCapacity = GetSATSO().BeltCapacity;
         _isReloading = false;
+    }
+
+    private void PlayFireSound()
+    {
+        var audioSource = PoolManager.Get<AudioSourceController>("AudioSource", _firePoint);
+        audioSource.SetSound(_fireAudioClip);
+        audioSource.SetGroup(AudioMixerType.Sfx);
+        audioSource.SetVolume(1f);
+        audioSource.Play();
     }
 }

@@ -38,11 +38,19 @@ public class Shell : CustomObject, IPoolReset
         _shellSprite = shellSprite;
     }
 
-    public void SetShell(CustomObject owner, float atkPower, float penetrationPower)
+    public void SetShell(CustomObject owner, float atkPower = 0, float penetrationPower = 0)
     {
         _owner = owner;
-        _damage = Mathf.Round(_shellSO.Damage * (Mathf.Pow(atkPower, 2) * 0.001f));
-        _penetration = Mathf.Round(atkPower * penetrationPower * _shellSO.Penetration / 3000f);
+        if (atkPower == 0 || penetrationPower == 0)
+        {
+            _damage = _shellSO.Damage;
+            _penetration = _shellSO.Penetration;
+        }
+        else
+        {
+            _damage = Mathf.Round(_shellSO.Damage * (Mathf.Pow(atkPower, 2) * 0.001f));
+            _penetration = Mathf.Round(atkPower * penetrationPower * _shellSO.Penetration / 3000f);
+        }
     }
 
     public void PoolObjectReset()
