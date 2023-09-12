@@ -10,12 +10,11 @@ public class SubBattery : BaseSubArmament
     public override SubArmamentKeyActionType ActionType => SubArmamentKeyActionType.OnKeyDownUp;
     public override SATSO GetSATSO() => _satSO;
 
+    private bool _isAiming = false;
+
     public override void Aim()
     {
         _lineRenderer.enabled = true;
-
-        _lineRenderer.SetPosition(0, FirePoint.position);
-        _lineRenderer.SetPosition(1, FirePoint.position + Vector3.up * 50f);
     }
 
     protected override void OnFire()
@@ -24,5 +23,14 @@ public class SubBattery : BaseSubArmament
 
         PoolManager.Get<Shell>("Bullet", FirePoint.position, FirePoint.rotation).SetShell(GetComponent<Tank>(), 200, 40);
         PoolManager.Get("MuzzleFlash4", FirePoint.position, FirePoint.rotation);
+    }
+
+    private void Update()
+    {
+        if(_isAiming)
+        {
+            _lineRenderer.SetPosition(0, FirePoint.position);
+            _lineRenderer.SetPosition(1, FirePoint.position + Vector3.up * 50f);
+        }
     }
 }
