@@ -10,10 +10,10 @@ public class TankAIGuerrilla : AI_Base
 
     string _id = string.Empty;
 
-    public void Init(string id)
+    public override void Init(string id)
     {
         _id = id;
-        base.Init();
+        base.Init(id);
         StopAllCoroutines();
     }
 

@@ -47,7 +47,7 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
     {
         for (int i = 0; i < _stageListSO.Stages[CurrentStage].Enemys.Length; i++)
         {
-            var ai = PoolManager.Get<TankAIDiversion>("AI", _currentMap.RandomSpawnPoint(), Quaternion.identity);
+            var ai = PoolManager.Get<AI_Base>("AI", _currentMap.RandomSpawnPoint(), Quaternion.identity);
             ai.Init(_stageListSO.Stages[CurrentStage].Enemys[i].ID);
         }
         RemainingEnemy = _stageListSO.Stages[CurrentStage].Enemys.Length;

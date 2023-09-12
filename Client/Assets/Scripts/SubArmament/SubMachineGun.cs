@@ -30,7 +30,9 @@ public class SubMachineGun : BaseSubArmament
 
     protected override void OnFire()
     {
-        PoolManager.Get<Shell>(_shell.ID, FirePoint.position, FirePoint.rotation).SetShell(Tank);
+        Quaternion randomRotation = FirePoint.rotation * Quaternion.Euler(1, 1, Random.Range(-5f, 5f));
+
+        PoolManager.Get<Shell>(_shell.ID, FirePoint.position, randomRotation).SetShell(Tank);
         PoolManager.Get("MuzzleFlash4", FirePoint.position, FirePoint.rotation);
     }
 }

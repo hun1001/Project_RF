@@ -15,6 +15,8 @@ public class Turret_Attack : Turret_Component
     public int MagazineSize => _magazineSize;
 
     private bool _isReload = false;
+    public bool IsReload => _isReload;
+
     private bool _isBurst = false;
 
     private Turret_Sound _turretSound = null;

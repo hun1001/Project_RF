@@ -11,10 +11,11 @@ public class TankAIDiversion : AI_Base
     private Queue<Vector3> _pathQueue = new Queue<Vector3>();
     private Vector3 _currentTargetPosition = Vector3.zero;
 
-    public void Init(string id)
+    public override void Init(string id)
     {
         _id = id;
-        base.Init();
+        _pathQueue.Clear();
+        base.Init(id);
         StopAllCoroutines();
     }
 
@@ -96,15 +97,7 @@ public class TankAIDiversion : AI_Base
 
         Vector3 dir = (_currentTargetPosition - Tank.transform.position);
 
-        if(dir.magnitude < 10f)
-        {
-            TankMove.Move(0.1f);
-        }
-        else
-        {
-            TankMove.Move(1f);
-        }
-
+        TankMove.Move(dir.magnitude/10);
         TankRotate.Rotate(dir.normalized);
     }
 
@@ -123,11 +116,18 @@ public class TankAIDiversion : AI_Base
         bool isCanMove = false;
         Vector3 randomNextPosition = Vector3.zero;
 
+        float moveTargetPositionDistance = TurretAttack.IsReload ? 30f : 80f;
+
         do
         {
-            randomNextPosition = Target.transform.position + Random.insideUnitSphere * 15;
+            randomNextPosition = Target.transform.position + Random.insideUnitSphere * moveTargetPositionDistance;
             isCanMove = NavMesh.CalculatePath(Tank.transform.position, randomNextPosition, NavMesh.AllAreas, _navMeshPath);
         } while (!isCanMove);
+
+        for(int i = 0;i<_navMeshPath.corners.Length - 1;++i)
+        {
+            Debug.DrawLine(_navMeshPath.corners[i], _navMeshPath.corners[i + 1], Color.green, 10f);
+        }
 
         for (int i = 0; i < _navMeshPath.corners.Length; ++i)
         {
@@ -144,7 +144,7 @@ public class TankAIDiversion : AI_Base
         Vector3 dir = (Target.transform.position - Tank.transform.position);
         TurretRotate.Rotate(dir.normalized);
 
-        return TurretAimLine.IsAim && dir.magnitude <= 20f;
+        return TurretAimLine.IsAim && dir.magnitude <= 50f && !TurretAttack.IsReload;
     }
 
     private void Fire()
