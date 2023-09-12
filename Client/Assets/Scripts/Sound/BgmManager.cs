@@ -6,7 +6,7 @@ public class BgmManager : MonoBehaviour
     [SerializeField]
     private AudioClip _bgmAudioClip = null;
 
-    void Start()
+    private void Start()
     {
         PlaySound(SoundType.BGM, AudioMixerType.Bgm, 1f, true);
     }
