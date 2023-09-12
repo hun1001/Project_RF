@@ -1,3 +1,4 @@
+using Event;
 using TMPro;
 using UnityEngine;
 
@@ -10,17 +11,23 @@ public class InformationCanvas : BaseCanvas
 
     private Player _player;
 
+    [SerializeField]
+    private TextController _speedText = null;
+
+    [SerializeField]
+    private GameTankInfoUI _tankInfoUI = null;
+
     [Header("Shell")]
     [SerializeField]
     private ShellToggleGroupSATManager shellToggleManager = null;
     public ShellToggleGroupSATManager ShellToggleManager => shellToggleManager;
     private int _magazineSize = 0;
 
+    [Header("Wave")]
     [SerializeField]
-    private TMP_Text _speedText = null;
-
+    private TextController _waveText = null;
     [SerializeField]
-    private GameTankInfoUI _tankInfoUI = null;
+    private TextController _enemyText = null;
 
     private void Awake()
     {
@@ -61,12 +68,31 @@ public class InformationCanvas : BaseCanvas
                 shellToggleManager.SetCoolDown(_player.Tank.Turret.TurretData.ReloadTime);
             });
         }
-        
+
+        _enemyText.SetText(GameWay_Base.RemainingEnemy);
+        EventManager.StartListening(EventKeyword.EnemyDie, () =>
+        {
+            int enemy = GameWay_Base.RemainingEnemy;
+            if (enemy > 0)
+            {
+                _enemyText.SetText(enemy);
+            }
+            else
+            {
+                _enemyText.SetText("Clear");
+            }
+        });
+
+        EventManager.StartListening("Clear", () =>
+        {
+            _waveText.SetText("Wave " + (GameWay_Base.CurrentStage + 1).ToString());
+            _enemyText.SetText(GameWay_Base.RemainingEnemy);
+        });
     }
 
     private void Update()
     {
-        _speedText.text = $"{_player.Tank.GetComponent<Tank_Move>(ComponentType.Move).CurrentSpeed:F1} km/h";
+        _speedText.SetText($"{_player.Tank.GetComponent<Tank_Move>(ComponentType.Move).CurrentSpeed:F1} km/h");
 
         _tankInfoUI.UpdateTankBodyRotate(_player.Tank.transform.rotation);
         _tankInfoUI.UpdateTankTurretRotate(_player.Tank.Turret.TurretTransform.rotation);
