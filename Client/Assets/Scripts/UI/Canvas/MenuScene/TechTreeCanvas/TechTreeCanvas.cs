@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 using System;
-using System.Reflection;
 
 public class TechTreeCanvas : BaseCanvas
 {
@@ -39,6 +38,9 @@ public class TechTreeCanvas : BaseCanvas
     private GameObject _tankNodeConnectHorizontalLineTemplate = null;
     private GameObject _tankNodeNullTemplate = null;
     private GameObject _tankNodeConnectHorizontalNullLineTemplate = null;
+
+    private bool _isLeftClick = false;
+    private bool _isRightClick = false;
 
     private void Awake()
     {
@@ -94,8 +96,80 @@ public class TechTreeCanvas : BaseCanvas
         AddInputAction();
     }
 
+    private void Update()
+    {
+        if (_isLeftClick)
+        {
+            _scrollRect.horizontalNormalizedPosition -= 0.01f;
+        }
+        if (_isRightClick)
+        {
+            _scrollRect.horizontalNormalizedPosition += 0.01f;
+        }
+    }
+
     protected override void AddInputAction()
     {
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.LeftArrow, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType)
+            {
+                _isLeftClick = true;
+            }
+        });
+        KeyboardManager.Instance.AddKeyUpAction(KeyCode.LeftArrow, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType)
+            {
+                _isLeftClick = false;
+            }
+        });
+
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.RightArrow, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType)
+            {
+                _isRightClick = true;
+            }
+        });
+        KeyboardManager.Instance.AddKeyUpAction(KeyCode.RightArrow, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType)
+            {
+                _isRightClick = false;
+            }
+        });
+
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.A, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType)
+            {
+                _isLeftClick = true;
+            }
+        });
+        KeyboardManager.Instance.AddKeyUpAction(KeyCode.A, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType)
+            {
+                _isLeftClick = false;
+            }
+        });
+
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.D, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType)
+            {
+                _isRightClick = true;
+            }
+        });
+        KeyboardManager.Instance.AddKeyUpAction(KeyCode.D, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType)
+            {
+                _isRightClick = false;
+            }
+        });
+
         Action[] actions = new Action[_techTree.TechTreeSO.Length];
         for (int i = 0; i < _techTree.TechTreeSO.Length; ++i)
         {
@@ -229,27 +303,9 @@ public class TechTreeCanvas : BaseCanvas
     {
         base.OnOpenEvents();
 
-        //int idx = 1;
         _startSequence = DOTween.Sequence()
-        .PrependCallback(() =>
-        {
-            _techTreeScrollView.anchoredPosition = Vector2.right * 1000f;
-
-            //idx = 1;
-            //foreach (RectTransform rect in _toggleList)
-            //{
-            //    rect.anchoredPosition += Vector2.down * 100f * idx++;
-            //}
-        })
+        .PrependCallback(() => _techTreeScrollView.anchoredPosition = Vector2.right * 1000f)
         .Append(_techTreeScrollView.DOAnchorPosX(0f, 1f))
-        //.InsertCallback(0.5f, () =>
-        //{
-        //idx = 1;
-        //foreach (RectTransform rect in _toggleList)
-        //{
-        //    rect.DOAnchorPosY(-25f, 0.2f * idx++);
-        //}
-        //})
         .AppendCallback(() => _scrollRect.normalizedPosition = Vector2.zero);
 
         _tankInformation.SetActive(false);
@@ -259,5 +315,23 @@ public class TechTreeCanvas : BaseCanvas
     {
         _tankInformation.SetActive(false);
         base.OnBackButton();
+    }
+
+    public void DownLeftButton()
+    {
+        _isLeftClick = true;
+    }
+    public void UpLeftButton()
+    {
+        _isLeftClick = false;
+    }
+
+    public void DownRightButton()
+    {
+        _isRightClick = true;
+    }
+    public void UpRightButton()
+    {
+        _isRightClick = false;
     }
 }
