@@ -40,7 +40,7 @@ public class CameraManager : MonoBehaviour
         // ?Ÿìˆ˜
         cinemachineBasicMultiChannelPerlin.m_FrequencyGain = f;
 
-        yield return new WaitForSeconds(d);
+        yield return new WaitForSecondsRealtime(d);
 
         cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = cinemachineBasicMultiChannelPerlin.m_FrequencyGain = 0;
         _virtualCamera.transform.localPosition = Vector3.zero;
