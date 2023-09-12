@@ -1,6 +1,7 @@
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class TechTreeCountryToggles : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class TechTreeCountryToggles : MonoBehaviour
 
     [SerializeField]
     private GameObject _countryToggleTemplate = null;
+
+    private List<Toggle> _toggleList = new List<Toggle>();
 
     public void CreateCountryToggles(Sprite flagSprite, UnityAction onValueChangedToTrue)
     {
@@ -24,11 +27,13 @@ public class TechTreeCountryToggles : MonoBehaviour
         });
 
         countryToggle.gameObject.SetActive(true);
+        _toggleList.Add(countryToggle);
     }
 
     public void AddCountryToggleAction(int idx, UnityAction onValueChangedToTrue)
     {
-        _toggleGroupManager.transform.GetChild(idx + 1).GetComponent<Toggle>().onValueChanged.AddListener((bool value) =>
+        //_toggleGroupManager.transform.GetChild(idx + 1).GetComponent<Toggle>().onValueChanged.AddListener((bool value) =>
+        _toggleList[idx].onValueChanged.AddListener((bool value) => 
         {
             if (value)
             {
@@ -39,6 +44,12 @@ public class TechTreeCountryToggles : MonoBehaviour
 
     public void ChangeFirstToggleValue(bool value)
     {
-        _toggleGroupManager.transform.GetChild(1).GetComponent<Toggle>().isOn = value;
+        //_toggleGroupManager.transform.GetChild(1).GetComponent<Toggle>().isOn = value;
+        _toggleList[0].isOn = value;
+    }
+
+    public void ChangeToggleValue(int idx)
+    {
+        _toggleList[idx].isOn = true;
     }
 }
