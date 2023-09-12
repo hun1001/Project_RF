@@ -21,12 +21,11 @@ public class WaveManager : GameWay_Base
         {
             base.Spawn();
         }
+        EventManager.TriggerEvent("Clear");
     }
 
     public override void StageClear()
     {
-        EventManager.TriggerEvent("Clear");
-        
         if(CurrentStage + 1 >= StageListSO.Stages.Length)
         {
             EventManager.TriggerEvent(EventKeyword.StageClear);
