@@ -89,9 +89,6 @@ public class Player : CustomObject
         _hpBar.Setting(_tank.TankData.HP);
 
         _cameraManager.AddTargetGroup(_tank.transform, 30, 100);
-        //var audioListener = _cameraManager.transform.GetChild(1);
-        //audioListener.SetParent(_tank.transform);
-        //audioListener.localPosition = Vector3.zero;
 
         ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
         int shellCnt = 0;
@@ -130,15 +127,8 @@ public class Player : CustomObject
         {
             _informationCanvas.ShellToggleManager.SetSAT(_subArmament);
 
-            if (_subArmament.ActionType == SubArmamentKeyActionType.OnKeyHold)
-            {
-                KeyboardManager.Instance.AddKeyHoldAction(KeyCode.Space, _subArmament.Fire);
-            }
-            else if (_subArmament.ActionType == SubArmamentKeyActionType.OnKeyDownUp)
-            {
-                KeyboardManager.Instance.AddKeyDownAction(KeyCode.Space, _subArmament.Aim);
-                KeyboardManager.Instance.AddKeyUpAction(KeyCode.Space, _subArmament.Fire);
-            }
+            KeyboardManager.Instance.AddKeyDownAction(KeyCode.Space, _subArmament.Aim);
+            KeyboardManager.Instance.AddKeyUpAction(KeyCode.Space, _subArmament.Fire);
         }
 
         _informationCanvas.ShellToggleManager.TemplateList[0].isOn = true;

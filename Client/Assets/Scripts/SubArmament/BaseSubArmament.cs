@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Pool;
-using UnityEngine.Rendering;
 
 public abstract class BaseSubArmament : MonoBehaviour
 {
@@ -38,6 +37,8 @@ public abstract class BaseSubArmament : MonoBehaviour
 
     private bool _isReloading = false;
 
+    private bool _isAiming = false;
+
     public BaseSubArmament Setting(Tank tank, Transform point)
     {
         _tank = tank;
@@ -48,9 +49,7 @@ public abstract class BaseSubArmament : MonoBehaviour
         return this;
     }
 
-    public abstract SubArmamentKeyActionType ActionType { get; }
-
-    public virtual void Aim() { }
+    public abstract void Aim();
     public virtual void Fire()
     {
         if (_curretBeltCapacity <= 0)
@@ -92,5 +91,17 @@ public abstract class BaseSubArmament : MonoBehaviour
         audioSource.SetGroup(AudioMixerType.Sfx);
         audioSource.SetVolume(1f);
         audioSource.Play();
+    }
+
+    private void Update()
+    {
+        if(_isAiming) 
+        {
+
+        }
+        else
+        {
+
+        }
     }
 }

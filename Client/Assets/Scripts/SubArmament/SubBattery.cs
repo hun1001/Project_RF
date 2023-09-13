@@ -7,7 +7,6 @@ public class SubBattery : BaseSubArmament
     [SerializeField]
     private LineRenderer _lineRenderer = null;
 
-    public override SubArmamentKeyActionType ActionType => SubArmamentKeyActionType.OnKeyDownUp;
     public override SATSO GetSATSO() => _satSO;
 
     private bool _isAiming = false;

@@ -8,7 +8,6 @@ public class KeyboardManager : MonoSingleton<KeyboardManager>
 {
     private Dictionary<KeyCode, Action> keyDownAction = new Dictionary<KeyCode, Action>();
     private Dictionary<KeyCode, Action> keyUpAction = new Dictionary<KeyCode, Action>();
-    private Dictionary<KeyCode, Action> keyHoldAction = new Dictionary<KeyCode, Action>();
 
     private void Update()
     {
@@ -27,21 +26,11 @@ public class KeyboardManager : MonoSingleton<KeyboardManager>
                 keyUpAction[keyCode]?.Invoke();
             }
         });
-
-        keyHoldAction?.Keys.ToList().ForEach(keyCode =>
-        {
-            if (Input.GetKey(keyCode))
-            {
-                keyHoldAction[keyCode]?.Invoke();
-            }
-        });
     }
 
     public void AddKeyDownAction(KeyCode keyCode, Action action) => AddKeyAction(ref keyDownAction, keyCode, action);
 
     public void AddKeyUpAction(KeyCode keyCode, Action action) => AddKeyAction(ref keyUpAction, keyCode, action);
-
-    public void AddKeyHoldAction(KeyCode keyCode, Action action) => AddKeyAction(ref keyHoldAction, keyCode, action);
 
     public void AddKeyDownActionList(Action[] actions)
     {
@@ -55,7 +44,6 @@ public class KeyboardManager : MonoSingleton<KeyboardManager>
     {
         keyDownAction?.Clear();
         keyUpAction?.Clear();
-        keyHoldAction?.Clear();
     }
 
     private void AddKeyAction(ref Dictionary<KeyCode, Action> keyAction, KeyCode keyCode, Action action)
