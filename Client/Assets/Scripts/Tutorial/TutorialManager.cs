@@ -26,7 +26,6 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         _isTutorial = true;
         _waveManager = FindObjectOfType<WaveManager>().gameObject;
         _waveManager.SetActive(false);
-        FindObjectOfType<BaseSceneCanvasManager>().ChangeCanvas(CanvasType.GameTutorial);
     }
 
     public void TankDummySpawn()
