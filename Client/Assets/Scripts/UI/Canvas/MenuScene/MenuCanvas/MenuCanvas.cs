@@ -24,7 +24,13 @@ public class MenuCanvas : BaseCanvas
     private GameObject _shellReplacement = null;
     private bool _isShellOpen = false;
 
-    private string _currentTankID;
+    private string _currentTankID
+    {
+        get
+        {
+            return PlayerDataManager.Instance.GetPlayerTankID();
+        }
+    }
     private ShellEquipmentData _shellEquipmentDataDict;
 
     [Header("SAT")]
@@ -107,8 +113,6 @@ public class MenuCanvas : BaseCanvas
         _isHide = false;
         _isShellOpen = false;
 
-        _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
-
         ShellCheck();
         SATCheck();
         HangerUpdate();
@@ -124,8 +128,6 @@ public class MenuCanvas : BaseCanvas
         
         _shellReplacement.SetActive(false);
 
-        _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
-        
         ShellCheck();
         HangerUpdate();
         CurrentTankInfoUpdate();
@@ -134,8 +136,6 @@ public class MenuCanvas : BaseCanvas
 
     public void CurrentTankInfoUpdate()
     {
-        _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
-
         _menuTankInfoUI.CurrentTankInfoUpdate();
         _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(true);
     }
