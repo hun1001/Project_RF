@@ -26,16 +26,13 @@ public abstract class BaseSubArmament : MonoBehaviour
     private Transform _firePoint = null;
     public Transform FirePoint => _firePoint;
 
-    private Action _onFireAction = null;
-    public void AddOnFireAction(Action action) => _onFireAction += action;
-
     private Action _onReloadStartAction = null;
-    public void AddOnReloadAction(Action action) => _onReloadStartAction += action;
+    public void AddOnCoolingAction(Action action) => _onReloadStartAction += action;
 
     private int _curretBeltCapacity = 0;
     public int CurretBeltCapacity => _curretBeltCapacity;
 
-    private bool _isReloading = false;
+    private bool _isCooling = false;
 
     private bool _isAiming = false;
 
@@ -64,8 +61,12 @@ public abstract class BaseSubArmament : MonoBehaviour
             return;
         }
 
+        if(_isCooling)
+        {
+            return;
+        }
+
         --_curretBeltCapacity;
-        _onFireAction?.Invoke();
         PlayFireSound();
         OnFire();
     }
@@ -98,15 +99,15 @@ public abstract class BaseSubArmament : MonoBehaviour
 
     private IEnumerator CoolingCoroutine()
     {
-        if (_isReloading)
+        if (_isCooling)
         {
             yield break;
         }
         _onReloadStartAction?.Invoke();
-        _isReloading = true;
+        _isCooling = true;
         yield return new WaitForSeconds(GetSATSO().ReloadTime);
         _curretBeltCapacity = GetSATSO().BeltCapacity;
-        _isReloading = false;
+        _isCooling = false;
     }
 
     private void PlayFireSound()

@@ -21,21 +21,26 @@ public class SATInformationHandle : MonoBehaviour
         _subArmament = sat;
         _satIconImage.sprite = _subArmament.Icon;
 
-        sat.AddOnFireAction(OnFire);
-        sat.AddOnReloadAction(OnReload);
+        sat.AddOnCoolingAction(OnCooling);
+
+        StartCoroutine(FillImageValueUpdateCoroutine());
     }
 
-    private void OnFire()
+    private IEnumerator FillImageValueUpdateCoroutine()
     {
-        _fillValueImage.fillAmount = (float)_subArmament.CurretBeltCapacity / _subArmament.GetSATSO().BeltCapacity;
+        while (true)
+        {
+            _fillValueImage.fillAmount = _subArmament.CurretBeltCapacity / (float)_subArmament.GetSATSO().BeltCapacity;
+            yield return null;
+        }
     }
 
-    private void OnReload()
+    private void OnCooling()
     {
-        StartCoroutine(ReloadImageFillCoroutine());
+        StartCoroutine(CoolingCoroutine());
     }
 
-    private IEnumerator ReloadImageFillCoroutine()
+    private IEnumerator CoolingCoroutine()
     {
         _fillValueImage.fillAmount = 0f;
         _fillValueImage.color = new Color(1f, 0f, 0f, 0.12f);
