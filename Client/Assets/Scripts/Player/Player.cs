@@ -128,7 +128,7 @@ public class Player : CustomObject
             _informationCanvas.ShellToggleManager.SetSAT(_subArmament);
 
             KeyboardManager.Instance.AddKeyDownAction(KeyCode.Space, _subArmament.Aim);
-            KeyboardManager.Instance.AddKeyUpAction(KeyCode.Space, _subArmament.Fire);
+            KeyboardManager.Instance.AddKeyUpAction(KeyCode.Space, _subArmament.StopFire);
         }
 
         _informationCanvas.ShellToggleManager.TemplateList[0].isOn = true;

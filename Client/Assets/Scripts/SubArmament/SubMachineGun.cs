@@ -9,11 +9,6 @@ public class SubMachineGun : BaseSubArmament
 
     private bool _canFire = true;
 
-    public override void Aim()
-    {
-
-    }
-
     public override void Fire()
     {
         if(!_canFire)
