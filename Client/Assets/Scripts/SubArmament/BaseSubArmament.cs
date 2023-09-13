@@ -39,6 +39,8 @@ public abstract class BaseSubArmament : MonoBehaviour
 
     private bool _isAiming = false;
 
+    private bool _canReload = true;
+
     public BaseSubArmament Setting(Tank tank, Transform point)
     {
         _tank = tank;
@@ -49,12 +51,16 @@ public abstract class BaseSubArmament : MonoBehaviour
         return this;
     }
 
-    public abstract void Aim();
+    public virtual void Aim()
+    {
+        _isAiming = true;
+    }
+
     public virtual void Fire()
     {
         if (_curretBeltCapacity <= 0)
         {
-            Reload();
+            StartCoroutine(CoolingCoroutine());
             return;
         }
 
@@ -64,19 +70,38 @@ public abstract class BaseSubArmament : MonoBehaviour
         OnFire();
     }
 
+    public virtual void StopFire()
+    {
+        _isAiming = false;
+    }
+
     protected abstract void OnFire();
 
     private void Reload()
     {
-        if (_isReloading)
+        if(!_canReload||_curretBeltCapacity == GetSATSO().BeltCapacity)
         {
             return;
         }
-        StartCoroutine(ReloadCoroutine());
+        StartCoroutine(ReloadRateCheckCoroutine());
+        ++_curretBeltCapacity;
     }
 
-    private IEnumerator ReloadCoroutine()
+    private IEnumerator ReloadRateCheckCoroutine()
     {
+        _canReload = false;
+
+        yield return new WaitForSeconds(1f / (GetSATSO().BeltCapacity / GetSATSO().ReloadTime));
+
+        _canReload = true;
+    }
+
+    private IEnumerator CoolingCoroutine()
+    {
+        if (_isReloading)
+        {
+            yield break;
+        }
         _onReloadStartAction?.Invoke();
         _isReloading = true;
         yield return new WaitForSeconds(GetSATSO().ReloadTime);
@@ -97,11 +122,11 @@ public abstract class BaseSubArmament : MonoBehaviour
     {
         if(_isAiming) 
         {
-
+            Fire();
         }
         else
         {
-
+            Reload();
         }
     }
 }

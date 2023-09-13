@@ -29,7 +29,7 @@ public class KeyboardManager : MonoSingleton<KeyboardManager>
     }
 
     public void AddKeyDownAction(KeyCode keyCode, Action action) => AddKeyAction(ref keyDownAction, keyCode, action);
-
+    
     public void AddKeyUpAction(KeyCode keyCode, Action action) => AddKeyAction(ref keyUpAction, keyCode, action);
 
     public void AddKeyDownActionList(Action[] actions)
