@@ -101,8 +101,6 @@ public class BMP_BossAI : BossAI_Base
         {
             _moveTargetPosition = Vector3.zero;
         });
-
-        
     }
 
     private void Attack()
