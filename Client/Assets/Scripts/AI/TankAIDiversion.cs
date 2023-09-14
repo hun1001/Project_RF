@@ -108,7 +108,7 @@ public class TankAIDiversion : AI_Base
             return true;
         }
 
-        if (Vector3.Distance(Tank.transform.position, Target.transform.position) > 10 && TurretAimLine.IsAim)
+        if (Vector3.Distance(Tank.transform.position, Target.transform.position) > 10 && (TurretAimLine.IsAim && !TurretAttack.IsReload))
         {
             return false;
         }
@@ -116,7 +116,7 @@ public class TankAIDiversion : AI_Base
         bool isCanMove = false;
         Vector3 randomNextPosition = Vector3.zero;
 
-        float moveTargetPositionDistance = TurretAttack.IsReload ? 30f : 80f;
+        float moveTargetPositionDistance = TurretAttack.IsReload ? 30f : 100f;
 
         do
         {

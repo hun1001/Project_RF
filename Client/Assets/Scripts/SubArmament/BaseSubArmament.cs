@@ -26,8 +26,8 @@ public abstract class BaseSubArmament : MonoBehaviour
     private Transform _firePoint = null;
     public Transform FirePoint => _firePoint;
 
-    private Action _onCoolingStartAction = null;
-    public void AddOnCoolingAction(Action action) => _onCoolingStartAction += action;
+    private Action _onCoolingAction = null;
+    public void AddOnCoolingAction(Action action) => _onCoolingAction += action;
 
     private int _curretBeltCapacity = 0;
     public int CurretBeltCapacity => _curretBeltCapacity;
@@ -103,7 +103,7 @@ public abstract class BaseSubArmament : MonoBehaviour
         {
             yield break;
         }
-        _onCoolingStartAction?.Invoke();
+        _onCoolingAction?.Invoke();
         _isCooling = true;
         yield return new WaitForSeconds(GetSATSO().ReloadTime);
         _curretBeltCapacity = GetSATSO().BeltCapacity;
