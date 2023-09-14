@@ -23,6 +23,10 @@ public class InformationCanvas : BaseCanvas
     public ShellToggleGroupSATManager ShellToggleManager => shellToggleManager;
     private int _magazineSize = 0;
 
+    [Header("Rader")]
+    [SerializeField]
+    private EnemyPositionArrowGroupHandle _enemyPositionArrowGroupHandle = null;
+
     [Header("Wave")]
     [SerializeField]
     private TextController _waveText = null;
