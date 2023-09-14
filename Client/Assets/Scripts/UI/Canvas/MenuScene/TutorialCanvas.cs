@@ -1,3 +1,4 @@
+using Event;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,6 +30,18 @@ public class TutorialCanvas : BaseCanvas
     [SerializeField]
     private GameObject _menuUI = null;
     [SerializeField]
+    private GoodsTexts _menuGoodsText = null;
+    
+    [Header("Hanger")]
+    [SerializeField]
+    private GameObject _hanger = null;
+    [SerializeField]
+    private GameObject _tankGameObject = null;
+    [SerializeField]
+    private TextController[] _tankInfos = null;
+
+    [Header("Shell")]
+    [SerializeField]
     private GameObject _shellList = null;
     [SerializeField]
     private GameObject[] _shellButtons = null;
@@ -36,15 +49,17 @@ public class TutorialCanvas : BaseCanvas
     private Image[] _shellImages = null;
     [SerializeField]
     private Sprite[] _shellSprites = null;
-    [SerializeField]
-    private GoodsTexts _menuGoodsText = null;
-    [SerializeField]
-    private GameObject _tankGameObject = null;
-    [SerializeField]
-    private GameObject _hanger = null;
-    [SerializeField]
-    private TextController[] _tankInfos = null;
 
+    [Header("SAT")]
+    [SerializeField]
+    private GameObject _satList = null;
+    [SerializeField]
+    private GameObject _satButton = null;
+    [SerializeField]
+    private Image _satImage = null;
+    [SerializeField]
+    private Sprite _satSprite = null;
+    
     [Header("TechTree UI")]
     [SerializeField]
     private GameObject _techTreeUI = null;
@@ -145,24 +160,32 @@ public class TutorialCanvas : BaseCanvas
 
         if (PlayerPrefs.GetInt("GameTutorial", 0) == 1)
         {
-            _tutorialCount = 16;
+            _tutorialCount = 25;
             _menuGoodsText.SetGoodsTexts(50, 0);
             _techTreeGoodsText.SetGoodsTexts(50, 0);
         }
         _tutorialText.SetText(_textsSO.TutorialTexts[_tutorialCount]);
 
-        if (PlayerDataManager.Instance.GetPlayerTankID() != "BT-5")
+        if (PlayerDataManager.Instance.GetPlayerTankID() != "T-34")
         {
-            PlayerDataManager.Instance.SetPlayerTankID("BT-5");
+            if (!TechTreeDataManager.HasTank(CountryType.USSR, "T-34"))
+            {
+                TechTreeDataManager.AddTank(CountryType.USSR, "T-34");
+            }
+            PlayerDataManager.Instance.SetPlayerTankID("T-34");
         }
         if (_tutorialCount == 0)
         {
-            ShellSaveManager.ShellEquip("BT-5", 0, "");
-            ShellSaveManager.ShellEquip("BT-5", 1, "");
+            ShellSaveManager.ShellEquip("T-34", 0, "");
+            ShellSaveManager.ShellEquip("T-34", 1, "");
+            ShellSaveManager.ShellEquip("T-34", 2, "");
+
+            SATSaveManager.SetSAT(string.Empty);
+            EventManager.TriggerEvent(EventKeyword.SATReplacement);
         }
 
-        _tankInfos[0].SetText("I");
-        _tankInfos[1].SetText("BT-5");
+        _tankInfos[0].SetText("IV");
+        _tankInfos[1].SetText("T-34");
 
         _nextButton.SetActive(true);
     }
@@ -206,102 +229,129 @@ public class TutorialCanvas : BaseCanvas
             case 2:
                 {
                     _tutorialPanels[0].SetActive(true);
-                    _hanger.SetActive(true);
-                    break;
-                }
-            case 4:
-                {
-                    _tutorialPanels[0].SetActive(false);
-                    _hanger.SetActive(false);
-                    break;
-                }
-
-            // Shell
-            case 5:
-                {
-                    _tutorialPanels[1].SetActive(true);
                     _nextButton.SetActive(false);
                     _isCanRetrun = false;
                     break;
                 }
+            case 3:
+                {
+                    _tutorialPanels[0].SetActive(false);
+                    _tutorialPanels[1].SetActive(true);
+                    _nextButton.SetActive(true);
+                    _hanger.SetActive(true);
+                    _isCanRetrun = true;
+                    break;
+                }
+            case 5:
+                {
+                    _tutorialPanels[2].SetActive(true);
+                    break;
+                }
+
+            // Shell
             case 6:
                 {
-                    _shellList.SetActive(true);
                     _tutorialPanels[1].SetActive(false);
-                    _tutorialPanels[2].SetActive(true);
-                    _nextButton.SetActive(true);
-                    _isCanRetrun = true;
+                    _tutorialPanels[2].SetActive(false);
+                    _hanger.SetActive(false);
                     break;
                 }
             case 7:
                 {
+                    _tutorialPanels[3].SetActive(true);
                     _nextButton.SetActive(false);
-                    _shellButtons[0].SetActive(true);
                     _isCanRetrun = false;
                     break;
                 }
             case 8:
                 {
-                    _shellList.SetActive(false);
-                    _shellButtons[0].SetActive(false);
-                    _tutorialPanels[2].SetActive(false);
-                    _shellImages[0].sprite = _shellSprites[0];
-                    ShellSaveManager.ShellEquip("BT-5", 0, "HE");
+                    _tutorialPanels[3].SetActive(false);
+                    _tutorialPanels[4].SetActive(true);
                     _nextButton.SetActive(true);
-                    _isCanRetrun = true;
-                    break;
-                }
-            case 11:
-                {
                     _shellList.SetActive(true);
-                    _nextButton.SetActive(false);
-                    _tutorialPanels[2].SetActive(true);
-                    _shellButtons[1].SetActive(true);
-                    _isCanRetrun = false;
-                    break;
-                }
-            case 12:
-                {
-                    _nextButton.SetActive(true);
-                    _shellList.SetActive(false);
-                    _tutorialPanels[2].SetActive(false);
-                    _shellButtons[1].SetActive(false);
-                    _shellImages[1].sprite = _shellSprites[1];
-                    ShellSaveManager.ShellEquip("BT-5", 1, "AP10");
                     _isCanRetrun = true;
                     break;
                 }
-            case 15:
-                { 
+            case 9:
+                {
+                    _shellButtons[0].SetActive(true);
                     _nextButton.SetActive(false);
-                    _tutorialPanels[3].SetActive(true);
                     _isCanRetrun = false;
                     break;
                 }
-            case 17:
+            case 10:
+                {
+                    ShellSaveManager.ShellEquip("T-34", 0, "HE");
+                    _shellImages[0].sprite = _shellSprites[0];
+                    _tutorialPanels[4].SetActive(false);
+                    _shellButtons[0].SetActive(false);
+                    _shellList.SetActive(false);
+                    _nextButton.SetActive(true);
+                    _isCanRetrun = true;
+                    break;
+                }
+            case 13:
                 {
                     _tutorialPanels[4].SetActive(true);
+                    _shellButtons[1].SetActive(true);
                     _nextButton.SetActive(false);
+                    _shellList.SetActive(true);
                     _isCanRetrun = false;
                     break;
                 }
-            case 18:
+            case 14:
                 {
+                    ShellSaveManager.ShellEquip("T-34", 1, "AP10");
+                    _shellImages[1].sprite = _shellSprites[1];
                     _tutorialPanels[4].SetActive(false);
-                    _menuUI.SetActive(false);
-                    _techTreeUI.SetActive(true);
+                    _shellButtons[1].SetActive(false);
                     _nextButton.SetActive(true);
+                    _shellList.SetActive(false);
                     _isCanRetrun = true;
                     break;
                 }
+
+            // SAT
             case 19:
                 {
-                    _nextButton.SetActive(false);
                     _tutorialPanels[5].SetActive(true);
+                    _nextButton.SetActive(false);
                     _isCanRetrun = false;
                     break;
                 }
             case 20:
+                {
+                    _tutorialPanels[5].SetActive(false);
+                    _tutorialPanels[6].SetActive(true);
+                    _satButton.SetActive(true);
+                    _satList.SetActive(true);
+                    break;
+                }
+            case 21:
+                {
+                    _tutorialPanels[6].SetActive(false);
+                    _satImage.sprite = _satSprite;
+                    _satButton.SetActive(false);
+                    _nextButton.SetActive(true);
+                    _satList.SetActive(false);
+                    _isCanRetrun = true;
+
+                    SATSaveManager.SetSAT("7.62 mm DT");
+                    EventManager.TriggerEvent(EventKeyword.SATReplacement);
+                    break;
+                }
+
+            // Start
+            case 24:
+                {
+                    _tutorialPanels[7].SetActive(true);
+                    _nextButton.SetActive(false);
+                    _isCanRetrun = false;
+                    break;
+                }
+
+            // TechTree
+            case 200:
                 {
                     _tutorialPanels[5].SetActive(false);
                     _techTreeUI.SetActive(false);
