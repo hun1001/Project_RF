@@ -48,6 +48,7 @@ public class AudioSourceController : MonoBehaviour, IPoolReset
     private IEnumerator ReturnToPool()
     {
         yield return new WaitForSeconds(_audioSource.clip.length);
+        _audioSource.Stop();
         PoolManager.Pool("AudioSource", gameObject);
     }
 
