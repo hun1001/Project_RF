@@ -8,4 +8,7 @@ public class EnemyPositionArrowGroupHandle : MonoBehaviour
     private ArrowTemplateHandle arrowTemplateHandle = null;
 
     private List<ArrowTemplateHandle> arrowHandles = new List<ArrowTemplateHandle>();
+    private List<ArrowTemplateHandle> unArrowHandles = new List<ArrowTemplateHandle>();
+
+
 }
