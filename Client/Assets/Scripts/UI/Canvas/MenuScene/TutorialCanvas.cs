@@ -24,7 +24,7 @@ public class TutorialCanvas : BaseCanvas
 
     private int _tutorialCount = 0;
     private float _textDuration = 0f;
-    private bool _isCanRetrun = true;
+    private bool _isCanReturn = true;
 
     [Header("Menu UI")]
     [SerializeField]
@@ -119,7 +119,7 @@ public class TutorialCanvas : BaseCanvas
                 {
                     TextCancel();
                 }
-                else if (_isCanRetrun)
+                else if (_isCanReturn)
                 {
                     NextTutorial();
                 }
@@ -152,7 +152,7 @@ public class TutorialCanvas : BaseCanvas
     {
         if (PlayerPrefs.GetInt("Tutorial", 0) == 1) return;
 
-        _isCanRetrun = true;
+        _isCanReturn = true;
         _tutorialPanelParent.SetActive(true);
         _tutorialCount = 0;
         TutorialManager.Instance.TutorialStart();
@@ -230,7 +230,7 @@ public class TutorialCanvas : BaseCanvas
                 {
                     _tutorialPanels[0].SetActive(true);
                     _nextButton.SetActive(false);
-                    _isCanRetrun = false;
+                    _isCanReturn = false;
                     break;
                 }
             case 3:
@@ -239,7 +239,7 @@ public class TutorialCanvas : BaseCanvas
                     _tutorialPanels[1].SetActive(true);
                     _nextButton.SetActive(true);
                     _hanger.SetActive(true);
-                    _isCanRetrun = true;
+                    _isCanReturn = true;
                     break;
                 }
             case 5:
@@ -260,7 +260,7 @@ public class TutorialCanvas : BaseCanvas
                 {
                     _tutorialPanels[3].SetActive(true);
                     _nextButton.SetActive(false);
-                    _isCanRetrun = false;
+                    _isCanReturn = false;
                     break;
                 }
             case 8:
@@ -269,14 +269,14 @@ public class TutorialCanvas : BaseCanvas
                     _tutorialPanels[4].SetActive(true);
                     _nextButton.SetActive(true);
                     _shellList.SetActive(true);
-                    _isCanRetrun = true;
+                    _isCanReturn = true;
                     break;
                 }
             case 9:
                 {
                     _shellButtons[0].SetActive(true);
                     _nextButton.SetActive(false);
-                    _isCanRetrun = false;
+                    _isCanReturn = false;
                     break;
                 }
             case 10:
@@ -287,7 +287,7 @@ public class TutorialCanvas : BaseCanvas
                     _shellButtons[0].SetActive(false);
                     _shellList.SetActive(false);
                     _nextButton.SetActive(true);
-                    _isCanRetrun = true;
+                    _isCanReturn = true;
                     break;
                 }
             case 13:
@@ -296,7 +296,7 @@ public class TutorialCanvas : BaseCanvas
                     _shellButtons[1].SetActive(true);
                     _nextButton.SetActive(false);
                     _shellList.SetActive(true);
-                    _isCanRetrun = false;
+                    _isCanReturn = false;
                     break;
                 }
             case 14:
@@ -307,7 +307,7 @@ public class TutorialCanvas : BaseCanvas
                     _shellButtons[1].SetActive(false);
                     _nextButton.SetActive(true);
                     _shellList.SetActive(false);
-                    _isCanRetrun = true;
+                    _isCanReturn = true;
                     break;
                 }
 
@@ -316,7 +316,7 @@ public class TutorialCanvas : BaseCanvas
                 {
                     _tutorialPanels[5].SetActive(true);
                     _nextButton.SetActive(false);
-                    _isCanRetrun = false;
+                    _isCanReturn = false;
                     break;
                 }
             case 20:
@@ -334,7 +334,7 @@ public class TutorialCanvas : BaseCanvas
                     _satButton.SetActive(false);
                     _nextButton.SetActive(true);
                     _satList.SetActive(false);
-                    _isCanRetrun = true;
+                    _isCanReturn = true;
 
                     SATSaveManager.SetSAT("7.62 mm DT");
                     EventManager.TriggerEvent(EventKeyword.SATReplacement);
@@ -346,7 +346,7 @@ public class TutorialCanvas : BaseCanvas
                 {
                     _tutorialPanels[7].SetActive(true);
                     _nextButton.SetActive(false);
-                    _isCanRetrun = false;
+                    _isCanReturn = false;
                     break;
                 }
 
@@ -364,7 +364,7 @@ public class TutorialCanvas : BaseCanvas
                     FindObjectOfType<TankModelManager>().ChangeTankModel(Addressable.AddressablesManager.Instance.GetResource<GameObject>("BT-7").GetComponent<Tank>());
                     _menuGoodsText.SetGoodsTexts(0, 0);
                     _techTreeGoodsText.SetGoodsTexts(0, 0);
-                    _isCanRetrun = true;
+                    _isCanReturn = true;
                     break;
                 }
         }

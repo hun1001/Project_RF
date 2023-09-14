@@ -1,4 +1,5 @@
 using Event;
+using System.Net.NetworkInformation;
 using UnityEngine;
 using Util;
 
@@ -7,6 +8,45 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     // Tutorial ing
     private bool _isTutorial = false;
     public bool IsTutorial => _isTutorial;
+
+    private bool _isCanMove = false;
+    public bool IsCanMove
+    {
+        get
+        {
+            return _isCanMove;
+        }
+        set
+        {
+            _isCanMove = value;
+        }
+    }
+
+    private bool _isCanAttack = false;
+    public bool IsCanAttack
+    {
+        get
+        {
+            return _isCanAttack;
+        }
+        set
+        {
+            _isCanAttack = value;
+        }
+    }
+
+    private bool _isCanChangeShell = false;
+    public bool IsCanChangeShell
+    {
+        get
+        {
+            return _isCanChangeShell;
+        }
+        set
+        {
+            _isCanChangeShell = value;
+        }
+    }
 
     private GameObject _waveManager = null;
 
@@ -24,13 +64,15 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     public void GameTutorialStart()
     {
         _isTutorial = true;
+        _isCanMove = false;
+        _isCanAttack = false;
         _waveManager = FindObjectOfType<WaveManager>().gameObject;
         _waveManager.SetActive(false);
     }
 
-    public void TankDummySpawn()
+    public void TankDummySpawn(string tankID, Vector3 pos)
     {
-        var tank = SpawnManager.Instance.SpawnUnit("BT-5", new Vector3(22f, 25f, 0f), Quaternion.identity, GroupType.Enemy);
+        var tank = SpawnManager.Instance.SpawnUnit(tankID, pos, Quaternion.identity, GroupType.Enemy);
         tank.GetComponent<Tank_Damage>().AddOnDeathAction(() => EventManager.TriggerEvent(EventKeyword.NextTutorial));
     }
 
