@@ -36,8 +36,6 @@ public class TutorialCanvas : BaseCanvas
     [SerializeField]
     private GameObject _hanger = null;
     [SerializeField]
-    private GameObject _tankGameObject = null;
-    [SerializeField]
     private TextController[] _tankInfos = null;
 
     [Header("Shell")]
@@ -351,17 +349,39 @@ public class TutorialCanvas : BaseCanvas
                 }
 
             // TechTree
-            case 200:
+            case 26:
                 {
-                    _tutorialPanels[5].SetActive(false);
+                    _tutorialPanels[8].SetActive(true);
+                    _nextButton.SetActive(false);
+                    _isCanReturn = false;
+                    break;
+                }
+            case 27:
+                {
+                    _tutorialPanels[8].SetActive(false);
+                    _techTreeUI.SetActive(true);
+                    _nextButton.SetActive(true);
+                    _menuUI.SetActive(false);
+                    _isCanReturn = true;
+                    break;
+                }
+            case 28:
+                {
+                    _tutorialPanels[9].SetActive(true);
+                    _nextButton.SetActive(false);
+                    _isCanReturn = false;
+                    break;
+                }
+            case 29:
+                {
+                    _tutorialPanels[9].SetActive(false);
                     _techTreeUI.SetActive(false);
                     _nextButton.SetActive(true);
                     _menuUI.SetActive(true);
-                    _tankGameObject.SetActive(true);
-                    _tankInfos[0].SetText("II");
-                    _tankInfos[1].SetText("BT-7");
-                    TechTreeDataManager.AddTank(CountryType.USSR, "BT-7");
-                    FindObjectOfType<TankModelManager>().ChangeTankModel(Addressable.AddressablesManager.Instance.GetResource<GameObject>("BT-7").GetComponent<Tank>());
+                    _tankInfos[0].SetText("V");
+                    _tankInfos[1].SetText("T-34-85");
+                    TechTreeDataManager.AddTank(CountryType.USSR, "T-34-85");
+                    FindObjectOfType<TankModelManager>().ChangeTankModel(Addressable.AddressablesManager.Instance.GetResource<GameObject>("T-34-85").GetComponent<Tank>());
                     _menuGoodsText.SetGoodsTexts(0, 0);
                     _techTreeGoodsText.SetGoodsTexts(0, 0);
                     _isCanReturn = true;

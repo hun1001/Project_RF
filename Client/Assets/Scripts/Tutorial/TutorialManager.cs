@@ -66,6 +66,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         _isTutorial = true;
         _isCanMove = false;
         _isCanAttack = false;
+        _isCanChangeShell = false;
         _waveManager = FindObjectOfType<WaveManager>().gameObject;
         _waveManager.SetActive(false);
     }
