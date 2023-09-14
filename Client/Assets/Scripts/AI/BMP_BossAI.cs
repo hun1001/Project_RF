@@ -5,54 +5,12 @@ using Event;
 
 public class BMP_BossAI : BossAI_Base
 {
-    private Tank _tank = null;
-    public Tank Tank => _tank;
-    private NavMeshPath _navMeshPath = null;
-    private BehaviorTree _behaviorTree = null;
-
-    private Tank_Move _tankMove = null;
-    private Tank_Rotate _tankRotate = null;
-    private Tank_Damage _tankDamage = null;
-
-    private Turret_Rotate _turretRotate = null;
-    private BossTurret_Attack _turretAttack = null;
-    private Turret_AimLine _turretAimLine = null;
-
-    private Tank _target = null;
-
     private Vector3 _moveTargetPosition = Vector3.zero;
 
     private bool _isUsedSkill = false;
 
-    private void Awake()
+    protected override BehaviorTree SetBehaviorTree()
     {
-        _tank = SpawnManager.Instance.SpawnUnit("BMP-130-2", transform.position, transform.rotation, GroupType.Enemy);
-        _navMeshPath = new NavMeshPath();
-
-        _tankMove = _tank.GetComponent<Tank_Move>(ComponentType.Move);
-        _tankRotate = _tank.GetComponent<Tank_Rotate>(ComponentType.Rotate);
-        _tankDamage = _tank.GetComponent<Tank_Damage>(ComponentType.Damage);
-
-        _turretRotate = _tank.Turret.GetComponent<Turret_Rotate>(ComponentType.Rotate);
-        _turretAttack = _tank.Turret.GetComponent<BossTurret_Attack>(ComponentType.Attack);
-        _turretAimLine = _tank.Turret.GetComponent<Turret_AimLine>(ComponentType.AimLine);
-
-        _target = FindObjectOfType<Player>().Tank;
-    }
-
-    private void Start()
-    {
-        _tankDamage.AddOnDeathAction(() =>
-        {
-            Destroy(this.gameObject);
-            EventManager.TriggerEvent(EventKeyword.BossClear);
-        });
-
-        _tankMove.AddOnCrashAction((_) =>
-        {
-            _moveTargetPosition = Vector3.zero;
-        });
-
         RootNode rootNode = null;
 
         SelectorNode selectorNode = null;
@@ -71,7 +29,7 @@ public class BMP_BossAI : BossAI_Base
 
         move2Target = new ExecutionNode(() =>
         {
-            _moveTargetPosition = _target.transform.position + (Random.insideUnitSphere * 20f);
+            _moveTargetPosition = Target.transform.position + (Random.insideUnitSphere * 20f);
             _moveTargetPosition.z = 0f;
             Move(_moveTargetPosition);
         });
@@ -84,15 +42,13 @@ public class BMP_BossAI : BossAI_Base
         shield = new ExecutionNode(() =>
         {
             _isUsedSkill = true;
-            _tankDamage.SetHP(_tankDamage.CurrentHealth + 50f);
-            _tank.TankData.Armour += 10f;
+            TankDamage.SetHP(TankDamage.CurrentHealth + 50f);
+            Tank.TankData.Armour += 10f;
         });
 
         checkAroundTarget = new ConditionalNode(() =>
         {
-            _target ??= FindObjectOfType<Player>().Tank;
-
-            if (_moveTargetPosition == Vector3.zero || Vector3.Distance(_tank.transform.position, _moveTargetPosition) < 15f)
+            if (_moveTargetPosition == Vector3.zero || Vector3.Distance(Tank.transform.position, _moveTargetPosition) < 15f)
             {
                 StopAllCoroutines();
                 _navMeshPath.ClearCorners();
@@ -105,14 +61,14 @@ public class BMP_BossAI : BossAI_Base
 
         checkTargetInAim = new ConditionalNode(() =>
         {
-            _turretRotate.Rotate((_target.transform.position - _tank.transform.position).normalized);
+            TurretRotate.Rotate((Target.transform.position - Tank.transform.position).normalized);
 
-            return _turretAimLine.IsAim;
+            return TurretAimLine.IsAim;
         }, atk2Target);
 
         checkTankHP = new ConditionalNode(() =>
         {
-            return _tankDamage.CurrentHealth < _tank.TankData.HP * 0.30f && _isUsedSkill == false;
+            return TankDamage.CurrentHealth < Tank.TankData.HP * 0.30f && _isUsedSkill == false;
         }, shield);
 
         tankMoveSequenceNode = new SequenceNode(checkAroundTarget);
@@ -123,21 +79,30 @@ public class BMP_BossAI : BossAI_Base
 
         rootNode = new RootNode(selectorNode);
 
-        _behaviorTree = new BehaviorTree(rootNode);
+        var behaviorTree = new BehaviorTree(rootNode);
+
+        return behaviorTree;
     }
 
-    private float _delayTime = 0f;
-
-    private void Update()
+    protected override Tank TankSpawn()
     {
-        if (_delayTime < 1f)
+        return SpawnManager.Instance.SpawnUnit("BMP-130-2", transform.position, transform.rotation, GroupType.Enemy);
+    }
+
+    private void Start()
+    {
+        TankDamage.AddOnDeathAction(() =>
         {
-            _delayTime += Time.deltaTime;
-        }
-        else
+            Destroy(this.gameObject);
+            EventManager.TriggerEvent(EventKeyword.BossClear);
+        });
+
+        TankMove.AddOnCrashAction((_) =>
         {
-            _behaviorTree.Tick();
-        }
+            _moveTargetPosition = Vector3.zero;
+        });
+
+        
     }
 
     private void Attack()
@@ -145,22 +110,22 @@ public class BMP_BossAI : BossAI_Base
         int attackType = Random.Range(0, 10);
         if (attackType < 4)
         {
-            _turretAttack.FireMissile(_target.transform.position);
+            (TurretAttack as BossTurret_Attack).FireMissile(Target.transform.position);
         }
         else if (attackType < 8)
         {
-            _turretAttack.Fire();
+            TurretAttack.Fire();
         }
         else
         {
-            _turretAttack.FireMissile(_target.transform.position);
-            _turretAttack.Fire();
+            (TurretAttack as BossTurret_Attack).FireMissile(Target.transform.position);
+            TurretAttack.Fire();
         }
     }
 
     private void Move(Vector3 position)
     {
-        if (NavMesh.CalculatePath(_tank.transform.position, position, NavMesh.AllAreas, _navMeshPath))
+        if (NavMesh.CalculatePath(Tank.transform.position, position, NavMesh.AllAreas, _navMeshPath))
         {
             StartCoroutine(MoveTarget(0, _navMeshPath.corners.Length));
 
@@ -179,24 +144,24 @@ public class BMP_BossAI : BossAI_Base
     {
         if (index < pathLength)
         {
-            float dis = Vector3.Distance(_tank.transform.position, _navMeshPath.corners[index]);
+            float dis = Vector3.Distance(Tank.transform.position, _navMeshPath.corners[index]);
             while (dis > 1f)
             {
                 if (dis < 20f)
                 {
-                    _tankMove.Move(0.6f);
+                    TankMove.Move(0.6f);
                 }
                 else if (dis < 10f)
                 {
-                    _tankMove.Move(0.4f);
+                    TankMove.Move(0.4f);
                 }
                 else
                 {
-                    _tankMove.Move(0.9f);
+                    TankMove.Move(0.9f);
                 }
 
-                _tankRotate.Rotate((_navMeshPath.corners[index] - _tank.transform.position).normalized);
-                dis = Vector3.Distance(_tank.transform.position, _navMeshPath.corners[index]);
+                TankRotate.Rotate((_navMeshPath.corners[index] - Tank.transform.position).normalized);
+                dis = Vector3.Distance(Tank.transform.position, _navMeshPath.corners[index]);
                 yield return null;
             }
 
