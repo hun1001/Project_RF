@@ -23,7 +23,7 @@ public class SATInformationHandle : MonoBehaviour
 
         sat.AddOnCoolingAction(OnCooling);
 
-        StartCoroutine(FillImageValueUpdateCoroutine());
+        StartCoroutine(nameof(FillImageValueUpdateCoroutine));
     }
 
     private IEnumerator FillImageValueUpdateCoroutine()
@@ -42,6 +42,7 @@ public class SATInformationHandle : MonoBehaviour
 
     private IEnumerator CoolingCoroutine()
     {
+        StopCoroutine(nameof(FillImageValueUpdateCoroutine));
         _fillValueImage.fillAmount = 0f;
         _fillValueImage.color = new Color(1f, 0f, 0f, 0.12f);
 
@@ -56,5 +57,6 @@ public class SATInformationHandle : MonoBehaviour
 
         _fillValueImage.fillAmount = 1f;
         _fillValueImage.color = new Color(1f, 1f, 1f, 0.12f);
+        StartCoroutine(nameof(FillImageValueUpdateCoroutine));
     }
 }
