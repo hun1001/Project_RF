@@ -1,4 +1,5 @@
 using Event;
+using Unity.Properties;
 using UnityEngine;
 
 public class GameTutorialCanvas : BaseCanvas
@@ -21,8 +22,12 @@ public class GameTutorialCanvas : BaseCanvas
     [SerializeField]
     private GameObject[] _tutorialPanels = null;
 
+    private Player _player;
     private int _tutorialCount = 0;
     private float _textDuration = 0f;
+    private bool _isCanReturn = true;
+    private bool _isHE = false;
+    private bool _isAP = false;
 
     private void Awake()
     {
@@ -35,7 +40,11 @@ public class GameTutorialCanvas : BaseCanvas
         {
             obj.SetActive(false);
         }
+    }
 
+    private void Start()
+    {
+        _player = FindObjectOfType<Player>();
         AddInputAction();
     }
 
@@ -56,7 +65,7 @@ public class GameTutorialCanvas : BaseCanvas
     {
         KeyboardManager.Instance.AddKeyDownAction(KeyCode.Escape, () =>
         {
-            if (CanvasManager.ActiveCanvas == CanvasType && TutorialManager.Instance.IsTutorial)
+            if (TutorialManager.Instance.IsTutorial)
             {
                 if (_skipPanel.activeSelf == false)
                 {
@@ -65,6 +74,47 @@ public class GameTutorialCanvas : BaseCanvas
                 else
                 {
                     TutorialNotSkip();
+                }
+            }
+        });
+
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.Return, () =>
+        {
+            if (TutorialManager.Instance.IsTutorial)
+            {
+                if (_textDuration > 0f)
+                {
+                    TextCancel();
+                }
+                else if (_isCanReturn)
+                {
+                    NextTutorial();
+                }
+            }
+        });
+
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.Alpha1, () =>
+        {
+            if (TutorialManager.Instance.IsTutorial)
+            {
+                if (_isHE)
+                {
+                    _isHE = false;
+                    TutorialManager.Instance.IsCanAttack = true;
+                    TutorialManager.Instance.IsCanChangeShell = false;
+                }
+            }
+        });
+
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.Alpha2, () =>
+        {
+            if (TutorialManager.Instance.IsTutorial)
+            {
+                if (_isAP)
+                {
+                    _isAP = false;
+                    TutorialManager.Instance.IsCanAttack = true;
+                    TutorialManager.Instance.IsCanChangeShell = false;
                 }
             }
         });
@@ -105,6 +155,25 @@ public class GameTutorialCanvas : BaseCanvas
         _textButton.SetActive(false);
     }
 
+    public void ControlTypeChange(int type)
+    {
+        if (type == 0)
+        {
+            PlayerPrefs.SetInt("ControlType", 0);
+            EventManager.TriggerEvent(EventKeyword.ChangeControlType, 0);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("ControlType", 1);
+            EventManager.TriggerEvent(EventKeyword.ChangeControlType, 1);
+        }
+    }
+
+    private void TriggerNextTutorial()
+    {
+        EventManager.TriggerEvent(EventKeyword.NextTutorial);
+    }
+
     public void NextTutorial()
     {
         _tutorialCount++;
@@ -114,6 +183,9 @@ public class GameTutorialCanvas : BaseCanvas
             {
                 PlayerPrefs.SetInt("GameTutorial", 1);
             }
+            TutorialManager.Instance.IsCanChangeShell = true;
+            TutorialManager.Instance.IsCanAttack = true;
+            TutorialManager.Instance.IsCanMove = true;
             CanvasManager.ChangeCanvas(CanvasType.Information);
             TutorialManager.Instance.TutorialWaveStart();
             return;
@@ -125,48 +197,123 @@ public class GameTutorialCanvas : BaseCanvas
 
         switch (_tutorialCount)
         {
-            case 4:
-                {
-                    _tutorialPanels[0].SetActive(true);
-                    break;
-                }
-            case 5:
-                {
-                    _tutorialPanels[0].SetActive(false);
-                    _tutorialPanels[1].SetActive(true);
-                    break;
-                }
             case 6:
                 {
-                    _tutorialPanels[1].SetActive(false);
-                    _nextButton.SetActive(false);
-                    TutorialManager.Instance.MovingTargetSpawn();
+                    TutorialManager.Instance.IsCanMove = true;
+                    _tutorialPanels[0].SetActive(true);
+
+                    PlayerPrefs.SetInt("ControlType", 0);
+                    EventManager.TriggerEvent(EventKeyword.ChangeControlType, 0);
                     break;
                 }
             case 7:
                 {
-                    _nextButton.SetActive(true);
+                    PlayerPrefs.SetInt("ControlType", 1);
+                    EventManager.TriggerEvent(EventKeyword.ChangeControlType, 1);
                     break;
                 }
             case 8:
                 {
-                    TutorialManager.Instance.TankDummySpawn();
+                    TutorialManager.Instance.IsCanMove = false;
+                    _tutorialPanels[0].SetActive(false);
+                    _tutorialPanels[1].SetActive(true);
+                    _nextButton.SetActive(false);
+                    _isCanReturn = false;
                     break;
                 }
             case 9:
                 {
-                    _tutorialPanels[1].SetActive(true);
-                    break;
-                }
-            case 10:
-                {
                     _tutorialPanels[1].SetActive(false);
-                    _nextButton.SetActive(false);
+                    _tutorialPanels[2].SetActive(true);
+                    _nextButton.SetActive(true);
+                    _isCanReturn = true;
                     break;
                 }
             case 11:
                 {
+                    TutorialManager.Instance.MovingTargetSpawn();
+                    TutorialManager.Instance.IsCanMove = true;
+                    _tutorialPanels[2].SetActive(false);
+                    _nextButton.SetActive(false);
+                    _isCanReturn = false;
+                    break;
+                }
+            case 12:
+                {
+                    TutorialManager.Instance.IsCanMove = false;
                     _nextButton.SetActive(true);
+                    _isCanReturn = true;
+                    break;
+                }
+            case 13:
+                {
+                    TutorialManager.Instance.TankDummySpawn("BT-5", new Vector3(5f, -10f, 0));
+                    break;
+                }
+            case 16:
+                {
+                    TutorialManager.Instance.IsCanChangeShell = true;
+                    _nextButton.SetActive(false);
+                    _isCanReturn = false;
+                    _isHE = true;
+                    break;
+                }
+            case 17:
+                {
+                    TutorialManager.Instance.IsCanAttack = false;
+                    _nextButton.SetActive(true);
+                    _isCanReturn = true;
+                    break;
+                }
+            case 18:
+                {
+                    TutorialManager.Instance.TankDummySpawn("VK3001H", new Vector3(0f, 0f, 0f));
+                    break;
+                }
+            case 19:
+                {
+                    _player.TurretAttack.AddOnFireAction(TriggerNextTutorial);
+                    TutorialManager.Instance.IsCanAttack = true;
+                    _nextButton.SetActive(false);
+                    _isCanReturn = false;
+                    break;
+                }
+            case 20:
+                {
+                    TutorialManager.Instance.IsCanAttack = false;
+                    _nextButton.SetActive(true);
+                    _isCanReturn = true;
+                    break;
+                }
+            case 22:
+                {
+                    // enemy move
+                    TutorialManager.Instance.IsCanAttack = true;
+                    _nextButton.SetActive(false);
+                    _isCanReturn = false;
+                    break;
+                }
+            case 23:
+                {
+                    TutorialManager.Instance.IsCanAttack = false;
+                    _nextButton.SetActive(true);
+                    _isCanReturn = true;
+                    break;
+                }
+            case 24:
+                {
+                    _player.TurretAttack.RemoveOnFireAction(TriggerNextTutorial);
+                    TutorialManager.Instance.IsCanChangeShell = true;
+                    _nextButton.SetActive(false);
+                    _isCanReturn = false;
+                    _isAP = true;
+                    break;
+                }
+            case 25:
+                {
+                    TutorialManager.Instance.IsCanAttack = false;
+                    _nextButton.SetActive(true);
+                    _isCanReturn = true;
                     break;
                 }
         }

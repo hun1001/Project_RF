@@ -9,13 +9,13 @@ using System.Collections.Generic;
 public class Player : CustomObject
 {
     [SerializeField]
-    private InformationCanvas _informationCanvas = null;
+    protected InformationCanvas _informationCanvas = null;
 
     private Bar _hpBar => _informationCanvas.HpBar;
 
     private CameraManager _cameraManager = null;
 
-    private Tank _tank = null;
+    protected Tank _tank = null;
     public Tank Tank => _tank;
 
     private Tank_Move _tankMove = null;
@@ -24,7 +24,7 @@ public class Player : CustomObject
     private Tank_Rotate _tankRotate = null;
     public Tank_Rotate TankRotate => _tankRotate;
 
-    private Turret_Rotate _turretRotate = null;
+    protected Turret_Rotate _turretRotate = null;
     private Turret_Attack _turretAttack = null;
     public Turret_Attack TurretAttack => _turretAttack;
 
@@ -90,38 +90,7 @@ public class Player : CustomObject
 
         _cameraManager.AddTargetGroup(_tank.transform, 30, 100);
 
-        ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
-        int shellCnt = 0;
-
-        List<Action> actionList = new List<Action>();
-        for (int i = 0; i < shellEquipmentData._shellEquipmentList.Count; i++)
-        {
-            int dataIndex = i;
-            if (shellEquipmentData._shellEquipmentList[dataIndex] == "")
-            {
-                shellCnt++;
-                continue;
-            }
-            int emptyCnt = shellCnt;
-            Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[dataIndex]).GetComponent<Shell>();
-
-            _informationCanvas.ShellToggleManager.AddToggle(dataIndex - shellCnt, shell.ID, shell.ShellSprite, (inOn) =>
-            {
-                if (inOn)
-                {
-                    _tank.Turret.CurrentShell = shell;
-                }
-            });
-
-            actionList.Add(() =>
-            {
-                int index = dataIndex;
-                int cnt = emptyCnt;
-                _informationCanvas.ShellToggleManager.TemplateList[index - cnt].isOn = true;
-            });
-        }
-        Action[] actions = actionList.ToArray();
-        KeyboardManager.Instance.AddKeyDownActionList(actions);
+        ShellAddInput();
 
         if (_tank.TryGetSecondaryArmament(out _subArmament))
         {
@@ -132,15 +101,6 @@ public class Player : CustomObject
         }
 
         _informationCanvas.ShellToggleManager.TemplateList[0].isOn = true;
-
-        if (shellEquipmentData._shellEquipmentList[0] == "")
-        {
-            _tank.Turret.CurrentShell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[1]).GetComponent<Shell>();
-        }
-        else
-        {
-            _tank.Turret.CurrentShell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[0]).GetComponent<Shell>();
-        }
 
         SetTankDamage();
 
@@ -167,7 +127,7 @@ public class Player : CustomObject
         _cameraManager.CameraZoom(_cameraHeight, 1f);
     }
 
-    private bool _wasControlled = true;
+    protected bool _wasControlled = true;
 
     private void ChangeControlType(object[] obj)
     {
@@ -175,7 +135,7 @@ public class Player : CustomObject
         controlType = (ControlType)controlTypeSetting;
     }
 
-    private IEnumerator InputUpdateCoroutine()
+    protected virtual IEnumerator InputUpdateCoroutine()
     {
         while (true)
         {
@@ -200,7 +160,7 @@ public class Player : CustomObject
         }
     }
 
-    private void DetailControl()
+    protected void DetailControl()
     {
         if (Input.GetKey(KeyCode.W))
         {
@@ -239,7 +199,7 @@ public class Player : CustomObject
         }
     }
 
-    private void SimpleControl()
+    protected void SimpleControl()
     {
         Vector2 moveDir = Vector2.zero;
         moveDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -273,6 +233,51 @@ public class Player : CustomObject
         {
             _tankMove.Stop();
             _wasControlled = false;
+        }
+    }
+
+    protected virtual void ShellAddInput()
+    {
+        ShellEquipmentData shellEquipmentData = ShellSaveManager.GetShellEquipment(PlayerDataManager.Instance.GetPlayerTankID());
+        int shellCnt = 0;
+
+        List<Action> actionList = new List<Action>();
+        for (int i = 0; i < shellEquipmentData._shellEquipmentList.Count; i++)
+        {
+            int dataIndex = i;
+            if (shellEquipmentData._shellEquipmentList[dataIndex] == "")
+            {
+                shellCnt++;
+                continue;
+            }
+            int emptyCnt = shellCnt;
+            Shell shell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[dataIndex]).GetComponent<Shell>();
+
+            _informationCanvas.ShellToggleManager.AddToggle(dataIndex - shellCnt, shell.ID, shell.ShellSprite, (inOn) =>
+            {
+                if (inOn)
+                {
+                    _tank.Turret.CurrentShell = shell;
+                }
+            });
+
+            actionList.Add(() =>
+            {
+                int index = dataIndex;
+                int cnt = emptyCnt;
+                _informationCanvas.ShellToggleManager.TemplateList[index - cnt].isOn = true;
+            });
+        }
+        Action[] actions = actionList.ToArray();
+        KeyboardManager.Instance.AddKeyDownActionList(actions);
+
+        if (shellEquipmentData._shellEquipmentList[0] == "")
+        {
+            _tank.Turret.CurrentShell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[1]).GetComponent<Shell>();
+        }
+        else
+        {
+            _tank.Turret.CurrentShell = AddressablesManager.Instance.GetResource<GameObject>(shellEquipmentData._shellEquipmentList[0]).GetComponent<Shell>();
         }
     }
 

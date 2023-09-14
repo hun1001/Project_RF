@@ -23,6 +23,7 @@ public class Turret_Attack : Turret_Component
 
     private Action _onFire = null;
     public void AddOnFireAction(Action action) => _onFire += action;
+    public void RemoveOnFireAction(Action action) => _onFire -= action;
 
     protected Tank_Move _tankMove = null;
 
@@ -40,10 +41,14 @@ public class Turret_Attack : Turret_Component
 
     public virtual void Fire()
     {
-        if (TutorialManager.Instance.IsTutorial && EventSystem.current.IsPointerOverGameObject())
+        if (TutorialManager.Instance.IsTutorial)
         {
-            return;
+            if (!TutorialManager.Instance.IsCanAttack)
+            {
+                return;
+            }
         }
+        
         if (_isBurst)
         {
             if (_reloadingTime <= 0)

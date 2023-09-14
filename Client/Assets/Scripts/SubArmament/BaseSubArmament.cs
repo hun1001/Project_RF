@@ -50,6 +50,14 @@ public abstract class BaseSubArmament : MonoBehaviour
 
     public virtual void Aim()
     {
+        if (TutorialManager.Instance.IsTutorial)
+        {
+            if (!TutorialManager.Instance.IsCanAttack)
+            {
+                return;
+            }
+        }
+
         _isAiming = true;
     }
 
@@ -73,6 +81,14 @@ public abstract class BaseSubArmament : MonoBehaviour
 
     public virtual void StopFire()
     {
+        if (TutorialManager.Instance.IsTutorial)
+        {
+            if (!TutorialManager.Instance.IsCanAttack)
+            {
+                return;
+            }
+        }
+
         _isAiming = false;
     }
 
