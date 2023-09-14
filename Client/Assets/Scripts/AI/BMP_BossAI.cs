@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Event;
 
-public class BMP_BossAI : MonoBehaviour
+public class BMP_BossAI : BossAI_Base
 {
     private Tank _tank = null;
     public Tank Tank => _tank;
@@ -53,11 +53,6 @@ public class BMP_BossAI : MonoBehaviour
             _moveTargetPosition = Vector3.zero;
         });
 
-        //보스 탱크 HP바 표시
-        //Bar hpBar = FindObjectOfType<InformationCanvas>().BossHpBar;
-        //hpBar.Setting(_tank.TankData.HP);
-        //_tankDamage.AddOnDamageAction(hpBar.ChangeValue);
-
         RootNode rootNode = null;
 
         SelectorNode selectorNode = null;
@@ -90,7 +85,6 @@ public class BMP_BossAI : MonoBehaviour
         {
             _isUsedSkill = true;
             _tankDamage.SetHP(_tankDamage.CurrentHealth + 50f);
-            //hpBar.ChangeValue(500f);
             _tank.TankData.Armour += 10f;
         });
 
