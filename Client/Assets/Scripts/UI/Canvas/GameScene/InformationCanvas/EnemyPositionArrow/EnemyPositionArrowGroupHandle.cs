@@ -12,7 +12,9 @@ public class EnemyPositionArrowGroupHandle : MonoBehaviour
 
     public void AddEnemyPositionArrow(Tank tank)
     {
+        var arrow = GetArrow();
         
+        arrow.SetTargetTank(tank);
     }
 
     private ArrowTemplateHandle GetArrow()
