@@ -13,8 +13,8 @@ using UnityEngine;
 using System.Collections;
  
 
-public static class PPFXRigidbodyExtensions : object {
-    
+public static class PPFXRigidbodyExtensions
+{
     public static void AddExplosionForce (this Rigidbody body, float explosionForce, Vector3 explosionRadiusCenter, float explosionRadius) 
     {
         AddExplosionForce(body, explosionForce, explosionRadiusCenter, explosionRadius, new Vector3(0F, 0F, 0F));

@@ -38,13 +38,11 @@ public class ArrowTemplateHandle : MonoBehaviour
             
             _arrowRectTransform.position = targetScreenPos;
 
-            // 화살표가 카메라 밖으로 나가지 않도록 조절
             Vector3 clampedPosition = _arrowRectTransform.position;
             clampedPosition.x = Mathf.Clamp(clampedPosition.x, 100, Screen.width - 100);
             clampedPosition.y = Mathf.Clamp(clampedPosition.y, 100, Screen.height - 100);
             _arrowRectTransform.position = clampedPosition;
 
-            // 화살표를 항상 카메라 앞에 유지하기 위해 Z 값을 조정
             Vector3 arrowPosition = _arrowRectTransform.position;
             arrowPosition.z = 0;
             _arrowRectTransform.position = arrowPosition;
