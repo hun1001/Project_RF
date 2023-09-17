@@ -48,6 +48,8 @@ public class InformationCanvas : BaseCanvas
 
         _player.TankMove.OnForwardAction += _tankInfoUI.Forward;
         _player.TankMove.OnBackwardAction += _tankInfoUI.Backward;
+        
+        SpawnManager.Instance.AddOnSpawnedEnemyUnitAction(_enemyPositionArrowGroupHandle.AddEnemyPositionArrow);
 
         if (_player.Tank.Turret.TurretData.IsBurst)
         {

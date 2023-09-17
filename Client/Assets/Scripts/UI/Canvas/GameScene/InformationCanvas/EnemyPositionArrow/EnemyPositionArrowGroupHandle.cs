@@ -7,14 +7,13 @@ public class EnemyPositionArrowGroupHandle : MonoBehaviour
     [SerializeField]
     private ArrowTemplateHandle arrowTemplateHandle = null;
 
-    private Queue<ArrowTemplateHandle> arrowHandles = new Queue<ArrowTemplateHandle>();
     private Queue<ArrowTemplateHandle> unArrowHandles = new Queue<ArrowTemplateHandle>();
 
     public void AddEnemyPositionArrow(Tank tank)
     {
         var arrow = GetArrow();
         
-        arrow.SetTargetTank(tank);
+        arrow.SetTargetTank(tank, PoolArrow);
     }
 
     private ArrowTemplateHandle GetArrow()
@@ -31,5 +30,11 @@ public class EnemyPositionArrowGroupHandle : MonoBehaviour
             arrow.gameObject.SetActive(true);
             return arrow;
         }
+    }
+    
+    private void PoolArrow(ArrowTemplateHandle arrow)
+    {
+        arrow.gameObject.SetActive(false);
+        unArrowHandles.Enqueue(arrow);
     }
 }

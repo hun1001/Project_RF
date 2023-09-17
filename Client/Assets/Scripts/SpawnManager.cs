@@ -7,6 +7,7 @@ using System;
 public class SpawnManager : MonoSingleton<SpawnManager>
 {
     private Action<Tank> _onSpawnedEnemyUnit;
+    public void AddOnSpawnedEnemyUnitAction(Action<Tank> action) => _onSpawnedEnemyUnit += action;
 
     public Tank SpawnUnit(string unitID, Vector3 position, Quaternion rotation, GroupType groupType, BaseSubArmament subArmament = null)
     {
