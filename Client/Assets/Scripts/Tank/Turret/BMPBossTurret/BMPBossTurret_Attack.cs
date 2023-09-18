@@ -2,17 +2,17 @@ using System.Collections;
 using Pool;
 using UnityEngine;
 
-public class BossTurret_Attack : Turret_Attack
+public class BMPBossTurret_Attack : Turret_Attack
 {
     private Tank _tank = null;
-    private BossTurret _bossTurret = null;
+    private BMPBossTurret _bossTurret = null;
 
     protected override void Awake()
     {
         base.Awake();
 
         _tank = GetComponent<Tank>();
-        _bossTurret = Turret as BossTurret;
+        _bossTurret = Turret as BMPBossTurret;
     }
 
     public override void Fire()

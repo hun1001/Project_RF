@@ -108,7 +108,7 @@ public class BMP_BossAI : BossAI_Base
         int attackType = Random.Range(0, 10);
         if (attackType < 4)
         {
-            (TurretAttack as BossTurret_Attack).FireMissile(Target.transform.position);
+            (TurretAttack as BMPBossTurret_Attack).FireMissile(Target.transform.position);
         }
         else if (attackType < 8)
         {
@@ -116,7 +116,7 @@ public class BMP_BossAI : BossAI_Base
         }
         else
         {
-            (TurretAttack as BossTurret_Attack).FireMissile(Target.transform.position);
+            (TurretAttack as BMPBossTurret_Attack).FireMissile(Target.transform.position);
             TurretAttack.Fire();
         }
     }

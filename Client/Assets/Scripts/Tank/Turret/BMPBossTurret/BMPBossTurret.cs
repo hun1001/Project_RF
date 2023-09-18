@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossTurret : Turret
+public class BMPBossTurret : Turret
 {
     [SerializeField]
     private Transform _firePoint2 = null;
