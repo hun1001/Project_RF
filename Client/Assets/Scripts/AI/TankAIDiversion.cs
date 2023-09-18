@@ -117,12 +117,20 @@ public class TankAIDiversion : AI_Base
         Vector3 randomNextPosition = Vector3.zero;
 
         float moveTargetPositionDistance = TurretAttack.IsReload ? 30f : 100f;
+        int tryCount = 0;
 
         do
         {
             randomNextPosition = Target.transform.position + Random.insideUnitSphere * moveTargetPositionDistance;
             isCanMove = NavMesh.CalculatePath(Tank.transform.position, randomNextPosition, NavMesh.AllAreas, _navMeshPath);
-        } while (!isCanMove);
+            Debug.Log("tryCount : " + ++tryCount);
+        } while (!isCanMove&&tryCount <= 100);
+
+        if (!isCanMove)
+        {
+            Debug.Log("Can't move");
+            return false;
+        }
 
         for(int i = 0;i<_navMeshPath.corners.Length - 1;++i)
         {
