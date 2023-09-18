@@ -18,7 +18,7 @@ public abstract class BaseSubArmament : MonoBehaviour
     protected Shell _shell = null;
 
     [SerializeField]
-    private MonoTypeSoundBoxSO _fireSoundBox = null;
+    private AudioClip _fireSound = null;
 
     private Tank _tank = null;
     public Tank Tank => _tank;
@@ -129,8 +129,9 @@ public abstract class BaseSubArmament : MonoBehaviour
     private void PlayFireSound()
     {
         var audioSource = PoolManager.Get<AudioSourceController>("AudioSource", _firePoint);
-        audioSource.SetSound(_fireSoundBox.GetRandomAudioClip());
+        audioSource.SetSound(_fireSound);
         audioSource.SetGroup(AudioMixerType.Sfx);
+        audioSource.SetLoop();
         audioSource.SetVolume(1f);
         audioSource.Play();
     }
