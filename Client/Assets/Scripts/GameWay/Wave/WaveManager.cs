@@ -14,8 +14,10 @@ public class WaveManager : GameWay_Base
     {
         if (StageListSO.Stages[CurrentStage].IsBoss)
         {
-            var boss = PoolManager.Get<BossAI_Base>("Boss_AI", _currentMap.RandomSpawnPoint(), Quaternion.identity);
-            boss.Init(StageListSO.Stages[CurrentStage].Enemys[0].ID);
+            string bossAIAddress = (StageListSO.Stages[CurrentStage].Enemys[0] as BossTank).AI_Address;
+
+            var boss = PoolManager.Get<BossAI_Base>(bossAIAddress, _currentMap.RandomSpawnPoint(), Quaternion.identity);
+            boss.Init("");
             RemainingEnemy = 1;
         }
         else
