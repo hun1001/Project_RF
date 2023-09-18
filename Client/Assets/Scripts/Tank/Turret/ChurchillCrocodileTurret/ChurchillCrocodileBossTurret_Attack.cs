@@ -6,7 +6,7 @@ public class ChurchillCrocodileBossTurret_Attack : Turret_Attack
 {
     public override void Fire()
     {
-        Debug.Log("ChurchillCrocodileBossTurret_Attack.Fire() called");
+        base.Fire();
     }
 
     public void Flamethrow()
