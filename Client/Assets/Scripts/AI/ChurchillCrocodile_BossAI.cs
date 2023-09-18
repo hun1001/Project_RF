@@ -14,13 +14,27 @@ public class ChurchillCrocodile_BossAI : BossAI_Base
 
         RootNode rootNode = null;
 
+        SelectorNode selectorNode = null;
+
         ConditionalNode setMoveTargetPositionExcutionNode = null;
         ExecutionNode moveExcutionNode = null;
+
+        ConditionalNode targetAimConditionNode = null;
+        ExecutionNode fireExecutionNode = null;
 
         moveExcutionNode = new ExecutionNode(Move);
         setMoveTargetPositionExcutionNode = new ConditionalNode(SetMoveTargetPosition, moveExcutionNode);
 
-        return base.SetBehaviorTree();
+        fireExecutionNode = new ExecutionNode(Fire);
+        targetAimConditionNode = new ConditionalNode(IsTargetAim, fireExecutionNode);
+
+        selectorNode = new SelectorNode(targetAimConditionNode, setMoveTargetPositionExcutionNode);
+
+        rootNode = new RootNode(selectorNode);
+
+        behaviorTree = new BehaviorTree(rootNode);
+
+        return behaviorTree;
     }
 
     protected override Tank TankSpawn()
@@ -85,5 +99,18 @@ public class ChurchillCrocodile_BossAI : BossAI_Base
         _currentTargetPosition = _pathQueue.Dequeue();
 
         return true;
+    }
+
+    private bool IsTargetAim()
+    {
+        Vector3 dir = (Target.transform.position - Tank.transform.position);
+        TurretRotate.Rotate(dir.normalized);
+
+        return TurretAimLine.IsAim && dir.magnitude <= 50f && !TurretAttack.IsReload;
+    }
+
+    private void Fire()
+    {
+        TurretAttack.Fire();
     }
 }
