@@ -38,12 +38,22 @@ public abstract class BaseSubArmament : MonoBehaviour
 
     private bool _canReload = true;
 
+    private AudioSourceController _audioSourceController = null;
+
     public BaseSubArmament Setting(Tank tank, Transform point)
     {
         _tank = tank;
         _firePoint = point;
 
         _curretBeltCapacity = GetSATSO().BeltCapacity;
+
+        _audioSourceController = PoolManager.Get<AudioSourceController>("AudioSource", _firePoint);
+        _audioSourceController.transform.localPosition = Vector3.zero;
+
+        _audioSourceController.SetSound(_fireSound);
+        _audioSourceController.SetGroup(AudioMixerType.Sfx);
+        _audioSourceController.SetLoop();
+        _audioSourceController.SetVolume(0.8f);
 
         return this;
     }
@@ -71,6 +81,8 @@ public abstract class BaseSubArmament : MonoBehaviour
 
         if(_isCooling)
         {
+            _isPlayingSound = false;
+            _audioSourceController.Stop();
             return;
         }
 
@@ -89,6 +101,8 @@ public abstract class BaseSubArmament : MonoBehaviour
             }
         }
 
+        _isPlayingSound = false;
+        _audioSourceController.Stop();
         _isAiming = false;
     }
 
@@ -126,14 +140,17 @@ public abstract class BaseSubArmament : MonoBehaviour
         _isCooling = false;
     }
 
+    private bool _isPlayingSound = false;
+
     private void PlayFireSound()
     {
-        var audioSource = PoolManager.Get<AudioSourceController>("AudioSource", _firePoint);
-        audioSource.SetSound(_fireSound);
-        audioSource.SetGroup(AudioMixerType.Sfx);
-        audioSource.SetLoop();
-        audioSource.SetVolume(1f);
-        audioSource.Play();
+        if (_isPlayingSound)
+        {
+            return;
+        }
+
+        _isPlayingSound = true;
+        _audioSourceController.Play();
     }
 
     private void Update()
