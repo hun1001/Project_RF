@@ -123,12 +123,11 @@ public class TankAIDiversion : AI_Base
         {
             randomNextPosition = Target.transform.position + Random.insideUnitSphere * moveTargetPositionDistance;
             isCanMove = NavMesh.CalculatePath(Tank.transform.position, randomNextPosition, NavMesh.AllAreas, _navMeshPath);
-            Debug.Log("tryCount : " + ++tryCount);
-        } while (!isCanMove&&tryCount <= 100);
+        } while (!isCanMove && ++tryCount <= 100);
 
         if (!isCanMove)
         {
-            Debug.Log("Can't move");
+            Debug.Log("Can't move tryCount: " + tryCount);
             return false;
         }
 
