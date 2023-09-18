@@ -197,6 +197,17 @@ public class GameTutorialCanvas : BaseCanvas
 
         switch (_tutorialCount)
         {
+            case 1:
+                {
+                    VirtualCameraManager.Instance.SwitchingCamera();
+                    break;
+                }
+            case 2:
+                {
+                    VirtualCameraManager.Instance.SwitchingCamera(false);
+                    TutorialManager.Instance.DummyRemove();
+                    break;
+                }
             case 6:
                 {
                     TutorialManager.Instance.IsCanMove = true;
@@ -229,11 +240,15 @@ public class GameTutorialCanvas : BaseCanvas
                     _isCanReturn = true;
                     break;
                 }
+            case 11:
+                {
+                    _tutorialPanels[2].SetActive(false);
+                    break;
+                }
             case 12:
                 {
                     TutorialManager.Instance.MovingTargetSpawn();
                     TutorialManager.Instance.IsCanMove = true;
-                    _tutorialPanels[2].SetActive(false);
                     _nextButton.SetActive(false);
                     _isCanReturn = false;
                     break;

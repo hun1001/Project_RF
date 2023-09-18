@@ -1,6 +1,7 @@
 using Event;
+using Pool;
 using System.Collections;
-using System.Net.NetworkInformation;
+using System.Collections.Generic;
 using UnityEngine;
 using Util;
 
@@ -51,6 +52,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
 
     private GameObject _waveManager = null;
     private Tank _tankDummy = null;
+    private List<Tank> _dummyList = new List<Tank>();
     private Vector3 _dir = Vector3.zero;
 
     public void TutorialStart()
@@ -70,8 +72,29 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         _isCanMove = false;
         _isCanAttack = false;
         _isCanChangeShell = false;
+
         _waveManager = FindObjectOfType<WaveManager>().gameObject;
         _waveManager.SetActive(false);
+
+        _dummyList.Clear();
+        _dummyList.Add(SpawnManager.Instance.SpawnUnit("TigerH1", new Vector3(64f, 82f, 0f), Quaternion.identity, GroupType.Enemy));
+        _dummyList.Add(SpawnManager.Instance.SpawnUnit("Maus", new Vector3(80f, 85f, 0f), Quaternion.identity, GroupType.Enemy));
+        _dummyList.Add(SpawnManager.Instance.SpawnUnit("Leopard_1", new Vector3(84f, 70f, 0f), Quaternion.identity, GroupType.Enemy));
+
+        //foreach (var tank in _dummyList)
+        //{
+        //    Vector3 dir = Vector3.zero - tank.transform.position;
+        //    tank.GetComponent<Tank_Rotate>().Rotate(dir);
+        //}
+    }
+
+    public void DummyRemove()
+    {
+        PoolManager.Pool("TigerH1", _dummyList[0].gameObject);
+        PoolManager.Pool("Maus", _dummyList[1].gameObject);
+        PoolManager.Pool("Leopard_1", _dummyList[2].gameObject);
+
+        _dummyList.Clear();
     }
 
     public void TankDummySpawn(string tankID, Vector3 spawnPos)
@@ -82,12 +105,15 @@ public class TutorialManager : MonoSingleton<TutorialManager>
 
     public void TankDummyMove(Vector3 movePos)
     {
-        StartCoroutine(Test(movePos));
+        StartCoroutine(DummyMoveCoroutine(movePos));
     }
 
-    private IEnumerator Test(Vector3 movePos)
+    private IEnumerator DummyMoveCoroutine(Vector3 movePos)
     {
         _dir = movePos - _tankDummy.transform.position;
+        VirtualCameraManager.Instance.SetTargetCamera(_tankDummy.gameObject);
+        VirtualCameraManager.Instance.SwitchingCamera();
+
         while (_dir.magnitude >= 2)
         {
             _dir = movePos - _tankDummy.transform.position;
@@ -99,6 +125,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         }
 
         _tankDummy.GetComponent<Tank_Move>().Move(0f);
+        VirtualCameraManager.Instance.SwitchingCamera(false);
     }
 
     public void MovingTargetSpawn()
