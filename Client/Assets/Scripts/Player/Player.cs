@@ -122,11 +122,6 @@ public class Player : CustomObject
         StartCoroutine(nameof(InputUpdateCoroutine));
     }
 
-    void Update()
-    {
-        _cameraManager.CameraZoom(_cameraHeight, 1f);
-    }
-
     protected bool _wasControlled = true;
 
     private void ChangeControlType(object[] obj)
