@@ -8,6 +8,8 @@ public class ChurchillCrocodile_BossAI : BossAI_Base
     private Queue<Vector3> _pathQueue = new Queue<Vector3>();
     private Vector3 _currentTargetPosition = Vector3.zero;
 
+    private ChurchillCrocodileBossTurret_Attack _turretAttack => TurretAttack as ChurchillCrocodileBossTurret_Attack;
+
     protected override BehaviorTree SetBehaviorTree()
     {
         BehaviorTree behaviorTree = null;
@@ -111,6 +113,7 @@ public class ChurchillCrocodile_BossAI : BossAI_Base
 
     private void Fire()
     {
-        TurretAttack.Fire();
+        _turretAttack.Fire();
+        _turretAttack.Flamethrow();
     }
 }
