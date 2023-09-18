@@ -1,4 +1,5 @@
 using Event;
+using System.Collections;
 using System.Net.NetworkInformation;
 using UnityEngine;
 using Util;
@@ -49,6 +50,8 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     }
 
     private GameObject _waveManager = null;
+    private Tank _tankDummy = null;
+    private Vector3 _dir = Vector3.zero;
 
     public void TutorialStart()
     {
@@ -71,10 +74,31 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         _waveManager.SetActive(false);
     }
 
-    public void TankDummySpawn(string tankID, Vector3 pos)
+    public void TankDummySpawn(string tankID, Vector3 spawnPos)
     {
-        var tank = SpawnManager.Instance.SpawnUnit(tankID, pos, Quaternion.identity, GroupType.Enemy);
-        tank.GetComponent<Tank_Damage>().AddOnDeathAction(() => EventManager.TriggerEvent(EventKeyword.NextTutorial));
+        _tankDummy = SpawnManager.Instance.SpawnUnit(tankID, spawnPos, Quaternion.identity, GroupType.Enemy);
+        _tankDummy.GetComponent<Tank_Damage>().AddOnDeathAction(() => EventManager.TriggerEvent(EventKeyword.NextTutorial));
+    }
+
+    public void TankDummyMove(Vector3 movePos)
+    {
+        StartCoroutine(Test(movePos));
+    }
+
+    private IEnumerator Test(Vector3 movePos)
+    {
+        _dir = movePos - _tankDummy.transform.position;
+        while (_dir.magnitude >= 2)
+        {
+            _dir = movePos - _tankDummy.transform.position;
+
+            _tankDummy.GetComponent<Tank_Move>().Move(1f);
+            _tankDummy.GetComponent<Tank_Rotate>().Rotate(_dir.normalized);
+
+            yield return null;
+        }
+
+        _tankDummy.GetComponent<Tank_Move>().Move(0f);
     }
 
     public void MovingTargetSpawn()

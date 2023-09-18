@@ -229,7 +229,7 @@ public class GameTutorialCanvas : BaseCanvas
                     _isCanReturn = true;
                     break;
                 }
-            case 11:
+            case 12:
                 {
                     TutorialManager.Instance.MovingTargetSpawn();
                     TutorialManager.Instance.IsCanMove = true;
@@ -238,19 +238,20 @@ public class GameTutorialCanvas : BaseCanvas
                     _isCanReturn = false;
                     break;
                 }
-            case 12:
+            case 13:
                 {
                     TutorialManager.Instance.IsCanMove = false;
                     _nextButton.SetActive(true);
                     _isCanReturn = true;
                     break;
                 }
-            case 13:
+            case 14:
                 {
-                    TutorialManager.Instance.TankDummySpawn("BT-5", new Vector3(5f, -10f, 0));
+                    TutorialManager.Instance.TankDummySpawn("BT-5", new Vector3(-56f, 6f, 0));
+                    TutorialManager.Instance.TankDummyMove(new Vector3(-14f, -1f, 0f));
                     break;
                 }
-            case 16:
+            case 17:
                 {
                     TutorialManager.Instance.IsCanChangeShell = true;
                     _nextButton.SetActive(false);
@@ -258,43 +259,31 @@ public class GameTutorialCanvas : BaseCanvas
                     _isHE = true;
                     break;
                 }
-            case 17:
+            case 18:
                 {
                     TutorialManager.Instance.IsCanAttack = false;
                     _nextButton.SetActive(true);
                     _isCanReturn = true;
-                    break;
-                }
-            case 18:
-                {
-                    TutorialManager.Instance.TankDummySpawn("VK3001H", new Vector3(0f, 0f, 0f));
                     break;
                 }
             case 19:
                 {
-                    _player.TurretAttack.AddOnFireAction(TriggerNextTutorial);
-                    TutorialManager.Instance.IsCanAttack = true;
-                    _nextButton.SetActive(false);
-                    _isCanReturn = false;
+                    TutorialManager.Instance.TankDummySpawn("VK3001H", new Vector3(56f, -25f, 0f));
+                    TutorialManager.Instance.TankDummyMove(new Vector3(44f, -14f, 0));
                     break;
                 }
-            case 20:
+            case 21:
                 {
-                    TutorialManager.Instance.IsCanAttack = false;
-                    _nextButton.SetActive(true);
-                    _isCanReturn = true;
+                    _player.TurretAttack.AddOnFireAction(TriggerNextTutorial);
+                    TutorialManager.Instance.IsCanChangeShell = true;
+                    _nextButton.SetActive(false);
+                    _isCanReturn = false;
+                    _isAP = true;
                     break;
                 }
             case 22:
                 {
-                    // enemy move
-                    TutorialManager.Instance.IsCanAttack = true;
-                    _nextButton.SetActive(false);
-                    _isCanReturn = false;
-                    break;
-                }
-            case 23:
-                {
+                    _player.TurretAttack.RemoveOnFireAction(TriggerNextTutorial);
                     TutorialManager.Instance.IsCanAttack = false;
                     _nextButton.SetActive(true);
                     _isCanReturn = true;
@@ -302,11 +291,10 @@ public class GameTutorialCanvas : BaseCanvas
                 }
             case 24:
                 {
-                    _player.TurretAttack.RemoveOnFireAction(TriggerNextTutorial);
-                    TutorialManager.Instance.IsCanChangeShell = true;
+                    TutorialManager.Instance.TankDummyMove(new Vector3(47f, -24f, 0));
+                    TutorialManager.Instance.IsCanAttack = true;
                     _nextButton.SetActive(false);
                     _isCanReturn = false;
-                    _isAP = true;
                     break;
                 }
             case 25:

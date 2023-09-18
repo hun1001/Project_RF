@@ -64,12 +64,9 @@ public class TutorialPlayer : Player
 
             actionList.Add(() =>
             {
-                if (TutorialManager.Instance.IsTutorial)
+                if (!TutorialManager.Instance.IsCanChangeShell)
                 {
-                    if (!TutorialManager.Instance.IsCanChangeShell)
-                    {
-                        return;
-                    }
+                    return;
                 }
 
                 int index = dataIndex;
