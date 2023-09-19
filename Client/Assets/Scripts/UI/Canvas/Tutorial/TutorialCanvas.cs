@@ -116,6 +116,20 @@ public class TutorialCanvas : BaseCanvas
                 }
             }
         });
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.Space, () =>
+        {
+            if (CanvasManager.ActiveCanvas == CanvasType && TutorialManager.Instance.IsTutorial)
+            {
+                if (_textDuration > 0f)
+                {
+                    TextCancel();
+                }
+                else if (_isCanReturn)
+                {
+                    NextTutorial();
+                }
+            }
+        });
     }
 
     public void OnSkipPanel()

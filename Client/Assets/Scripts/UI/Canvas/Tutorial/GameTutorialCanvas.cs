@@ -92,6 +92,20 @@ public class GameTutorialCanvas : BaseCanvas
                 }
             }
         });
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.Space, () =>
+        {
+            if (TutorialManager.Instance.IsTutorial)
+            {
+                if (_textDuration > 0f)
+                {
+                    TextCancel();
+                }
+                else if (_isCanReturn)
+                {
+                    NextTutorial();
+                }
+            }
+        });
 
         KeyboardManager.Instance.AddKeyDownAction(KeyCode.Alpha1, () =>
         {
@@ -191,6 +205,7 @@ public class GameTutorialCanvas : BaseCanvas
                 PlayerPrefs.SetInt("GameTutorial", 1);
             }
 
+            _isCanReturn = false;
             _textArea.gameObject.SetActive(false);
             CanvasManager.ChangeCanvas(CanvasType.Information);
             TutorialManager.Instance.TutorialWaveStart();
