@@ -296,7 +296,7 @@ public class GameTutorialCanvas : BaseCanvas
                 }
             case 22:
                 {
-                    EventManager.StopListening("Ricochet", TriggerNextTutorial);
+                    EventManager.DeleteEvent("Ricochet");
                     TutorialManager.Instance.IsCanAttack = false;
                     _nextButton.SetActive(true);
                     _isCanReturn = true;
