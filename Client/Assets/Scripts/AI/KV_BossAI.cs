@@ -9,19 +9,32 @@ public class KV_BossAI : BossAI_Base
     private Vector3 _currentTargetPosition = Vector3.zero;
 
     private KVBossTurret_Rotate _rotate => TurretRotate as KVBossTurret_Rotate;
+    private KVBossTurret_Attack _attack => TurretAttack as KVBossTurret_Attack;
 
     protected override BehaviorTree SetBehaviorTree()
     {
         RootNode rootNode = null;
-        SequenceNode sequenceNode = null;
+        SequenceNode selectorNode = null;
 
         ConditionalNode setMoveTargetPositionExcutionNode = null;
         ExecutionNode moveExcutionNode = null;
 
+        ExecutionNode aimExcutionNode = null;
+
+        ConditionalNode isAimingNode = null;
+        ExecutionNode fireExecutionNode = null;
+
         moveExcutionNode = new ExecutionNode(Move);
         setMoveTargetPositionExcutionNode = new ConditionalNode(SetMoveTargetPosition, moveExcutionNode);
 
-        rootNode = new RootNode(sequenceNode);
+        aimExcutionNode = new ExecutionNode(AimTarget);
+
+        fireExecutionNode = new ExecutionNode(Fire);
+        isAimingNode = new ConditionalNode(IsTargetAim, fireExecutionNode);
+
+        selectorNode = new SequenceNode(aimExcutionNode, setMoveTargetPositionExcutionNode, isAimingNode);
+
+        rootNode = new RootNode(selectorNode);
 
         return new BehaviorTree(rootNode);
     }
@@ -92,6 +105,23 @@ public class KV_BossAI : BossAI_Base
 
     private void AimTarget()
     {
+        Vector3 dir1 = (Target.transform.position - Tank.transform.position);
 
+        Vector3 dir2 = Quaternion.Euler(0, 0, 10) * dir1;
+        Vector3 dir3 = Quaternion.Euler(0, 0, -10) * dir1;
+
+        _rotate.Rotate(dir1.normalized, 0);
+        _rotate.Rotate(dir2.normalized, 1);
+        _rotate.Rotate(dir3.normalized, 2);
+    }
+
+    private void Fire()
+    {
+        _attack.Fire();
+    }
+
+    private bool IsTargetAim()
+    {
+        return TurretAimLine.IsAim;
     }
 }
