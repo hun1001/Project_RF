@@ -16,9 +16,9 @@ public class TechTree : MonoBehaviour
 
     private void Awake()
     {
-        if (TechTreeDataManager.HasTank(CountryType.USSR, "BT-5") == false)
+        if (TechTreeDataManager.HasTank(CountryType.USSR, "T-34") == false)
         {
-            TechTreeDataManager.AddTank(CountryType.USSR, "BT-5");
+            TechTreeDataManager.AddTank(CountryType.USSR, "T-34");
         }
     }
 
