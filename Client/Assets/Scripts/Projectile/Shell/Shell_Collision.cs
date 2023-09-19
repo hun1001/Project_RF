@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Pool;
+using Event;
 
 public class Shell_Collision : Shell_Component
 {
@@ -48,6 +49,7 @@ public class Shell_Collision : Shell_Component
             angle = (int)Vector2.Angle(incidentVector, normalVector);
             angle %= 180;
 
+            // Ricochet!
             if (angle < 90 && angle >= (Instance as Shell).ShellSO.RicochetAngle)
             {
                 reflectionDir = Vector2.Reflect(-incidentVector, normalVector);
@@ -59,7 +61,13 @@ public class Shell_Collision : Shell_Component
                 text.DoMoveText();
 
                 _shellSound.PlaySound(SoundType.Ricochet, AudioMixerType.Sfx);
+
+                if (TutorialManager.Instance.IsTutorial)
+                {
+                    EventManager.TriggerEvent("Ricochet");
+                }
             }
+            // Not Ricochet
             else
             {
                 collision.gameObject.GetComponent<Tank_Damage>()?.Damaged(Shell.Damage, Shell.Penetration, collision.contacts[0].point, transform.up);

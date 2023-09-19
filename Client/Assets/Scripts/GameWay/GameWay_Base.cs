@@ -41,6 +41,7 @@ public abstract class GameWay_Base : MonoSingleton<GameWay_Base>
         {
             StageClear();
         }
+        EventManager.TriggerEvent("EnemyCheck");
     }
 
     protected virtual void Spawn()

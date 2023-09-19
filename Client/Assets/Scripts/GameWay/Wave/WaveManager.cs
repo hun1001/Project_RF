@@ -24,7 +24,7 @@ public class WaveManager : GameWay_Base
         {
             base.Spawn();
         }
-        EventManager.TriggerEvent("Clear");
+        EventManager.TriggerEvent("Next");
     }
 
     public override void StageClear()

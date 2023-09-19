@@ -183,9 +183,7 @@ public class GameTutorialCanvas : BaseCanvas
             {
                 PlayerPrefs.SetInt("GameTutorial", 1);
             }
-            TutorialManager.Instance.IsCanChangeShell = true;
-            TutorialManager.Instance.IsCanAttack = true;
-            TutorialManager.Instance.IsCanMove = true;
+            
             CanvasManager.ChangeCanvas(CanvasType.Information);
             TutorialManager.Instance.TutorialWaveStart();
             return;
@@ -289,7 +287,7 @@ public class GameTutorialCanvas : BaseCanvas
                 }
             case 21:
                 {
-                    _player.TurretAttack.AddOnFireAction(TriggerNextTutorial);
+                    EventManager.StartListening("Ricochet", TriggerNextTutorial);
                     TutorialManager.Instance.IsCanChangeShell = true;
                     _nextButton.SetActive(false);
                     _isCanReturn = false;
@@ -298,7 +296,7 @@ public class GameTutorialCanvas : BaseCanvas
                 }
             case 22:
                 {
-                    _player.TurretAttack.RemoveOnFireAction(TriggerNextTutorial);
+                    EventManager.StopListening("Ricochet", TriggerNextTutorial);
                     TutorialManager.Instance.IsCanAttack = false;
                     _nextButton.SetActive(true);
                     _isCanReturn = true;

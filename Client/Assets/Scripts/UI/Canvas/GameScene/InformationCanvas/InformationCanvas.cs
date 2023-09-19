@@ -76,7 +76,7 @@ public class InformationCanvas : BaseCanvas
         }
 
         _enemyText.SetText(GameWay_Base.RemainingEnemy);
-        EventManager.StartListening(EventKeyword.EnemyDie, () =>
+        EventManager.StartListening("EnemyCheck", () =>
         {
             int enemy = GameWay_Base.RemainingEnemy;
             if (enemy > 0)
@@ -89,10 +89,11 @@ public class InformationCanvas : BaseCanvas
             }
         });
 
-        EventManager.StartListening("Clear", () =>
+        EventManager.StartListening("Next", () =>
         {
+            int enemy = GameWay_Base.RemainingEnemy;
             _waveText.SetText("Wave " + (GameWay_Base.CurrentStage + 1).ToString());
-            _enemyText.SetText(GameWay_Base.RemainingEnemy);
+            _enemyText.SetText(enemy);
         });
     }
 

@@ -61,7 +61,7 @@ public abstract class BaseSubArmament : MonoBehaviour
     {
         if (TutorialManager.Instance.IsTutorial)
         {
-            if (!TutorialManager.Instance.IsCanAttack)
+            if (!TutorialManager.Instance.IsCanSAT)
             {
                 return;
             }
@@ -94,7 +94,7 @@ public abstract class BaseSubArmament : MonoBehaviour
     {
         if (TutorialManager.Instance.IsTutorial)
         {
-            if (!TutorialManager.Instance.IsCanAttack)
+            if (!TutorialManager.Instance.IsCanSAT)
             {
                 return;
             }

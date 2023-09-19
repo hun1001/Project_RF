@@ -50,6 +50,19 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         }
     }
 
+    private bool _isCanSAT = false;
+    public bool IsCanSAT
+    {
+        get
+        {
+            return _isCanSAT;
+        }
+        set
+        {
+            _isCanSAT = value;
+        }
+    }
+
     private GameObject _waveManager = null;
     private Tank _tankDummy = null;
     private List<Tank> _dummyList = new List<Tank>();
@@ -72,6 +85,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         _isCanMove = false;
         _isCanAttack = false;
         _isCanChangeShell = false;
+        _isCanSAT = false;
 
         _waveManager = FindObjectOfType<WaveManager>().gameObject;
         _waveManager.SetActive(false);
@@ -131,5 +145,9 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     public void TutorialWaveStart()
     {
         _waveManager.SetActive(true);
+        _isCanSAT = true;
+        _isCanChangeShell = true;
+        _isCanAttack = true;
+        _isCanMove = true;
     }
 }
