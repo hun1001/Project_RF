@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Turret_Attack : Turret_Component
 {
-    private float _reloadingTime = 0;
+    protected float _reloadingTime = 0;
     public float ReloadingTime => _reloadingTime;
 
     private float _burstReloadTime = 0f;
@@ -14,14 +14,15 @@ public class Turret_Attack : Turret_Component
     private int _magazineSize = 0;
     public int MagazineSize => _magazineSize;
 
-    private bool _isReload = false;
+    protected bool _isReload = false;
     public bool IsReload => _isReload;
 
     private bool _isBurst = false;
 
     private Turret_Sound _turretSound = null;
+    protected Turret_Sound TurretSound => _turretSound;
 
-    private Action _onFire = null;
+    protected Action _onFire = null;
     public void AddOnFireAction(Action action) => _onFire += action;
     public void RemoveOnFireAction(Action action) => _onFire -= action;
 
