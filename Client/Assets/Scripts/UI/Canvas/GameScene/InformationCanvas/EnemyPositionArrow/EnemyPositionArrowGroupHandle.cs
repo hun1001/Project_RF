@@ -9,6 +9,11 @@ public class EnemyPositionArrowGroupHandle : MonoBehaviour
 
     private Queue<ArrowTemplateHandle> unArrowHandles = new Queue<ArrowTemplateHandle>();
 
+    private void Awake()
+    {
+        unArrowHandles.Clear();
+    }
+
     public void AddEnemyPositionArrow(Tank tank)
     {
         var arrow = GetArrow();

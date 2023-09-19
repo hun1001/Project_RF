@@ -14,6 +14,6 @@ public class ChurchillCrocodileBossTank : BossTank
         _weakness = PoolManager.Get<ChurchillCrocodileBossWeakness>("Crocodile_Weakness", transform);
         _weakness.transform.localPosition = new Vector3(0, 0, -1.568f);
         _weakness.transform.SetParent(null);
-        _weakness.Setting(GetComponent<Rigidbody2D>());
+        _weakness.Setting(gameObject, GetComponent<Rigidbody2D>());
     }
 }
