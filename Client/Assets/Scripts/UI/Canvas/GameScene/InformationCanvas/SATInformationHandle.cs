@@ -43,7 +43,7 @@ public class SATInformationHandle : MonoBehaviour
     {
         StopCoroutine(nameof(FillImageValueUpdateCoroutine));
         _fillValueImage.fillAmount = 0f;
-        _fillValueImage.color = new Color(1f, 0f, 0f, 0.12f);
+        _fillValueImage.color = new Color(231/255f,60/255f,60/255f,187/255f);
 
         float time = 0f;
 
