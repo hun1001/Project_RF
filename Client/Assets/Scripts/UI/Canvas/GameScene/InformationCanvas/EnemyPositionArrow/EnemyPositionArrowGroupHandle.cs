@@ -9,11 +9,6 @@ public class EnemyPositionArrowGroupHandle : MonoBehaviour
 
     private Queue<ArrowTemplateHandle> unArrowHandles = new Queue<ArrowTemplateHandle>();
 
-    private void Start()
-    {
-        unArrowHandles.Clear();
-    }
-
     public void AddEnemyPositionArrow(Tank tank)
     {
         var arrow = GetArrow();
@@ -23,18 +18,19 @@ public class EnemyPositionArrowGroupHandle : MonoBehaviour
 
     private ArrowTemplateHandle GetArrow()
     {
+        ArrowTemplateHandle arrow  = null;
+
         if (unArrowHandles.Count > 0)
         {
-            var arrow = unArrowHandles.Dequeue();
-            arrow.gameObject.SetActive(true);
-            return arrow;
+            arrow = unArrowHandles.Dequeue();
         }
         else
         {
-            var arrow = Instantiate(arrowTemplateHandle, transform);
-            arrow.gameObject.SetActive(true);
-            return arrow;
+            arrow = Instantiate(arrowTemplateHandle, transform);
         }
+
+        arrow.gameObject.SetActive(true);
+        return arrow;
     }
     
     private void PoolArrow(ArrowTemplateHandle arrow)
