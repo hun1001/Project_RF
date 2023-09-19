@@ -14,7 +14,7 @@ public class TankModelManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(PlayerDataManager.Instance.GetPlayerTankID()))
         {
-            ChangeTankModel(Addressable.AddressablesManager.Instance.GetResource<GameObject>("T-44").GetComponent<Tank>());
+            ChangeTankModel(Addressable.AddressablesManager.Instance.GetResource<GameObject>("T-34").GetComponent<Tank>());
         }
         else
         {
