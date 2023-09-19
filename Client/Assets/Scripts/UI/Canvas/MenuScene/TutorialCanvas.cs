@@ -182,7 +182,7 @@ public class TutorialCanvas : BaseCanvas
             EventManager.TriggerEvent(EventKeyword.SATReplacement);
         }
 
-        _tankInfos[0].SetText("IV");
+        _tankInfos[0].SetText("I");
         _tankInfos[1].SetText("T-34");
 
         _nextButton.SetActive(true);
@@ -378,7 +378,7 @@ public class TutorialCanvas : BaseCanvas
                     _techTreeUI.SetActive(false);
                     _nextButton.SetActive(true);
                     _menuUI.SetActive(true);
-                    _tankInfos[0].SetText("V");
+                    _tankInfos[0].SetText("II");
                     _tankInfos[1].SetText("T-34-85");
                     TechTreeDataManager.AddTank(CountryType.USSR, "T-34-85");
                     FindObjectOfType<TankModelManager>().ChangeTankModel(Addressable.AddressablesManager.Instance.GetResource<GameObject>("T-34-85").GetComponent<Tank>());
