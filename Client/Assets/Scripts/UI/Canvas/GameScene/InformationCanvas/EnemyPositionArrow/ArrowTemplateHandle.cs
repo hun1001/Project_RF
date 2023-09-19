@@ -47,12 +47,12 @@ public class ArrowTemplateHandle : MonoBehaviour
             arrowPosition.z = 0;
             _arrowRectTransform.position = arrowPosition;
             
-            var targetPosition = _targetTank.transform.position;
-            var targetPosition2D = new Vector2(targetPosition.x, targetPosition.y);
-            var targetPosition2DNormalized = targetPosition2D.normalized;
-            var targetPosition2DNormalizedAngle = Vector2.SignedAngle(Vector2.up, targetPosition2DNormalized);
-            transform.localRotation = Quaternion.Euler(0, 0, targetPosition2DNormalizedAngle + 90f);
+            Vector3 direction = _targetTank.transform.position - _mainCamera.transform.position;
+            direction.z = 0;
+            direction.Normalize();
 
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            _arrowRectTransform.rotation = Quaternion.Euler(0, 0, angle);
             
             Vector3 viewportPosition = _mainCamera.WorldToViewportPoint(_targetTank.transform.position);
             bool objectInCameraView = viewportPosition.x >= 0 && viewportPosition.x <= 1 && viewportPosition.y >= 0 && viewportPosition.y <= 1 && viewportPosition.z > 0;

@@ -15,6 +15,8 @@ public class MouseManager : MonoSingleton<MouseManager>
     public Vector2 MouseDir = Vector2.zero;
     public float MouseMagnitude = 0f;
 
+    private Vector2 _mousePosition = Vector2.zero;
+
     public Action OnMouseLeftButtonDown = null;
     public Action OnMouseLeftButtonUp = null;
 
@@ -38,10 +40,16 @@ public class MouseManager : MonoSingleton<MouseManager>
 
     private void Update()
     {
-        Vector2 centorPosition = new Vector2(Screen.width / 2, Screen.height / 2);
-        Vector2 mousePosition = Input.mousePosition;
+        Vector2 basePosition = _player.Tank.transform.position;
 
-        Vector2 mouseDir = (mousePosition - centorPosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        {
+            _mousePosition = hit.point;
+        }
+
+        Vector2 mouseDir = (_mousePosition - basePosition);
 
         MouseDir = mouseDir.normalized;
         MouseMagnitude = mouseDir.magnitude;
@@ -52,12 +60,11 @@ public class MouseManager : MonoSingleton<MouseManager>
 
             if (Input.GetMouseButton(1) && _isPlayerDead == false)
             {
-                transform.position = MouseDir * MouseMagnitude;
-                transform.position += _player.transform.position;
+                transform.position = _mousePosition + mouseDir * 10;
             }
             else
             {
-                transform.position = _player.transform.position;
+                transform.position = _player.Tank.transform.position;
             }
         }
 

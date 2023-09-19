@@ -10,23 +10,14 @@ public class GameSceneCanvasManager : BaseSceneCanvasManager
     {
         if (_openDelay <= 0f)
         {
-            if (_activeCanvas == CanvasType.Pause)
-            {
-                ChangeCanvas(CanvasType.Information, _activeCanvas);
-            }
-            else if (_activeCanvas != CanvasType.GameOver)
+            if (_activeCanvas == CanvasType.Information)
             {
                 ChangeCanvas(CanvasType.Pause, _activeCanvas);
             }
-        }
-    }
-
-    public override void ChangeCanvas(CanvasType canvasType, CanvasType beforeCanvas = CanvasType.Base)
-    {
-        base.ChangeCanvas(canvasType, beforeCanvas);
-        if (canvasType == CanvasType.GameTutorial)
-        {
-            _canvasDictionary[CanvasType.Information].Canvas.enabled = true;
+            else if (_activeCanvas != CanvasType.GameOver)
+            {
+                ChangeBeforeCanvas();
+            }
         }
     }
 }
