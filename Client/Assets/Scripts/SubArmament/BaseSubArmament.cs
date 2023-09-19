@@ -74,6 +74,8 @@ public abstract class BaseSubArmament : MonoBehaviour
     {
         if (_curretBeltCapacity <= 0)
         {
+            _isPlayingSound = false;
+            _audioSourceController.Stop();
             StartCoroutine(CoolingCoroutine());
             return;
         }
