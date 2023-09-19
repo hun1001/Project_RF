@@ -42,4 +42,6 @@ public class Flame : MonoBehaviour
             _damagedTanks[i].Damaged(1, 99999, transform.position, Vector3.zero);
         }
     }
+
+    public void SetActive(bool active) => gameObject.SetActive(active);
 }

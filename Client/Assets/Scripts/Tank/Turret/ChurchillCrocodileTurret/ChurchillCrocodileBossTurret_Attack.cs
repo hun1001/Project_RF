@@ -9,16 +9,19 @@ public class ChurchillCrocodileBossTurret_Attack : Turret_Attack
 
     private void Start()
     {
-        flame = PoolManager.Get<Flame>("", transform);
-    }
-
-    public override void Fire()
-    {
-        base.Fire();
+        flame = PoolManager.Get<Flame>("Flame", transform);
+        flame.SetActive(false);
     }
 
     public void Flamethrow()
     {
-        Debug.Log("ChurchillCrocodileBossTurret_Attack.Flamethrow() called");
+        StartCoroutine(FlamethrowCoroutine());
+    }
+
+    private IEnumerator FlamethrowCoroutine()
+    {
+        flame.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        flame.SetActive(false);
     }
 }
