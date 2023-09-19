@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class MenuSceneCanvasManager : BaseSceneCanvasManager
 {
     protected override void Awake()
@@ -14,7 +10,7 @@ public class MenuSceneCanvasManager : BaseSceneCanvasManager
     {
         if (_openDelay <= 0f)
         {
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene && TutorialManager.Instance.IsTutorial == false)
+            if (TutorialManager.Instance.IsTutorial == false)
             {
                 if (_activeCanvas != CanvasType.Menu)
                 {

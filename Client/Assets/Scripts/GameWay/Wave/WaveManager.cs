@@ -18,6 +18,13 @@ public class WaveManager : GameWay_Base
 
             var boss = PoolManager.Get<BossAI_Base>(bossAIAddress, _currentMap.RandomSpawnPoint(), Quaternion.identity);
             boss.Init("");
+
+            var bar = FindObjectOfType<BossBar>();
+            bar.Setting(boss.Tank.TankData.HP);
+
+            boss.TankDamage.AddOnDamageAction(bar.ChangeValue);
+            boss.TankDamage.AddOnDeathAction(bar.Hide);
+
             RemainingEnemy = 1;
         }
         else

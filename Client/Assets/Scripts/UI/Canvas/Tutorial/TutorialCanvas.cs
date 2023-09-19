@@ -98,14 +98,7 @@ public class TutorialCanvas : BaseCanvas
         {
             if (CanvasManager.ActiveCanvas == CanvasType && TutorialManager.Instance.IsTutorial)
             {
-                if (_skipPanel.activeSelf == false)
-                {
-                    OpenSkipPanel();
-                }
-                else
-                {
-                    TutorialNotSkip();
-                }
+                OnSkipPanel();
             }
         });
 
@@ -125,10 +118,10 @@ public class TutorialCanvas : BaseCanvas
         });
     }
 
-    public void OpenSkipPanel()
+    public void OnSkipPanel()
     {
         PlayButtonSound();
-        _skipPanel.SetActive(true);
+        _skipPanel.SetActive(!_skipPanel.activeSelf);
     }
 
     public void TutorialSkip()
@@ -137,13 +130,6 @@ public class TutorialCanvas : BaseCanvas
         _tutorialCount = 0;
         TutorialManager.Instance.TutorialSkip();
         CanvasManager.ChangeCanvas(CanvasType.Menu);
-    }
-
-    public void TutorialNotSkip()
-    {
-        PlayButtonSound();
-        _skipPanel.SetActive(false);
-        _tutorialPanelParent.SetActive(true);
     }
 
     private void TutorialStart()
