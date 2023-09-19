@@ -66,6 +66,13 @@ public abstract class BaseCanvas : MonoBehaviour, IButtonSound
         PlayButtonSound();
     }
 
+    public virtual void OnSettingButton()
+    {
+        CanvasManager.ChangeCanvas(CanvasType.Setting, CanvasType);
+
+        PlayButtonSound();
+    }
+
     public virtual void OnOpenEvents()
     {
         _isOpen = true;

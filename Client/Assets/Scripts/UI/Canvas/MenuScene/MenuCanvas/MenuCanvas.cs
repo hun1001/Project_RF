@@ -721,13 +721,6 @@ public class MenuCanvas : BaseCanvas
         SceneController.ChangeScene("GameScene");
     }
 
-    public void OnSettingButton()
-    {
-        CanvasManager.ChangeCanvas(CanvasType.Setting, CanvasType);
-
-        PlayButtonSound();
-    }
-
     public void OnTechTreeButton()
     {
         CanvasManager.ChangeCanvas(CanvasType.TechTree, CanvasType);
