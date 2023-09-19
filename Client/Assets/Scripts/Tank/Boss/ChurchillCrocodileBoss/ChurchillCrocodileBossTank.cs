@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChurchillCrocodileBossTank : Tank
+public class ChurchillCrocodileBossTank : BossTank
 {
+    public override string AI_Address => "ChurchillCrocodileBoss_AI";
+
     [SerializeField]
     private GameObject _weakness = null;
 
