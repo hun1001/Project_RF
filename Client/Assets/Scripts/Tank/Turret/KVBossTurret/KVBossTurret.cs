@@ -12,4 +12,5 @@ public class KVBossTurret : Turret
 
     [SerializeField]
     private Transform _thirdFirePoint = null;
+    public Transform ThirdFirePoint => _thirdFirePoint;
 }
