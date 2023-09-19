@@ -8,6 +8,8 @@ public class KV_BossAI : BossAI_Base
     private Queue<Vector3> _pathQueue = new Queue<Vector3>();
     private Vector3 _currentTargetPosition = Vector3.zero;
 
+    private KVBossTurret_Rotate _rotate => TurretRotate as KVBossTurret_Rotate;
+
     protected override BehaviorTree SetBehaviorTree()
     {
         RootNode rootNode = null;
@@ -26,7 +28,7 @@ public class KV_BossAI : BossAI_Base
 
     protected override Tank TankSpawn()
     {
-        return SpawnManager.Instance.SpawnUnit("BMP-130-2", transform.position, transform.rotation, GroupType.Enemy); ;
+        return SpawnManager.Instance.SpawnUnit("KV-222", transform.position, transform.rotation, GroupType.Enemy); ;
     }
 
     private void Move()
@@ -86,5 +88,10 @@ public class KV_BossAI : BossAI_Base
         _currentTargetPosition = _pathQueue.Dequeue();
 
         return true;
+    }
+
+    private void AimTarget()
+    {
+
     }
 }
