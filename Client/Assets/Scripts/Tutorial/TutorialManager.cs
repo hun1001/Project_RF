@@ -75,17 +75,12 @@ public class TutorialManager : MonoSingleton<TutorialManager>
 
         _waveManager = FindObjectOfType<WaveManager>().gameObject;
         _waveManager.SetActive(false);
-
+        
         _dummyList.Clear();
-        _dummyList.Add(SpawnManager.Instance.SpawnUnit("TigerH1", new Vector3(64f, 82f, 0f), Quaternion.identity, GroupType.Enemy));
-        _dummyList.Add(SpawnManager.Instance.SpawnUnit("Maus", new Vector3(80f, 85f, 0f), Quaternion.identity, GroupType.Enemy));
-        _dummyList.Add(SpawnManager.Instance.SpawnUnit("Leopard_1", new Vector3(84f, 70f, 0f), Quaternion.identity, GroupType.Enemy));
+        _dummyList.Add(SpawnManager.Instance.SpawnUnit("TigerH1", new Vector3(64f, 82f, 0f), Quaternion.Euler(0f, 0f, Quaternion.LookRotation(new Vector3(64f, 0f, -82f).normalized).eulerAngles.y), GroupType.Enemy));
+        _dummyList.Add(SpawnManager.Instance.SpawnUnit("Maus", new Vector3(80f, 85f, 0f), Quaternion.Euler(0f, 0f, Quaternion.LookRotation(new Vector3(80f, 0f, -85f).normalized).eulerAngles.y), GroupType.Enemy));
+        _dummyList.Add(SpawnManager.Instance.SpawnUnit("Leopard_1", new Vector3(84f, 70f, 0f), Quaternion.Euler(0f, 0f, Quaternion.LookRotation(new Vector3(84f, 0f, -70f).normalized).eulerAngles.y), GroupType.Enemy));
 
-        //foreach (var tank in _dummyList)
-        //{
-        //    Vector3 dir = Vector3.zero - tank.transform.position;
-        //    tank.GetComponent<Tank_Rotate>().Rotate(dir);
-        //}
     }
 
     public void DummyRemove()
