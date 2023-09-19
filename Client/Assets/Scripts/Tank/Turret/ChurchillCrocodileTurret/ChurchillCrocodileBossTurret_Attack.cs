@@ -9,7 +9,7 @@ public class ChurchillCrocodileBossTurret_Attack : Turret_Attack
 
     private void Start()
     {
-        flame = PoolManager.Get<Flame>("Flame", transform);
+        flame = PoolManager.Get<Flame>("Flame", Turret.SecondFirePoint);
         flame.SetActive(false);
     }
 
