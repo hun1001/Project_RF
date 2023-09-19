@@ -40,6 +40,11 @@ public class MouseManager : MonoSingleton<MouseManager>
 
     private void Update()
     {
+        if (!(SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || SceneManager.GetActiveScene().buildIndex == (int)SceneType.TutorialScene))
+        {
+            return;
+        }
+
         Vector2 basePosition = _player.Tank.transform.position;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -54,18 +59,15 @@ public class MouseManager : MonoSingleton<MouseManager>
         MouseDir = mouseDir.normalized;
         MouseMagnitude = mouseDir.magnitude;
 
-        if (SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene || SceneManager.GetActiveScene().buildIndex == (int)SceneType.TutorialScene)
-        {
-            Camera.main.GetComponent<CameraManager>().CameraZoom(-Input.mouseScrollDelta.y * _mouseScrollSensitive);
+        Camera.main.GetComponent<CameraManager>().CameraZoom(-Input.mouseScrollDelta.y * _mouseScrollSensitive);
 
-            if (Input.GetMouseButton(1) && _isPlayerDead == false)
-            {
-                transform.position = _mousePosition + mouseDir * 10;
-            }
-            else
-            {
-                transform.position = _player.Tank.transform.position;
-            }
+        if (Input.GetMouseButton(1) && _isPlayerDead == false)
+        {
+            transform.position = _mousePosition + mouseDir * 10;
+        }
+        else
+        {
+            transform.position = _player.Tank.transform.position;
         }
 
         if(Input.GetMouseButtonDown(0))
