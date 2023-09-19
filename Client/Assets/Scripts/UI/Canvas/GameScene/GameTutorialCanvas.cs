@@ -281,7 +281,7 @@ public class GameTutorialCanvas : BaseCanvas
                 }
             case 19:
                 {
-                    TutorialManager.Instance.TankDummySpawn("VK3001H", new Vector3(56f, -25f, 0f));
+                    TutorialManager.Instance.TankDummySpawn("Pz.IV H", new Vector3(56f, -25f, 0f));
                     TutorialManager.Instance.TankDummyMove(new Vector3(44f, -14f, 0));
                     break;
                 }
