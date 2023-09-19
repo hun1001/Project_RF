@@ -11,6 +11,8 @@ public static class SceneController
         PoolManager.DeleteAllPool();
         EventManager.ClearEvent();
         MouseManager.Instance.ClearMouseButtonAction();
+        KeyboardManager.Instance.ClearKeyActions();
+        SpawnManager.Instance.ResetOnSpawnEnemyUnitAction();
 
         LoadingSceneManager.NextScene(sceneName);
         LoadScene(_loadingSceneName);

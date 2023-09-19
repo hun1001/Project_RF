@@ -3,13 +3,5 @@ using Util;
 
 public class GameManager : MonoSingleton<GameManager>
 {
-    private void Start()
-    {
-        SceneManager.sceneUnloaded += OnSceneLoad;
-    }
 
-    private void OnSceneLoad(Scene scene)
-    {
-        KeyboardManager.Instance.ClearKeyActions();
-    }
 }
