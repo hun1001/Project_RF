@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KVBossTurret : Turret
+public class KVBossTurret_Attack : Turret_Attack
 {
-    
+   
 }

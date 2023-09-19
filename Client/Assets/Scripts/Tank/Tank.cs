@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[DisallowMultipleComponent]
 public class Tank : CustomObject, IPoolReset
 {
     [SerializeField]
