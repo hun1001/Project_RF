@@ -225,7 +225,7 @@ namespace CustomEditorWindow.TankGenerator
                 tank.TankSO = _tankSOs[index];
 
                 turret.TurretSO = _turretSOs[index];
-                turret.TurretTransform = tankModel.transform.GetChild(0);
+                turret.TurretTransform = tankModel.transform.GetChild(1);
                 turret.FirePoint = turret.TurretTransform.GetChild(0);
 
                 LayerUtil.SetGameObjectLayer(tankTemplate, LayerMask.NameToLayer("Tank"));
