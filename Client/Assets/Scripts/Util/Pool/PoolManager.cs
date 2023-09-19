@@ -123,6 +123,7 @@ namespace Pool
             GameObject item = Get(name, active);
 
             item.transform.SetParent(parent);
+            item.transform.localPosition = Vector3.zero;
 
             return item;
         }

@@ -48,7 +48,6 @@ public abstract class BaseSubArmament : MonoBehaviour
         _curretBeltCapacity = GetSATSO().BeltCapacity;
 
         _audioSourceController = PoolManager.Get<AudioSourceController>("AudioSource", _firePoint);
-        _audioSourceController.transform.localPosition = Vector3.zero;
 
         _audioSourceController.SetSound(_fireSound);
         _audioSourceController.SetGroup(AudioMixerType.Sfx);
