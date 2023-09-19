@@ -39,11 +39,6 @@ public class GameOverCanvas : BaseCanvas
 
     protected override void AddInputAction()
     {
-        //KeyboardManager.Instance.AddKeyDownAction(KeyCode.R, () =>
-        //{
-        //    // Retry
-        //});
-
         KeyboardManager.Instance.AddKeyDownAction(KeyCode.Return, () =>
         {
             if (CanvasManager.ActiveCanvas == CanvasType)

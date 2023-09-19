@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using DG.Tweening;
-using Event;
 using Pool;
 
 [DisallowMultipleComponent]
@@ -61,9 +60,17 @@ public abstract class BaseCanvas : MonoBehaviour, IButtonSound
 
     public virtual void OnBackButton()
     {
-        CanvasManager.ChangeBeforeCanvas();
-
         PlayButtonSound();
+
+        CanvasManager.ChangeBeforeCanvas();
+    }
+
+    public void OnRestart()
+    {
+        PlayButtonSound();
+
+        // 게임 씬만 쓸건가?
+        SceneController.ChangeScene("GameScene");
     }
 
     public virtual void OnSettingButton()
