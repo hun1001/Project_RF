@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using UnityEngine;
-
 public class GameSceneCanvasManager : BaseSceneCanvasManager
 {
     protected override void Awake()
@@ -13,16 +10,13 @@ public class GameSceneCanvasManager : BaseSceneCanvasManager
     {
         if (_openDelay <= 0f)
         {
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.GameScene && TutorialManager.Instance.IsTutorial == false)
+            if (_activeCanvas == CanvasType.Pause)
             {
-                if (_activeCanvas == CanvasType.Pause)
-                {
-                    ChangeCanvas(CanvasType.Information, _activeCanvas);
-                }
-                else if (_activeCanvas != CanvasType.GameOver)
-                {
-                    ChangeCanvas(CanvasType.Pause, _activeCanvas);
-                }
+                ChangeCanvas(CanvasType.Information, _activeCanvas);
+            }
+            else if (_activeCanvas != CanvasType.GameOver)
+            {
+                ChangeCanvas(CanvasType.Pause, _activeCanvas);
             }
         }
     }
