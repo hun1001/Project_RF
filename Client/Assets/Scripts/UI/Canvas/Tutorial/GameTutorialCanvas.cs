@@ -1,5 +1,4 @@
 using Event;
-using Unity.Properties;
 using UnityEngine;
 
 public class GameTutorialCanvas : BaseCanvas
@@ -12,8 +11,6 @@ public class GameTutorialCanvas : BaseCanvas
     [SerializeField]
     private TextController _tutorialText = null;
     [SerializeField]
-    private GameObject _tutorialPanelParent = null;
-    [SerializeField]
     private GameObject _nextButton = null;
     [SerializeField]
     private GameObject _textButton = null;
@@ -22,7 +19,6 @@ public class GameTutorialCanvas : BaseCanvas
     [SerializeField]
     private GameObject[] _tutorialPanels = null;
 
-    private Player _player;
     private int _tutorialCount = 0;
     private float _textDuration = 0f;
     private bool _isCanReturn = true;
@@ -44,7 +40,6 @@ public class GameTutorialCanvas : BaseCanvas
 
     private void Start()
     {
-        _player = FindObjectOfType<Player>();
         AddInputAction();
     }
 
@@ -65,7 +60,7 @@ public class GameTutorialCanvas : BaseCanvas
     {
         KeyboardManager.Instance.AddKeyDownAction(KeyCode.Escape, () =>
         {
-            if (TutorialManager.Instance.IsTutorial)
+            if (CanvasManager.ActiveCanvas == CanvasType)
             {
                 if (_skipPanel.activeSelf == false)
                 {
@@ -75,6 +70,11 @@ public class GameTutorialCanvas : BaseCanvas
                 {
                     TutorialNotSkip();
                 }
+            }
+            else if (CanvasManager.ActiveCanvas != CanvasType.GameOver)
+            {
+                CanvasManager.ChangeCanvas(CanvasType);
+                OpenSkipPanel();
             }
         });
 
@@ -123,6 +123,8 @@ public class GameTutorialCanvas : BaseCanvas
     public void OpenSkipPanel()
     {
         PlayButtonSound();
+
+        Time.timeScale = 0f;
         _skipPanel.SetActive(true);
     }
 
@@ -137,12 +139,17 @@ public class GameTutorialCanvas : BaseCanvas
     {
         PlayButtonSound();
         _skipPanel.SetActive(false);
-        _tutorialPanelParent.SetActive(true);
+        Time.timeScale = 1f;
+
+        if (PlayerPrefs.GetInt("GameTutorial", 0) == 1)
+        {
+            CanvasManager.ChangeCanvas(CanvasType.Information);
+        }
     }
 
     private void TutorialStart()
     {
-        _tutorialPanelParent.SetActive(true);
+        _textArea.gameObject.SetActive(true);
         _tutorialCount = 0;
         _tutorialText.SetText(_textsSO.TutorialTexts[0]);
         _nextButton.SetActive(true);
@@ -183,7 +190,8 @@ public class GameTutorialCanvas : BaseCanvas
             {
                 PlayerPrefs.SetInt("GameTutorial", 1);
             }
-            
+
+            _textArea.gameObject.SetActive(false);
             CanvasManager.ChangeCanvas(CanvasType.Information);
             TutorialManager.Instance.TutorialWaveStart();
             return;
