@@ -41,6 +41,13 @@ public class MouseManager : MonoSingleton<MouseManager>
         Vector2 centorPosition = new Vector2(Screen.width / 2, Screen.height / 2);
         Vector2 mousePosition = Input.mousePosition;
 
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100f, LayerMask.GetMask("Ground")))
+        {
+            Debug.Log(hit.point);
+        }
+
         Vector2 mouseDir = (mousePosition - centorPosition);
 
         MouseDir = mouseDir.normalized;
