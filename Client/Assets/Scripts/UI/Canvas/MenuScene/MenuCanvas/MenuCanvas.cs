@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class MenuCanvas : BaseCanvas
 {
+    [SerializeField]
+    private GameObject _gameOverPanel = null;
+
     [Header("Goods")]
     [SerializeField]
     private GoodsTexts _goodsTexts = null;
@@ -85,7 +88,6 @@ public class MenuCanvas : BaseCanvas
     private Sequence _warningSequence;
     [SerializeField]
     private GameObject _keyGuidePanel;
-    private bool _isGuideOpen = false;
 
     private void Awake()
     {
@@ -98,6 +100,8 @@ public class MenuCanvas : BaseCanvas
         _plusSprite = AddressablesManager.Instance.GetResource<Sprite>("PlusImage");
 
         _warningPanel.gameObject.SetActive(false);
+
+        AddInputAction();
 
         EventManager.StartListening(EventKeyword.MenuCameraMove, CameraUIHide);
         EventManager.StartListening(EventKeyword.ShellReplacement, ShellCheck);
@@ -132,6 +136,41 @@ public class MenuCanvas : BaseCanvas
         HangerUpdate();
         CurrentTankInfoUpdate();
         HangerSort();
+    }
+
+    protected override void AddInputAction()
+    {
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.Escape, () =>
+        {
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene && TutorialManager.Instance.IsTutorial == false)
+            {
+                if (CanvasManager.ActiveCanvas == CanvasType)
+                {
+                    OnOpenGameOver();
+                }
+            }
+        });
+
+        KeyboardManager.Instance.AddKeyDownAction(KeyCode.F1, () =>
+        {
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene && TutorialManager.Instance.IsTutorial == false)
+            {
+                if (CanvasManager.ActiveCanvas == CanvasType)
+                {
+                    OnOpenGuide();
+                }
+            }
+        });
+        KeyboardManager.Instance.AddKeyUpAction(KeyCode.F1, () =>
+        {
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene && TutorialManager.Instance.IsTutorial == false)
+            {
+                if (CanvasManager.ActiveCanvas == CanvasType)
+                {
+                    OnOpenGuide();
+                }
+            }
+        });
     }
 
     public void CurrentTankInfoUpdate()
@@ -706,6 +745,23 @@ public class MenuCanvas : BaseCanvas
     #endregion
 
     #region Buttons
+    public void OnOpenGameOver()
+    {
+        PlayButtonSound();
+
+        _gameOverPanel.SetActive(!_gameOverPanel.activeSelf);
+    }
+
+    public void OnGameOver()
+    {
+        PlayerPrefs.Save();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
     public void OnStartButton()
     {
         PlayButtonSound();
@@ -749,21 +805,13 @@ public class MenuCanvas : BaseCanvas
         _satReplacement.SetActive(!_satReplacement.ActiveSelf);
     }
 
-    public void OnGuideOpen()
+    public void OnOpenGuide()
     {
         PlayButtonSound();
-        if (_isGuideOpen)
-        {
-            _isGuideOpen = false;
-            _keyGuidePanel.SetActive(false);
-        }
-        else
-        {
-            _isGuideOpen = true;
-            _keyGuidePanel.SetActive(true);
-        }
+
+        _keyGuidePanel.SetActive(!_keyGuidePanel.activeSelf);
     }
-    #endregion
+#endregion
 
     #region Animations
     public void CameraUIHide(object[] isHide)

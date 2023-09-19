@@ -16,11 +16,7 @@ public class MenuSceneCanvasManager : BaseSceneCanvasManager
         {
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneType.MenuScene && TutorialManager.Instance.IsTutorial == false)
             {
-                if (_activeCanvas == CanvasType.Menu)
-                {
-                    ChangeCanvas(CanvasType.Setting, _activeCanvas);
-                }
-                else
+                if (_activeCanvas != CanvasType.Menu)
                 {
                     ChangeBeforeCanvas();
                 }
