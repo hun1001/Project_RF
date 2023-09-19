@@ -236,9 +236,10 @@ public class TechTreeCanvas : BaseCanvas
 
                         _tankInformation.SetActive(true);
                         var topUI = _tankInformationPanel.transform.GetChild(0);
-                        topUI.GetChild(0).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
-                        topUI.GetChild(1).GetComponent<TextMeshProUGUI>().text = _techTree.TankTierNumber[lIndex];
-                        topUI.GetChild(2).GetComponent<TextMeshProUGUI>().text = _techTree.TechTreeSO[index][jIndex, lIndex].ID;
+                        topUI.GetChild(1).GetComponent<Image>().sprite = _techTree.TechTreeSO[index].FlagSprite;
+                        topUI.GetChild(2).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
+                        topUI.GetChild(3).GetComponent<TextMeshProUGUI>().text = _techTree.TankTierNumber[lIndex];
+                        topUI.GetChild(4).GetComponent<TextMeshProUGUI>().text = _techTree.TechTreeSO[index][jIndex, lIndex].ID;
 
                         // ?±ÌÅ¨ ?¥Î?ÏßÄ ?ÜÏúº?àÍπå ?ºÎã®  null
                         _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
