@@ -5,7 +5,7 @@ using Util;
 
 public class MouseManager : MonoSingleton<MouseManager>
 {
-    private float _mouseScrollSensitive = 5f;
+    private float _mouseScrollSensitive = 1f;
     public void SetMouseScrollSensitive(float mouseScrollSensitive)
     {
         _mouseScrollSensitive = mouseScrollSensitive;
