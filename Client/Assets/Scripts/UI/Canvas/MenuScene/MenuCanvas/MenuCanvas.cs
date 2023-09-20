@@ -25,7 +25,8 @@ public class MenuCanvas : BaseCanvas
     private Sprite _plusSprite = null;
     [SerializeField]
     private GameObject _shellReplacement = null;
-    private bool _isShellOpen = false;
+    [SerializeField]
+    private GameObject _shellInformation = null;
 
     private string _currentTankID
     {
@@ -115,7 +116,6 @@ public class MenuCanvas : BaseCanvas
     {
         _isOpen = true;
         _isHide = false;
-        _isShellOpen = false;
 
         ShellCheck();
         SATCheck();
@@ -127,10 +127,10 @@ public class MenuCanvas : BaseCanvas
     public override void OnOpenEvents()
     {
         base.OnOpenEvents();
-        _isShellOpen = false;
         _isHide = false;
         
         _shellReplacement.SetActive(false);
+        _shellInformation.SetActive(false);
 
         ShellCheck();
         HangerUpdate();
@@ -787,16 +787,9 @@ public class MenuCanvas : BaseCanvas
     public void OnOpenShell()
     {
         PlayButtonSound();
-        if (_isShellOpen)
-        {
-            _isShellOpen = false;
-            _shellReplacement.SetActive(false);
-        }
-        else
-        {
-            _isShellOpen = true;
-            _shellReplacement.SetActive(true);
-        }
+        
+        _shellReplacement.SetActive(!_shellReplacement.activeSelf);
+        _shellInformation.SetActive(false);
     }
 
     public void OnClickSAT()

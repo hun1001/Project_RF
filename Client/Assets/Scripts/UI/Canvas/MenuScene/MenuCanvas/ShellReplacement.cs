@@ -81,8 +81,9 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
         for (int i = 0; i < _shells.Count; i++)
         {
             int idx = i;
-            float dmg = Mathf.Round(_shells[i].ShellSO.Damage * (Mathf.Pow(turret.TurretSO.AtkPower, 2) * 0.001f));
-            float pen = Mathf.Round(turret.TurretSO.AtkPower * turret.TurretSO.PenetrationPower * _shells[i].ShellSO.Penetration / 3000f);
+            EventTrigger.Entry pointDown = new EventTrigger.Entry();
+            EventTrigger.Entry pointUp = new EventTrigger.Entry();
+
 
             if (_shellDict.ContainsKey(_shells[idx].ID))
             {
@@ -97,6 +98,46 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
                 {
                     _shellDict[_shells[i].ID].transform.GetChild(0).GetComponent<Toggle>().isOn = false;
                 }
+
+                _shellDict[_shells[idx].ID].transform.GetChild(3).GetComponent<EventTrigger>().triggers.Clear();
+
+                pointDown.eventID = EventTriggerType.PointerDown;
+                pointDown.callback.AddListener((data) =>
+                {
+                    _isClick = true;
+                });
+                _shellDict[_shells[idx].ID].transform.GetChild(3).GetComponent<EventTrigger>().triggers.Add(pointDown);
+
+                pointUp.eventID = EventTriggerType.PointerUp;
+                pointUp.callback.AddListener((data) =>
+                {
+                    _isClick = false;
+
+                    if (_clickTime >= _minClickTime)
+                    {
+                        float dmg = Mathf.Round(_shells[idx].ShellSO.Damage * (Mathf.Pow(turret.TurretSO.AtkPower, 2) * 0.001f));
+                        float pen = Mathf.Round(turret.TurretSO.AtkPower * turret.TurretSO.PenetrationPower * _shells[idx].ShellSO.Penetration / 3000f);
+
+                        _shellInformation.SetActive(true);
+                        _shellInformation.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = _shells[idx].ShellSprite;
+                        _shellInformation.transform.GetChild(0).GetChild(1).GetComponent<TextController>().SetText(_shells[idx].ID);
+
+                        // Bar
+                        Transform bars = _shellInformation.transform.GetChild(2);
+                        bars.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = dmg / 1500f;
+                        bars.GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = pen / 500f;
+                        bars.GetChild(2).GetChild(0).GetComponent<Image>().fillAmount = _shells[idx].Speed / 140f;
+                        bars.GetChild(3).GetChild(0).GetComponent<Image>().fillAmount = _shells[idx].ShellSO.RicochetAngle / 90f;
+
+                        // Value Text
+                        Transform values = _shellInformation.transform.GetChild(3);
+                        values.GetChild(0).GetComponent<TextController>().SetText(dmg.ToString());
+                        values.GetChild(1).GetComponent<TextController>().SetText(pen.ToString());
+                        values.GetChild(2).GetComponent<TextController>().SetText(_shells[idx].Speed.ToString());
+                        values.GetChild(3).GetComponent<TextController>().SetText(_shells[idx].ShellSO.RicochetAngle.ToString());
+                    }
+                });
+                _shellDict[_shells[idx].ID].transform.GetChild(3).GetComponent<EventTrigger>().triggers.Add(pointUp);
 
                 continue;
             }
@@ -152,7 +193,6 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
                 }
             });
 
-            EventTrigger.Entry pointDown = new EventTrigger.Entry();
             pointDown.eventID = EventTriggerType.PointerDown;
             pointDown.callback.AddListener((data) =>
             {
@@ -160,7 +200,6 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
             });
             obj.transform.GetChild(3).GetComponent<EventTrigger>().triggers.Add(pointDown);
 
-            EventTrigger.Entry pointUp = new EventTrigger.Entry();
             pointUp.eventID = EventTriggerType.PointerUp;
             pointUp.callback.AddListener((data) =>
             {
@@ -168,6 +207,9 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
 
                 if (_clickTime >= _minClickTime)
                 {
+                    float dmg = Mathf.Round(_shells[idx].ShellSO.Damage * (Mathf.Pow(turret.TurretSO.AtkPower, 2) * 0.001f));
+                    float pen = Mathf.Round(turret.TurretSO.AtkPower * turret.TurretSO.PenetrationPower * _shells[idx].ShellSO.Penetration / 3000f);
+
                     _shellInformation.SetActive(true);
                     _shellInformation.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = shellSprite;
                     _shellInformation.transform.GetChild(0).GetChild(1).GetComponent<TextController>().SetText(shellID);
