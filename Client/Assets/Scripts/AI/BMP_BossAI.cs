@@ -1,12 +1,8 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Event;
-<<<<<<< Updated upstream
-=======
 using Pool;
-using System.Collections.Generic;
->>>>>>> Stashed changes
 
 public class BMP_BossAI : BossAI_Base
 {
