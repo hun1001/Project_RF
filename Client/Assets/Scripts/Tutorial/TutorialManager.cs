@@ -110,6 +110,22 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     {
         _tankDummy = SpawnManager.Instance.SpawnUnit(tankID, spawnPos, Quaternion.identity, GroupType.Enemy);
         _tankDummy.GetComponent<Tank_Damage>().AddOnDeathAction(() => EventManager.TriggerEvent(EventKeyword.NextTutorial));
+
+        EnemyBar enemyBar = _tankDummy.GetComponentInChildren<EnemyBar>();
+
+        if (enemyBar != null)
+        {
+            enemyBar.PoolObjectReset();
+        }
+        else
+        {
+            enemyBar = PoolManager.Get<EnemyBar>("EnemyBar", _tankDummy.transform);
+        }
+
+        enemyBar.Setting(_tankDummy.TankData.HP);
+
+        _tankDummy.GetComponent<Tank_Damage>().AddOnDamageAction(enemyBar.ChangeValue);
+        _tankDummy.GetComponent<Tank_Damage>().AddOnDamageAction((_) => enemyBar.Show());
     }
 
     public void TankDummyMove(Vector3 movePos)
