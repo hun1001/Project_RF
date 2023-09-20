@@ -212,6 +212,7 @@ public class GameTutorialCanvas : BaseCanvas
             return;
         }
 
+        PlayButtonSound();
         _textDuration = _textsSO.TutorialTexts[_tutorialCount].Length * 0.025f;
         _tutorialText.Typing(_textsSO.TutorialTexts[_tutorialCount], _textDuration);
         _textButton.SetActive(true);
