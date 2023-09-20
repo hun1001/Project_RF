@@ -17,21 +17,21 @@ public class Tank_Sound : Tank_Component
     {
         if(speedPercent >= 0.25f)
         {
-            _trackSource?.SetVolume(0.3f);
+            _trackSource?.SetVolume(0.1f);
             _trackSource?.SetPitch(speedPercent);
-            speedPercent = 0.6f * speedPercent;
+            speedPercent = 0.1f * speedPercent;
             _engineSource?.SetVolume(speedPercent);
         }
         else
         {
             _trackSource?.SetVolume(0f);
-            _engineSource?.SetVolume(0.2f);
+            _engineSource?.SetVolume(0.1f);
         }
     }
 
     public void StartEngineSound()
     {
-        _engineSource = PlaySound(SoundType.Engine, AudioMixerType.Sfx, 0.2f, true);
+        _engineSource = PlaySound(SoundType.Engine, AudioMixerType.Sfx, 0.1f, true);
         _engineSource.transform.SetParent(Instance.transform);
         _trackSource = PlaySound(SoundType.Track, AudioMixerType.Sfx, 0f, true);
         _trackSource.transform.SetParent(Instance.transform);

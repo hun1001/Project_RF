@@ -63,22 +63,22 @@ public class Tank_Damage : Tank_Component
         float percent = sumDamage / _maxHealth;
         if (sumDamage == 1)
         {
-            _tankSound.PlaySound(SoundType.TankHitVerySmall, AudioMixerType.Sfx);
+            _tankSound.PlaySound(SoundType.TankHitVerySmall, AudioMixerType.Sfx, 0.2f);
             str = "<color=#ff4c4c><size=1.3>";
         }
         else if (percent >= 0.4)
         {
-            _tankSound.PlaySound(SoundType.TankHitBig, AudioMixerType.Sfx);
+            _tankSound.PlaySound(SoundType.TankHitBig, AudioMixerType.Sfx,0.5f);
             str = "<color=#a30000><size=2.5>";
         }
         else if (percent >= 0.2)
         {
-            _tankSound.PlaySound(SoundType.TankHitMed, AudioMixerType.Sfx);
+            _tankSound.PlaySound(SoundType.TankHitMed, AudioMixerType.Sfx,0.4f);
             str = "<color=#c21010><size=1.9>";
         }
         else
         {
-            _tankSound.PlaySound(SoundType.TankHitSmall, AudioMixerType.Sfx);
+            _tankSound.PlaySound(SoundType.TankHitSmall, AudioMixerType.Sfx,0.3f);
             str = "<color=#e02828><size=1.5>";
         }
 

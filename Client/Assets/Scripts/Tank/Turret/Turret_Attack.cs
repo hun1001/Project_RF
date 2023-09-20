@@ -102,7 +102,7 @@ public class Turret_Attack : Turret_Component
             if (_isReload == true && _reloadingTime < Turret.TurretSound.GetAudioClip(SoundType.Reload).length)
             {
                 _isReload = false;
-                _turretSound?.PlaySound(SoundType.Reload, AudioMixerType.Sfx);
+                _turretSound?.PlaySound(SoundType.Reload, AudioMixerType.Sfx, 0.2f);
                 if (_isBurst)
                     _magazineSize = Turret.TurretData.BurstData.MagazineSize;
             }
