@@ -32,7 +32,7 @@ public abstract class AI_Base : MonoBehaviour
     private Tank _target = null;
     public Tank Target => _target;
 
-    private bool _isUpdate = false;
+    protected bool _isUpdate = false;
 
     public virtual void Init(string id)
     {

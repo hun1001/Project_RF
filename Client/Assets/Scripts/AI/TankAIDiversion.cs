@@ -44,6 +44,8 @@ public class TankAIDiversion : AI_Base
 
         TankDamage.AddOnDamageAction(enemyBar.ChangeValue);
         TankDamage.AddOnDamageAction((_) => enemyBar.Show());
+
+        TankMove.AddOnCrashAction((_) => StartCoroutine(CrashCoroutine()));
     }
 
     protected override Tank TankSpawn()
@@ -157,5 +159,21 @@ public class TankAIDiversion : AI_Base
     private void Fire()
     {
         TurretAttack.Fire();
+    }
+
+    private IEnumerator CrashCoroutine()
+    {
+        _isUpdate = false;
+
+        float _backwardTime = 1f;
+        _backwardTime = 1f;
+        while(_backwardTime > 0f)
+        {
+            TankMove.Move(-1);
+            _backwardTime -= Time.deltaTime;
+            yield return null;
+        }
+        _backwardTime = 0;
+        _isUpdate = true;
     }
 }
