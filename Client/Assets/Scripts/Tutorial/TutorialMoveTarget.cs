@@ -14,6 +14,7 @@ public class TutorialMoveTarget : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             gameObject.SetActive(false);
+            collision.transform.position = transform.position;
             EventManager.TriggerEvent(EventKeyword.NextTutorial);
         }
     }
