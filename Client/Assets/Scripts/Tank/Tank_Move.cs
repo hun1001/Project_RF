@@ -127,7 +127,7 @@ public class Tank_Move : Tank_Component
         {
             TankRebound(collision.contacts[0].normal);
             _onCrash?.Invoke(_currentSpeed);
-            _tankSound.PlaySound(SoundType.TankImpact, AudioMixerType.Sfx, 0.7f);
+            _tankSound.PlaySound(SoundType.TankImpact, AudioMixerType.Sfx, 0.1f);
 
             _currentSpeed = 0;
         }
@@ -140,7 +140,7 @@ public class Tank_Move : Tank_Component
             if (otherTank.TankSO.HP >= (Instance as Tank).TankSO.HP)
             {
                 _currentSpeed = Mathf.Clamp(_currentSpeed * 0.5f, 0f, _maxSpeed);
-                _tankSound.PlaySound(SoundType.TankImpact, AudioMixerType.Sfx, 0.7f);
+                _tankSound.PlaySound(SoundType.TankImpact, AudioMixerType.Sfx, 0.1f);
                 StartCoroutine(CrashRebound(collision.contacts[0].normal * 2.5f));
             }
             else
