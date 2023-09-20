@@ -72,7 +72,7 @@ public class Turret_AimLine : Turret_Component
             if (rayData.collider != null && rayData.collider != Turret.GetComponent<Tank>().GetComponent<Collider2D>())
             {
                 _isAim = rayData.collider.gameObject.layer == LayerMask.NameToLayer("Tank");
-                _lineRenderer.SetPosition(1, rayData.point + (Vector2)Turret.FirePoint.up);
+                _lineRenderer.SetPosition(1, new Vector3(rayData.point.x, rayData.point.y, Turret.FirePoint.position.z));
                 _lineRenderer.colorGradient = IsAim ? _gradients[2] : _gradients[1];
             }
             else
@@ -87,6 +87,7 @@ public class Turret_AimLine : Turret_Component
             _isAim = rayData.collider != null && rayData.collider != Turret.GetComponent<Tank>().GetComponent<Collider2D>();
 
             var pos = _isAim ? (Vector3)(rayData.point + (Vector2)Turret.FirePoint.up) : Turret.FirePoint.position + Turret.FirePoint.up * Turret.CurrentShell.Speed * 2f;
+            pos.z = Turret.FirePoint.position.z;
 
             _lineRenderer.SetPosition(1, pos);
 
