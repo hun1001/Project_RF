@@ -49,7 +49,7 @@ public class Shell : CustomObject, IPoolReset
         else
         {
             _damage = Mathf.Round(Mathf.Pow((atkPower * 0.035f), 3.5f) * _shellSO.Damage) + penetrationPower;
-            _penetration = Mathf.Round(atkPower * penetrationPower * _shellSO.Penetration / 3000f);
+            _penetration = Mathf.Round((_shellSO.Penetration * (atkPower * 0.01f)) * (_shellSO.Penetration * (penetrationPower * 0.01f) / 30f));
         }
     }
 
