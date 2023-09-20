@@ -1,3 +1,5 @@
+using Event;
+using Pool;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +11,15 @@ public class ChurchillCrocodile_BossAI : BossAI_Base
     private Vector3 _currentTargetPosition = Vector3.zero;
 
     private ChurchillCrocodileBossTurret_Attack _turretAttack => TurretAttack as ChurchillCrocodileBossTurret_Attack;
+
+    private void Start()
+    {
+        TankDamage.AddOnDeathAction(() =>
+        {
+            EventManager.TriggerEvent(EventKeyword.EnemyDie);
+            PoolManager.Get("RepairPack", Tank.transform.position + new Vector3(0, 0, -2f), Quaternion.identity);
+        });
+    }
 
     protected override BehaviorTree SetBehaviorTree()
     {

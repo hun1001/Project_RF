@@ -1,3 +1,5 @@
+using Event;
+using Pool;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +12,15 @@ public class KV_BossAI : BossAI_Base
 
     private KVBossTurret_Rotate _rotate => TurretRotate as KVBossTurret_Rotate;
     private KVBossTurret_Attack _attack => TurretAttack as KVBossTurret_Attack;
+
+    private void Start()
+    {
+        TankDamage.AddOnDeathAction(() =>
+        {
+            EventManager.TriggerEvent(EventKeyword.EnemyDie);
+            PoolManager.Get("RepairPack", Tank.transform.position + new Vector3(0, 0, -2f), Quaternion.identity);
+        });
+    }
 
     protected override BehaviorTree SetBehaviorTree()
     {

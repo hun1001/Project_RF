@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using Event;
+using Pool;
 
 public class BMP_BossAI : BossAI_Base
 {
@@ -94,7 +95,8 @@ public class BMP_BossAI : BossAI_Base
         TankDamage.AddOnDeathAction(() =>
         {
             Destroy(this.gameObject);
-            EventManager.TriggerEvent(EventKeyword.BossClear);
+            EventManager.TriggerEvent(EventKeyword.EnemyDie);
+            PoolManager.Get("RepairPack", Tank.transform.position + new Vector3(0, 0, -2f), Quaternion.identity);
         });
 
         TankMove.AddOnCrashAction((_) =>
