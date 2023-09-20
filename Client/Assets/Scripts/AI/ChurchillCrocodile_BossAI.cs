@@ -1,3 +1,4 @@
+using Event;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,15 @@ public class ChurchillCrocodile_BossAI : BossAI_Base
     private Vector3 _currentTargetPosition = Vector3.zero;
 
     private ChurchillCrocodileBossTurret_Attack _turretAttack => TurretAttack as ChurchillCrocodileBossTurret_Attack;
+
+    private void Start()
+    {
+        TankDamage.AddOnDeathAction(() =>
+        {
+            Destroy(this.gameObject);
+            EventManager.TriggerEvent(EventKeyword.EnemyDie);
+        });
+    }
 
     protected override BehaviorTree SetBehaviorTree()
     {

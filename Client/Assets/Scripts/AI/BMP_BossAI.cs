@@ -6,8 +6,6 @@ using Pool;
 
 public class BMP_BossAI : BossAI_Base
 {
-    private Vector3 _moveTargetPosition = Vector3.zero;
-
     private bool _isUsedSkill = false;
 
     private Queue<Vector3> _pathQueue = new Queue<Vector3>();
@@ -79,12 +77,7 @@ public class BMP_BossAI : BossAI_Base
         TankDamage.AddOnDeathAction(() =>
         {
             Destroy(this.gameObject);
-            EventManager.TriggerEvent(EventKeyword.BossClear);
-        });
-
-        TankMove.AddOnCrashAction((_) =>
-        {
-            _moveTargetPosition = Vector3.zero;
+            EventManager.TriggerEvent(EventKeyword.EnemyDie);
         });
     }
 
