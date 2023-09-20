@@ -169,6 +169,7 @@ public class TankAIDiversion : AI_Base
         }
 
         _isUpdate = false;
+        _pathQueue.Clear();
 
         float _backwardTime = 1f;
         _backwardTime = 1f;
