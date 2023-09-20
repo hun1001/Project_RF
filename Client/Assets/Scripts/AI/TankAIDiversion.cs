@@ -163,6 +163,11 @@ public class TankAIDiversion : AI_Base
 
     private IEnumerator CrashCoroutine()
     {
+        if(Random.Range(0, 10) > 3)
+        {
+            yield break;
+        }
+
         _isUpdate = false;
 
         float _backwardTime = 1f;
