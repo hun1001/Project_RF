@@ -7,7 +7,7 @@ public class ChurchillCrocodileBossTank : BossTank
 {
     public override string AI_Address => "ChurchillCrocodileBoss_AI";
 
-    private ChurchillCrocodileBossWeakness _weakness = null;
+    // private ChurchillCrocodileBossWeakness _weakness = null;
 
     private void Start()
     {
