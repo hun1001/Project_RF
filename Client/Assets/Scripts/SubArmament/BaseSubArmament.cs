@@ -52,7 +52,7 @@ public abstract class BaseSubArmament : MonoBehaviour
         _audioSourceController.SetSound(_fireSound);
         _audioSourceController.SetGroup(AudioMixerType.Sfx);
         _audioSourceController.SetLoop();
-        _audioSourceController.SetVolume(0.8f);
+        _audioSourceController.SetVolume(0.6f);
 
         return this;
     }
