@@ -176,7 +176,7 @@ public class MenuCanvas : BaseCanvas
     public void CurrentTankInfoUpdate()
     {
         _menuTankInfoUI.CurrentTankInfoUpdate();
-        _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(true);
+        _hangerDict[_currentTankID].transform.GetChild(6).gameObject.SetActive(true);
     }
 
     private void SATCheck()
@@ -274,18 +274,18 @@ public class MenuCanvas : BaseCanvas
             var a = Instantiate(_tankTemplate, _hangerContent);
             a.SetActive(true);
             a.name = id;
-            a.GetComponent<Image>().sprite = GetFlagSprite(CountryType.USSR);
-            a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
-            a.transform.GetChild(1).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
-            a.transform.GetChild(2).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
+            a.transform.GetChild(1).GetComponent<Image>().sprite = GetFlagSprite(CountryType.USSR);
+            a.transform.GetChild(2).GetComponent<TextController>().SetText(id);
+            a.transform.GetChild(3).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
+            a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
 
             if (_currentTankID == id)
             {
-                a.transform.GetChild(3).gameObject.SetActive(true);
+                a.transform.GetChild(6).gameObject.SetActive(true);
             }
             else
             {
-                a.transform.GetChild(3).gameObject.SetActive(false);
+                a.transform.GetChild(6).gameObject.SetActive(false);
             }
 
             _hangerDict.Add(id, a);
@@ -295,7 +295,7 @@ public class MenuCanvas : BaseCanvas
             a.GetComponent<Button>().onClick.AddListener(() =>
             {
                 PlayButtonSound();
-                _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
+                _hangerDict[_currentTankID].transform.GetChild(6).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
                 EventManager.TriggerEvent(EventKeyword.ShellReplacement);
@@ -310,18 +310,18 @@ public class MenuCanvas : BaseCanvas
             var a = Instantiate(_tankTemplate, _hangerContent);
             a.SetActive(true);
             a.name = id;
-            a.GetComponent<Image>().sprite = GetFlagSprite(CountryType.Germany);
-            a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
-            a.transform.GetChild(1).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
-            a.transform.GetChild(2).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
+            a.transform.GetChild(1).GetComponent<Image>().sprite = GetFlagSprite(CountryType.Germany);
+            a.transform.GetChild(2).GetComponent<TextController>().SetText(id);
+            a.transform.GetChild(3).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
+            a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
 
             if (_currentTankID == id)
             {
-                a.transform.GetChild(3).gameObject.SetActive(true);
+                a.transform.GetChild(6).gameObject.SetActive(true);
             }
             else
             {
-                a.transform.GetChild(3).gameObject.SetActive(false);
+                a.transform.GetChild(6).gameObject.SetActive(false);
             }
 
             _hangerDict.Add(id, a);
@@ -331,7 +331,7 @@ public class MenuCanvas : BaseCanvas
             a.GetComponent<Button>().onClick.AddListener(() =>
             {
                 PlayButtonSound();
-                _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
+                _hangerDict[_currentTankID].transform.GetChild(6).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
                 EventManager.TriggerEvent(EventKeyword.ShellReplacement);
@@ -346,18 +346,18 @@ public class MenuCanvas : BaseCanvas
             var a = Instantiate(_tankTemplate, _hangerContent);
             a.SetActive(true);
             a.name = id;
-            a.GetComponent<Image>().sprite = GetFlagSprite(CountryType.USA);
-            a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
-            a.transform.GetChild(1).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
-            a.transform.GetChild(2).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
+            a.transform.GetChild(1).GetComponent<Image>().sprite = GetFlagSprite(CountryType.USA);
+            a.transform.GetChild(2).GetComponent<TextController>().SetText(id);
+            a.transform.GetChild(3).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
+            a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
 
             if (_currentTankID == id)
             {
-                a.transform.GetChild(3).gameObject.SetActive(true);
+                a.transform.GetChild(6).gameObject.SetActive(true);
             }
             else
             {
-                a.transform.GetChild(3).gameObject.SetActive(false);
+                a.transform.GetChild(6).gameObject.SetActive(false);
             }
 
             _hangerDict.Add(id, a);
@@ -367,7 +367,7 @@ public class MenuCanvas : BaseCanvas
             a.GetComponent<Button>().onClick.AddListener(() =>
             {
                 PlayButtonSound();
-                _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
+                _hangerDict[_currentTankID].transform.GetChild(6).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
                 EventManager.TriggerEvent(EventKeyword.ShellReplacement);
@@ -382,18 +382,18 @@ public class MenuCanvas : BaseCanvas
             var a = Instantiate(_tankTemplate, _hangerContent);
             a.SetActive(true);
             a.name = id;
-            a.GetComponent<Image>().sprite = GetFlagSprite(CountryType.Britain);
-            a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
-            a.transform.GetChild(1).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
-            a.transform.GetChild(2).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
+            a.transform.GetChild(1).GetComponent<Image>().sprite = GetFlagSprite(CountryType.Britain);
+            a.transform.GetChild(2).GetComponent<TextController>().SetText(id);
+            a.transform.GetChild(3).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
+            a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
 
             if (_currentTankID == id)
             {
-                a.transform.GetChild(3).gameObject.SetActive(true);
+                a.transform.GetChild(6).gameObject.SetActive(true);
             }
             else
             {
-                a.transform.GetChild(3).gameObject.SetActive(false);
+                a.transform.GetChild(6).gameObject.SetActive(false);
             }
 
             _hangerDict.Add(id, a);
@@ -403,7 +403,7 @@ public class MenuCanvas : BaseCanvas
             a.GetComponent<Button>().onClick.AddListener(() =>
             {
                 PlayButtonSound();
-                _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
+                _hangerDict[_currentTankID].transform.GetChild(6).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
                 EventManager.TriggerEvent(EventKeyword.ShellReplacement);
@@ -418,18 +418,18 @@ public class MenuCanvas : BaseCanvas
             var a = Instantiate(_tankTemplate, _hangerContent);
             a.SetActive(true);
             a.name = id;
-            a.GetComponent<Image>().sprite = GetFlagSprite(CountryType.France);
-            a.transform.GetChild(0).GetComponent<TextController>().SetText(id);
-            a.transform.GetChild(1).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
-            a.transform.GetChild(2).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
+            a.transform.GetChild(1).GetComponent<Image>().sprite = GetFlagSprite(CountryType.France);
+            a.transform.GetChild(2).GetComponent<TextController>().SetText(id);
+            a.transform.GetChild(3).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
+            a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
 
             if (_currentTankID == id)
             {
-                a.transform.GetChild(3).gameObject.SetActive(true);
+                a.transform.GetChild(6).gameObject.SetActive(true);
             }
             else
             {
-                a.transform.GetChild(3).gameObject.SetActive(false);
+                a.transform.GetChild(6).gameObject.SetActive(false);
             }
 
             _hangerDict.Add(id, a);
@@ -439,7 +439,7 @@ public class MenuCanvas : BaseCanvas
             a.GetComponent<Button>().onClick.AddListener(() =>
             {
                 PlayButtonSound();
-                _hangerDict[_currentTankID].transform.GetChild(3).gameObject.SetActive(false);
+                _hangerDict[_currentTankID].transform.GetChild(6).gameObject.SetActive(false);
                 FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
                 CurrentTankInfoUpdate();
                 EventManager.TriggerEvent(EventKeyword.ShellReplacement);
