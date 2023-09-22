@@ -20,7 +20,7 @@ public class MenuTankInfoUI : MonoBehaviour
     {
         string currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
         Tank tank = AddressablesManager.Instance.GetResource<GameObject>(currentTankID).GetComponent<Tank>();
-        TechTree techTree = FindObjectOfType<TechTree>();
+        var techTree = FindObjectOfType<TechTreeCanvas>();
 
         _tankCountryImage.sprite = _countrySprites[(int)tank.TankSO.CountryType - 1];
         _tankTypeImage.sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);

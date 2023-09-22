@@ -4,7 +4,7 @@ using TMPro;
 public class TechTreeTierLine : MonoBehaviour
 {
     [SerializeField]
-    private TechTree _techTree = null;
+    private TechTreeCanvas _techTree = null;
 
     [SerializeField]
     private RectTransform _tankTierLine = null;

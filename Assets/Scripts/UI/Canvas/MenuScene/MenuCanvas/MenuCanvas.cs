@@ -264,7 +264,7 @@ public class MenuCanvas : BaseCanvas
         TechTreeProgress usaData = TechTreeDataManager.GetTechTreeProgress(CountryType.USA);
         TechTreeProgress britainData = TechTreeDataManager.GetTechTreeProgress(CountryType.Britain);
         TechTreeProgress franceData = TechTreeDataManager.GetTechTreeProgress(CountryType.France);
-        TechTree techTree = FindObjectOfType<TechTree>();
+        TechTreeCanvas techTree = FindObjectOfType<TechTreeCanvas>();
 
         foreach (var id in ussrData._tankProgressList)
         {

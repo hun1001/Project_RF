@@ -260,7 +260,6 @@ GameObject:
   - component: {fileID: 3204675077682520618}
   - component: {fileID: 8758524938333785819}
   - component: {fileID: 2983707365170556333}
-  - component: {fileID: 7241532008918813233}
   - component: {fileID: 7593562413192187281}
   m_Layer: 5
   m_Name: TechTreeCanvas
@@ -371,12 +370,21 @@ MonoBehaviour:
   _buttonSound: {fileID: 8300000, guid: aa446170c0b767240a04a774224a262e, type: 3}
   _goodsTexts: {fileID: 2560620020645060583}
   _tankTierLine: {fileID: 7593562413192187281}
-  _techTree: {fileID: 7241532008918813233}
   _countryToggleGroup: {fileID: 2983707365170556333}
   _tankNodeContentTransform: {fileID: 2728517434946524918}
   _techTreeScrollView: {fileID: 8918152634588149345}
   _tankInformation: {fileID: 1922568157016286720}
   _tankInformationPanel: {fileID: 3116579799826338881}
+  _techTreeSO:
+  - {fileID: 11400000, guid: 61db84fca43863041a0cde23942830a9, type: 2}
+  - {fileID: 11400000, guid: 88b3271a4171d024eba2764389ed5dbb, type: 2}
+  - {fileID: 11400000, guid: 16a8750f648caf64f82ccadcfccf7c3b, type: 2}
+  - {fileID: 11400000, guid: 5b14b06af18ba0b48a6e0c5fcc06d6ba, type: 2}
+  _tankTypeSprites:
+  - {fileID: 21300000, guid: 3249b21219e7b2f4090c20a4d39417f2, type: 3}
+  - {fileID: 21300000, guid: 516432dba66741a44b275ba8159d4ace, type: 3}
+  - {fileID: 21300000, guid: c89b41ebba815984fb8973d31971dadc, type: 3}
+  - {fileID: 21300000, guid: fe0d2583a503f4c45a09f6183bf77c3c, type: 3}
 --- !u!114 &2983707365170556333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,28 +399,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _toggleGroupManager: {fileID: 6515119901649580104}
   _countryToggleTemplate: {fileID: 7018023155210165974}
---- !u!114 &7241532008918813233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 400847460215371452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6123129fba12b04eb9315f6370f651c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _techTreeSO:
-  - {fileID: 11400000, guid: 61db84fca43863041a0cde23942830a9, type: 2}
-  - {fileID: 11400000, guid: 88b3271a4171d024eba2764389ed5dbb, type: 2}
-  - {fileID: 11400000, guid: 16a8750f648caf64f82ccadcfccf7c3b, type: 2}
-  - {fileID: 11400000, guid: 5b14b06af18ba0b48a6e0c5fcc06d6ba, type: 2}
-  _tankTypeSprites:
-  - {fileID: 21300000, guid: 3249b21219e7b2f4090c20a4d39417f2, type: 3}
-  - {fileID: 21300000, guid: 516432dba66741a44b275ba8159d4ace, type: 3}
-  - {fileID: 21300000, guid: c89b41ebba815984fb8973d31971dadc, type: 3}
-  - {fileID: 21300000, guid: fe0d2583a503f4c45a09f6183bf77c3c, type: 3}
 --- !u!114 &7593562413192187281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,7 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc040481e1cd38d46b8a213e18f653c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _techTree: {fileID: 7241532008918813233}
+  _techTree: {fileID: 8758524938333785819}
   _tankTierLine: {fileID: 8884367199328876529}
   _firstHorizontalLine: {fileID: 4770356827732657770}
   _tankTierTemplate: {fileID: 1279592325963777058}

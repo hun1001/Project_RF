@@ -16,9 +16,6 @@ public class TechTreeCanvas : BaseCanvas
 
     [Header("TechTree")]
     [SerializeField]
-    private TechTree _techTree = null;
-
-    [SerializeField]
     private TechTreeCountryToggles _countryToggleGroup = null;
 
     [SerializeField]
@@ -33,6 +30,16 @@ public class TechTreeCanvas : BaseCanvas
     [SerializeField]
     private GameObject _tankInformationPanel = null;
 
+    [Header("TechTree Data")]
+    [SerializeField]
+    private TechTreeSO[] _techTreeSO = null;
+    public TechTreeSO[] TechTreeSO => _techTreeSO;
+
+    [SerializeField]
+    private Sprite[] _tankTypeSprites = null;
+
+    public readonly string[] TankTierNumber = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX" };
+
     private GameObject _tankNodeRowTemplate = null;
     private GameObject _tankNodeTemplate = null;
     private GameObject _tankNodeConnectHorizontalLineTemplate = null;
@@ -44,6 +51,11 @@ public class TechTreeCanvas : BaseCanvas
 
     private void Awake()
     {
+        if (TechTreeDataManager.HasTank(CountryType.USSR, "T-34") == false)
+        {
+            TechTreeDataManager.AddTank(CountryType.USSR, "T-34");
+        }
+
         _tankInformation.SetActive(false);
         _tankInformation.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(() =>
         {
@@ -68,11 +80,11 @@ public class TechTreeCanvas : BaseCanvas
 
         _techTreeScrollView.TryGetComponent(out _scrollRect);
 
-        for (int i = 0; i < _techTree.TechTreeSO.Length; ++i)
+        for (int i = 0; i < TechTreeSO.Length; ++i)
         {
             int index = i;
 
-            _countryToggleGroup.CreateCountryToggles(_techTree.TechTreeSO[index].FlagSprite, () =>
+            _countryToggleGroup.CreateCountryToggles(TechTreeSO[index].FlagSprite, () =>
             {
                 _tankInformation.SetActive(false);
                 SetTechTree(index);
@@ -81,7 +93,7 @@ public class TechTreeCanvas : BaseCanvas
 
         _countryToggleGroup.ChangeFirstToggleValue(true);
 
-        for (int i = 0; i < _techTree.TechTreeSO.Length; i++)
+        for (int i = 0; i < TechTreeSO.Length; i++)
         {
             int index = i;
             _countryToggleGroup.AddCountryToggleAction(index, () =>
@@ -170,8 +182,8 @@ public class TechTreeCanvas : BaseCanvas
             }
         });
 
-        Action[] actions = new Action[_techTree.TechTreeSO.Length];
-        for (int i = 0; i < _techTree.TechTreeSO.Length; ++i)
+        Action[] actions = new Action[TechTreeSO.Length];
+        for (int i = 0; i < TechTreeSO.Length; ++i)
         {
             int idx = i;
             actions[idx] = () =>
@@ -192,25 +204,25 @@ public class TechTreeCanvas : BaseCanvas
         ResetTankNode();
         _tankTierLine.ResetTierLine();
 
-        _tankTierLine.SetTierLine(_techTree.TechTreeSO[index].GetMaximumLength());
+        _tankTierLine.SetTierLine(TechTreeSO[index].GetMaximumLength());
 
-        for (int j = 0; j < _techTree.TechTreeSO[index].Length; ++j)
+        for (int j = 0; j < TechTreeSO[index].Length; ++j)
         {
             int jIndex = j;
             var rowTransform = Instantiate(_tankNodeRowTemplate, _tankNodeContentTransform).transform;
 
-            for (int l = 0; l < _techTree.TechTreeSO[index].GetTankArrayLength(jIndex); ++l)
+            for (int l = 0; l < TechTreeSO[index].GetTankArrayLength(jIndex); ++l)
             {
                 int lIndex = l;
 
                 GameObject node;
 
-                if (_techTree.TechTreeSO[index][jIndex, lIndex] == null)
+                if (TechTreeSO[index][jIndex, lIndex] == null)
                 {
                     node = Instantiate(_tankNodeNullTemplate, rowTransform);
-                    if (lIndex != _techTree.TechTreeSO[index].GetTankArrayLength(jIndex) - 1)
+                    if (lIndex != TechTreeSO[index].GetTankArrayLength(jIndex) - 1)
                     {
-                        if (_techTree.TechTreeSO[index][jIndex, lIndex + 1] == null)
+                        if (TechTreeSO[index][jIndex, lIndex + 1] == null)
                         {
                             var tankNodeConnectLine = Instantiate(_tankNodeConnectHorizontalNullLineTemplate, rowTransform);
                             tankNodeConnectLine.SetActive(true);
@@ -228,33 +240,33 @@ public class TechTreeCanvas : BaseCanvas
 
                     var tNC = node.GetComponent<TankNode>();
 
-                    bool isLock = !TechTreeDataManager.GetTechTreeProgress(_techTree.TechTreeSO[index].CountryType)._tankProgressList.Contains(_techTree.TechTreeSO[index][jIndex, lIndex].ID);
+                    bool isLock = !TechTreeDataManager.GetTechTreeProgress(TechTreeSO[index].CountryType)._tankProgressList.Contains(TechTreeSO[index][jIndex, lIndex].ID);
 
-                    tNC.SetTankNode(_techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType), _techTree.TankTierNumber[lIndex], _techTree.TechTreeSO[index][jIndex, lIndex].ID, isLock, () =>
-                    {
+                    tNC.SetTankNode(GetTankTypeSprite(TechTreeSO[index][jIndex, lIndex].TankSO.TankType), TankTierNumber[lIndex], TechTreeSO[index][jIndex, lIndex].ID, isLock, () =>
+                    {   
                         PlayButtonSound();
 
                         _tankInformation.SetActive(true);
                         var topUI = _tankInformationPanel.transform.GetChild(0);
-                        topUI.GetChild(1).GetComponent<Image>().sprite = _techTree.TechTreeSO[index].FlagSprite;
-                        topUI.GetChild(2).GetComponent<Image>().sprite = _techTree.GetTankTypeSprite(_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
-                        topUI.GetChild(3).GetComponent<TextMeshProUGUI>().text = _techTree.TankTierNumber[lIndex];
-                        topUI.GetChild(4).GetComponent<TextMeshProUGUI>().text = _techTree.TechTreeSO[index][jIndex, lIndex].ID;
+                        topUI.GetChild(1).GetComponent<Image>().sprite = TechTreeSO[index].FlagSprite;
+                        topUI.GetChild(2).GetComponent<Image>().sprite = GetTankTypeSprite(TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
+                        topUI.GetChild(3).GetComponent<TextMeshProUGUI>().text = TankTierNumber[lIndex];
+                        topUI.GetChild(4).GetComponent<TextMeshProUGUI>().text = TechTreeSO[index][jIndex, lIndex].ID;
 
                         // ?±ÌÅ¨ ?¥Î?ÏßÄ ?ÜÏúº?àÍπå ?ºÎã®  null
                         _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
 
                         var stats = _tankInformationPanel.transform.GetChild(2);
                         // Health
-                        float health = 1000f * ((_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.HP * 0.1f) * (_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.Armour * 0.1f)) / 11392f;
+                        float health = 1000f * ((TechTreeSO[index][jIndex, lIndex].TankSO.HP * 0.1f) * (TechTreeSO[index][jIndex, lIndex].TankSO.Armour * 0.1f)) / 11392f;
                         stats.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = health * 0.001f;
                         stats.GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", health);
                         // Power
-                        float power = 1000f * (_techTree.TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.AtkPower * _techTree.TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.PenetrationPower) / 11440f;
+                        float power = 1000f * (TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.AtkPower * TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.PenetrationPower) / 11440f;
                         stats.GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = power * 0.001f;
                         stats.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", power);
                         // Movement
-                        float movement = 1000f * ((_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.MaxSpeed * 0.4f) * (_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.Acceleration * 0.2f) * (_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.RotationSpeed * 0.2f) * (_techTree.TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.RotationSpeed * 0.2f)) / 93177f;
+                        float movement = 1000f * ((TechTreeSO[index][jIndex, lIndex].TankSO.MaxSpeed * 0.4f) * (TechTreeSO[index][jIndex, lIndex].TankSO.Acceleration * 0.2f) * (TechTreeSO[index][jIndex, lIndex].TankSO.RotationSpeed * 0.2f) * (TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.RotationSpeed * 0.2f)) / 93177f;
                         stats.GetChild(2).GetChild(0).GetComponent<Image>().fillAmount = movement * 0.001f;
                         stats.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", movement);
 
@@ -263,9 +275,9 @@ public class TechTreeCanvas : BaseCanvas
                         {
                             PlayButtonSound();
 
-                            if (GoodsManager.DecreaseFreeGoods((int)_techTree.TechTreeSO[index][jIndex, lIndex].TankSO.Price))
+                            if (GoodsManager.DecreaseFreeGoods((int)TechTreeSO[index][jIndex, lIndex].TankSO.Price))
                             {
-                                TechTreeDataManager.AddTank(_techTree.TechTreeSO[index].CountryType, _techTree.TechTreeSO[index][jIndex, lIndex].ID);
+                                TechTreeDataManager.AddTank(TechTreeSO[index].CountryType, TechTreeSO[index][jIndex, lIndex].ID);
                                 tNC.IsTankLocked = false;
                                 _tankInformation.SetActive(false);
                             }
@@ -274,7 +286,7 @@ public class TechTreeCanvas : BaseCanvas
 
                     node.GetComponent<Image>().enabled = true;
 
-                    if (lIndex != _techTree.TechTreeSO[index].GetTankArrayLength(jIndex) - 1)
+                    if (lIndex != TechTreeSO[index].GetTankArrayLength(jIndex) - 1)
                     {
                         var tankNodeConnectLine = Instantiate(_tankNodeConnectHorizontalLineTemplate, rowTransform);
                         tankNodeConnectLine.SetActive(true);
@@ -334,5 +346,31 @@ public class TechTreeCanvas : BaseCanvas
     public void UpRightButton()
     {
         _isRightClick = false;
+    }
+
+    public Sprite GetTankTypeSprite(TankType tankType)
+    {
+        Sprite sprite = null;
+
+        switch (tankType)
+        {
+            case TankType.Light:
+                sprite = _tankTypeSprites[0];
+                break;
+            case TankType.Medium:
+                sprite = _tankTypeSprites[1];
+                break;
+            case TankType.Heavy:
+                sprite = _tankTypeSprites[2];
+                break;
+            case TankType.Destroyer:
+                sprite = _tankTypeSprites[3];
+                break;
+            default:
+                Debug.LogError("TankType Error");
+                break;
+        }
+
+        return sprite;
     }
 }
