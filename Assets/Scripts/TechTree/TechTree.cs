@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class TechTree
 {
-    public TechTreeNode root;
+    private TechTreeNode root;
+    public TechTreeNode Root => root;
 
-    public TechTree(TechTreeNode root)
+    public TechTree()
     {
-        this.root = root;
+        this.root = new TechTreeNode();
     }
+
+    public bool IsRoot(TechTreeNode node) => node == root;
 }

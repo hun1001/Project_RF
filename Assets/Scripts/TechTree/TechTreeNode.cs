@@ -5,11 +5,19 @@ using UnityEngine;
 public class TechTreeNode 
 {
     public string tankAddress;
-    public List<TechTreeNode> children;
 
-    public TechTreeNode(string tankAddress)
+    public List<TechTreeNode> upChildren;
+
+    public TechTreeNode _child;
+
+    public List<TechTreeNode> downChildren;
+
+    public TechTreeNode()
     {
-        this.tankAddress = tankAddress;
-        children = new List<TechTreeNode>();
+        tankAddress = "";
+
+        upChildren = new List<TechTreeNode>();
+        _child = null;
+        downChildren = new List<TechTreeNode>();
     }
 }
