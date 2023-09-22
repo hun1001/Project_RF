@@ -82,11 +82,13 @@ public class TechTreeEditor : EditorWindow
 
         for(int i = 0; i < 3; i++)
         {
-            node.tankAddress = ((i + 1).ToString());
+            node.tankAddress = "T-34";
             var newNode = new TechTreeNode();
             node._child = (newNode);
             node = newNode;
         }
+
+        node.tankAddress = "T-34";
     }
 
     private void OnEditModeChanged()
@@ -106,44 +108,24 @@ public class TechTreeEditor : EditorWindow
 
         var _node = _techTree.Root;
 
+        GUILayout.BeginHorizontal();
+
         while(_node != null)
         {
-            GUILayout.BeginHorizontal();
-            GUILayout.Label(_node.tankAddress);
-            if (GUILayout.Button("Add"))
+            Tank tank = null;
+
+            if(_node.tankAddress != "")
             {
-                var newNode = new TechTreeNode();
-                _node._child = newNode;
-                _node = newNode;
+                tank = AddressablesManager.Instance.GetResource<GameObject>(_node.tankAddress).GetComponent<Tank>();
             }
-            if (GUILayout.Button("Up"))
-            {
-                if (_node.upChildren.Count == 0)
-                {
-                    var newNode = new TechTreeNode();
-                    _node.upChildren.Add(newNode);
-                    _node = newNode;
-                }
-                else
-                {
-                    _node = _node.upChildren[0];
-                }
-            }
-            if (GUILayout.Button("Down"))
-            {
-                if (_node.downChildren.Count == 0)
-                {
-                    var newNode = new TechTreeNode();
-                    _node.downChildren.Add(newNode);
-                    _node = newNode;
-                }
-                else
-                {
-                    _node = _node.downChildren[0];
-                }
-            }
-            GUILayout.EndHorizontal();      
+
+            tank = EditorGUILayout.ObjectField(tank, typeof(Tank), false) as Tank;
+            _node.tankAddress = tank.ID;
+
+            _node = _node._child;
         }
+
+        GUILayout.EndHorizontal();
 
 
         if (GUILayout.Button("Create"))
