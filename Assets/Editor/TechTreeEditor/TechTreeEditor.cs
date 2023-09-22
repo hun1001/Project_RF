@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using Stage;
-using UnityEditorInternal;
+using Addressable;
 
 public class TechTreeEditor : EditorWindow
 {
@@ -18,8 +17,16 @@ public class TechTreeEditor : EditorWindow
     private const string _techTreeFolderPath = "Assets/TechTreee/";
 
     private TechTreeEditorMode _mode = TechTreeEditorMode.Create;
-
     private CountryType _countryType = CountryType.None;
+
+    private TechTree _techTree = null;
+    private List<List<Tank>> _tanks = new List<List<Tank>>();
+
+    private void OnEnable()
+    {
+        _tanks.Add(new List<Tank>());
+        _tanks[0].Add(null);
+    }
 
     private void OnGUI()
     {
@@ -40,8 +47,28 @@ public class TechTreeEditor : EditorWindow
     {
         _countryType = (CountryType)EditorGUILayout.EnumPopup(_countryType);
 
-        Tank tank = null;
-        tank = (Tank)EditorGUILayout.ObjectField(tank, typeof(Tank), false);
+
+        for (int i = 0;i < _tanks.Count;i++)
+        {
+            GUILayout.BeginHorizontal();
+            for(int j = 0;j < _tanks[i].Count;j++)
+            {
+                GUILayout.BeginVertical();
+                _tanks[i][j] = (Tank)EditorGUILayout.ObjectField(_tanks[i][j], typeof(Tank), false);
+                if(GUILayout.Button("Add"))
+                {
+                    _tanks.Add(new List<Tank>());
+                    _tanks[i + 1].Add(null);
+                }
+                GUILayout.EndVertical();
+            }
+
+            if(GUILayout.Button("Add"))
+            {
+                _tanks[i].Add(null);
+            }
+            GUILayout.EndHorizontal();
+        }
 
         if (GUILayout.Button("Create"))
         {
@@ -54,6 +81,6 @@ public class TechTreeEditor : EditorWindow
     {
         _techTreeFile = (TextAsset)EditorGUILayout.ObjectField(_techTreeFile, typeof(TextAsset), false);
 
-        GUILayout.TextArea("Developing");
+        GUILayout.Label("Developing");
     }
 }
