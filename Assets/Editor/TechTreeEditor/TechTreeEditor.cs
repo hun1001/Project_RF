@@ -117,14 +117,19 @@ public class TechTreeEditor : EditorWindow
         GUILayout.Label("Please Select Mode");
     }
 
+    int row = 0;
+    int column = 0;
+
     private void CreateMode()
     {
         _countryType = (CountryType)EditorGUILayout.EnumPopup(_countryType);
 
         var node = _techTree.Root;
 
-        _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
+        row = 0;
+        column = 0;
 
+        _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
         GUILayout.BeginHorizontal();
 
         while(true)
@@ -136,30 +141,17 @@ public class TechTreeEditor : EditorWindow
                 tank = AddressablesManager.Instance.GetResource<GameObject>(node.tankAddress).GetComponent<Tank>();
             }
 
+            tank = EditorGUI.ObjectField(new Rect(10 + column * 100, 10 + row * 100, 100, 100), tank, typeof(Tank), false) as Tank;
+            node.tankAddress = tank == null ? "" : tank.ID;
+
+            ++column;
+
             if(node._child != null)
             {
-                tank = EditorGUILayout.ObjectField(tank, typeof(Tank), false, GUILayout.Width(100), GUILayout.Height(20)) as Tank;
-                node.tankAddress = tank == null ? "" : tank.ID;
-
                 node = node._child;
             }
             else 
             {
-                GUILayout.BeginVertical();
-                if (GUILayout.Button("+", GUILayout.Width(25), GUILayout.Height(20)))
-                {
-                    var newNode = new TechTreeNode();
-                    node.upChildren.Add(newNode);
-                }
-                tank = EditorGUILayout.ObjectField(tank, typeof(Tank), false, GUILayout.Width(100), GUILayout.Height(20)) as Tank;
-                if (GUILayout.Button("+", GUILayout.Width(25), GUILayout.Height(20)))
-                {
-                    var newNode = new TechTreeNode();
-                    node.downChildren.Add(newNode);
-                }
-                GUILayout.EndVertical();
-
-                node.tankAddress = tank == null ? "" : tank.ID;
                 break;
             }
         }
