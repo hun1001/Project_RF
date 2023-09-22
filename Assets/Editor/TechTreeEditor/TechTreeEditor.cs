@@ -21,6 +21,8 @@ public class TechTreeEditor : EditorWindow
     private TechTreeEditorMode _mode = TechTreeEditorMode.None;
     private CountryType _countryType = CountryType.None;
 
+    private Vector2 _scrollPosition = Vector2.zero;
+
 
     private void OnGUI()
     {
@@ -89,6 +91,19 @@ public class TechTreeEditor : EditorWindow
         }
 
         node.tankAddress = "T-34";
+
+        node.upChildren.Add(new TechTreeNode());
+        node.upChildren.Add(new TechTreeNode());
+        node.upChildren.Add(new TechTreeNode());
+        node.upChildren[0].tankAddress = "T-34";
+
+        node._child = new TechTreeNode();
+        node._child.tankAddress = "T-34";
+
+        node.downChildren.Add(new TechTreeNode());
+        node.downChildren.Add(new TechTreeNode());
+        node.downChildren[1]._child = new TechTreeNode();
+        node.downChildren[1]._child.tankAddress = "T-34";
     }
 
     private void OnEditModeChanged()
@@ -106,26 +121,58 @@ public class TechTreeEditor : EditorWindow
     {
         _countryType = (CountryType)EditorGUILayout.EnumPopup(_countryType);
 
-        var _node = _techTree.Root;
+        var node = _techTree.Root;
+
+        _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
 
         GUILayout.BeginHorizontal();
 
-        while(_node != null)
+        while(true)
         {
             Tank tank = null;
 
-            if(_node.tankAddress != "")
+            if(node.tankAddress != "")
             {
-                tank = AddressablesManager.Instance.GetResource<GameObject>(_node.tankAddress).GetComponent<Tank>();
+                tank = AddressablesManager.Instance.GetResource<GameObject>(node.tankAddress).GetComponent<Tank>();
             }
 
-            tank = EditorGUILayout.ObjectField(tank, typeof(Tank), false) as Tank;
-            _node.tankAddress = tank.ID;
+            if(node._child != null)
+            {
+                tank = EditorGUILayout.ObjectField(tank, typeof(Tank), false, GUILayout.Width(100), GUILayout.Height(20)) as Tank;
+                node.tankAddress = tank == null ? "" : tank.ID;
 
-            _node = _node._child;
+                node = node._child;
+            }
+            else 
+            {
+                GUILayout.BeginVertical();
+                if (GUILayout.Button("+", GUILayout.Width(25), GUILayout.Height(20)))
+                {
+                    var newNode = new TechTreeNode();
+                    node.upChildren.Add(newNode);
+                }
+                tank = EditorGUILayout.ObjectField(tank, typeof(Tank), false, GUILayout.Width(100), GUILayout.Height(20)) as Tank;
+                if (GUILayout.Button("+", GUILayout.Width(25), GUILayout.Height(20)))
+                {
+                    var newNode = new TechTreeNode();
+                    node.downChildren.Add(newNode);
+                }
+                GUILayout.EndVertical();
+
+                node.tankAddress = tank == null ? "" : tank.ID;
+                break;
+            }
+        }
+
+        if(GUILayout.Button("+", GUILayout.Width(25), GUILayout.Height(20)))
+        {
+            var newNode = new TechTreeNode();
+            node._child = newNode;
         }
 
         GUILayout.EndHorizontal();
+
+        EditorGUILayout.EndScrollView();
 
 
         if (GUILayout.Button("Create"))
