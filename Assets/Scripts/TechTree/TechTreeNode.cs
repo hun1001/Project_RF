@@ -9,10 +9,13 @@ public class TechTreeNode
     public string tankAddress;
 
     public TechTreeNode upChild;
+    public bool hasUpChild = false;
 
     public TechTreeNode child;
+    public bool hasChild = false;
 
     public TechTreeNode downChild;
+    public bool hasDownChild = false;
 
     public TechTreeNode()
     {
