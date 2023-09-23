@@ -1,16 +1,14 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 
+[Serializable]
 public class TechTree
 {
-    private TechTreeNode root;
-    public TechTreeNode Root => root;
+    public TechTreeNode Root;
 
     public TechTree()
     {
-        this.root = new TechTreeNode();
+        this.Root = new TechTreeNode();
     }
 
-    public bool IsRoot(TechTreeNode node) => node == root;
+    public bool IsRoot(TechTreeNode node) => node == Root;
 }

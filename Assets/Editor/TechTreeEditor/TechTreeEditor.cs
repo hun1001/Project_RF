@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.IO;
 using Addressable;
 
 public class TechTreeEditor : EditorWindow
@@ -13,7 +14,7 @@ public class TechTreeEditor : EditorWindow
         window.Show();
     }
 
-    private const string _techTreeFolderPath = "Assets/TechTreee/";
+    private readonly string _techTreeFolderPath = Application.dataPath + "/TechTreeData/";
 
     private TextAsset _techTreeFile = null;
     private TechTree _techTree = null;
@@ -134,16 +135,7 @@ public class TechTreeEditor : EditorWindow
 
         while(true)
         {
-            Tank tank = null;
-
-            if(node.tankAddress != "")
-            {
-                tank = AddressablesManager.Instance.GetResource<GameObject>(node.tankAddress).GetComponent<Tank>();
-            }
-
-            tank = EditorGUI.ObjectField(new Rect(10 + column * 100, 10 + row * 100, 100, 100), tank, typeof(Tank), false) as Tank;
-            node.tankAddress = tank == null ? "" : tank.ID;
-
+            node.tankAddress = EditorGUI.TextField(new Rect(10 + column * 100, 110 + row * 100, 100, 20), node.tankAddress);
             ++column;
 
             if(node._child != null)
@@ -166,10 +158,12 @@ public class TechTreeEditor : EditorWindow
 
         EditorGUILayout.EndScrollView();
 
-
         if (GUILayout.Button("Create"))
         {
+            string path = _techTreeFolderPath + _countryType.ToString() + "TechTree.json";
+            string data = JsonUtility.ToJson(_techTree);
 
+            File.WriteAllText(path, data);
         }
     }
 
