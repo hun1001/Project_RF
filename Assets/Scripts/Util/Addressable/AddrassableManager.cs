@@ -2,6 +2,10 @@ using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using Util;
 using UnityEngine;
+using UnityEngine.AddressableAssets.ResourceLocators;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using System;
+using UnityEngine.ResourceManagement.ResourceLocations;
 
 namespace Addressable
 {

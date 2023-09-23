@@ -4,6 +4,7 @@ using System;
 public class TechTree
 {
     public TechTreeNode Root;
+    public CountryType Country;
 
     public TechTree()
     {
