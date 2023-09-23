@@ -125,12 +125,13 @@ public class TechTreeEditor : EditorWindow
     {
         _countryType = (CountryType)EditorGUILayout.EnumPopup(_countryType);
 
+        _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
+        GUILayout.BeginVertical();
+
         TechTreeNode node = null;
         Rect rect = new Rect(10, 100, 100, 20);
 
         TechTreeEditorIterator iterator = new TechTreeEditorIterator(_techTree, rect);
-
-        GUILayout.BeginHorizontal();
 
         while(iterator.IsSearching)
         {
@@ -140,7 +141,9 @@ public class TechTreeEditor : EditorWindow
             node.tankAddress = EditorGUI.TextField(rect, node.tankAddress);
         }
 
-        GUILayout.EndHorizontal();
+        GUILayout.EndVertical();
+
+        EditorGUILayout.EndScrollView();
 
         if (GUILayout.Button("Create"))
         {

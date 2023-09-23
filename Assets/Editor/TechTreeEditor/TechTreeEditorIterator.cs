@@ -20,7 +20,7 @@ public class TechTreeEditorIterator : TechTreeIterator
     protected override void OnEnqueueUpChildNode()
     {
         var curretRect = _rectQueue.Peek();
-        var nextRect = new Rect(curretRect.x + 120, curretRect.y - 20, curretRect.width, curretRect.height);
+        var nextRect = new Rect(curretRect.x + 120, curretRect.y - 30, curretRect.width, curretRect.height);
 
         _rectQueue.Enqueue(nextRect);
     }
@@ -36,7 +36,7 @@ public class TechTreeEditorIterator : TechTreeIterator
     protected override void OnEnqueueDownChildNode()
     {
         var curretRect = _rectQueue.Peek();
-        var nextRect = new Rect(curretRect.x + 120, curretRect.y + 20, curretRect.width, curretRect.height);
+        var nextRect = new Rect(curretRect.x + 120, curretRect.y + 30, curretRect.width, curretRect.height);
 
         _rectQueue.Enqueue(nextRect);
     }
