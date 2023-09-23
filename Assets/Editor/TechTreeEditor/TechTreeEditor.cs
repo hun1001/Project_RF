@@ -94,18 +94,20 @@ public class TechTreeEditor : EditorWindow
 
         node.tankAddress = "T-34";
 
-        node.upChildren.Add(new TechTreeNode());
-        node.upChildren.Add(new TechTreeNode());
-        node.upChildren.Add(new TechTreeNode());
-        node.upChildren[0].tankAddress = "T-34";
+        node.upChildren = new TechTreeNode();
+        node.upChildren.tankAddress = "T-34";
 
         node._child = new TechTreeNode();
         node._child.tankAddress = "T-34";
 
-        node.downChildren.Add(new TechTreeNode());
-        node.downChildren.Add(new TechTreeNode());
-        node.downChildren[1]._child = new TechTreeNode();
-        node.downChildren[1]._child.tankAddress = "T-34";
+        node.downChildren = new TechTreeNode();
+        node.downChildren.tankAddress = "T-34";
+
+        node.downChildren._child = new TechTreeNode();
+        node.downChildren._child.tankAddress = "T-34";
+        
+        node.downChildren._child._child = new TechTreeNode();
+        node.downChildren._child._child.tankAddress = "T-34";
     }
 
     private void OnEditModeChanged()
@@ -126,43 +128,64 @@ public class TechTreeEditor : EditorWindow
     {
         _countryType = (CountryType)EditorGUILayout.EnumPopup(_countryType);
 
-        var node = _techTree.Root;
-
         row = 0;
         column = 0;
 
-        _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
-        GUILayout.BeginHorizontal();
+        _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition, "Box");
+        GUILayout.BeginHorizontal("Box");
 
-        while(true)
+        Queue<TechTreeNode> tankQueue = new Queue<TechTreeNode>();
+        tankQueue.Enqueue(_techTree.Root);
+
+        TechTreeNode node = null;
+
+        node = tankQueue.Dequeue();
+
+        node.tankAddress = EditorGUI.TextField(new Rect(10, 50, 100, 20), node.tankAddress);
+
+        while (node._child != null||node.upChildren != null || node.downChildren != null || tankQueue.Count > 0)
         {
-            node.tankAddress = EditorGUI.TextField(new Rect(10 + column * 100, 110 + row * 100, 100, 20), node.tankAddress);
-            ++column;
+            row = 0;
+
+            if(node.upChildren != null)
+            {
+                tankQueue.Enqueue(node.upChildren);
+                node.upChildren.tankAddress = EditorGUI.TextField(new Rect(10 + (column + 1) * 120, 50 + ++row * 40, 100, 20), node.upChildren.tankAddress);
+            }
 
             if(node._child != null)
             {
-                node = node._child;
+                row = 0;
+                tankQueue.Enqueue(node._child);
+                node._child.tankAddress = EditorGUI.TextField(new Rect(10 + (column + 1) * 120, 50 + row * 40, 100, 20), node._child.tankAddress);
             }
-            else 
+
+            if(node.downChildren != null)
             {
-                break;
+                tankQueue.Enqueue(node.downChildren);
+                node.downChildren.tankAddress = EditorGUI.TextField(new Rect(10 + (column + 1) * 120, 50 + --row * 40, 100, 20), node.downChildren.tankAddress);
             }
+
+            ++column;
+            node = tankQueue.Dequeue();
         }
 
-        if(GUILayout.Button("+", GUILayout.Width(25), GUILayout.Height(20)))
-        {
-            var newNode = new TechTreeNode();
-            node._child = newNode;
-        }
+        Debug.Log("row : " + row + " column : " + column);
 
-        GUILayout.EndHorizontal();
+        //if (GUILayout.Button("+", GUILayout.Width(25), GUILayout.Height(20)))
+        //{
+        //    var newNode = new TechTreeNode();
+        //    node._child = newNode;
+        //}
 
-        EditorGUILayout.EndScrollView();
+        EditorGUILayout.EndHorizontal();
+
+        GUILayout.EndScrollView();
 
         if (GUILayout.Button("Create"))
         {
             string path = _techTreeFolderPath + _countryType.ToString() + "TechTree.json";
-            string data = JsonConvert.SerializeObject(_techTree, Formatting.None);
+            string data = JsonConvert.SerializeObject(_techTree, Formatting.Indented);
 
             File.WriteAllText(path, data);
         }
