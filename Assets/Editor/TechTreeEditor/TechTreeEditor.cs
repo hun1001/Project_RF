@@ -86,28 +86,28 @@ public class TechTreeEditor : EditorWindow
 
         for(int i = 0; i < 3; i++)
         {
-            node.tankAddress = "T-34";
+            node.tankAddress = i.ToString();
             var newNode = new TechTreeNode();
             node._child = (newNode);
             node = newNode;
         }
 
-        node.tankAddress = "T-34";
+        node.tankAddress = "3";
 
         node.upChildren = new TechTreeNode();
-        node.upChildren.tankAddress = "T-34";
+        node.upChildren.tankAddress = "4";
 
         node._child = new TechTreeNode();
-        node._child.tankAddress = "T-34";
+        node._child.tankAddress = "5";
 
         node.downChildren = new TechTreeNode();
-        node.downChildren.tankAddress = "T-34";
+        node.downChildren.tankAddress = "6";
 
         node.downChildren._child = new TechTreeNode();
-        node.downChildren._child.tankAddress = "T-34";
+        node.downChildren._child.tankAddress = "7";
         
         node.downChildren._child._child = new TechTreeNode();
-        node.downChildren._child._child.tankAddress = "T-34";
+        node.downChildren._child._child.tankAddress = "8";
     }
 
     private void OnEditModeChanged()
@@ -121,71 +121,51 @@ public class TechTreeEditor : EditorWindow
         GUILayout.Label("Please Select Mode");
     }
 
-    int row = 0;
-    int column = 0;
-
     private void CreateMode()
     {
         _countryType = (CountryType)EditorGUILayout.EnumPopup(_countryType);
 
-        row = 0;
-        column = 0;
+        TechTreeNode node = _techTree.Root;
+        Rect rect = new Rect(10, 100, 100, 20);
 
-        _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition, "Box");
-        GUILayout.BeginHorizontal("Box");
+        TechTreeEditorIterator iterator = new TechTreeEditorIterator(_techTree, rect);
 
-        Queue<TechTreeNode> tankQueue = new Queue<TechTreeNode>();
-        tankQueue.Enqueue(_techTree.Root);
+        GUILayout.BeginHorizontal();
 
-        TechTreeNode node = null;
+        node.tankAddress = EditorGUI.TextField(rect, node.tankAddress);
 
-        node = tankQueue.Dequeue();
-
-        node.tankAddress = EditorGUI.TextField(new Rect(10, 50, 100, 20), node.tankAddress);
-
-        while (node._child != null||node.upChildren != null || node.downChildren != null || tankQueue.Count > 0)
+        while(iterator.IsSearching)
         {
-            row = 0;
-
             if(node.upChildren != null)
             {
-                tankQueue.Enqueue(node.upChildren);
-                node.upChildren.tankAddress = EditorGUI.TextField(new Rect(10 + (column + 1) * 120, 50 + ++row * 40, 100, 20), node.upChildren.tankAddress);
+                var rectTemplate = rect;
+
+                node.upChildren.tankAddress = EditorGUI.TextField(rectTemplate, node.upChildren.tankAddress);
             }
 
             if(node._child != null)
             {
-                row = 0;
-                tankQueue.Enqueue(node._child);
-                node._child.tankAddress = EditorGUI.TextField(new Rect(10 + (column + 1) * 120, 50 + row * 40, 100, 20), node._child.tankAddress);
+                var rectTemplate = rect;
+
+                node._child.tankAddress = EditorGUI.TextField(rectTemplate, node._child.tankAddress);
             }
 
             if(node.downChildren != null)
             {
-                tankQueue.Enqueue(node.downChildren);
-                node.downChildren.tankAddress = EditorGUI.TextField(new Rect(10 + (column + 1) * 120, 50 + --row * 40, 100, 20), node.downChildren.tankAddress);
+                var rectTemplate = rect;
+
+                node.downChildren.tankAddress = EditorGUI.TextField(rectTemplate, node.downChildren.tankAddress);
             }
 
-            ++column;
-            node = tankQueue.Dequeue();
+            node = iterator.GetNextNode();
         }
 
-        Debug.Log("row : " + row + " column : " + column);
-
-        //if (GUILayout.Button("+", GUILayout.Width(25), GUILayout.Height(20)))
-        //{
-        //    var newNode = new TechTreeNode();
-        //    node._child = newNode;
-        //}
-
-        EditorGUILayout.EndHorizontal();
-
-        GUILayout.EndScrollView();
+        GUILayout.EndHorizontal();
 
         if (GUILayout.Button("Create"))
         {
             string path = _techTreeFolderPath + _countryType.ToString() + "TechTree.json";
-            string data = JsonConvert.SerializeObject(_techTree, Formatting.Indented);
+            string data = JsonConvert.SerializeObject(_techTree, Formatting.None);
 
             File.WriteAllText(path, data);
         }
@@ -199,3 +179,4 @@ public class TechTreeEditor : EditorWindow
         GUILayout.Label("Developing");
     }
 }
+
