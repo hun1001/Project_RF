@@ -8,18 +8,18 @@ public class TechTreeNode
 {
     public string tankAddress;
 
-    public TechTreeNode upChildren;
+    public TechTreeNode upChild;
 
-    public TechTreeNode _child;
+    public TechTreeNode child;
 
-    public TechTreeNode downChildren;
+    public TechTreeNode downChild;
 
     public TechTreeNode()
     {
         tankAddress = "";
 
-        upChildren = null;
-        _child = null;
-        downChildren = null;
+        upChild = null;
+        child = null;
+        downChild = null;
     }
 }

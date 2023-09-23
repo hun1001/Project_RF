@@ -16,4 +16,28 @@ public class TechTreeEditorIterator : TechTreeIterator
     {
         return _rectQueue.Dequeue();
     }
+
+    protected override void OnEnqueueUpChildNode()
+    {
+        var curretRect = _rectQueue.Peek();
+        var nextRect = new Rect(curretRect.x + 120, curretRect.y - 20, curretRect.width, curretRect.height);
+
+        _rectQueue.Enqueue(nextRect);
+    }
+
+    protected override void OnEnqueueChildNode()
+    {
+        var curretRect = _rectQueue.Peek();
+        var nextRect = new Rect(curretRect.x + 120, curretRect.y, curretRect.width, curretRect.height);
+
+        _rectQueue.Enqueue(nextRect);
+    }
+
+    protected override void OnEnqueueDownChildNode()
+    {
+        var curretRect = _rectQueue.Peek();
+        var nextRect = new Rect(curretRect.x + 120, curretRect.y + 20, curretRect.width, curretRect.height);
+
+        _rectQueue.Enqueue(nextRect);
+    }
 }

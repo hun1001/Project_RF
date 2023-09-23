@@ -21,21 +21,37 @@ public class TechTreeIterator
     {
         var node = _nodeQueue.Dequeue();
 
-        if(node.upChildren != null)
+        if(node.upChild != null)
         {
-            _nodeQueue.Enqueue(node.upChildren);
+            _nodeQueue.Enqueue(node.upChild);
+            OnEnqueueUpChildNode();
         }
 
-        if(node._child != null)
+        if(node.child != null)
         {
-            _nodeQueue.Enqueue(node._child);
+            _nodeQueue.Enqueue(node.child);
+            OnEnqueueChildNode();
         }
 
-        if(node.downChildren != null)
+        if(node.downChild != null)
         {
-            _nodeQueue.Enqueue(node.downChildren);
+            _nodeQueue.Enqueue(node.downChild);
+            OnEnqueueDownChildNode();
         }
 
         return node;
+    }
+
+    protected virtual void OnEnqueueUpChildNode()
+    {
+
+    }
+
+    protected virtual void OnEnqueueChildNode()
+    {
+    }
+
+    protected virtual void OnEnqueueDownChildNode()
+    {
     }
 }

@@ -88,26 +88,26 @@ public class TechTreeEditor : EditorWindow
         {
             node.tankAddress = i.ToString();
             var newNode = new TechTreeNode();
-            node._child = (newNode);
+            node.child = (newNode);
             node = newNode;
         }
 
         node.tankAddress = "3";
 
-        node.upChildren = new TechTreeNode();
-        node.upChildren.tankAddress = "4";
+        node.upChild = new TechTreeNode();
+        node.upChild.tankAddress = "4";
 
-        node._child = new TechTreeNode();
-        node._child.tankAddress = "5";
+        node.child = new TechTreeNode();
+        node.child.tankAddress = "5";
 
-        node.downChildren = new TechTreeNode();
-        node.downChildren.tankAddress = "6";
+        node.downChild = new TechTreeNode();
+        node.downChild.tankAddress = "6";
 
-        node.downChildren._child = new TechTreeNode();
-        node.downChildren._child.tankAddress = "7";
-        
-        node.downChildren._child._child = new TechTreeNode();
-        node.downChildren._child._child.tankAddress = "8";
+        node.downChild.child = new TechTreeNode();
+        node.downChild.child.tankAddress = "7";
+
+        node.downChild.child.child = new TechTreeNode();
+        node.downChild.child.child.tankAddress = "8";
     }
 
     private void OnEditModeChanged()
@@ -125,39 +125,19 @@ public class TechTreeEditor : EditorWindow
     {
         _countryType = (CountryType)EditorGUILayout.EnumPopup(_countryType);
 
-        TechTreeNode node = _techTree.Root;
+        TechTreeNode node = null;
         Rect rect = new Rect(10, 100, 100, 20);
 
         TechTreeEditorIterator iterator = new TechTreeEditorIterator(_techTree, rect);
 
         GUILayout.BeginHorizontal();
 
-        node.tankAddress = EditorGUI.TextField(rect, node.tankAddress);
-
         while(iterator.IsSearching)
         {
-            if(node.upChildren != null)
-            {
-                var rectTemplate = rect;
-
-                node.upChildren.tankAddress = EditorGUI.TextField(rectTemplate, node.upChildren.tankAddress);
-            }
-
-            if(node._child != null)
-            {
-                var rectTemplate = rect;
-
-                node._child.tankAddress = EditorGUI.TextField(rectTemplate, node._child.tankAddress);
-            }
-
-            if(node.downChildren != null)
-            {
-                var rectTemplate = rect;
-
-                node.downChildren.tankAddress = EditorGUI.TextField(rectTemplate, node.downChildren.tankAddress);
-            }
-
             node = iterator.GetNextNode();
+            rect = iterator.GetNextRect();
+
+            node.tankAddress = EditorGUI.TextField(rect, node.tankAddress);
         }
 
         GUILayout.EndHorizontal();
