@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using Addressable;
+using Unity.Plastic.Newtonsoft.Json;
 
 public class TechTreeEditor : EditorWindow
 {
@@ -161,7 +162,7 @@ public class TechTreeEditor : EditorWindow
         if (GUILayout.Button("Create"))
         {
             string path = _techTreeFolderPath + _countryType.ToString() + "TechTree.json";
-            string data = JsonUtility.ToJson(_techTree);
+            string data = JsonConvert.SerializeObject(_techTree, Formatting.None);
 
             File.WriteAllText(path, data);
         }
