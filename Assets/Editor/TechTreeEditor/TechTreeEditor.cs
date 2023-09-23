@@ -138,7 +138,13 @@ public class TechTreeEditor : EditorWindow
             node = iterator.GetNextNode();
             rect = iterator.GetNextRect();
 
+            GUILayout.BeginVertical();
+
+
             node.tankAddress = EditorGUI.TextField(rect, node.tankAddress);
+
+
+            GUILayout.EndVertical();
         }
 
         GUILayout.EndVertical();
