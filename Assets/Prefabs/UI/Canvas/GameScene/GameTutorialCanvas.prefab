@@ -651,19 +651,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9177565273138651369}
         m_TargetAssemblyTypeName: GameTutorialCanvas, Assembly-CSharp
-        m_MethodName: NextTutorial
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 9177565273138651369}
-        m_TargetAssemblyTypeName: GameTutorialCanvas, Assembly-CSharp
-        m_MethodName: ControlTypeChange
+        m_MethodName: SelectControlType
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -955,7 +943,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7633202676168415797}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9177565273138651369}
+        m_TargetAssemblyTypeName: GameTutorialCanvas, Assembly-CSharp
+        m_MethodName: OpenExperience
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &628089226510687926
 GameObject:
   m_ObjectHideFlags: 0
@@ -1379,9 +1379,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MenuCanvas, Assembly-CSharp
-        m_MethodName: OnOpenGameOver
+      - m_Target: {fileID: 9177565273138651369}
+        m_TargetAssemblyTypeName: GameTutorialCanvas, Assembly-CSharp
+        m_MethodName: OpenConfirmed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2060,9 +2060,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MenuCanvas, Assembly-CSharp
-        m_MethodName: OnGameOver
+      - m_Target: {fileID: 9177565273138651369}
+        m_TargetAssemblyTypeName: GameTutorialCanvas, Assembly-CSharp
+        m_MethodName: NextTutorial
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2623,7 +2623,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4029640417090524443}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9177565273138651369}
+        m_TargetAssemblyTypeName: GameTutorialCanvas, Assembly-CSharp
+        m_MethodName: ExitExperience
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2366458158789875666
 GameObject:
   m_ObjectHideFlags: 0
@@ -3205,7 +3217,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC138\uC774\uC544 \uC2E4\uC7A5 \uAE30\uC6D0 \uBAA8\uB4DC\uB85C \uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
+  m_text: "\uC138\uC774\uC544 \uC2E4\uC7A5 \uAE30\uC6D0"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 026aaf5d909e6204c9257e0cfbaa54d2, type: 2}
   m_sharedMaterial: {fileID: -2707477839499231954, guid: 026aaf5d909e6204c9257e0cfbaa54d2, type: 2}
@@ -3615,19 +3627,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9177565273138651369}
         m_TargetAssemblyTypeName: GameTutorialCanvas, Assembly-CSharp
-        m_MethodName: NextTutorial
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 9177565273138651369}
-        m_TargetAssemblyTypeName: GameTutorialCanvas, Assembly-CSharp
-        m_MethodName: ControlTypeChange
+        m_MethodName: SelectControlType
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3833,9 +3833,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MenuCanvas, Assembly-CSharp
-        m_MethodName: OnOpenGameOver
+      - m_Target: {fileID: 9177565273138651369}
+        m_TargetAssemblyTypeName: GameTutorialCanvas, Assembly-CSharp
+        m_MethodName: OpenConfirmed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4382,7 +4382,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7211748421164612232}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9177565273138651369}
+        m_TargetAssemblyTypeName: GameTutorialCanvas, Assembly-CSharp
+        m_MethodName: ChangeControlType
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4334947614521706499
 GameObject:
   m_ObjectHideFlags: 0
@@ -5459,7 +5471,14 @@ MonoBehaviour:
   _tutorialPanels:
   - {fileID: 8573867487400552622}
   - {fileID: 5101554413318089412}
+  - {fileID: 3266912487583290273}
+  - {fileID: 753483408733715836}
   - {fileID: 4372670889154602805}
+  _confirmedText: {fileID: 5268099910528290515}
+  _selectedType: {fileID: 1169595603705203620}
+  _textColor:
+  - {fileID: 1389415643334597611}
+  - {fileID: 2677919600648989333}
 --- !u!1 &6362065220189073173
 GameObject:
   m_ObjectHideFlags: 0
@@ -6227,7 +6246,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1106184361189667864}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9177565273138651369}
+        m_TargetAssemblyTypeName: GameTutorialCanvas, Assembly-CSharp
+        m_MethodName: OpenExperience
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7106933731800632546
 GameObject:
   m_ObjectHideFlags: 0

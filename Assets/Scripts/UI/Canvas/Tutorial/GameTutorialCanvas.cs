@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Event;
 using UnityEngine;
 
@@ -19,7 +20,16 @@ public class GameTutorialCanvas : BaseCanvas
     [SerializeField]
     private GameObject[] _tutorialPanels = null;
 
+    [Header("ControlType")]
+    [SerializeField]
+    private TextController _confirmedText = null;
+    [SerializeField]
+    private RectTransform _selectedType = null;
+    [SerializeField]
+    private RectTransform[] _textColor = null;
+
     private int _tutorialCount = 0;
+    private int _controlType = 0;
     private float _textDuration = 0f;
     private bool _isCanReturn = true;
     private bool _isHE = false;
@@ -176,18 +186,95 @@ public class GameTutorialCanvas : BaseCanvas
         _textButton.SetActive(false);
     }
 
-    public void ControlTypeChange(int type)
+    public void SelectControlType(int type)
     {
-        if (type == 0)
+        PlayButtonSound();
+
+        _controlType = type;
+     
+        PlayerPrefs.SetInt("ControlType", _controlType);
+        EventManager.TriggerEvent(EventKeyword.ChangeControlType, _controlType);
+
+        if (_controlType == 0) // Simple
         {
-            PlayerPrefs.SetInt("ControlType", 0);
-            EventManager.TriggerEvent(EventKeyword.ChangeControlType, 0);
+            _confirmedText.SetText("Simple 모드로 하시겠습니까?");
         }
-        else
+        else if ( _controlType == 1) // Detail
         {
-            PlayerPrefs.SetInt("ControlType", 1);
-            EventManager.TriggerEvent(EventKeyword.ChangeControlType, 1);
+            _confirmedText.SetText("Detail 모드로 하시겠습니까?");
         }
+
+        OpenConfirmed();
+    }
+
+    public void OpenConfirmed()
+    {
+        _tutorialPanels[2].SetActive(!_tutorialPanels[2].activeSelf);
+    }
+
+    public void OpenExperience(int type)
+    {
+        PlayButtonSound();
+
+        _controlType = type;
+        PlayerPrefs.SetInt("ControlType", _controlType);
+        EventManager.TriggerEvent(EventKeyword.ChangeControlType, _controlType);
+
+        _textArea.gameObject.SetActive(false);
+        _tutorialPanels[1].SetActive(false);
+        _tutorialPanels[2].SetActive(false);
+        _tutorialPanels[3].SetActive(true);
+
+        TutorialManager.Instance.IsCanMove = true;
+
+        if (_controlType == 0)
+        {
+            _selectedType.DOAnchorPosX(10f, 0.7f);
+            _textColor[0].DOAnchorPosX(0f, 0.7f);
+            _textColor[1].DOAnchorPosX(-220f, 0.7f);
+        }
+        else if (_controlType == 1)
+        {
+            _selectedType.DOAnchorPosX(230f, 0.7f);
+            _textColor[0].DOAnchorPosX(220f, 0.7f);
+            _textColor[1].DOAnchorPosX(0f, 0.7f);
+
+        }
+    }
+
+    public void ExitExperience()
+    {
+        PlayButtonSound();
+
+        _tutorialPanels[1].SetActive(true);
+        _tutorialPanels[3].SetActive(false);
+        _textArea.gameObject.SetActive(true);
+
+        TutorialManager.Instance.IsCanMove = false;
+    }
+
+    public void ChangeControlType()
+    {
+        if (_controlType == 0)
+        {
+            _controlType = 1;
+
+            _selectedType.DOAnchorPosX(230f, 0.7f);
+            _textColor[0].DOAnchorPosX(220f, 0.7f);
+            _textColor[1].DOAnchorPosX(0f, 0.7f);
+
+        }
+        else if ( _controlType == 1)
+        {
+            _controlType = 0;
+
+            _selectedType.DOAnchorPosX(10f, 0.7f);
+            _textColor[0].DOAnchorPosX(0f, 0.7f);
+            _textColor[1].DOAnchorPosX(-220f, 0.7f);
+        }
+
+        PlayerPrefs.SetInt("ControlType", _controlType);
+        EventManager.TriggerEvent(EventKeyword.ChangeControlType, _controlType);
     }
 
     private void TriggerNextTutorial()
@@ -256,15 +343,18 @@ public class GameTutorialCanvas : BaseCanvas
                 }
             case 9:
                 {
+                    TutorialManager.Instance.IsCanMove = false;
                     _tutorialPanels[1].SetActive(false);
-                    _tutorialPanels[2].SetActive(true);
+                    _tutorialPanels[2].SetActive(false);
+                    _tutorialPanels[3].SetActive(false);
+                    _tutorialPanels[4].SetActive(true);
                     _nextButton.SetActive(true);
                     _isCanReturn = true;
                     break;
                 }
             case 11:
                 {
-                    _tutorialPanels[2].SetActive(false);
+                    _tutorialPanels[4].SetActive(false);
                     break;
                 }
             case 12:
