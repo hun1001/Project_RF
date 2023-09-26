@@ -20,11 +20,13 @@ public class GameTutorialCanvas : BaseCanvas
     [SerializeField]
     private GameObject[] _tutorialPanels = null;
 
-    [Header("ControlType")]
+    [Header("Move")]
     [SerializeField]
     private TextController _confirmedText = null;
     [SerializeField]
     private RectTransform _selectedType = null;
+    [SerializeField]
+    private TutorialArrowHandle _arrow = null;
     [SerializeField]
     private RectTransform[] _textColor = null;
 
@@ -359,7 +361,8 @@ public class GameTutorialCanvas : BaseCanvas
                 }
             case 12:
                 {
-                    TutorialManager.Instance.MovingTargetSpawn(0);
+                    TutorialMoveTarget target = TutorialManager.Instance.MovingTargetSpawn(0);
+                    _arrow.SetTarget(target);
                     TutorialManager.Instance.IsCanMove = true;
                     _nextButton.SetActive(false);
                     _isCanReturn = false;
