@@ -153,9 +153,9 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         VirtualCameraManager.Instance.SwitchingCamera(false);
     }
 
-    public void MovingTargetSpawn()
+    public void MovingTargetSpawn(int idx)
     {
-        GameObject.Find("MoveTarget").transform.GetChild(0).gameObject.SetActive(true);
+        GameObject.Find("MoveTarget").transform.GetChild(idx).gameObject.SetActive(true);
     }
 
     public void TutorialWaveStart()

@@ -359,7 +359,7 @@ public class GameTutorialCanvas : BaseCanvas
                 }
             case 12:
                 {
-                    TutorialManager.Instance.MovingTargetSpawn();
+                    TutorialManager.Instance.MovingTargetSpawn(0);
                     TutorialManager.Instance.IsCanMove = true;
                     _nextButton.SetActive(false);
                     _isCanReturn = false;
@@ -378,7 +378,7 @@ public class GameTutorialCanvas : BaseCanvas
                     TutorialManager.Instance.TankDummyMove(new Vector3(-14f, -1f, 0f));
                     break;
                 }
-            case 17:
+            case 18:
                 {
                     TutorialManager.Instance.IsCanChangeShell = true;
                     _nextButton.SetActive(false);
@@ -386,20 +386,20 @@ public class GameTutorialCanvas : BaseCanvas
                     _isHE = true;
                     break;
                 }
-            case 18:
+            case 19:
                 {
                     TutorialManager.Instance.IsCanAttack = false;
                     _nextButton.SetActive(true);
                     _isCanReturn = true;
                     break;
                 }
-            case 19:
+            case 20:
                 {
                     TutorialManager.Instance.TankDummySpawn("Pz.IV H", new Vector3(56f, -25f, 0f));
                     TutorialManager.Instance.TankDummyMove(new Vector3(44f, -14f, 0));
                     break;
                 }
-            case 21:
+            case 22:
                 {
                     EventManager.StartListening("Ricochet", TriggerNextTutorial);
                     TutorialManager.Instance.IsCanChangeShell = true;
@@ -408,7 +408,7 @@ public class GameTutorialCanvas : BaseCanvas
                     _isAP = true;
                     break;
                 }
-            case 22:
+            case 23:
                 {
                     EventManager.DeleteEvent("Ricochet");
                     TutorialManager.Instance.IsCanAttack = false;
@@ -416,7 +416,7 @@ public class GameTutorialCanvas : BaseCanvas
                     _isCanReturn = true;
                     break;
                 }
-            case 24:
+            case 25:
                 {
                     TutorialManager.Instance.TankDummyMove(new Vector3(47f, -24f, 0));
                     TutorialManager.Instance.IsCanAttack = true;
@@ -424,7 +424,7 @@ public class GameTutorialCanvas : BaseCanvas
                     _isCanReturn = false;
                     break;
                 }
-            case 25:
+            case 26:
                 {
                     TutorialManager.Instance.IsCanAttack = false;
                     _nextButton.SetActive(true);
