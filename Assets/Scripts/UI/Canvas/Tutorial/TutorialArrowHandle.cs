@@ -57,10 +57,10 @@ public class TutorialArrowHandle : MonoBehaviour
             yield return null;
         }
 
-        OnTargetTankDeath();
+        OnTargetTouch();
     }
 
-    private void OnTargetTankDeath()
+    private void OnTargetTouch()
     {
         gameObject.SetActive(false);
     }
