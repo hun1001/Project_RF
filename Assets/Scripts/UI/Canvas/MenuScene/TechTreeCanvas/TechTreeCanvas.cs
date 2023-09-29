@@ -234,6 +234,8 @@ public class TechTreeCanvas : BaseCanvas
                 });
             });
 
+            tankNodeUI.SetConnectLine(tankNode.upChild != null, tankNode.child != null, tankNode.downChild != null);
+
             tankNodeUI.SetActive(true);
         }
     }

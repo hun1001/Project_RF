@@ -20,6 +20,9 @@ public class TankNode : MonoBehaviour
     [SerializeField]
     private Button _button = null;
 
+    [SerializeField]
+    private GameObject[] _connectLines = null;
+
     public void SetTankNode(Sprite tankTypeIcon, string tankTier, string tankName, UnityAction onClick)
     {
         _tankTypeIcon.sprite = tankTypeIcon;
@@ -31,6 +34,13 @@ public class TankNode : MonoBehaviour
         {
             onClick();
         });
+    }
+
+    public void SetConnectLine(bool up, bool next, bool down)
+    {
+        _connectLines[0].SetActive(up);
+        _connectLines[1].SetActive(next);
+        _connectLines[2].SetActive(down);
     }
 
     public void SetActive(bool active) => gameObject.SetActive(active);

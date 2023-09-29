@@ -29,7 +29,7 @@ public class TechTreeCanvasBFSIterator : TechTreeBFSIterator
     protected override void OnEnqueueUpChildNode()
     {
         Vector2 curretRectTransform = _rectTransformQueue.Peek();
-        Vector2 nextRectTransform = new Vector2(curretRectTransform.x + 280, curretRectTransform.y + 250);
+        Vector2 nextRectTransform = new Vector2(curretRectTransform.x + 280, curretRectTransform.y + 100);
 
         _tierQueue.Enqueue(_tierQueue.Peek() + 1);
         _rectTransformQueue.Enqueue(nextRectTransform);
@@ -47,7 +47,7 @@ public class TechTreeCanvasBFSIterator : TechTreeBFSIterator
     protected override void OnEnqueueDownChildNode()
     {
         Vector2 curretRectTransform = _rectTransformQueue.Peek();
-        Vector2 nextRectTransform = new Vector2(curretRectTransform.x + 280, curretRectTransform.y - 250);
+        Vector2 nextRectTransform = new Vector2(curretRectTransform.x + 280, curretRectTransform.y - 100);
         
         _tierQueue.Enqueue(_tierQueue.Peek() + 1);
         _rectTransformQueue.Enqueue(nextRectTransform);
