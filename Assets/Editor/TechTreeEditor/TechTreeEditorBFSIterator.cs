@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TechTreeEditorIterator : TechTreeIterator
+public class TechTreeEditorBFSIterator : TechTreeBFSIterator
 {
     private Queue<Rect> _rectQueue = new Queue<Rect>();
 
-    public TechTreeEditorIterator(TechTree techTree, Rect rect) : base(techTree)
+    public TechTreeEditorBFSIterator(TechTree techTree, Rect rect) : base(techTree)
     {
         _rectQueue.Enqueue(rect);
     }

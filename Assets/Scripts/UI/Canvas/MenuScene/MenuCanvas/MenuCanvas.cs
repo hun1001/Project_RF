@@ -261,11 +261,11 @@ public class MenuCanvas : BaseCanvas
     {
         TechTreeCanvas techTree = FindObjectOfType<TechTreeCanvas>();
 
-        TechTreeIterator techTreeIterator = null;
+        TechTreeBFSIterator techTreeIterator = null;
 
         for (int i = 0; i < TechTreeInformationManager.TechTreeList.Count; ++i)
         {
-            techTreeIterator = new TechTreeIterator(TechTreeInformationManager.TechTreeList[i]);
+            techTreeIterator = new TechTreeBFSIterator(TechTreeInformationManager.TechTreeList[i]);
 
             while(techTreeIterator.IsSearching)
             {

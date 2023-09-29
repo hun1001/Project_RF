@@ -23,6 +23,9 @@ public class TechTreeCanvas : BaseCanvas
     private RectTransform _tankNodeContentTransform = null;
 
     [SerializeField]
+    private GameObject _tankNodeTemplate = null;
+
+    [SerializeField]
     private RectTransform _techTreeScrollView = null;
     private ScrollRect _scrollRect = null;
 
@@ -35,12 +38,6 @@ public class TechTreeCanvas : BaseCanvas
     [SerializeField]
     private TechTreeResourceSO _techTreeResourceSO = null;
     public TechTreeResourceSO TechTreeResourceSO => _techTreeResourceSO;
-
-    private GameObject _tankNodeRowTemplate = null;
-    private GameObject _tankNodeTemplate = null;
-    private GameObject _tankNodeConnectHorizontalLineTemplate = null;
-    private GameObject _tankNodeNullTemplate = null;
-    private GameObject _tankNodeConnectHorizontalNullLineTemplate = null;
 
     private bool _isLeftClick = false;
     private bool _isRightClick = false;
@@ -56,18 +53,7 @@ public class TechTreeCanvas : BaseCanvas
 
         _goodsTexts.SetGoodsTexts(GoodsManager.FreeGoods, GoodsManager.PaidGoods);
 
-
-        _tankNodeRowTemplate = _tankNodeContentTransform.GetChild(0).gameObject;
-        _tankNodeTemplate = _tankNodeRowTemplate.transform.GetChild(0).gameObject;
-        _tankNodeConnectHorizontalLineTemplate = _tankNodeRowTemplate.transform.GetChild(1).gameObject;
-        _tankNodeNullTemplate = _tankNodeRowTemplate.transform.GetChild(2).gameObject;
-        _tankNodeConnectHorizontalNullLineTemplate = _tankNodeRowTemplate.transform.GetChild(3).gameObject;
-
-        _tankNodeRowTemplate.SetActive(false);
         _tankNodeTemplate.SetActive(false);
-        _tankNodeConnectHorizontalLineTemplate.SetActive(false);
-        _tankNodeNullTemplate.SetActive(false);
-        _tankNodeConnectHorizontalNullLineTemplate.SetActive(false);
 
         _techTreeScrollView.TryGetComponent(out _scrollRect);
 
@@ -79,18 +65,15 @@ public class TechTreeCanvas : BaseCanvas
             {
                 _tankInformation.SetActive(false);
                 SetTechTree(index);
-            });
-        }
-
-        _countryToggleGroup.ChangeFirstToggleValue(true);
-
-        for (int i = 0; i < TechTreeInformationManager.TechTreeList.Count; i++)
-        {
-            int index = i;
-            _countryToggleGroup.AddCountryToggleAction(index, () =>
-            {
                 PlayButtonSound();
             });
+
+            if (i == 0)
+            {
+                _tankInformation.SetActive(false);
+                SetTechTree(index);
+                PlayButtonSound();
+            }
         }
     }
 
@@ -192,24 +175,118 @@ public class TechTreeCanvas : BaseCanvas
 
     private void SetTechTree(int index)
     {
+        int maxTier = TechTreeInformationManager.TechTreeList[index].GetMaxTier();
+        int width = TechTreeInformationManager.TechTreeList[index].GetWidth();
+
         ResetTankNode();
         _tankTierLine.ResetTierLine();
 
-        _tankTierLine.SetTierLine(TechTreeInformationManager.TechTreeList[index].GetMaxTier());
+        _tankTierLine.SetTierLine(maxTier);
 
-        //var stats = _tankInformationPanel.transform.GetChild(2);
-        //// Health
-        //float health = 1000f * ((TechTreeSO[index][jIndex, lIndex].TankSO.HP * 0.1f) * (TechTreeSO[index][jIndex, lIndex].TankSO.Armour * 0.1f)) / 11392f;
-        //stats.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = health * 0.001f;
-        //stats.GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", health);
-        //// Power
-        //float power = 1000f * (TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.AtkPower * TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.PenetrationPower) / 11440f;
-        //stats.GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = power * 0.001f;
-        //stats.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", power);
-        //// Movement
-        //float movement = 1000f * ((TechTreeSO[index][jIndex, lIndex].TankSO.MaxSpeed * 0.4f) * (TechTreeSO[index][jIndex, lIndex].TankSO.Acceleration * 0.2f) * (TechTreeSO[index][jIndex, lIndex].TankSO.RotationSpeed * 0.2f) * (TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.RotationSpeed * 0.2f)) / 93177f;
-        //stats.GetChild(2).GetChild(0).GetComponent<Image>().fillAmount = movement * 0.001f;
-        //stats.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", movement);
+        for (int i = 0; i < maxTier; ++i)
+        {
+            for (int j = 0; j < width; ++j)
+            {
+
+            }
+        }
+
+        //for (int j = 0; j < TechTreeSO[index].Length; ++j)
+        //{
+        //    int jIndex = j;
+        //    var rowTransform = Instantiate(_tankNodeRowTemplate, _tankNodeContentTransform).transform;
+
+        //    for (int l = 0; l < TechTreeSO[index].GetTankArrayLength(jIndex); ++l)
+        //    {
+        //        int lIndex = l;
+
+        //        GameObject node;
+
+        //        if (TechTreeSO[index][jIndex, lIndex] == null)
+        //        {
+        //            node = Instantiate(_tankNodeNullTemplate, rowTransform);
+        //            if (lIndex != TechTreeSO[index].GetTankArrayLength(jIndex) - 1)
+        //            {
+        //                if (TechTreeSO[index][jIndex, lIndex + 1] == null)
+        //                {
+        //                    var tankNodeConnectLine = Instantiate(_tankNodeConnectHorizontalNullLineTemplate, rowTransform);
+        //                    tankNodeConnectLine.SetActive(true);
+        //                }
+        //                else
+        //                {
+        //                    var tankNodeConnectLine = Instantiate(_tankNodeConnectHorizontalLineTemplate, rowTransform);
+        //                    tankNodeConnectLine.SetActive(true);
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            node = Instantiate(_tankNodeTemplate, rowTransform);
+
+        //            var tNC = node.GetComponent<TankNode>();
+
+        //            bool isLock = !TechTreeDataManager.GetTechTreeProgress(TechTreeSO[index].CountryType)._tankProgressList.Contains(TechTreeSO[index][jIndex, lIndex].ID);
+
+        //            tNC.SetTankNode(GetTankTypeSprite(TechTreeSO[index][jIndex, lIndex].TankSO.TankType), TankTierNumber[lIndex], TechTreeSO[index][jIndex, lIndex].ID, isLock, () =>
+        //            {
+        //                PlayButtonSound();
+
+        //                _tankInformation.SetActive(true);
+        //                var topUI = _tankInformationPanel.transform.GetChild(0);
+        //                topUI.GetChild(1).GetComponent<Image>().sprite = TechTreeSO[index].FlagSprite;
+        //                topUI.GetChild(2).GetComponent<Image>().sprite = GetTankTypeSprite(TechTreeSO[index][jIndex, lIndex].TankSO.TankType);
+        //                topUI.GetChild(3).GetComponent<TextMeshProUGUI>().text = TankTierNumber[lIndex];
+        //                topUI.GetChild(4).GetComponent<TextMeshProUGUI>().text = TechTreeSO[index][jIndex, lIndex].ID;
+
+        //                // ?±ÌÅ¨ ?¥Î?ÏßÄ ?ÜÏúº?àÍπå ?ºÎã®  null
+        //                _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
+
+        //                var stats = _tankInformationPanel.transform.GetChild(2);
+        //                // Health
+        //                float health = 1000f * ((TechTreeSO[index][jIndex, lIndex].TankSO.HP * 0.1f) * (TechTreeSO[index][jIndex, lIndex].TankSO.Armour * 0.1f)) / 11392f;
+        //                stats.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = health * 0.001f;
+        //                stats.GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", health);
+        //                // Power
+        //                float power = 1000f * (TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.AtkPower * TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.PenetrationPower) / 11440f;
+        //                stats.GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = power * 0.001f;
+        //                stats.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", power);
+        //                // Movement
+        //                float movement = 1000f * ((TechTreeSO[index][jIndex, lIndex].TankSO.MaxSpeed * 0.4f) * (TechTreeSO[index][jIndex, lIndex].TankSO.Acceleration * 0.2f) * (TechTreeSO[index][jIndex, lIndex].TankSO.RotationSpeed * 0.2f) * (TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.RotationSpeed * 0.2f)) / 93177f;
+        //                stats.GetChild(2).GetChild(0).GetComponent<Image>().fillAmount = movement * 0.001f;
+        //                stats.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", movement);
+
+        //                _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
+        //                _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.AddListener(() =>
+        //                {
+        //                    PlayButtonSound();
+
+        //                    if (GoodsManager.DecreaseFreeGoods((int)TechTreeSO[index][jIndex, lIndex].TankSO.Price))
+        //                    {
+        //                        TechTreeDataManager.AddTank(TechTreeSO[index].CountryType, TechTreeSO[index][jIndex, lIndex].ID);
+        //                        tNC.IsTankLocked = false;
+        //                        _tankInformation.SetActive(false);
+        //                    }
+        //                });
+        //            });
+
+        //            node.GetComponent<Image>().enabled = true;
+
+        //            if (lIndex != TechTreeSO[index].GetTankArrayLength(jIndex) - 1)
+        //            {
+        //                var tankNodeConnectLine = Instantiate(_tankNodeConnectHorizontalLineTemplate, rowTransform);
+        //                tankNodeConnectLine.SetActive(true);
+        //            }
+        //        }
+
+        //        node.SetActive(true);
+        //    }
+
+        //    rowTransform.GetComponent<HorizontalLayoutGroup>().enabled = true;
+        //    rowTransform.GetComponent<ContentSizeFitter>().enabled = true;
+        //    rowTransform.gameObject.SetActive(true);
+
+        //    LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)rowTransform.transform);
+        //}
     }
 
     private void ResetTankNode()

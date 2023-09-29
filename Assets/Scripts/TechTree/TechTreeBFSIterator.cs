@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TechTreeIterator
+public class TechTreeBFSIterator
 {
     private TechTree _techTree = null;
 
     private Queue<TechTreeNode> _nodeQueue = new Queue<TechTreeNode>();
 
-    public TechTreeIterator(TechTree techTree)
+    public TechTreeBFSIterator(TechTree techTree)
     {
         _techTree = techTree;
 

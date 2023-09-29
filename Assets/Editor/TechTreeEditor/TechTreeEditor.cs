@@ -104,7 +104,7 @@ public class TechTreeEditor : EditorWindow
         TechTreeNode node = null;
         Rect rect = new Rect(10, 100, 100, 20);
 
-        TechTreeEditorIterator iterator = new TechTreeEditorIterator(_techTree, rect);
+        TechTreeEditorBFSIterator iterator = new TechTreeEditorBFSIterator(_techTree, rect);
 
         _scrollPosition = GUILayout.BeginScrollView(_scrollPosition);
 
@@ -214,7 +214,7 @@ public class TechTreeEditor : EditorWindow
             TechTreeNode node = null;
             Rect rect = new Rect(10, 100, 100, 20);
 
-            TechTreeEditorIterator iterator = new TechTreeEditorIterator(_techTree, rect);
+            TechTreeEditorBFSIterator iterator = new TechTreeEditorBFSIterator(_techTree, rect);
 
             _scrollPosition = GUILayout.BeginScrollView(_scrollPosition);
 
@@ -309,7 +309,7 @@ public class TechTreeEditor : EditorWindow
 
     private bool TankAddressInspection(TechTree techTree)
     {
-        TechTreeIterator iterator = new TechTreeIterator(techTree);
+        TechTreeBFSIterator iterator = new TechTreeBFSIterator(techTree);
         var tanks = AddressablesManager.Instance.GetLabelResourcesComponents<Tank>("Tank");
 
         while(iterator.IsSearching)
