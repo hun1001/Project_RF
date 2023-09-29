@@ -193,6 +193,9 @@ public class TechTreeCanvas : BaseCanvas
     private void SetTechTree(int index)
     {
         ResetTankNode();
+        _tankTierLine.ResetTierLine();
+
+        _tankTierLine.SetTierLine(TechTreeInformationManager.TechTreeList[index].GetMaxTier());
 
         //var stats = _tankInformationPanel.transform.GetChild(2);
         //// Health

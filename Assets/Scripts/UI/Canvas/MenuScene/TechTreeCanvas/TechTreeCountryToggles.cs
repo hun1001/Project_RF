@@ -32,7 +32,6 @@ public class TechTreeCountryToggles : MonoBehaviour
 
     public void AddCountryToggleAction(int idx, UnityAction onValueChangedToTrue)
     {
-        //_toggleGroupManager.transform.GetChild(idx + 1).GetComponent<Toggle>().onValueChanged.AddListener((bool value) =>
         _toggleList[idx].onValueChanged.AddListener((bool value) => 
         {
             if (value)
@@ -44,7 +43,6 @@ public class TechTreeCountryToggles : MonoBehaviour
 
     public void ChangeFirstToggleValue(bool value)
     {
-        //_toggleGroupManager.transform.GetChild(1).GetComponent<Toggle>().isOn = value;
         _toggleList[0].isOn = value;
     }
 

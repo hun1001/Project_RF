@@ -21,6 +21,8 @@ public class TechTreeTierLine : MonoBehaviour
 
     public void SetTierLine(int maxLength)
     {
+        Debug.Log("SetTierLine");
+
         _firstHorizontalLine.SetActive(maxLength > 1);
 
         for (int i = 0; i < maxLength; i++)

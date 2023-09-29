@@ -271,6 +271,11 @@ public class MenuCanvas : BaseCanvas
             {
                 var tankNode = techTreeIterator.GetNextNode();
 
+                if(_hangerDict.ContainsKey(tankNode.tankAddress))
+                {
+                    continue;
+                }
+
                 Tank tank = AddressablesManager.Instance.GetResource<GameObject>(tankNode.tankAddress).GetComponent<Tank>();
                 var a = Instantiate(_tankTemplate, _hangerContent);
                 a.SetActive(true);

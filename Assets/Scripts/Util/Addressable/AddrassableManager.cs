@@ -68,22 +68,22 @@ namespace Addressable
             Debug.LogWarning("This function has Errors.");
             return;
 
-            AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+            //AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
 
-            AddressableAssetGroup group = settings.FindGroup(groupName);
-            if (group == null)
-            {
-                group = settings.CreateGroup(groupName, false, false, false, null);
-            }
+            //AddressableAssetGroup group = settings.FindGroup(groupName);
+            //if (group == null)
+            //{
+            //    group = settings.CreateGroup(groupName, false, false, false, null);
+            //}
 
-            AddressableAssetEntry entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID(path), group);
+            //AddressableAssetEntry entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID(path), group);
 
-            entry.SetAddress(address);
-            entry.SetLabel(label, true);
+            //entry.SetAddress(address);
+            //entry.SetLabel(label, true);
 
-            settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entry, true);
+            //settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entry, true);
 
-            AssetDatabase.SaveAssets();
+            //AssetDatabase.SaveAssets();
         }
     }
 }
