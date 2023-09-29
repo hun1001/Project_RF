@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 using System;
+using System.Reflection;
 
 public class TechTreeCanvas : BaseCanvas
 {
@@ -192,6 +193,20 @@ public class TechTreeCanvas : BaseCanvas
     private void SetTechTree(int index)
     {
         ResetTankNode();
+
+        //var stats = _tankInformationPanel.transform.GetChild(2);
+        //// Health
+        //float health = 1000f * ((TechTreeSO[index][jIndex, lIndex].TankSO.HP * 0.1f) * (TechTreeSO[index][jIndex, lIndex].TankSO.Armour * 0.1f)) / 11392f;
+        //stats.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = health * 0.001f;
+        //stats.GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", health);
+        //// Power
+        //float power = 1000f * (TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.AtkPower * TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.PenetrationPower) / 11440f;
+        //stats.GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = power * 0.001f;
+        //stats.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", power);
+        //// Movement
+        //float movement = 1000f * ((TechTreeSO[index][jIndex, lIndex].TankSO.MaxSpeed * 0.4f) * (TechTreeSO[index][jIndex, lIndex].TankSO.Acceleration * 0.2f) * (TechTreeSO[index][jIndex, lIndex].TankSO.RotationSpeed * 0.2f) * (TechTreeSO[index][jIndex, lIndex].GetComponent<Turret>().TurretSO.RotationSpeed * 0.2f)) / 93177f;
+        //stats.GetChild(2).GetChild(0).GetComponent<Image>().fillAmount = movement * 0.001f;
+        //stats.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", movement);
     }
 
     private void ResetTankNode()
@@ -205,12 +220,10 @@ public class TechTreeCanvas : BaseCanvas
     public override void OnOpenEvents()
     {
         base.OnOpenEvents();
-
         _startSequence = DOTween.Sequence()
         .PrependCallback(() => _techTreeScrollView.anchoredPosition = Vector2.right * 1000f)
         .Append(_techTreeScrollView.DOAnchorPosX(0f, 1f))
         .AppendCallback(() => _scrollRect.normalizedPosition = Vector2.zero);
-
         _tankInformation.SetActive(false);
     }
 
@@ -224,6 +237,7 @@ public class TechTreeCanvas : BaseCanvas
     {
         _isLeftClick = true;
     }
+
     public void UpLeftButton()
     {
         _isLeftClick = false;
@@ -233,6 +247,7 @@ public class TechTreeCanvas : BaseCanvas
     {
         _isRightClick = true;
     }
+
     public void UpRightButton()
     {
         _isRightClick = false;
@@ -241,7 +256,6 @@ public class TechTreeCanvas : BaseCanvas
     public Sprite GetTankTypeSprite(TankType tankType)
     {
         Sprite sprite = null;
-
         switch (tankType)
         {
             case TankType.Light:
@@ -260,7 +274,6 @@ public class TechTreeCanvas : BaseCanvas
                 Debug.LogError("TankType Error");
                 break;
         }
-
         return sprite;
     }
 
@@ -269,7 +282,20 @@ public class TechTreeCanvas : BaseCanvas
         Sprite sprite = null;
         switch (country)
         {
+            case CountryType.USSR:
+                sprite = TechTreeResourceSO.CountryFlagSprites[0];
+                break;
+            case CountryType.Germany:
+                sprite = TechTreeResourceSO.CountryFlagSprites[1];
+                break;
+            case CountryType.USA:
+                sprite = TechTreeResourceSO.CountryFlagSprites[2];
+                break;
             case CountryType.Britain:
+                sprite = TechTreeResourceSO.CountryFlagSprites[3];
+                break;
+            case CountryType.France:
+                sprite = TechTreeResourceSO.CountryFlagSprites[4];
                 break;
             default:
                 Debug.LogError("Country Error");

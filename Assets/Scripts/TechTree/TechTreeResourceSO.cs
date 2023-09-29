@@ -13,5 +13,5 @@ public class TechTreeResourceSO : ScriptableObject
 
     [SerializeField]
     private Sprite[] _countrySprites = null;
-    public Sprite[] CountrySprites => _countrySprites;
+    public Sprite[] CountryFlagSprites => _countrySprites;
 }
