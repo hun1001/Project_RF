@@ -16,7 +16,7 @@ public class TechTreeEditor : EditorWindow
         window.Show();
     }
 
-    private readonly string _techTreeFolderPath = Application.dataPath + "/TechTreeData/";
+    private readonly string _techTreeFolderPath = Application.dataPath + "/TechTreeInformation/";
 
     private TextAsset _techTreeFile = null;
     private TechTree _techTree = null;

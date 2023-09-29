@@ -30,15 +30,10 @@ public class TechTreeCanvas : BaseCanvas
     [SerializeField]
     private GameObject _tankInformationPanel = null;
 
-    [Header("TechTree Data")]
+    [Header("Resource")]
     [SerializeField]
-    private TechTreeSO[] _techTreeSO = null;
-    public TechTreeSO[] TechTreeSO => _techTreeSO;
-
-    [SerializeField]
-    private Sprite[] _tankTypeSprites = null;
-
-    public readonly string[] TankTierNumber = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX" };
+    private TechTreeResourceSO _techTreeResourceSO = null;
+    public TechTreeResourceSO TechTreeResourceSO => _techTreeResourceSO;
 
     private GameObject _tankNodeRowTemplate = null;
     private GameObject _tankNodeTemplate = null;
