@@ -188,6 +188,10 @@ public class TechTreeEditor : EditorWindow
 
             File.WriteAllText(path, data);
 
+            var file = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
+
+            AddressablesManager.Instance.AddressSetting(path, _countryType.ToString() + "TechTree", "TechTreeGroup", "TechTree");
+
             _techTree = new TechTree();
         }
 

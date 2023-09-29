@@ -259,11 +259,11 @@ public class MenuCanvas : BaseCanvas
 
     public void HangerUpdate()
     {
-        TechTreeProgress ussrData = TechTreeDataManager.GetTechTreeProgress(CountryType.USSR);
-        TechTreeProgress germanyData = TechTreeDataManager.GetTechTreeProgress(CountryType.Germany);
-        TechTreeProgress usaData = TechTreeDataManager.GetTechTreeProgress(CountryType.USA);
-        TechTreeProgress britainData = TechTreeDataManager.GetTechTreeProgress(CountryType.Britain);
-        TechTreeProgress franceData = TechTreeDataManager.GetTechTreeProgress(CountryType.France);
+        TechTreeProgress ussrData = null;//TechTreeDataManager.GetTechTreeProgress(CountryType.USSR);
+        TechTreeProgress germanyData = null;//TechTreeDataManager.GetTechTreeProgress(CountryType.Germany);
+        TechTreeProgress usaData = null;//TechTreeDataManager.GetTechTreeProgress(CountryType.USA);
+        TechTreeProgress britainData = null;//TechTreeDataManager.GetTechTreeProgress(CountryType.Britain);
+        TechTreeProgress franceData = null;//TechTreeDataManager.GetTechTreeProgress(CountryType.France);
         TechTreeCanvas techTree = FindObjectOfType<TechTreeCanvas>();
 
         foreach (var id in ussrData._tankProgressList)
@@ -277,7 +277,7 @@ public class MenuCanvas : BaseCanvas
             a.transform.GetChild(1).GetComponent<Image>().sprite = GetFlagSprite(CountryType.USSR);
             a.transform.GetChild(2).GetComponent<TextController>().SetText(id);
             a.transform.GetChild(3).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
-            a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
+            a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TechTreeResourceSO.TankTierNumber[tank.TankSO.TankTier - 1]);
 
             if (_currentTankID == id)
             {
@@ -313,7 +313,7 @@ public class MenuCanvas : BaseCanvas
             a.transform.GetChild(1).GetComponent<Image>().sprite = GetFlagSprite(CountryType.Germany);
             a.transform.GetChild(2).GetComponent<TextController>().SetText(id);
             a.transform.GetChild(3).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
-            a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
+            a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TechTreeResourceSO.TankTierNumber[tank.TankSO.TankTier - 1]);
 
             if (_currentTankID == id)
             {
@@ -349,7 +349,7 @@ public class MenuCanvas : BaseCanvas
             a.transform.GetChild(1).GetComponent<Image>().sprite = GetFlagSprite(CountryType.USA);
             a.transform.GetChild(2).GetComponent<TextController>().SetText(id);
             a.transform.GetChild(3).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
-            a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
+            a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TechTreeResourceSO.TankTierNumber[tank.TankSO.TankTier - 1]);
 
             if (_currentTankID == id)
             {
@@ -385,7 +385,7 @@ public class MenuCanvas : BaseCanvas
             a.transform.GetChild(1).GetComponent<Image>().sprite = GetFlagSprite(CountryType.Britain);
             a.transform.GetChild(2).GetComponent<TextController>().SetText(id);
             a.transform.GetChild(3).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
-            a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
+            a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TechTreeResourceSO.TankTierNumber[tank.TankSO.TankTier - 1]);
 
             if (_currentTankID == id)
             {
@@ -421,7 +421,7 @@ public class MenuCanvas : BaseCanvas
             a.transform.GetChild(1).GetComponent<Image>().sprite = GetFlagSprite(CountryType.France);
             a.transform.GetChild(2).GetComponent<TextController>().SetText(id);
             a.transform.GetChild(3).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
-            a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
+            a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TechTreeResourceSO.TankTierNumber[tank.TankSO.TankTier - 1]);
 
             if (_currentTankID == id)
             {

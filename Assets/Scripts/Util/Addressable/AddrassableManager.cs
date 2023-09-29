@@ -6,6 +6,9 @@ using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System;
 using UnityEngine.ResourceManagement.ResourceLocations;
+using UnityEditor.AddressableAssets.Settings;
+using UnityEditor.AddressableAssets;
+using UnityEditor;
 
 namespace Addressable
 {
@@ -58,6 +61,28 @@ namespace Addressable
             {
                 Addressables.Release(obj);
             }
+        }
+
+        public void AddressSetting(string path, string address, string groupName, string label)
+        {
+            AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+
+            AddressableAssetGroup group = settings.FindGroup(groupName);
+            if (group == null)
+            {
+                group = settings.CreateGroup(groupName, false, false, false, null);
+            }
+
+            AddressableAssetEntry entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID(path), group);
+
+            Debug.Log(address);
+
+            entry.SetAddress(address);
+            entry.SetLabel(label, true);
+
+            settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entry, true);
+
+            AssetDatabase.SaveAssets();
         }
     }
 }

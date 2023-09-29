@@ -24,7 +24,7 @@ public class MenuTankInfoUI : MonoBehaviour
 
         _tankCountryImage.sprite = _countrySprites[(int)tank.TankSO.CountryType - 1];
         _tankTypeImage.sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
-        _tankTierText.SetText(techTree.TankTierNumber[tank.TankSO.TankTier - 1]);
+        _tankTierText.SetText(techTree.TechTreeResourceSO.TankTierNumber[tank.TankSO.TankTier - 1]);
         _tankNameText.SetText(currentTankID);
     }
 }

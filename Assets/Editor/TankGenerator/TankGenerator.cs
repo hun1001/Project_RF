@@ -202,9 +202,9 @@ namespace CustomEditorWindow.TankGenerator
         {
             if (File.Exists("Assets/Prefabs/Tank/" + _countryType.ToString() + "/" + _tankModels[index].name + ".prefab"))
             {
-
+                AssetDatabase.DeleteAsset("Assets/Prefabs/Tank/" + _countryType.ToString() + "/" + _tankModels[index].name + ".prefab");
             }
-            else
+
             {
                 GameObject tankTemplate = Instantiate(TankTemplate);
                 GameObject tankModel = Instantiate(_tankModels[index]);

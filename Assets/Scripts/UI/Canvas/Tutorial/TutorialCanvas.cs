@@ -166,10 +166,6 @@ public class TutorialCanvas : BaseCanvas
 
         if (PlayerDataManager.Instance.GetPlayerTankID() != "T-34")
         {
-            if (!TechTreeDataManager.HasTank(CountryType.USSR, "T-34"))
-            {
-                TechTreeDataManager.AddTank(CountryType.USSR, "T-34");
-            }
             PlayerDataManager.Instance.SetPlayerTankID("T-34");
         }
         if (_tutorialCount == 0)
@@ -391,7 +387,6 @@ public class TutorialCanvas : BaseCanvas
                     _menuUI.SetActive(true);
                     _tankInfos[0].SetText("II");
                     _tankInfos[1].SetText("T-34-85");
-                    TechTreeDataManager.AddTank(CountryType.USSR, "T-34-85");
                     FindObjectOfType<TankModelManager>().ChangeTankModel(Addressable.AddressablesManager.Instance.GetResource<GameObject>("T-34-85").GetComponent<Tank>());
                     _menuGoodsText.SetGoodsTexts(0, 0);
                     _techTreeGoodsText.SetGoodsTexts(0, 0);
