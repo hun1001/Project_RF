@@ -30,11 +30,6 @@ public class TechTreeCountryToggles : MonoBehaviour
         _toggleList.Add(countryToggle);
     }
 
-    public void ChangeFirstToggleValue(bool value)
-    {
-        _toggleList[0].isOn = value;
-    }
-
     public void ChangeToggleValue(int idx)
     {
         _toggleList[idx].isOn = true;
