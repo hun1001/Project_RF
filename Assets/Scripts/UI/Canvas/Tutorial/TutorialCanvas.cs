@@ -366,16 +366,26 @@ public class TutorialCanvas : BaseCanvas
                     _isCanReturn = true;
                     break;
                 }
-            case 28:
+            case 29:
                 {
                     _tutorialPanels[9].SetActive(true);
+                    break;
+                }
+            case 30:
+                {
+                    _tutorialPanels[9].SetActive(false);
+                    break;
+                }
+            case 31:
+                {
+                    _tutorialPanels[10].SetActive(true);
                     _nextButton.SetActive(false);
                     _isCanReturn = false;
                     break;
                 }
-            case 29:
+            case 32:
                 {
-                    _tutorialPanels[9].SetActive(false);
+                    _tutorialPanels[10].SetActive(false);
                     _techTreeUI.SetActive(false);
                     _nextButton.SetActive(true);
                     _menuUI.SetActive(true);

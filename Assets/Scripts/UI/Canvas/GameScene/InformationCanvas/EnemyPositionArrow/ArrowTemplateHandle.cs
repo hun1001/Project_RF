@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -35,7 +34,6 @@ public class ArrowTemplateHandle : MonoBehaviour
         {
             Vector3 targetScreenPos = _mainCamera.WorldToScreenPoint(_targetTank.transform.position);
 
-            
             _arrowRectTransform.position = targetScreenPos;
 
             Vector3 clampedPosition = _arrowRectTransform.position;
