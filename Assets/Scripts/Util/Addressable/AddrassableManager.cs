@@ -65,6 +65,9 @@ namespace Addressable
 
         public void AddressSetting(string path, string address, string groupName, string label)
         {
+            Debug.LogWarning("This function has Errors.");
+            return;
+
             AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
 
             AddressableAssetGroup group = settings.FindGroup(groupName);
@@ -74,8 +77,6 @@ namespace Addressable
             }
 
             AddressableAssetEntry entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID(path), group);
-
-            Debug.Log(address);
 
             entry.SetAddress(address);
             entry.SetLabel(label, true);

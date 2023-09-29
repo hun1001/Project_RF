@@ -8,7 +8,7 @@ public class TechTree
 
     public TechTree()
     {
-        this.Root = new TechTreeNode();
+        Root = new TechTreeNode();
     }
 
     public bool IsRoot(TechTreeNode node) => node == Root;

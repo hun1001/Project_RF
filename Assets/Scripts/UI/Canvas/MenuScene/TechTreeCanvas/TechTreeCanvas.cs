@@ -70,20 +70,20 @@ public class TechTreeCanvas : BaseCanvas
 
         _techTreeScrollView.TryGetComponent(out _scrollRect);
 
-        for (int i = 0; i < TechTreeDataManager.TechTreeList.Count; ++i)
+        for (int i = 0; i < TechTreeInformationManager.TechTreeList.Count; ++i)
         {
             int index = i;
 
-            //_countryToggleGroup.CreateCountryToggles(TechTreeSO[index].FlagSprite, () =>
-            //{
-            //    _tankInformation.SetActive(false);
-            //    SetTechTree(index);
-            //});
+            _countryToggleGroup.CreateCountryToggles(GetCountryFlagSprite(TechTreeInformationManager.TechTreeList[i].Country), () =>
+            {
+                _tankInformation.SetActive(false);
+                SetTechTree(index);
+            });
         }
 
         _countryToggleGroup.ChangeFirstToggleValue(true);
 
-        for (int i = 0; i < TechTreeDataManager.TechTreeList.Count; i++)
+        for (int i = 0; i < TechTreeInformationManager.TechTreeList.Count; i++)
         {
             int index = i;
             _countryToggleGroup.AddCountryToggleAction(index, () =>
@@ -172,8 +172,8 @@ public class TechTreeCanvas : BaseCanvas
             }
         });
 
-        Action[] actions = new Action[TechTreeDataManager.TechTreeList.Count];
-        for (int i = 0; i < TechTreeDataManager.TechTreeList.Count; ++i)
+        Action[] actions = new Action[TechTreeInformationManager.TechTreeList.Count];
+        for (int i = 0; i < TechTreeInformationManager.TechTreeList.Count; ++i)
         {
             int idx = i;
             actions[idx] = () =>
@@ -191,7 +191,7 @@ public class TechTreeCanvas : BaseCanvas
 
     private void SetTechTree(int index)
     {
-        
+        ResetTankNode();
     }
 
     private void ResetTankNode()
@@ -262,5 +262,19 @@ public class TechTreeCanvas : BaseCanvas
         }
 
         return sprite;
+    }
+
+    public Sprite GetCountryFlagSprite(CountryType country)
+    {
+        Sprite sprite = null;
+        switch (country)
+        {
+            case CountryType.Britain:
+                break;
+            default:
+                Debug.LogError("Country Error");
+                break;
+        }
+        return sprite;  
     }
 }

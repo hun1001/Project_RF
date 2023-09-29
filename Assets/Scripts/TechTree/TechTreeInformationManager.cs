@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Addressable;
+using Newtonsoft.Json;
 
-public static class TechTreeDataManager
+public static class TechTreeInformationManager
 {
     private static List<TechTree> _techTreeList = new List<TechTree>();
     public static List<TechTree> TechTreeList => _techTreeList;
@@ -11,7 +12,12 @@ public static class TechTreeDataManager
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Init()
     {
-        var json = AddressablesManager.Instance.GetLabelResources<TextAsset>("TechTree");
-        Debug.Log(json);
+        var temp = AddressablesManager.Instance.GetLabelResources<TextAsset>("TechTree");
+
+        for (int i = 0; i < temp.Count; ++i)
+        {
+            var techTree = JsonConvert.DeserializeObject<TechTree>(temp[i].text);
+            _techTreeList.Add(techTree);
+        }
     }
 }

@@ -10,4 +10,8 @@ public class TechTreeResourceSO : ScriptableObject
     [SerializeField]
     private Sprite[] _tankTypeSprites = null;
     public Sprite[] TankTypeSprites => _tankTypeSprites;
+
+    [SerializeField]
+    private Sprite[] _countrySprites = null;
+    public Sprite[] CountrySprites => _countrySprites;
 }
