@@ -10,6 +10,7 @@ using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.AddressableAssets;
 using UnityEditor;
 
+
 namespace Addressable
 {
     public class AddressablesManager : Singleton<AddressablesManager>
@@ -63,27 +64,51 @@ namespace Addressable
             }
         }
 
-        public void AddressSetting(string path, string address, string groupName, string label)
+        public void CreateAddressableAsset(string assetPath, string address, string groupName, string label)
         {
-            Debug.LogWarning("This function has Errors.");
-            return;
+            AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
 
-            //AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+            // Check if the group exists, create it if not
+            AddressableAssetGroup group = settings.FindGroup(groupName);
+            if (group == null)
+            {
+                group = settings.CreateGroup(groupName, false, false, false, null);
+            }
 
-            //AddressableAssetGroup group = settings.FindGroup(groupName);
-            //if (group == null)
-            //{
-            //    group = settings.CreateGroup(groupName, false, false, false, null);
-            //}
+            // Convert asset path to GUID
+            string assetGUID = AssetDatabase.AssetPathToGUID(assetPath);
 
-            //AddressableAssetEntry entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID(path), group);
+            // Check if an entry with the same address already exists in the group
+            AddressableAssetEntry existingEntry = null;
 
-            //entry.SetAddress(address);
-            //entry.SetLabel(label, true);
+            foreach (var entry in group.entries)
+            {
+                if (entry.address == address)
+                {
+                    existingEntry = entry;
+                    break;
+                }
+            }
 
-            //settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entry, true);
+            if (existingEntry != null)
+            {
+                // If an entry with the same address exists, update its settings
+                existingEntry.SetAddress(address);
+                existingEntry.SetLabel(label, true);
+            }
+            else
+            {
+                // Create a new entry
+                AddressableAssetEntry newEntry = settings.CreateOrMoveEntry(assetGUID, group);
+                Debug.Log("Created new entry: " + newEntry);
+                newEntry.SetAddress(address);
+                newEntry.SetLabel(label, true);
+            }
 
-            //AssetDatabase.SaveAssets();
+            // Mark the settings as dirty and save
+            settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, group, true);
+            AssetDatabase.SaveAssets();
         }
+
     }
 }

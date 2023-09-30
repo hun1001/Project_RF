@@ -190,7 +190,7 @@ public class TechTreeEditor : EditorWindow
 
             var file = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
 
-            AddressablesManager.Instance.AddressSetting(path, _countryType.ToString() + "TechTree", "TechTreeGroup", "TechTree");
+            //AddressablesManager.Instance.CreateAddressableAsset(path, _countryType.ToString() + "TechTree", "TechTreeGroup", "TechTree");
 
             _techTree = new TechTree();
         }
