@@ -175,19 +175,24 @@ public class TechTreeCanvas : BaseCanvas
 
     private void SetTechTreeInformation(int index)
     {
-        for (int i = 0; i < TechTreeInformationManager.TechTreeInformationList[index].techTreeList.Count; ++i)
+        ResetTankNode();
+        _tankTierLine.ResetTierLine();
+
+        TechTreeCanvasBFSIterator iterator = null;
+        Vector2 tankNodeStartPosition = _tankNodeTemplate.transform.position;
+
+        var techTreeList = TechTreeInformationManager.TechTreeInformationList[index].techTreeList;
+
+        for (int i = techTreeList.Count - 1; i >= 0 ; --i)
         {
-            TechTree techTree = TechTreeInformationManager.TechTreeInformationList[index].techTreeList[i];
+            TechTree techTree = techTreeList[i];
 
             int maxTier = techTree.GetMaxTier();
             int width = techTree.GetWidth();
 
-            ResetTankNode();
-            _tankTierLine.ResetTierLine();
-
             _tankTierLine.SetTierLine(maxTier);
 
-            TechTreeCanvasBFSIterator iterator = new TechTreeCanvasBFSIterator(techTree, _tankNodeTemplate.transform.position);
+            iterator = new TechTreeCanvasBFSIterator(techTree, tankNodeStartPosition);
 
             while (iterator.IsSearching)
             {
@@ -239,6 +244,17 @@ public class TechTreeCanvas : BaseCanvas
                 tankNodeUI.SetConnectLine(tankNode.upChild != null, tankNode.child != null, tankNode.downChild != null);
 
                 tankNodeUI.SetActive(true);
+
+            }
+
+            if(i != 0)
+            {
+                Debug.Log(iterator.MaxY);
+                tankNodeStartPosition = new Vector2(tankNodeStartPosition.x, iterator.MaxY + ((techTreeList[i - 1].GetWidth() + 2) * 100f));
+            }
+            else
+            {
+                tankNodeStartPosition = new Vector2(tankNodeStartPosition.x, iterator.MaxY + 100);
             }
         }
     }

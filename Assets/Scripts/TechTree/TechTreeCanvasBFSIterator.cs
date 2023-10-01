@@ -10,8 +10,12 @@ public class TechTreeCanvasBFSIterator : TechTreeBFSIterator
     private Queue<Vector2> _rectTransformQueue = new Queue<Vector2>();
     private Queue<int> _tierQueue = new Queue<int>();
 
+    private float _maxY = 0;
+    public float MaxY => _maxY;
+
     public TechTreeCanvasBFSIterator(TechTree techTree, Vector2 position) : base(techTree)
     {
+        _maxY = position.y;
         _rectTransformQueue.Enqueue(position);
         _tierQueue.Enqueue(0);
     }
@@ -29,6 +33,9 @@ public class TechTreeCanvasBFSIterator : TechTreeBFSIterator
     protected override void OnEnqueueUpChildNode()
     {
         Vector2 curretRectTransform = _rectTransformQueue.Peek();
+
+        _maxY = Mathf.Min(curretRectTransform.y + 100, _maxY);
+
         Vector2 nextRectTransform = new Vector2(curretRectTransform.x + 280, curretRectTransform.y + 100);
 
         _tierQueue.Enqueue(_tierQueue.Peek() + 1);
@@ -47,6 +54,9 @@ public class TechTreeCanvasBFSIterator : TechTreeBFSIterator
     protected override void OnEnqueueDownChildNode()
     {
         Vector2 curretRectTransform = _rectTransformQueue.Peek();
+
+        _maxY = Mathf.Min(curretRectTransform.y - 100, _maxY);
+
         Vector2 nextRectTransform = new Vector2(curretRectTransform.x + 280, curretRectTransform.y - 100);
         
         _tierQueue.Enqueue(_tierQueue.Peek() + 1);

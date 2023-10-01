@@ -161,7 +161,7 @@ public class TechTreeEditor : EditorWindow
 
             GUI.enabled = TankAddressInspection(_techTreeInformation);
 
-            if (GUILayout.Button("Modify"))
+            if (GUI.Button(new Rect(0, position.height - 30, position.width, 30), "Modify"))
             {
                 _techTreeInformationFile = null;
 
