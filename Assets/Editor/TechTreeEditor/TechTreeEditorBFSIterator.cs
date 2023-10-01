@@ -15,6 +15,9 @@ public class TechTreeEditorBFSIterator : TechTreeBFSIterator
 
     public TechTreeEditorBFSIterator(TechTree techTree, Rect rect) : base(techTree)
     {
+        _maxX = rect.x;
+        _maxY = rect.y;
+
         _rectQueue.Enqueue(rect);
     }
 

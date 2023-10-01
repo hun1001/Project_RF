@@ -24,7 +24,9 @@ public class TechTreeEditor : EditorWindow
     private TechTreeEditorMode _mode = TechTreeEditorMode.None;
     private CountryType _countryType = CountryType.None;
 
+    private Rect _scrollViewRect = new Rect();
     private Vector2 _scrollPosition = Vector2.zero;
+    private Rect _contentRect = new Rect();
 
 
     private void OnGUI()
@@ -105,6 +107,78 @@ public class TechTreeEditor : EditorWindow
 
         SetTechTreeListCount(techTreeCount);
 
+        _scrollViewRect = new Rect(0, 40, position.width, position.height - 10);
+
+        _scrollPosition = GUI.BeginScrollView(_scrollViewRect, _scrollPosition, _contentRect);
+
+        ShowTechTreeInformation();
+
+        GUI.EndScrollView();
+
+        GUI.enabled = _countryType != CountryType.None && TankAddressInspection(_techTreeInformation);
+
+        if (GUI.Button(new Rect(0, position.height - 30, position.width, 30), "Create"))
+        {
+            string path = _techTreeFolderPath + _countryType.ToString() + "TechTree.json";
+            string data = JsonConvert.SerializeObject(_techTreeInformation, Formatting.None);
+
+            File.WriteAllText(path, data);
+
+            var file = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
+
+            //AddressablesManager.Instance.CreateAddressableAsset(path, _countryType.ToString() + "TechTree", "TechTreeGroup", "TechTree");
+
+            _techTreeInformation = new TechTreeInformation();
+        }
+
+        GUI.enabled = true;
+    }
+
+    private void EditMode()
+    {
+        TextAsset beforeTextAsset = _techTreeInformationFile;
+        _techTreeInformationFile = (TextAsset)EditorGUILayout.ObjectField(_techTreeInformationFile, typeof(TextAsset), false);
+
+        if(beforeTextAsset != _techTreeInformationFile)
+        {
+            _techTreeInformation = JsonConvert.DeserializeObject<TechTreeInformation>(_techTreeInformationFile.text);
+            _countryType = _techTreeInformation.Country;
+        }
+
+        if (_techTreeInformation != null)
+        {
+            int techTreeCount = EditorGUILayout.IntField("TechTree Count", _techTreeInformation.techTreeList.Count);
+
+            SetTechTreeListCount(techTreeCount);
+
+            _scrollViewRect = new Rect(0, 40, position.width, position.height - 10);
+
+            _scrollPosition = GUI.BeginScrollView(_scrollViewRect, _scrollPosition, _contentRect);
+
+            ShowTechTreeInformation();
+
+            GUI.EndScrollView();
+
+            GUI.enabled = TankAddressInspection(_techTreeInformation);
+
+            if (GUILayout.Button("Modify"))
+            {
+                _techTreeInformationFile = null;
+
+                string path = _techTreeFolderPath + _countryType.ToString() + "TechTree.json";
+                string data = JsonConvert.SerializeObject(_techTreeInformation, Formatting.None);
+
+                File.WriteAllText(path, data);
+
+                _techTreeInformation = null;
+            }
+
+            GUI.enabled = true;
+        }
+    }
+
+    private void ShowTechTreeInformation()
+    {
         TechTree techTree = null;
         TechTreeNode node = null;
         Rect rect = new Rect(10, 100, 100, 20);
@@ -113,8 +187,6 @@ public class TechTreeEditor : EditorWindow
         {
             techTree = _techTreeInformation.techTreeList[i];
             TechTreeEditorBFSIterator iterator = new TechTreeEditorBFSIterator(techTree, rect);
-
-            _scrollPosition = GUILayout.BeginScrollView(_scrollPosition);
 
             while (iterator.IsSearching)
             {
@@ -185,143 +257,9 @@ public class TechTreeEditor : EditorWindow
                 }
             }
 
-            GUILayout.EndScrollView();
+            rect = new Rect(10, iterator.MaxY + (techTree.GetWidth() * 30) + 100, 100, 20);
 
-            rect = new Rect(10, iterator.MaxY + ((techTree.GetWidth() * 60) / 2), 100, 20);
-        }
-
-        GUI.enabled = _countryType != CountryType.None && TankAddressInspection(_techTreeInformation);
-
-        if (GUILayout.Button("Create"))
-        {
-            string path = _techTreeFolderPath + _countryType.ToString() + "TechTree.json";
-            string data = JsonConvert.SerializeObject(_techTreeInformation, Formatting.None);
-
-            File.WriteAllText(path, data);
-
-            var file = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
-
-            //AddressablesManager.Instance.CreateAddressableAsset(path, _countryType.ToString() + "TechTree", "TechTreeGroup", "TechTree");
-
-            _techTreeInformation = new TechTreeInformation();
-        }
-
-        GUI.enabled = true;
-    }
-
-    private void EditMode()
-    {
-        TextAsset beforeTextAsset = _techTreeInformationFile;
-        _techTreeInformationFile = (TextAsset)EditorGUILayout.ObjectField(_techTreeInformationFile, typeof(TextAsset), false);
-
-        if(beforeTextAsset != _techTreeInformationFile)
-        {
-            _techTreeInformation = JsonConvert.DeserializeObject<TechTreeInformation>(_techTreeInformationFile.text);
-            _countryType = _techTreeInformation.Country;
-        }
-
-        if (_techTreeInformation != null)
-        {
-            int techTreeCount = EditorGUILayout.IntField("TechTree Count", _techTreeInformation.techTreeList.Count);
-
-            SetTechTreeListCount(techTreeCount);
-
-            for (int i = 0; i < _techTreeInformation.techTreeList.Count; ++i)
-            {
-                TechTreeNode node = null;
-                Rect rect = new Rect(10, 100, 100, 20);
-
-                TechTreeEditorBFSIterator iterator = new TechTreeEditorBFSIterator(_techTreeInformation.techTreeList[i], rect);
-
-                _scrollPosition = GUILayout.BeginScrollView(_scrollPosition);
-
-                while (iterator.IsSearching)
-                {
-                    node = iterator.GetNextNode();
-                    rect = iterator.GetNextRect();
-
-                    node.tankAddress = EditorGUI.TextField(rect, node.tankAddress);
-
-                    bool beforeHasUpChild = node.hasUpChild;
-                    bool beforeHasChild = node.hasChild;
-                    bool beforeHasDownChild = node.hasDownChild;
-
-                    if (node.hasUpChild)
-                    {
-                        Handles.DrawLine(new Vector3(rect.x + 50, rect.y, 0), new Vector3(rect.x + 50, rect.y - 50, 0));
-                        Handles.DrawLine(new Vector3(rect.x + 50, rect.y - 50, 0), new Vector3(rect.x + 140, rect.y - 50, 0));
-                    }
-
-                    if (node.hasChild)
-                    {
-                        Handles.DrawLine(new Vector3(rect.x + 100, rect.y + 10, 0), new Vector3(rect.x + 140, rect.y + 10, 0));
-                    }
-
-                    if (node.hasDownChild)
-                    {
-                        Handles.DrawLine(new Vector3(rect.x + 50, rect.y + 20, 0), new Vector3(rect.x + 50, rect.y + 70, 0));
-                        Handles.DrawLine(new Vector3(rect.x + 50, rect.y + 70, 0), new Vector3(rect.x + 140, rect.y + 70, 0));
-                    }
-
-                    node.hasUpChild = GUI.Toggle(new Rect(rect.x + 105, rect.y - 20, 20, 20), node.hasUpChild, "");
-                    node.hasChild = GUI.Toggle(new Rect(rect.x + 105, rect.y, 20, 20), node.hasChild, "");
-                    node.hasDownChild = GUI.Toggle(new Rect(rect.x + 105, rect.y + 20, 20, 20), node.hasDownChild, "");
-
-                    if (beforeHasUpChild != node.hasUpChild)
-                    {
-                        if (node.hasUpChild)
-                        {
-                            node.upChild = new TechTreeNode();
-                        }
-                        else
-                        {
-                            node.upChild = null;
-                        }
-                    }
-
-                    if (beforeHasChild != node.hasChild)
-                    {
-                        if (node.hasChild)
-                        {
-                            node.child = new TechTreeNode();
-                        }
-                        else
-                        {
-                            node.child = null;
-                        }
-                    }
-
-                    if (beforeHasDownChild != node.hasDownChild)
-                    {
-                        if (node.hasDownChild)
-                        {
-                            node.downChild = new TechTreeNode();
-                        }
-                        else
-                        {
-                            node.downChild = null;
-                        }
-                    }
-                }
-
-                GUILayout.EndScrollView();
-            }
-
-            GUI.enabled = TankAddressInspection(_techTreeInformation);
-
-            if (GUILayout.Button("Modify"))
-            {
-                _techTreeInformationFile = null;
-
-                string path = _techTreeFolderPath + _countryType.ToString() + "TechTree.json";
-                string data = JsonConvert.SerializeObject(_techTreeInformation, Formatting.None);
-
-                File.WriteAllText(path, data);
-
-                _techTreeInformation = null;
-            }
-
-            GUI.enabled = true;
+            _contentRect = new Rect(0, 0, Mathf.Max(iterator.MaxX, _contentRect.width) + 20, Mathf.Max(iterator.MaxY, _contentRect.height) + 20);
         }
     }
 
