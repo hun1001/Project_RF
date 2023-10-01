@@ -179,7 +179,7 @@ public class TechTreeCanvas : BaseCanvas
         _tankTierLine.ResetTierLine();
 
         TechTreeCanvasBFSIterator iterator = null;
-        Vector2 tankNodeStartPosition = _tankNodeTemplate.transform.position;
+        Vector2 tankNodeStartPosition = _tankNodeTemplate.transform.localPosition;
 
         var techTreeList = TechTreeInformationManager.TechTreeInformationList[index].techTreeList;
 
@@ -201,7 +201,7 @@ public class TechTreeCanvas : BaseCanvas
                 int tierIndex = iterator.GetNextTier();
 
                 var tankNodeUI = Instantiate(_tankNodeTemplate, _tankNodeContentTransform).GetComponent<TankNode>();
-                tankNodeUI.transform.position = tankNodePosition;
+                tankNodeUI.transform.localPosition = tankNodePosition;
 
                 Tank tank = AddressablesManager.Instance.GetResource<GameObject>(tankNode.tankAddress).GetComponent<Tank>();
 
@@ -249,7 +249,6 @@ public class TechTreeCanvas : BaseCanvas
 
             if(i != 0)
             {
-                Debug.Log(iterator.MaxY);
                 tankNodeStartPosition = new Vector2(tankNodeStartPosition.x, iterator.MaxY + ((techTreeList[i - 1].GetWidth() + 2) * 100f));
             }
             else
