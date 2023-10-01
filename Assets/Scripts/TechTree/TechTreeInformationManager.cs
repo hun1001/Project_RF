@@ -6,8 +6,8 @@ using Newtonsoft.Json;
 
 public static class TechTreeInformationManager
 {
-    private static List<TechTree> _techTreeList = new List<TechTree>();
-    public static List<TechTree> TechTreeList => _techTreeList;
+    private static List<TechTreeInformation> _techTreeInformationList = new List<TechTreeInformation>();
+    public static List<TechTreeInformation> TechTreeInformationList => _techTreeInformationList;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Init()
@@ -16,8 +16,8 @@ public static class TechTreeInformationManager
 
         for (int i = 0; i < temp.Count; ++i)
         {
-            var techTree = JsonConvert.DeserializeObject<TechTree>(temp[i].text);
-            _techTreeList.Add(techTree);
+            var techTree = JsonConvert.DeserializeObject<TechTreeInformation>(temp[i].text);
+            _techTreeInformationList.Add(techTree);
         }
     }
 }

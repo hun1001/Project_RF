@@ -263,49 +263,52 @@ public class MenuCanvas : BaseCanvas
 
         TechTreeBFSIterator techTreeIterator = null;
 
-        for (int i = 0; i < TechTreeInformationManager.TechTreeList.Count; ++i)
+        for (int i = 0; i < TechTreeInformationManager.TechTreeInformationList.Count; ++i)
         {
-            techTreeIterator = new TechTreeBFSIterator(TechTreeInformationManager.TechTreeList[i]);
-
-            while(techTreeIterator.IsSearching)
+            for (int j = 0; j < TechTreeInformationManager.TechTreeInformationList[i].techTreeList.Count; ++j)
             {
-                var tankNode = techTreeIterator.GetNextNode();
+                techTreeIterator = new TechTreeBFSIterator(TechTreeInformationManager.TechTreeInformationList[i].techTreeList[j]);
 
-                if(_hangerDict.ContainsKey(tankNode.tankAddress))
+                while (techTreeIterator.IsSearching)
                 {
-                    continue;
+                    var tankNode = techTreeIterator.GetNextNode();
+
+                    if (_hangerDict.ContainsKey(tankNode.tankAddress))
+                    {
+                        continue;
+                    }
+
+                    Tank tank = AddressablesManager.Instance.GetResource<GameObject>(tankNode.tankAddress).GetComponent<Tank>();
+                    var a = Instantiate(_tankTemplate, _hangerContent);
+                    a.SetActive(true);
+                    a.name = tankNode.tankAddress;
+                    a.transform.GetChild(1).GetComponent<Image>().sprite = GetFlagSprite(CountryType.USSR);
+                    a.transform.GetChild(2).GetComponent<TextController>().SetText(tankNode.tankAddress);
+                    a.transform.GetChild(3).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
+                    a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TechTreeResourceSO.TankTierNumber[tank.TankSO.TankTier - 1]);
+
+                    if (_currentTankID == tankNode.tankAddress)
+                    {
+                        a.transform.GetChild(6).gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        a.transform.GetChild(6).gameObject.SetActive(false);
+                    }
+
+                    _hangerDict.Add(tankNode.tankAddress, a);
+                    _countryHangerDataDict[TechTreeInformationManager.TechTreeInformationList[i].Country].Add(a);
+
+                    a.GetComponent<Button>().onClick.RemoveAllListeners();
+                    a.GetComponent<Button>().onClick.AddListener(() =>
+                    {
+                        PlayButtonSound();
+                        _hangerDict[_currentTankID].transform.GetChild(6).gameObject.SetActive(false);
+                        FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
+                        CurrentTankInfoUpdate();
+                        EventManager.TriggerEvent(EventKeyword.ShellReplacement);
+                    });
                 }
-
-                Tank tank = AddressablesManager.Instance.GetResource<GameObject>(tankNode.tankAddress).GetComponent<Tank>();
-                var a = Instantiate(_tankTemplate, _hangerContent);
-                a.SetActive(true);
-                a.name = tankNode.tankAddress;
-                a.transform.GetChild(1).GetComponent<Image>().sprite = GetFlagSprite(CountryType.USSR);
-                a.transform.GetChild(2).GetComponent<TextController>().SetText(tankNode.tankAddress);
-                a.transform.GetChild(3).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
-                a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TechTreeResourceSO.TankTierNumber[tank.TankSO.TankTier - 1]);
-
-                if (_currentTankID == tankNode.tankAddress)
-                {
-                    a.transform.GetChild(6).gameObject.SetActive(true);
-                }
-                else
-                {
-                    a.transform.GetChild(6).gameObject.SetActive(false);
-                }
-
-                _hangerDict.Add(tankNode.tankAddress, a);
-                _countryHangerDataDict[TechTreeInformationManager.TechTreeList[i].Country].Add(a);
-
-                a.GetComponent<Button>().onClick.RemoveAllListeners();
-                a.GetComponent<Button>().onClick.AddListener(() =>
-                {
-                    PlayButtonSound();
-                    _hangerDict[_currentTankID].transform.GetChild(6).gameObject.SetActive(false);
-                    FindObjectOfType<TankModelManager>().ChangeTankModel(tank);
-                    CurrentTankInfoUpdate();
-                    EventManager.TriggerEvent(EventKeyword.ShellReplacement);
-                });
             }
         }
     }

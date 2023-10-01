@@ -57,21 +57,21 @@ public class TechTreeCanvas : BaseCanvas
 
         _techTreeScrollView.TryGetComponent(out _scrollRect);
 
-        for (int i = 0; i < TechTreeInformationManager.TechTreeList.Count; ++i)
+        for (int i = 0; i < TechTreeInformationManager.TechTreeInformationList.Count; ++i)
         {
             int index = i;
 
-            _countryToggleGroup.CreateCountryToggles(GetCountryFlagSprite(TechTreeInformationManager.TechTreeList[i].Country), () =>
+            _countryToggleGroup.CreateCountryToggles(GetCountryFlagSprite(TechTreeInformationManager.TechTreeInformationList[i].Country), () =>
             {
                 _tankInformation.SetActive(false);
-                SetTechTree(index);
+                SetTechTreeInformation(index);
                 PlayButtonSound();
             });
 
             if (i == 0)
             {
                 _tankInformation.SetActive(false);
-                SetTechTree(index);
+                SetTechTreeInformation(index);
                 PlayButtonSound();
             }
         }
@@ -156,8 +156,8 @@ public class TechTreeCanvas : BaseCanvas
             }
         });
 
-        Action[] actions = new Action[TechTreeInformationManager.TechTreeList.Count];
-        for (int i = 0; i < TechTreeInformationManager.TechTreeList.Count; ++i)
+        Action[] actions = new Action[TechTreeInformationManager.TechTreeInformationList.Count];
+        for (int i = 0; i < TechTreeInformationManager.TechTreeInformationList.Count; ++i)
         {
             int idx = i;
             actions[idx] = () =>
@@ -173,70 +173,73 @@ public class TechTreeCanvas : BaseCanvas
         KeyboardManager.Instance.AddKeyDownActionList(actions);
     }
 
-    private void SetTechTree(int index)
+    private void SetTechTreeInformation(int index)
     {
-        TechTree techTree = TechTreeInformationManager.TechTreeList[index];
-
-        int maxTier = techTree.GetMaxTier();
-        int width = techTree.GetWidth();
-
-        ResetTankNode();
-        _tankTierLine.ResetTierLine();
-
-        _tankTierLine.SetTierLine(maxTier);
-
-        TechTreeCanvasBFSIterator iterator = new TechTreeCanvasBFSIterator(techTree, _tankNodeTemplate.transform.position);
-
-        while(iterator.IsSearching)
+        for (int i = 0; i < TechTreeInformationManager.TechTreeInformationList[index].techTreeList.Count; ++i)
         {
-            var tankNode = iterator.GetNextNode();
-            var tankNodePosition = iterator.GetNextPosition();
-            int tierIndex = iterator.GetNextTier();
+            TechTree techTree = TechTreeInformationManager.TechTreeInformationList[index].techTreeList[i];
 
-            var tankNodeUI = Instantiate(_tankNodeTemplate, _tankNodeContentTransform).GetComponent<TankNode>();
-            tankNodeUI.transform.position = tankNodePosition;
+            int maxTier = techTree.GetMaxTier();
+            int width = techTree.GetWidth();
 
-            Tank tank = AddressablesManager.Instance.GetResource<GameObject>(tankNode.tankAddress).GetComponent<Tank>();
+            ResetTankNode();
+            _tankTierLine.ResetTierLine();
 
-            tankNodeUI.SetTankNode(GetTankTypeSprite(tank.TankSO.TankType), TechTreeResourceSO.TankTierNumber[tierIndex], tank.ID, () =>
+            _tankTierLine.SetTierLine(maxTier);
+
+            TechTreeCanvasBFSIterator iterator = new TechTreeCanvasBFSIterator(techTree, _tankNodeTemplate.transform.position);
+
+            while (iterator.IsSearching)
             {
-                PlayButtonSound();
+                var tankNode = iterator.GetNextNode();
+                var tankNodePosition = iterator.GetNextPosition();
+                int tierIndex = iterator.GetNextTier();
 
-                _tankInformation.SetActive(true);
-                var topUI = _tankInformationPanel.transform.GetChild(0);
-                topUI.GetChild(1).GetComponent<Image>().sprite = GetCountryFlagSprite(techTree.Country);
-                topUI.GetChild(2).GetComponent<Image>().sprite = GetTankTypeSprite(tank.TankSO.TankType);
-                topUI.GetChild(3).GetComponent<TextMeshProUGUI>().text = TechTreeResourceSO.TankTierNumber[tierIndex];
-                topUI.GetChild(4).GetComponent<TextMeshProUGUI>().text = tank.ID;
+                var tankNodeUI = Instantiate(_tankNodeTemplate, _tankNodeContentTransform).GetComponent<TankNode>();
+                tankNodeUI.transform.position = tankNodePosition;
 
-                _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
+                Tank tank = AddressablesManager.Instance.GetResource<GameObject>(tankNode.tankAddress).GetComponent<Tank>();
 
-                var stats = _tankInformationPanel.transform.GetChild(2);
-                // Health
-                float health = 1000f * ((tank.TankSO.HP * 0.1f) * (tank.TankSO.Armour * 0.1f)) / 11392f;
-                stats.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = health * 0.001f;
-                stats.GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", health);
-                // Power
-                float power = 1000f * (tank.GetComponent<Turret>().TurretSO.AtkPower * tank.GetComponent<Turret>().TurretSO.PenetrationPower) / 11440f;
-                stats.GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = power * 0.001f;
-                stats.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", power);
-                // Movement
-                float movement = 1000f * ((tank.TankSO.MaxSpeed * 0.4f) * (tank.TankSO.Acceleration * 0.2f) * (tank.TankSO.RotationSpeed * 0.2f) * (tank.GetComponent<Turret>().TurretSO.RotationSpeed * 0.2f)) / 93177f;
-                stats.GetChild(2).GetChild(0).GetComponent<Image>().fillAmount = movement * 0.001f;
-                stats.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", movement);
-
-                _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
-                _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.AddListener(() =>
+                tankNodeUI.SetTankNode(GetTankTypeSprite(tank.TankSO.TankType), TechTreeResourceSO.TankTierNumber[tierIndex], tank.ID, () =>
                 {
                     PlayButtonSound();
 
-                    Debug.Log("구매 제거됨. 이거 대체 필요");
+                    _tankInformation.SetActive(true);
+                    var topUI = _tankInformationPanel.transform.GetChild(0);
+                    topUI.GetChild(1).GetComponent<Image>().sprite = GetCountryFlagSprite(TechTreeInformationManager.TechTreeInformationList[index].Country);
+                    topUI.GetChild(2).GetComponent<Image>().sprite = GetTankTypeSprite(tank.TankSO.TankType);
+                    topUI.GetChild(3).GetComponent<TextMeshProUGUI>().text = TechTreeResourceSO.TankTierNumber[tierIndex];
+                    topUI.GetChild(4).GetComponent<TextMeshProUGUI>().text = tank.ID;
+
+                    _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
+
+                    var stats = _tankInformationPanel.transform.GetChild(2);
+                    // Health
+                    float health = 1000f * ((tank.TankSO.HP * 0.1f) * (tank.TankSO.Armour * 0.1f)) / 11392f;
+                    stats.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = health * 0.001f;
+                    stats.GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", health);
+                    // Power
+                    float power = 1000f * (tank.GetComponent<Turret>().TurretSO.AtkPower * tank.GetComponent<Turret>().TurretSO.PenetrationPower) / 11440f;
+                    stats.GetChild(1).GetChild(0).GetComponent<Image>().fillAmount = power * 0.001f;
+                    stats.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", power);
+                    // Movement
+                    float movement = 1000f * ((tank.TankSO.MaxSpeed * 0.4f) * (tank.TankSO.Acceleration * 0.2f) * (tank.TankSO.RotationSpeed * 0.2f) * (tank.GetComponent<Turret>().TurretSO.RotationSpeed * 0.2f)) / 93177f;
+                    stats.GetChild(2).GetChild(0).GetComponent<Image>().fillAmount = movement * 0.001f;
+                    stats.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>().text = string.Format("{0:0}", movement);
+
+                    _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
+                    _tankInformationPanel.transform.GetChild(4).GetComponent<Button>().onClick.AddListener(() =>
+                    {
+                        PlayButtonSound();
+
+                        Debug.Log("구매 제거됨. 이거 대체 필요");
+                    });
                 });
-            });
 
-            tankNodeUI.SetConnectLine(tankNode.upChild != null, tankNode.child != null, tankNode.downChild != null);
+                tankNodeUI.SetConnectLine(tankNode.upChild != null, tankNode.child != null, tankNode.downChild != null);
 
-            tankNodeUI.SetActive(true);
+                tankNodeUI.SetActive(true);
+            }
         }
     }
 
