@@ -183,7 +183,7 @@ public class TechTreeCanvas : BaseCanvas
 
         var techTreeList = TechTreeInformationManager.TechTreeInformationList[index].techTreeList;
 
-        for (int i = techTreeList.Count - 1; i >= 0 ; --i)
+        for (int i = 0; i < techTreeList.Count; ++i)
         {
             TechTree techTree = techTreeList[i];
 
@@ -247,13 +247,9 @@ public class TechTreeCanvas : BaseCanvas
 
             }
 
-            if(i != 0)
+            if(i < techTreeList.Count - 1)
             {
-                tankNodeStartPosition = new Vector2(tankNodeStartPosition.x, iterator.MaxY + ((techTreeList[i - 1].GetWidth() + 2) * 100f));
-            }
-            else
-            {
-                tankNodeStartPosition = new Vector2(tankNodeStartPosition.x, iterator.MaxY + 100);
+                tankNodeStartPosition = new Vector2(tankNodeStartPosition.x, iterator.MaxY - ((techTreeList[i].GetWidth()) * 100f));
             }
         }
     }
