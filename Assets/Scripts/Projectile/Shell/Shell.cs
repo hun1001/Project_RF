@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Shell : CustomObject, IPoolReset
 {
+    public ShellType ShellType;
+
     [SerializeField]
     private ShellSO _shellSO = null;
     public ShellSO ShellSO => _shellSO;
