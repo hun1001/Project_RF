@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Xml.Xsl;
 using UnityEngine;
 
 public class Tank : CustomObject, IPoolReset
@@ -33,6 +35,9 @@ public class Tank : CustomObject, IPoolReset
     }
 
     private bool _hasSubArmament = false;
+    
+    private Enhancement _enhancement = null;
+    public Enhancement Enhancement => _enhancement;
 
     public Tank SetTank(GroupType groupType, BaseSubArmament secondaryArmament = null)
     {
@@ -52,6 +57,9 @@ public class Tank : CustomObject, IPoolReset
         _subArmament?.transform.SetParent(this.transform);
 
         _groupType = groupType;
+
+        _enhancement.Init();
+
         return this;
     }
 
@@ -60,6 +68,7 @@ public class Tank : CustomObject, IPoolReset
         base.Awake();
         _turret = GetComponent<Turret>();
         _thisTankSO = _tankSO.Clone();
+        _enhancement = new Enhancement();
     }
 
     public void PoolObjectReset()
