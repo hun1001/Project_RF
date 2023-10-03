@@ -17,6 +17,8 @@ public class Shell_Collision : Shell_Component
 
     private string _shellExplosionEffectAddress = string.Empty;
 
+    public bool _isBasicCollisionLogic = true;
+
     private void Awake()
     {
         Shell.TryGetComponent(out _shellSound);
@@ -25,6 +27,18 @@ public class Shell_Collision : Shell_Component
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        var enhance = Shell.Owner.GetComponent<Tank>().Enhancement.GetShellEnhance(Shell.ShellType);
+
+        for (int i = 0; i < enhance.Length; ++i)
+        {
+            enhance[i].Collision(Shell);
+        }
+
+        if (_isBasicCollisionLogic == false)
+        {
+            return;
+        }
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("Tank"))
         {
             if (Shell.Owner == collision.gameObject.GetComponent<CustomObject>())

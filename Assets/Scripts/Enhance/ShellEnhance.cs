@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class ShellEnhance : MonoBehaviour
 {
-    public abstract void Explosion(Shell shell);
+    public abstract void Collision(Shell shell);
 }

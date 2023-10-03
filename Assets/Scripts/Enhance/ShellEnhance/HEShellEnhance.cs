@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class HEShellEnhance : ShellEnhance
 {
-    public override void Explosion(Shell shell)
+    private Shell _shell = null;
+
+    public override void Collision(Shell shell)
     {
+        _shell = shell;
+
         var targets = Physics2D.OverlapCircleAll(shell.transform.position, 10f, 1 << LayerMask.NameToLayer("Tank"));
 
        foreach (var target in targets) { }
@@ -13,8 +17,8 @@ public class HEShellEnhance : ShellEnhance
         Debug.Log(targets.Length);
     }
 
-    private void OnDrawGizmos()
-    {
-
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawSphere(_shell.transform.position, 10f);
+    //}
 }
