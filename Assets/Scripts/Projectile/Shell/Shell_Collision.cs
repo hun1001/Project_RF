@@ -27,12 +27,12 @@ public class Shell_Collision : Shell_Component
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        var enhance = Shell.Owner.GetComponent<Tank>().Enhancement.GetShellEnhance(Shell.ShellType);
+        //var enhance = Shell.Owner.GetComponent<Tank>().Enhancement.GetShellEnhance(Shell.ShellType);
 
-        for (int i = 0; i < enhance.Length; ++i)
-        {
-            enhance[i].Collision(Shell);
-        }
+        //for (int i = 0; i < enhance.Length; ++i)
+        //{
+        //    enhance[i].Collision(Shell);
+        //}
 
         if (_isBasicCollisionLogic == false)
         {
