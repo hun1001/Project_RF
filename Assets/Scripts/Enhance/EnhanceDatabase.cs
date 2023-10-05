@@ -1,35 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Addressable;
 using UnityEngine;
 
 public static class EnhanceDatabase
 {
+    private static List<BaseEnhance> _enhanceList = null;
     private static List<ShellEnhance> _shellEnhanceList = null;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Init()
     {
+        _enhanceList = GetEnhances();
         _shellEnhanceList = new List<ShellEnhance>();
 
-        var enhanceList = new List<BaseEnhance>();
+        ClassifyEnhance(ref _shellEnhanceList);
+    }
 
-        var enhances = AddressablesManager.Instance.GetLabelResourcesComponents<BaseEnhance>("Enhance");
+    private static List<BaseEnhance> GetEnhances()
+    {
+        return AddressablesManager.Instance.GetLabelResourcesComponents<BaseEnhance>("Enhance").ToList();
+    }
 
-        for (int i = 0; i < enhances.Count; ++i)
+    private static void ClassifyEnhance<T>(ref List<T> enhanceList) where T : BaseEnhance
+    {
+        for (int i = 0; i < _enhanceList.Count; ++i)
         {
-            enhanceList.Add(enhances[i]);
-        }
-
-        for(int i = 0;i< enhances.Count; ++i)
-        {
-            var enhance = enhanceList[i] as ShellEnhance;
+            var enhance = _enhanceList[i] as T;
             if (enhance != null)
             {
-                _shellEnhanceList.Add(enhance);
+                enhanceList.Add(enhance);
             }
         }
-
-
     }
 }
