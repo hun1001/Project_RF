@@ -32,12 +32,6 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
     private Dictionary<int, Shell> _shellEquipDict = new Dictionary<int, Shell>();
     private List<Shell> _shells = new List<Shell>();
 
-    [Header("Other")]
-    [SerializeField]
-    private float _minClickTime = 1f;
-    private bool _isClick = false;
-    private float _clickTime = 0f;
-
     private void Start()
     {
         _template.SetActive(false);
@@ -48,18 +42,6 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
             ShellReset();
             ShellAdd();
         });
-    }
-
-    private void Update()
-    {
-        if (_isClick)
-        {
-            _clickTime += Time.deltaTime;
-        }
-        else if (_clickTime > 0f)
-        {
-            _clickTime = 0f;
-        }
     }
 
     private void ShellReset()
@@ -76,14 +58,13 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
         _currentTankID = PlayerDataManager.Instance.GetPlayerTankID();
         Turret turret = AddressablesManager.Instance.GetResource<GameObject>(_currentTankID).GetComponent<Turret>();
         _shells = turret.TurretSO.Shells;
+
         _shellEquipmentData = ShellSaveManager.GetShellEquipment(_currentTankID);
 
         for (int i = 0; i < _shells.Count; i++)
         {
             int idx = i;
             EventTrigger.Entry pointDown = new EventTrigger.Entry();
-            EventTrigger.Entry pointUp = new EventTrigger.Entry();
-
 
             if (_shellDict.ContainsKey(_shells[idx].ID))
             {
@@ -99,21 +80,42 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
                     _shellDict[_shells[i].ID].transform.GetChild(0).GetComponent<Toggle>().isOn = false;
                 }
 
+                _shellDict[_shells[idx].ID].transform.GetChild(3).GetComponent<Button>().onClick.RemoveAllListeners();
+                _shellDict[_shells[idx].ID].transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
+                {
+                    PlayButtonSound();
+                    _shellInformation.SetActive(false);
+                    _shellEquipmentData = ShellSaveManager.GetShellEquipment(_currentTankID);
+
+                    if (_shellDict[_shells[idx].ID].transform.GetChild(0).GetComponent<Toggle>().isOn)
+                    {
+                        int equipIdx = _shellEquipmentData._shellEquipmentList.IndexOf(_shells[idx].ID);
+                        _shellEquipDict.Remove(equipIdx);
+                        _shellDict[_shells[idx].ID].transform.GetChild(0).GetComponent<Toggle>().isOn = false;
+                        ShellSaveManager.ShellEquip(_currentTankID, equipIdx, "");
+                    }
+                    else
+                    {
+                        if (_shellEquipmentData._shellEquipmentList.Contains("") == false)
+                        {
+                            WarningShellFull();
+                        }
+                        else
+                        {
+                            int equipIdx = _shellEquipmentData._shellEquipmentList.IndexOf("");
+                            _shellEquipDict.Add(equipIdx, _shells[idx]);
+                            _shellDict[_shells[idx].ID].transform.GetChild(0).GetComponent<Toggle>().isOn = true;
+                            ShellSaveManager.ShellEquip(_currentTankID, equipIdx, _shells[idx].ID);
+                        }
+                    }
+                });
+
                 _shellDict[_shells[idx].ID].transform.GetChild(3).GetComponent<EventTrigger>().triggers.Clear();
 
                 pointDown.eventID = EventTriggerType.PointerDown;
                 pointDown.callback.AddListener((data) =>
                 {
-                    _isClick = true;
-                });
-                _shellDict[_shells[idx].ID].transform.GetChild(3).GetComponent<EventTrigger>().triggers.Add(pointDown);
-
-                pointUp.eventID = EventTriggerType.PointerUp;
-                pointUp.callback.AddListener((data) =>
-                {
-                    _isClick = false;
-
-                    if (_clickTime >= _minClickTime)
+                    if (Input.GetMouseButtonDown(1))
                     {
                         float dmg = Mathf.Round(_shells[idx].ShellSO.Damage * (Mathf.Pow(turret.TurretSO.AtkPower, 2) * 0.001f));
                         float pen = Mathf.Round(turret.TurretSO.AtkPower * turret.TurretSO.PenetrationPower * _shells[idx].ShellSO.Penetration / 3000f);
@@ -137,7 +139,7 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
                         values.GetChild(3).GetComponent<TextController>().SetText(_shells[idx].ShellSO.RicochetAngle.ToString());
                     }
                 });
-                _shellDict[_shells[idx].ID].transform.GetChild(3).GetComponent<EventTrigger>().triggers.Add(pointUp);
+                _shellDict[_shells[idx].ID].transform.GetChild(3).GetComponent<EventTrigger>().triggers.Add(pointDown);
 
                 continue;
             }
@@ -164,12 +166,9 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
             obj.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
             {
                 PlayButtonSound();
-                if (_clickTime >= _minClickTime)
-                {
-                    return;
-                }
                 _shellInformation.SetActive(false);
                 _shellEquipmentData = ShellSaveManager.GetShellEquipment(_currentTankID);
+                
                 if (toggle.isOn)
                 {
                     int equipIdx = _shellEquipmentData._shellEquipmentList.IndexOf(_shells[idx].ID);
@@ -196,23 +195,14 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
             pointDown.eventID = EventTriggerType.PointerDown;
             pointDown.callback.AddListener((data) =>
             {
-                _isClick = true;
-            });
-            obj.transform.GetChild(3).GetComponent<EventTrigger>().triggers.Add(pointDown);
-
-            pointUp.eventID = EventTriggerType.PointerUp;
-            pointUp.callback.AddListener((data) =>
-            {
-                _isClick = false;
-
-                if (_clickTime >= _minClickTime)
+                if (Input.GetMouseButtonDown(1))
                 {
                     float dmg = Mathf.Round(_shells[idx].ShellSO.Damage * (Mathf.Pow(turret.TurretSO.AtkPower, 2) * 0.001f));
                     float pen = Mathf.Round(turret.TurretSO.AtkPower * turret.TurretSO.PenetrationPower * _shells[idx].ShellSO.Penetration / 3000f);
 
                     _shellInformation.SetActive(true);
-                    _shellInformation.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = shellSprite;
-                    _shellInformation.transform.GetChild(0).GetChild(1).GetComponent<TextController>().SetText(shellID);
+                    _shellInformation.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = _shells[idx].ShellSprite;
+                    _shellInformation.transform.GetChild(0).GetChild(1).GetComponent<TextController>().SetText(_shells[idx].ID);
 
                     // Bar
                     Transform bars = _shellInformation.transform.GetChild(2);
@@ -229,7 +219,7 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
                     values.GetChild(3).GetComponent<TextController>().SetText(_shells[idx].ShellSO.RicochetAngle.ToString());
                 }
             });
-            obj.transform.GetChild(3).GetComponent<EventTrigger>().triggers.Add(pointUp);
+            obj.transform.GetChild(3).GetComponent<EventTrigger>().triggers.Add(pointDown);
         }
     }
 
