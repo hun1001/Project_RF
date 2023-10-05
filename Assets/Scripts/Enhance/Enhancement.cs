@@ -23,6 +23,10 @@ public class Enhancement
 
     public ShellEnhance[] GetShellEnhance(ShellType type)
     {
+        if(!_shellEnhanceDictionary.ContainsKey(type))
+        {
+            return null;
+        }
         return _shellEnhanceDictionary[type].ToArray();
     }
 }
