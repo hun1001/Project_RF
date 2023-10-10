@@ -190,8 +190,6 @@ public class GameTutorialCanvas : BaseCanvas
 
     public void SelectControlType(int type)
     {
-        PlayButtonSound();
-
         _controlType = type;
      
         PlayerPrefs.SetInt("ControlType", _controlType);
@@ -199,19 +197,21 @@ public class GameTutorialCanvas : BaseCanvas
 
         if (_controlType == 0) // Simple
         {
-            _confirmedText.SetText("Simple 모드로 하시겠습니까?");
+            _tutorialCount = 6;
         }
         else if ( _controlType == 1) // Detail
         {
-            _confirmedText.SetText("Detail 모드로 하시겠습니까?");
+            _tutorialCount = 8;
         }
 
-        OpenConfirmed();
+        NextTutorial();
     }
 
-    public void OpenConfirmed()
+    public void NotConfirmed()
     {
-        _tutorialPanels[2].SetActive(!_tutorialPanels[2].activeSelf);
+        _tutorialPanels[2].SetActive(false);
+        _tutorialCount = 5;
+        NextTutorial();
     }
 
     public void OpenExperience(int type)
@@ -319,69 +319,103 @@ public class GameTutorialCanvas : BaseCanvas
                     TutorialManager.Instance.DummyRemove();
                     break;
                 }
+            // Move
             case 6:
                 {
-                    TutorialManager.Instance.IsCanMove = true;
                     _tutorialPanels[0].SetActive(true);
 
-                    PlayerPrefs.SetInt("ControlType", 0);
-                    EventManager.TriggerEvent(EventKeyword.ChangeControlType, 0);
-                    break;
-                }
-            case 7:
-                {
-                    PlayerPrefs.SetInt("ControlType", 1);
-                    EventManager.TriggerEvent(EventKeyword.ChangeControlType, 1);
-                    break;
-                }
-            case 8:
-                {
-                    TutorialManager.Instance.IsCanMove = false;
-                    _tutorialPanels[0].SetActive(false);
-                    _tutorialPanels[1].SetActive(true);
                     _nextButton.SetActive(false);
                     _isCanReturn = false;
                     break;
                 }
+            case 7:
             case 9:
                 {
-                    TutorialManager.Instance.IsCanMove = false;
-                    _tutorialPanels[1].SetActive(false);
-                    _tutorialPanels[2].SetActive(false);
-                    _tutorialPanels[3].SetActive(false);
-                    _tutorialPanels[4].SetActive(true);
+                    _tutorialPanels[0].SetActive(false);
+
                     _nextButton.SetActive(true);
                     _isCanReturn = true;
+
+                    break;
+                }
+            case 8:
+            case 10:
+                {
+                    _tutorialCount = 10;
+                    _tutorialPanels[1].SetActive(true);
+                   
                     break;
                 }
             case 11:
                 {
-                    _tutorialPanels[4].SetActive(false);
-                    break;
-                }
-            case 12:
-                {
+                    _tutorialPanels[1].SetActive(false);
+
                     TutorialMoveTarget target = TutorialManager.Instance.MovingTargetSpawn(0);
                     _arrow.SetTarget(target);
+
                     TutorialManager.Instance.IsCanMove = true;
+
                     _nextButton.SetActive(false);
                     _isCanReturn = false;
+
                     break;
                 }
             case 13:
                 {
+                    TutorialMoveTarget target = TutorialManager.Instance.MovingTargetSpawn(1);
+                    _arrow.SetTarget(target);
+
+                    TutorialManager.Instance.IsCanMove = true;
+
+                    _nextButton.SetActive(false);
+                    _isCanReturn = false;
+
+                    break;
+                }
+            case 12:
+            case 14:
+                {
                     TutorialManager.Instance.IsCanMove = false;
                     _nextButton.SetActive(true);
                     _isCanReturn = true;
+
                     break;
                 }
-            case 14:
+            case 15:
+                {
+                    _tutorialPanels[2].SetActive(true);
+                    if (PlayerPrefs.GetInt("ControlType") == 0)
+                    {
+                        _confirmedText.SetText("Simple 타입으로 진행하시겠습니까?");
+                    }
+                    else if (PlayerPrefs.GetInt("ControlType") == 1)
+                    {
+                        _confirmedText.SetText("Detail 타입으로 진행하시겠습니까?");
+                    }
+
+                    _nextButton.SetActive(false);
+                    _isCanReturn = false;
+
+                    break;
+                }
+            case 16:
+                {
+                    _tutorialPanels[2].SetActive(false);
+
+                    _nextButton.SetActive(true);
+                    _isCanReturn = true;
+
+                    break;
+                }
+
+                // Attack
+            case 19:
                 {
                     TutorialManager.Instance.TankDummySpawn("BT-5", new Vector3(-56f, 6f, 0));
                     TutorialManager.Instance.TankDummyMove(new Vector3(-14f, -1f, 0f));
                     break;
                 }
-            case 18:
+            case 23:
                 {
                     TutorialManager.Instance.IsCanChangeShell = true;
                     _nextButton.SetActive(false);
@@ -389,20 +423,20 @@ public class GameTutorialCanvas : BaseCanvas
                     _isHE = true;
                     break;
                 }
-            case 19:
+            case 24:
                 {
                     TutorialManager.Instance.IsCanAttack = false;
                     _nextButton.SetActive(true);
                     _isCanReturn = true;
                     break;
                 }
-            case 20:
+            case 25:
                 {
                     TutorialManager.Instance.TankDummySpawn("Pz.IV H", new Vector3(56f, -25f, 0f));
                     TutorialManager.Instance.TankDummyMove(new Vector3(44f, -14f, 0));
                     break;
                 }
-            case 22:
+            case 27:
                 {
                     EventManager.StartListening("Ricochet", TriggerNextTutorial);
                     TutorialManager.Instance.IsCanChangeShell = true;
@@ -411,7 +445,7 @@ public class GameTutorialCanvas : BaseCanvas
                     _isAP = true;
                     break;
                 }
-            case 23:
+            case 28:
                 {
                     EventManager.DeleteEvent("Ricochet");
                     TutorialManager.Instance.IsCanAttack = false;
@@ -419,7 +453,7 @@ public class GameTutorialCanvas : BaseCanvas
                     _isCanReturn = true;
                     break;
                 }
-            case 25:
+            case 30:
                 {
                     TutorialManager.Instance.TankDummyMove(new Vector3(47f, -24f, 0));
                     TutorialManager.Instance.IsCanAttack = true;
@@ -427,7 +461,7 @@ public class GameTutorialCanvas : BaseCanvas
                     _isCanReturn = false;
                     break;
                 }
-            case 26:
+            case 31:
                 {
                     TutorialManager.Instance.IsCanAttack = false;
                     _nextButton.SetActive(true);
