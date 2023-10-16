@@ -242,9 +242,10 @@ public class ShellReplacement : MonoBehaviour, IButtonSound
         });
     }
 
-    public void PlayButtonSound()
+    public void PlayButtonSound(AudioClip audioClip = null)
     {
         var audioSource = PoolManager.Get<AudioSourceController>("AudioSource", Vector3.zero, Quaternion.identity);
+        if (audioClip == null) audioClip = _buttonSound;
         audioSource.SetSound(_buttonSound);
         audioSource.SetGroup(AudioMixerType.Sfx);
         audioSource.SetVolume(1f);

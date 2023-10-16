@@ -1,4 +1,6 @@
+using UnityEngine;
+
 public interface IButtonSound
 {
-    void PlayButtonSound();
+    void PlayButtonSound(AudioClip audioClip = null);
 }

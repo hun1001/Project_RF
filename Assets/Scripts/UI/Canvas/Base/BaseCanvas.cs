@@ -90,10 +90,11 @@ public abstract class BaseCanvas : MonoBehaviour, IButtonSound
         _isOpen = false;
     }
 
-    public void PlayButtonSound()
+    public void PlayButtonSound(AudioClip audioClip = null)
     {
         var audioSource = PoolManager.Get<AudioSourceController>("AudioSource", Vector3.zero, Quaternion.identity);
-        audioSource.SetSound(_buttonSound);
+        if (audioClip == null) audioClip = _buttonSound;
+        audioSource.SetSound(audioClip);
         audioSource.SetGroup(AudioMixerType.Sfx);
         audioSource.SetVolume(1f);
         audioSource.Play();
