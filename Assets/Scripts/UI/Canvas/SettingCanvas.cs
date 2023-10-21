@@ -6,6 +6,10 @@ using UnityEditor;
 
 public class SettingCanvas : BaseCanvas
 {
+    [SerializeField]
+    private AudioClip _sliderSound = null;
+    private float _sliderSoundDelay = 0f;
+
     [Header("Audio")]
     [SerializeField]
     private AudioMixer _audioMixer;
@@ -49,6 +53,14 @@ public class SettingCanvas : BaseCanvas
         PlayerPrefs.SetInt("ControlType", _controlType);
     }
 
+    private void Update()
+    {
+        if (_sliderSoundDelay > 0f)
+        {
+            _sliderSoundDelay -= Time.unscaledDeltaTime;
+        }
+    }
+
     public void ChangePlayerControlType(int controlType)
     {
         _controlType = controlType;
@@ -82,18 +94,36 @@ public class SettingCanvas : BaseCanvas
     #region Audio
     public void OnMasterSlider(float value)
     {
+        if(_sliderSoundDelay <= 0f)
+        {
+            PlayButtonSound(_sliderSound);
+            _sliderSoundDelay = 0.1f;
+        }
+
         SoundManager.Instance.MasterVolume = value;
         _audioMixer.SetFloat("Master", value);
     }
 
     public void OnBgmSlider(float value)
     {
+        if (_sliderSoundDelay <= 0f)
+        {
+            PlayButtonSound(_sliderSound);
+            _sliderSoundDelay = 0.1f;
+        }
+
         SoundManager.Instance.BgmVolume = value;
         _audioMixer.SetFloat("BGM", value);
     }
 
     public void OnSfxSlider(float value)
     {
+        if (_sliderSoundDelay <= 0f)
+        {
+            PlayButtonSound(_sliderSound);
+            _sliderSoundDelay = 0.1f;
+        }
+
         SoundManager.Instance.SfxVolume = value;
         _audioMixer.SetFloat("SFX", value);
     }
