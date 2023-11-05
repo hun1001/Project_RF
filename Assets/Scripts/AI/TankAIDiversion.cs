@@ -48,6 +48,16 @@ public class TankAIDiversion : AI_Base
         TankMove.AddOnCrashAction((_) => _pathQueue.Clear());
     }
 
+    protected override void OnUpdate()
+    {
+        base.OnUpdate();
+        if (!NavMesh.SamplePosition(Tank.transform.position, out NavMeshHit hit, 1f, NavMesh.AllAreas))
+        {
+            NavMesh.SamplePosition(Tank.transform.position, out hit, 100f, NavMesh.AllAreas);
+            Tank.transform.position = hit.position;
+        }
+    }
+
     protected override Tank TankSpawn()
     {
         return SpawnManager.Instance.SpawnUnit(_id, transform.position, transform.rotation, GroupType.Enemy);
