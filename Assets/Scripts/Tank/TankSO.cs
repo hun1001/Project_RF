@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Tank/TankSO")]
@@ -44,6 +45,10 @@ public class TankSO : ScriptableObject
     [SerializeField]
     private uint _price = 0;
     public uint Price => _price;
+
+    [SerializeField]
+    private Sprite _tankImage = null;
+    public Sprite TankImage => _tankImage;
 
     public void SetData(float hp, float armour, float maxSpeed, float acceleration, float rotationSpeed, CountryType countryType, TankType tankType, uint tier, uint price)
     {

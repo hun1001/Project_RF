@@ -216,7 +216,7 @@ public class TechTreeCanvas : BaseCanvas
                     topUI.GetChild(3).GetComponent<TextMeshProUGUI>().text = TechTreeResourceSO.TankTierNumber[tierIndex];
                     topUI.GetChild(4).GetComponent<TextMeshProUGUI>().text = tank.ID;
 
-                    _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = null;
+                    _tankInformationPanel.transform.GetChild(1).GetComponent<Image>().sprite = tank.TankSO?.TankImage;
 
                     var stats = _tankInformationPanel.transform.GetChild(2);
                     // Health
