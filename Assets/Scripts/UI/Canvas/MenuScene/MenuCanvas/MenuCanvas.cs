@@ -282,7 +282,7 @@ public class MenuCanvas : BaseCanvas
                     var a = Instantiate(_tankTemplate, _hangerContent);
                     a.SetActive(true);
                     a.name = tankNode.tankAddress;
-                    a.transform.GetChild(1).GetComponent<Image>().sprite = GetFlagSprite(CountryType.USSR);
+                    a.transform.GetChild(1).GetComponent<Image>().sprite = GetFlagSprite(tank.TankSO.CountryType);
                     a.transform.GetChild(2).GetComponent<TextController>().SetText(tankNode.tankAddress);
                     a.transform.GetChild(3).GetComponent<Image>().sprite = techTree.GetTankTypeSprite(tank.TankSO.TankType);
                     a.transform.GetChild(4).GetComponent<TextController>().SetText(techTree.TechTreeResourceSO.TankTierNumber[tank.TankSO.TankTier - 1]);
