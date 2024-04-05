@@ -2,13 +2,9 @@ using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using Util;
 using UnityEngine;
-using UnityEngine.AddressableAssets.ResourceLocators;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using System;
-using UnityEngine.ResourceManagement.ResourceLocations;
-using UnityEditor.AddressableAssets.Settings;
-using UnityEditor.AddressableAssets;
-using UnityEditor;
+// using UnityEditor.AddressableAssets.Settings;
+// using UnityEditor.AddressableAssets;
+// using UnityEditor;
 
 
 namespace Addressable
@@ -64,51 +60,51 @@ namespace Addressable
             }
         }
 
-        public void CreateAddressableAsset(string assetPath, string address, string groupName, string label)
-        {
-            AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+        // public void CreateAddressableAsset(string assetPath, string address, string groupName, string label)
+        // {
+        //     AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
 
-            // Check if the group exists, create it if not
-            AddressableAssetGroup group = settings.FindGroup(groupName);
-            if (group == null)
-            {
-                group = settings.CreateGroup(groupName, false, false, false, null);
-            }
+        //     // Check if the group exists, create it if not
+        //     AddressableAssetGroup group = settings.FindGroup(groupName);
+        //     if (group == null)
+        //     {
+        //         group = settings.CreateGroup(groupName, false, false, false, null);
+        //     }
 
-            // Convert asset path to GUID
-            string assetGUID = AssetDatabase.AssetPathToGUID(assetPath);
+        //     // Convert asset path to GUID
+        //     string assetGUID = AssetDatabase.AssetPathToGUID(assetPath);
 
-            // Check if an entry with the same address already exists in the group
-            AddressableAssetEntry existingEntry = null;
+        //     // Check if an entry with the same address already exists in the group
+        //     AddressableAssetEntry existingEntry = null;
 
-            foreach (var entry in group.entries)
-            {
-                if (entry.address == address)
-                {
-                    existingEntry = entry;
-                    break;
-                }
-            }
+        //     foreach (var entry in group.entries)
+        //     {
+        //         if (entry.address == address)
+        //         {
+        //             existingEntry = entry;
+        //             break;
+        //         }
+        //     }
 
-            if (existingEntry != null)
-            {
-                // If an entry with the same address exists, update its settings
-                existingEntry.SetAddress(address);
-                existingEntry.SetLabel(label, true);
-            }
-            else
-            {
-                // Create a new entry
-                AddressableAssetEntry newEntry = settings.CreateOrMoveEntry(assetGUID, group);
-                Debug.Log("Created new entry: " + newEntry);
-                newEntry.SetAddress(address);
-                newEntry.SetLabel(label, true);
-            }
+        //     if (existingEntry != null)
+        //     {
+        //         // If an entry with the same address exists, update its settings
+        //         existingEntry.SetAddress(address);
+        //         existingEntry.SetLabel(label, true);
+        //     }
+        //     else
+        //     {
+        //         // Create a new entry
+        //         AddressableAssetEntry newEntry = settings.CreateOrMoveEntry(assetGUID, group);
+        //         Debug.Log("Created new entry: " + newEntry);
+        //         newEntry.SetAddress(address);
+        //         newEntry.SetLabel(label, true);
+        //     }
 
-            // Mark the settings as dirty and save
-            settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, group, true);
-            AssetDatabase.SaveAssets();
-        }
+        //     // Mark the settings as dirty and save
+        //     settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, group, true);
+        //     AssetDatabase.SaveAssets();
+        // }
 
     }
 }
